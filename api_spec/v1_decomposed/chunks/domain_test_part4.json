@@ -1,0 +1,1232 @@
+{
+  "tag": "Test",
+  "endpoint_count": 1,
+  "schema_count": 10,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/test/govendor",
+      "operation_id": "Testvendor.jsonFile",
+      "summary": "Test vendor.json File"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/test/govendor",
+      "method": "POST",
+      "operation_id": "Testvendor.jsonFile",
+      "summary": "Test vendor.json File",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Test vendor.json File",
+        "description": "Test for issues in Go vendor files.You can test your Go vendor packages for issues according to their manifest file using this action. It takes a JSON object containing a \"target\" `vendor.json`.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "Testvendor.jsonFile",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/govendorrequestpayload"
+                  },
+                  {
+                    "example": {
+                      "encoding": "plain",
+                      "files": {
+                        "target": {
+                          "contents": "{\\\"comment\\\":\\\"\\\",\\\"ignore\\\":\\\"test\\\",\\\"package\\\":[{\\\"checksumSHA1\\\":\\\"o/3cn04KAiwC7NqNVvmfVTD+hgA=\\\",\\\"path\\\":\\\"github.com/Microsoft/go-winio\\\",\\\"revision\\\":\\\"78439966b38d69bf38227fbf57ac8a6fee70f69a\\\",\\\"revisionTime\\\":\\\"2017-08-04T20:09:54Z\\\"},{\\\"checksumSHA1\\\":\\\"GqIrOttKaO7k6HIaHQLPr3cY7rY=\\\",\\\"path\\\":\\\"github.com/containerd/continuity/pathdriver\\\",\\\"revision\\\":\\\"617902de2ab5e18974efd88a58eeef67ac82d127\\\",\\\"revisionTime\\\":\\\"2017-09-25T16:43:31Z\\\"},{\\\"checksumSHA1\\\":\\\"ndnAFCfsGC3upNQ6jAEwzxcurww=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/longpath\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"IVWozKA/coqhti24Ss2b1nLrTSg=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/mount\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"YdUAOhhc/C0zu+eYrJOJjDwr1/4=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/symlink\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"UEMAKQqAyL9hs6RWxesQuYMQ3+I=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/system\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"UmXGieuTJQOzJPspPJTVKKKMiUA=\\\",\\\"path\\\":\\\"github.com/docker/go-units\\\",\\\"revision\\\":\\\"0dadbb0345b35ec7ef35e228dabb8de89a65bf52\\\",\\\"revisionTime\\\":\\\"2017-01-27T09:51:30Z\\\"},{\\\"checksumSHA1\\\":\\\"RCARG9BoOH6jwbqnuix2Ne3K26w=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"OVGl5SGmF1HZmaG6JRmkyWiycYA=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/cgroups\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"q56oWh80PeIBiE/8nQ/Emz18ZZ8=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/cgroups/fs\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"3NQtWwKOT4BlnSWn0tTsy/N+XhU=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/console\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"WPIuCuWS1RkrGCHBRZuOJku7ZBc=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/devices\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"HLo2E8AWKNCwE2p7ndEkKc4SPnM=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/label\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"KYcr4bHkervvLS5wuH9w1+EhflY=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/mount\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"tvHnvhbm17pLR/fA2WXWYlY9aDs=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/mount/nodes\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"k9+kwIouq8vqmodLrGFp+9I7Jxs=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/netlink\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"ndpCrSi/XKZNCCrkjpQ2cgMIxKA=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/network\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"cfgnX7wKfSHOJ4mbhKyjAWizl+s=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/selinux\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"M7/2WUk1uzgdqc5Ce/k9UcSyv1M=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/system\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"2ZMmNaPI3TM4WyMjCw+h1jErSr0=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/utils\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"rJab1YdNhQooDiBWNnt7TLWPyBU=\\\",\\\"path\\\":\\\"github.com/pkg/errors\\\",\\\"revision\\\":\\\"2b3a18b5f0fb6b4f9190549597d3f962c02bc5eb\\\",\\\"revisionTime\\\":\\\"2017-09-10T13:46:14Z\\\"},{\\\"checksumSHA1\\\":\\\"BYvROBsiyAXK4sq6yhDe8RgT4LM=\\\",\\\"path\\\":\\\"github.com/sirupsen/logrus\\\",\\\"revision\\\":\\\"89742aefa4b206dcf400792f3bd35b542998eb3b\\\",\\\"revisionTime\\\":\\\"2017-08-22T13:27:46Z\\\"},{\\\"checksumSHA1\\\":\\\"nqWNlnMmVpt628zzvyo6Yv2CX5Q=\\\",\\\"path\\\":\\\"golang.org/x/crypto/ssh/terminal\\\",\\\"revision\\\":\\\"847319b7fc94cab682988f93da778204da164588\\\",\\\"revisionTime\\\":\\\"2017-08-18T09:57:21Z\\\"},{\\\"checksumSHA1\\\":\\\"uggjqMBFNJd11oNco2kbkAT641w=\\\",\\\"path\\\":\\\"golang.org/x/sys/unix\\\",\\\"revision\\\":\\\"429f518978ab01db8bb6f44b66785088e7fba58b\\\",\\\"revisionTime\\\":\\\"2017-09-20T21:38:28Z\\\"},{\\\"checksumSHA1\\\":\\\"pBPFzDGt3AVSRffB7ffiUnruFUk=\\\",\\\"path\\\":\\\"golang.org/x/sys/windows\\\",\\\"revision\\\":\\\"429f518978ab01db8bb6f44b66785088e7fba58b\\\",\\\"revisionTime\\\":\\\"2017-09-20T21:38:28Z\\\"},{\\\"checksumSHA1\\\":\\\"o5NrWoSkC+ugoK9D6ragLSrXHw0=\\\",\\\"path\\\":\\\"gopkg.in/square/go-jose.v2\\\",\\\"revision\\\":\\\"296c7f1463ec9b712176dc804dea0173d06dc728\\\",\\\"revisionTime\\\":\\\"2016-11-17T00:42:38Z\\\",\\\"version\\\":\\\"v2.0\\\",\\\"versionExact\\\":\\\"v2.0.1\\\"},{\\\"checksumSHA1\\\":\\\"j94zYNLTvPSnfnqVKJ4LUf++uX4=\\\",\\\"path\\\":\\\"gopkg.in/square/go-jose.v2/cipher\\\",\\\"revision\\\":\\\"296c7f1463ec9b712176dc804dea0173d06dc728\\\",\\\"revisionTime\\\":\\\"2016-11-17T00:42:38Z\\\",\\\"version\\\":\\\"v2.0\\\",\\\"versionExact\\\":\\\"v2.0.1\\\"},{\\\"checksumSHA1\\\":\\\"JFun0lWY9eqd80Js2iWsehu1gc4=\\\",\\\"path\\\":\\\"gopkg.in/square/go-jose.v2/json\\\",\\\"revision\\\":\\\"296c7f1463ec9b712176dc804dea0173d06dc728\\\",\\\"revisionTime\\\":\\\"2016-11-17T00:42:38Z\\\",\\\"version\\\":\\\"v2.0\\\",\\\"versionExact\\\":\\\"v2.0.1\\\"}],\\\"rootPath\\\":\\\"with-vuln\\\"}"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "encoding": "plain",
+                "files": {
+                  "target": {
+                    "contents": "{\\\"comment\\\":\\\"\\\",\\\"ignore\\\":\\\"test\\\",\\\"package\\\":[{\\\"checksumSHA1\\\":\\\"o/3cn04KAiwC7NqNVvmfVTD+hgA=\\\",\\\"path\\\":\\\"github.com/Microsoft/go-winio\\\",\\\"revision\\\":\\\"78439966b38d69bf38227fbf57ac8a6fee70f69a\\\",\\\"revisionTime\\\":\\\"2017-08-04T20:09:54Z\\\"},{\\\"checksumSHA1\\\":\\\"GqIrOttKaO7k6HIaHQLPr3cY7rY=\\\",\\\"path\\\":\\\"github.com/containerd/continuity/pathdriver\\\",\\\"revision\\\":\\\"617902de2ab5e18974efd88a58eeef67ac82d127\\\",\\\"revisionTime\\\":\\\"2017-09-25T16:43:31Z\\\"},{\\\"checksumSHA1\\\":\\\"ndnAFCfsGC3upNQ6jAEwzxcurww=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/longpath\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"IVWozKA/coqhti24Ss2b1nLrTSg=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/mount\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"YdUAOhhc/C0zu+eYrJOJjDwr1/4=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/symlink\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"UEMAKQqAyL9hs6RWxesQuYMQ3+I=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/system\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"UmXGieuTJQOzJPspPJTVKKKMiUA=\\\",\\\"path\\\":\\\"github.com/docker/go-units\\\",\\\"revision\\\":\\\"0dadbb0345b35ec7ef35e228dabb8de89a65bf52\\\",\\\"revisionTime\\\":\\\"2017-01-27T09:51:30Z\\\"},{\\\"checksumSHA1\\\":\\\"RCARG9BoOH6jwbqnuix2Ne3K26w=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"OVGl5SGmF1HZmaG6JRmkyWiycYA=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/cgroups\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"q56oWh80PeIBiE/8nQ/Emz18ZZ8=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/cgroups/fs\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"3NQtWwKOT4BlnSWn0tTsy/N+XhU=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/console\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"WPIuCuWS1RkrGCHBRZuOJku7ZBc=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/devices\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"HLo2E8AWKNCwE2p7ndEkKc4SPnM=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/label\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"KYcr4bHkervvLS5wuH9w1+EhflY=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/mount\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"tvHnvhbm17pLR/fA2WXWYlY9aDs=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/mount/nodes\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"k9+kwIouq8vqmodLrGFp+9I7Jxs=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/netlink\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"ndpCrSi/XKZNCCrkjpQ2cgMIxKA=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/network\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"cfgnX7wKfSHOJ4mbhKyjAWizl+s=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/selinux\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"M7/2WUk1uzgdqc5Ce/k9UcSyv1M=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/system\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"2ZMmNaPI3TM4WyMjCw+h1jErSr0=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/utils\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"rJab1YdNhQooDiBWNnt7TLWPyBU=\\\",\\\"path\\\":\\\"github.com/pkg/errors\\\",\\\"revision\\\":\\\"2b3a18b5f0fb6b4f9190549597d3f962c02bc5eb\\\",\\\"revisionTime\\\":\\\"2017-09-10T13:46:14Z\\\"},{\\\"checksumSHA1\\\":\\\"BYvROBsiyAXK4sq6yhDe8RgT4LM=\\\",\\\"path\\\":\\\"github.com/sirupsen/logrus\\\",\\\"revision\\\":\\\"89742aefa4b206dcf400792f3bd35b542998eb3b\\\",\\\"revisionTime\\\":\\\"2017-08-22T13:27:46Z\\\"},{\\\"checksumSHA1\\\":\\\"nqWNlnMmVpt628zzvyo6Yv2CX5Q=\\\",\\\"path\\\":\\\"golang.org/x/crypto/ssh/terminal\\\",\\\"revision\\\":\\\"847319b7fc94cab682988f93da778204da164588\\\",\\\"revisionTime\\\":\\\"2017-08-18T09:57:21Z\\\"},{\\\"checksumSHA1\\\":\\\"uggjqMBFNJd11oNco2kbkAT641w=\\\",\\\"path\\\":\\\"golang.org/x/sys/unix\\\",\\\"revision\\\":\\\"429f518978ab01db8bb6f44b66785088e7fba58b\\\",\\\"revisionTime\\\":\\\"2017-09-20T21:38:28Z\\\"},{\\\"checksumSHA1\\\":\\\"pBPFzDGt3AVSRffB7ffiUnruFUk=\\\",\\\"path\\\":\\\"golang.org/x/sys/windows\\\",\\\"revision\\\":\\\"429f518978ab01db8bb6f44b66785088e7fba58b\\\",\\\"revisionTime\\\":\\\"2017-09-20T21:38:28Z\\\"},{\\\"checksumSHA1\\\":\\\"o5NrWoSkC+ugoK9D6ragLSrXHw0=\\\",\\\"path\\\":\\\"gopkg.in/square/go-jose.v2\\\",\\\"revision\\\":\\\"296c7f1463ec9b712176dc804dea0173d06dc728\\\",\\\"revisionTime\\\":\\\"2016-11-17T00:42:38Z\\\",\\\"version\\\":\\\"v2.0\\\",\\\"versionExact\\\":\\\"v2.0.1\\\"},{\\\"checksumSHA1\\\":\\\"j94zYNLTvPSnfnqVKJ4LUf++uX4=\\\",\\\"path\\\":\\\"gopkg.in/square/go-jose.v2/cipher\\\",\\\"revision\\\":\\\"296c7f1463ec9b712176dc804dea0173d06dc728\\\",\\\"revisionTime\\\":\\\"2016-11-17T00:42:38Z\\\",\\\"version\\\":\\\"v2.0\\\",\\\"versionExact\\\":\\\"v2.0.1\\\"},{\\\"checksumSHA1\\\":\\\"JFun0lWY9eqd80Js2iWsehu1gc4=\\\",\\\"path\\\":\\\"gopkg.in/square/go-jose.v2/json\\\",\\\"revision\\\":\\\"296c7f1463ec9b712176dc804dea0173d06dc728\\\",\\\"revisionTime\\\":\\\"2016-11-17T00:42:38Z\\\",\\\"version\\\":\\\"v2.0\\\",\\\"versionExact\\\":\\\"v2.0.1\\\"}],\\\"rootPath\\\":\\\"with-vuln\\\"}"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Testvendor.jsonFileresponse"
+                    },
+                    {
+                      "example": {
+                        "ok": false,
+                        "issues": {
+                          "vulnerabilities": [
+                            {
+                              "id": "SNYK-GOLANG-GITHUBCOMDOCKERLIBCONTAINER-50012",
+                              "url": "https://snyk.io/vuln/SNYK-GOLANG-GITHUBCOMDOCKERLIBCONTAINER-50012",
+                              "title": "Symlink Attack",
+                              "type": "vuln",
+                              "description": "## Overview\nAffected version of [`github.com/docker/libcontainer`](https://github.com/docker/libcontainer) are vulnerable to Symlink Attacks.\nLibcontainer and Docker Engine before 1.6.1 opens the file-descriptor passed to the pid-1 process before performing the chroot, which allows local users to gain privileges via a symlink attack in an image.\n\n## References\n- [NVD](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-3627)\n- [GitHub Commit](https://github.com/docker/libcontainer/commit/46132cebcf391b56842f5cf9b247d508c59bc625)\n- [Packetstorm Security](http://packetstormsecurity.com/files/131835/Docker-Privilege-Escalation-Information-Disclosure.html)\n- [Seclists](http://seclists.org/fulldisclosure/2015/May/28)\n- [Docker Security Advisory](https://groups.google.com/forum/#%21searchin/docker-user/1.6.1/docker-user/47GZrihtr-4/nwgeOOFLexIJ)\n",
+                              "functions": [],
+                              "from": [
+                                "github.com/docker/libcontainer@v1.4.0"
+                              ],
+                              "package": "github.com/docker/libcontainer",
+                              "version": "v1.4.0",
+                              "severity": "critical",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "golang",
+                              "packageManager": "golang",
+                              "semver": {
+                                "hashesRange": [
+                                  ">=5c246d038fc47b8d57a474e1b212ffe646764ee9 <46132cebcf391b56842f5cf9b247d508c59bc625"
+                                ],
+                                "vulnerable": [
+                                  "<1.6.1"
+                                ],
+                                "vulnerableHashes": [
+                                  "cab4b9bce1bece1b6c575e1826f3e5b221faebf3",
+                                  "4a72e540feb67091156b907c4700e580a99f5a9d",
+                                  "eb74393a3d2daeafbef4f5f27c0821cbdd67559c",
+                                  "4332ffcfc6765245e8e9151a2907b0e4b76f218f",
+                                  "7eceabd47f41328d6e894418ae167ce8377bda22",
+                                  "ecace12e5a3e309d82c5b3b1548a3251b3bc4e2a",
+                                  "afb167a417ed8379c008b070fb5c0b1bc84bbcba",
+                                  "2b4512809110033e5ec532167efd6fabf2dd596d",
+                                  "c2403c32dbf8a67870ab2ba7524c117fc0652256",
+                                  "4077c254a6ac99930d720a9b95709dbd2614bc61",
+                                  "1b755bf962ec1d29e9e5e66e2cc15704fac088e7",
+                                  "1c9de5b4d21b94499a1e91c9b94ba06831ac5393",
+                                  "e3184f97e040c3121502dc382d41ac58a98b685a",
+                                  "0dee9793d5efd9842a2e8890fa0f8981d20b196e",
+                                  "3e9299d6da5749b263fc3dc93d50b5c854fa199c",
+                                  "152107f44ae9e38b38609fdbc75ac6f9f56c4fed",
+                                  "623fe598e4d5e75e70440f45298eecec414788b3",
+                                  "e30793aed7a30772054abfb1b3f3f703f119b55b",
+                                  "0596e6384a586223c56c5ea7d14467ebf5d17247",
+                                  "42fed751fbab3f340461d06edb896cd10cd49812",
+                                  "e451df796aaa605413a0b84ddd1bf39ec4a751a0",
+                                  "b0eece8d7d945e1e7fc98c2ae3b7dd0a860a7c2a",
+                                  "5c246d038fc47b8d57a474e1b212ffe646764ee9",
+                                  "bfa67ab988f434fd6836c1868eb5d7d1d7864e8a",
+                                  "9bebc660423ca974192599a6a5ea8e016a6fe1fc",
+                                  "e22b58954324b3593737438032412f15ed9602e9",
+                                  "af371eae767ceb51b8804f212bf97584d876feb3",
+                                  "f61899ece3fc1da206a0eb28fada0595ab381887",
+                                  "0d0402712b5a13d1b54a345a63ec67982e2e0089",
+                                  "d1ae7cd67310f482af22de3abeb26d28e65274bf",
+                                  "9f2c67332f48c0050846ac86e01cb5dadbd1d8fe",
+                                  "62bdfc482d8edaa618b544fb2beafdf0c44dce5e",
+                                  "699429e60f23ab0fa3bdd97b6326316be08791ad",
+                                  "35c01f9eb3c228201a3fc5d2301d1fc7a00bde13",
+                                  "a72f710d89eaabf23dad7c084082bccb26e6336f",
+                                  "eb84dd1b73df035e6e64c8513daaa476c72dedfc",
+                                  "5b73860e65598203b26d57aabc96ae0f52c9f9ab",
+                                  "d64cfe5c05448935c75c92f65d604c751bbf5153",
+                                  "62626677876330d60fe3512f59f1fd8f82799ca5",
+                                  "43842efeccbd8077dba8f85fc9e772e0647b82cb",
+                                  "d6cd7ce43faa53d212052dbbcf209029ec2ec951",
+                                  "ebefcddc3c4b99ae312ac575c288856e177ed6ef",
+                                  "83add60f217d32561ff0ff62ebf1d6db6a2a11a3",
+                                  "14af6755f04233fbe55cb354a9351fe05afd43a0",
+                                  "8530167f7f5b5eb329f5377b6b74a904482a10ed",
+                                  "000d36e109f5d04bad5342bb779e02b2b9b252f7",
+                                  "1db687f4f480c06e6cadfdb0971985df4313ddc7",
+                                  "689e8ec9493a4294856dc1568f5ef667e106707c",
+                                  "0eb8a1aac3d903b3c7925208c34f09c02910e7aa",
+                                  "edb31ce0a6fd7956bffc0829000c60bdd56b9f32",
+                                  "53fce307557cbffdbc54647ef63956b2cb0cee86",
+                                  "c22d5c90cf907f4f34d2bc13cad9c82a7fce9077",
+                                  "ef1c1c4289559e818d3ec77ce9c1b6a77d2ac764",
+                                  "2da44f8c7b703f87e9c07164c9cc1cdd31031783",
+                                  "ee102305fb35a23668136b102ed4d0dd5b3d9ce5",
+                                  "3ca0e1ff95c54577c65b5fbb734c267c23782974",
+                                  "f115a5f6c8c2a3cc6340408e6644236a88dcaad0",
+                                  "29ba9b3179d014cc87129af5c51b1263443f387b",
+                                  "c1ca18404fa63209e0a65abf443669155991b4df",
+                                  "5bb81469895d669ddcb4b49e83809a980d57d6b1",
+                                  "6feb7bda04b3130e81cf9606ddb7a156d4a63f7a",
+                                  "7c8550af53b4d428d8f3a7c19c0c4a8ebca8ff21",
+                                  "7766c1e07bd49fdc290f0557268950d35b867823",
+                                  "4903df2ed52a01f08626739ad35937752de82a09",
+                                  "58feafa848d9657dda34e5ccc3a196e359566bda",
+                                  "9e787db1b108941edab18209a7468e6c555002ce",
+                                  "e7953c3609b62a25b0bfedcd9d3885ca1b99d2fb",
+                                  "8c3b6b18689796bc9625258258e8664746b24e85",
+                                  "dd3cb8822352fd4acc0b8b426bd86e47e98f6853",
+                                  "cc524f1b729cb5d7592d0a0b07cb3ff1fe6eda98",
+                                  "c22ac4876f0a218584ae862900f3058470be38a3",
+                                  "c1fb904d1047359e8c4dadafaa0ab065efe9e03e",
+                                  "1f176f3c0dae283d66df5360de8a93ec14b4fbd0",
+                                  "50f0faa795dc62773857a0cc3cfb6d5681ba3562",
+                                  "3fbf1856025f54b6eab6e73b7ff8aa4d1020e1c1",
+                                  "f4a4391e4ef7e886e56816ae59cbe99d8cff91d9",
+                                  "2d9ef3af72e89ad9df164bd0f435371aa4fa0dea",
+                                  "187792e35bb47c89fdfe34409162c814627daacc",
+                                  "b322073f27b0e9e60b2ab07eff7f4e96a24cb3f9",
+                                  "f78bf211f023d28392c6aa0d1934bb1001b3a180",
+                                  "20af7e70e2511b4da0e035bf2fa2d6295f198970",
+                                  "f8eb40433c4a8617a20ad36119973af6f9dd2cd0",
+                                  "d7dea0e925315bab640115053204c16718839b1e",
+                                  "295c70865d10d7c57ba13cbef45c1d276ebfa83e",
+                                  "5a87153824b838be92503b57e76e96519b84b522",
+                                  "fec4c5ab0a75d7e6a46955bda0818bed7f8fecf3",
+                                  "6a76ecb1ce53d9e623826b238033b86f072395a9",
+                                  "2c037b7fd98e1c03e0c67ceccfd8e3300457e07e",
+                                  "4ce8d973204ebace2970c662f6f841ab11a3cc13",
+                                  "870119e763b5976d7331fbd8656ed65207ba95ad",
+                                  "58fc93160e03387a4f41dcf4aed2e376c4a92db4",
+                                  "a3b0209cc61301941810e54bc3678ccff9af71c1",
+                                  "ec005e73b9169d17651618b91836a5d86eb7b24c",
+                                  "2fac2dad91e390acb8937ede6154c265b7011cf9",
+                                  "0195469398f4fc1d42c0c20172b51e03ccf9ff1a",
+                                  "8d0b06257ba659ee91fa3862ed358cecbee37f73",
+                                  "6516e6ce8c7c71e44f95332ef740ea4082cfee39",
+                                  "55d61e22c5e0e4dc00c99847ba20a8ffa1e3a3d4",
+                                  "ca73d7aede7eaa05f4a0acb4bd5cb17a9408cd27",
+                                  "43fabe36d18fa36326d9e5efd2cca8b9376a7fdf",
+                                  "c06f92353f4f74cdb1c66ee0bbae1cdbb46934ce",
+                                  "d6fae7bb26807a386f5dd9a1ec2dc5ac51c24498",
+                                  "bde8bf2ebc5630399c7d0965f58b502100180400",
+                                  "444cc2989aca50986b45a56bfd8a32bd7ea23c1c",
+                                  "f5dfd9a702ad163be35023fe08c9573a614d6121",
+                                  "6c2f20eeeca488b98a613e013712d7c9a3d1e619",
+                                  "cc42996625afaf38d281f2457b08551a3df0d7bc",
+                                  "903680701ad5cf25484d0ac3e78152807dfa90b3",
+                                  "69228248334a576549a9af9df389b3cbfe0c211c",
+                                  "6460fd79667466d2d9ec03f77f319a241c58d40b",
+                                  "7d9244eab20fc96230636a066f88ad5165c34bc7",
+                                  "9387ebb6ba5fca526aedb54c7df684102639caa3",
+                                  "b21b19e0607582cceb8d715b85d27ec113a0b799",
+                                  "c4821b6f3e0a41af6bf3ed1cfa168c13381b9554",
+                                  "397b675315d00a34a09f058dd7e462af6f715da3",
+                                  "c504f85aabbff0d7380ca9da3f6051c56905c7c0",
+                                  "0f8f0601ae5668510ab7bde03041dafd39b18ec6",
+                                  "c3ab8d0cb4b439b7691edf7b63fcecd169834250",
+                                  "22df5551ed7367eb9cbb0cc22aea46351d2495ad",
+                                  "d284fdfaa36d37cbba5749562d6f9303ebab7d2f",
+                                  "a9a503082e492575be352c9c82040c1f4ed468d1",
+                                  "5fedffd8fd387b24b25186622c9566325ab3db1b",
+                                  "dc827aa0ee51829d292524fdf3a7a163feadabe2",
+                                  "f925aa3503eeba9d372c74d1fe2b17c8ecd97960",
+                                  "bc1d229dbe94a0100f4530b47e9c918f27b8cecd",
+                                  "71a57166c1209103dcd4355d21c161bd0f09e481",
+                                  "a9644c209f7764f9155db0c4aeb4f690c0cdb585",
+                                  "bcfdee970e8a32d04b472cd2c5712e10a5e425fe",
+                                  "3c474b9e2aad7c577faefca6c35a8512140c0c65",
+                                  "c34b3d5ce90a6b2828d5b97f553f4b49f64081af",
+                                  "286fffa4eeda7745f3b36dc938dae3e155d1b204",
+                                  "d1f0d5705debbe4d4b1aed7e087d5c49300eb271",
+                                  "08fdb50b03dc810ca8c4386f4f8271a8d51d4445",
+                                  "c44ab12c86689065978950d2ed92bb131b2a932c",
+                                  "5df859ad240af502aebef01ca28da3ef24951e05",
+                                  "ef4efd065cb6c136c7fcbdd65285cff549b745ac",
+                                  "2f1b2ce204490854938fab57142b557caa4ab66d",
+                                  "a36d471a0ef4e119ecfb41257aad246464024a40",
+                                  "83663f82e3d76f57ea57faf80b8fd7eb96933b9b",
+                                  "e8f5b543010eb0db146fd2593284ed19af93eccd",
+                                  "c8512754166539461fd860451ff1a0af7491c197",
+                                  "dc4c502efd85727abfed95af7789caa7f10d020d",
+                                  "4940cee052ece5a8b2ea477699e7bb232de1e1f8",
+                                  "025e6be6c5dc3d535286461088416afa74c42927",
+                                  "b4cda7a6cabf1966daf67f291c2c41ff9a1369f4",
+                                  "074441b495052c456f4b96524bd7a80d00db42e8",
+                                  "5847aacb32742fd734fa2c0584cae65636bba370",
+                                  "f9590b0927744d22ad0e1b737eecd07a48bb4c2f",
+                                  "e05f807a8936b4491632290f13958ca26d0aaace",
+                                  "fd0087d3acdc4c5865de1829d4accee5e3ebb658",
+                                  "38f729e577e07b2c3333ed4b04146e1d64f665a8",
+                                  "8a8eb57746e5372080a5f5e5b6fb9dce178c8220",
+                                  "afa8443118347a1f909941aec2732039d28a9034",
+                                  "d6eb76f8a2184688489fc3a611d80de36ef50877",
+                                  "0f397d4e145fb4053792d42b3424dd2143fb23ad",
+                                  "ba613c5a847ff30d312726eeff444714f8e31cde",
+                                  "445bebc1b16b1f2646a3cae841fe0e1266d79ada",
+                                  "e2ed997ae5b675fc8e78e7d0f9e6918c8b87503c",
+                                  "3b95acdfa1e54de15cae2fc3083147a185a31792",
+                                  "cacc15360ec04abb4c45f918e83bf33203946e32",
+                                  "09809b551ce9f05e96fc3055ae7a23329604415b",
+                                  "2a9511a0266afd48251609a03533094afe22fce2",
+                                  "b6cf7a6c8520fd21e75f8b3becec6dc355d844b0",
+                                  "fc3981ea5c10fb21cae6d6a8e78755be5b169999",
+                                  "dc34fe188385f42198997f6aedc170487c57c7eb",
+                                  "e9f8f8528abef64b8e1b8bc046a008b009ab2417",
+                                  "fe9f7668957641a404b0d2c8850f104df591e7f2",
+                                  "8da9c6878fa29f33dcfd74b1146d457a576d738a",
+                                  "4622c8ac9541790365eda22b6ce65d038f4026fe",
+                                  "3977c892e78d91a0c6d2a34fd2512a6c53c8d924",
+                                  "1bd146ed82f771395f991851f7d896d9ae778f3c",
+                                  "77085907a44039fe1cf9fe24d9c7675aa53d2f9b",
+                                  "107bad0ee5141bb847257a6f57dff2469dd584da",
+                                  "2da159823d0a54756308e73dc0e58a420daffad4",
+                                  "94fb37f5573e1484ba686b195079684cace18eb0",
+                                  "5c6332687d5d7c902cdd954e4e6a107ed6c60848",
+                                  "8b77eba9a6b506c71d1542d2fab1495249a7f7b6",
+                                  "da32455210de558c829f089e8c3a3d1ed8c34a5b",
+                                  "e1c14b3ca245fd06ef538005cd3a250904be5b4c",
+                                  "f0d1a8fc27830b899c5789ba2f80dfa9458792a4",
+                                  "846e522ffc157c12ba244c2c8a2c6adb1ed789f7",
+                                  "2a452c17aa2417cd89b5e25e8549f9e09c94a0dc",
+                                  "3cd416efe1e5b7d1679a20a91a73d757d481633b",
+                                  "e0de51f53c6b2711f39f4f29eb58b63a9ebf2c5c",
+                                  "f7837f4f717a9f09cf34fc325061ee8e38d1100a",
+                                  "13a5703d853fbd311e1fcfc5c95d459021781951",
+                                  "2aebf7d849e47ca927de332b82983ba8fe03d062",
+                                  "56bc1485df0ac0c2fe8ae5e0499e50a0580f2522",
+                                  "8d0f911e1d9265a8f362a7a16b893f7c40aee434",
+                                  "dc82e30089dbba31a1d0cf459321486a9b546fa0",
+                                  "4d863b7bd0d7da6ca1108031fd7d7997bf504496",
+                                  "73ba097bf596249068513559225d6e18c1767b47",
+                                  "da109f3af037352af24f935b1ea57ba8a7f26cad",
+                                  "3c52181f613353cc3b8aefbbf637c15a11cb8242",
+                                  "c96cde4e5db0da7e798e2712c2312f2468720a98",
+                                  "52a8c004ca94cf98f6866536de828c71eb42d1ec",
+                                  "b89112c542edcc9cf5af75694c16af28a3e4f12b",
+                                  "c099a20eb8bd084c17d9348bd0f6bef066ea514f",
+                                  "8067e34ec01588d2952d57e21c8c637fd3d3d114",
+                                  "9d4f6b3d3d4feba35ea13097be415bf099b670ce",
+                                  "334b1963711b743bf014502c5513a82a23eb65cc",
+                                  "190e50b08dbd72fd1d9f21f20581fa27a498481c",
+                                  "4c43b0f49880840966cb5df13abeeb19aa8e16d7",
+                                  "9946e299af9e911a54c83626f245dff20127e442",
+                                  "9825a26db570697e058a4580ec3b71ab3d82fc24",
+                                  "f8daab8a96fe2c73974073696d00deb4ffb40d47",
+                                  "88989e66d3a1ab960deb37f3dd7f824d85e1b9bc",
+                                  "c5eef904604b7e22083927bb99ea0c196d4cb8b9",
+                                  "4661c239dc6394aba960ba73144f2a7e3859537f",
+                                  "9303a8f15f6e55931a08542636922c1bf041ad52",
+                                  "9d91f080ced0bbfcbd3c003e2a20c9cdc81bc4ff",
+                                  "99233fde8c4f58853a474a5831ef0bcf6bf866c5",
+                                  "14a7d2f468404e25577dced6982248e80ddce79a",
+                                  "b6a1b889852cd6b365833ce2b04a0c1092867f75",
+                                  "5d6c507d7cfeff97172deedf3db13b5295bcacef",
+                                  "b89cd0cf5cf5deec2ed6fdc0d8ed4e4f3167aeb4",
+                                  "be02944484da197166020d6b3f08a19d7d7d244c",
+                                  "c37b9125ecaad0c100b6851baacf97adfa2339d6",
+                                  "045e9ae4a0fa8bff397b3c4f2614a3e609e6dd66",
+                                  "9744d72c740dd8cdfbb8cb4c58fb235355e0a0b4",
+                                  "74005ed4e0cdbc87ce40c6b79edfd599ba2355e9",
+                                  "1d7207079fc6ab5b2cbfedda3fc8993bc4441b02",
+                                  "8961fd20e6e213bf967db90166e24d38da065807",
+                                  "dd5576b2b3f5667811f882d1f64a11e13164791a",
+                                  "8600e6f3158bafe927706f0613c1520971d16c32",
+                                  "e9c1b0144ae784df9d26f59bfadd8cb2fc3a1d69",
+                                  "6423c8d2613e5130e9c37620773d2173c76f0acd",
+                                  "b48acf4613cc5347ca10b6d6edd6e1b94a5378c4",
+                                  "6c285c1d4964662ac64f0b98620d154caf423d79",
+                                  "312f997de638b8c18f92a59596a984bdb1a06a4e",
+                                  "11d14f2621370a527d2401c8bba10d2408819131",
+                                  "a6044b701c166fe538fc760f9e2dcea3d737cd2a",
+                                  "91a3f162afc90339b1d8f8d2f22d9c4271eddb84",
+                                  "54301f55934f42598b8f7c88effc4bd588e5f3e7",
+                                  "29f5cb6b391eea625c512df1f2ae7d9efccfbae9",
+                                  "087caf69e8cabd8f1f66f6239079b60172c9fb78",
+                                  "21ed4766b1523373b0463af497ef1c6b3b98c2ca",
+                                  "30b33064169e09e1c5daacb38ed461ed5820d0d2",
+                                  "a8a798a7c9b1da5beea8acfec16409d015ad85a7",
+                                  "a4f2e1e1878c1ce541aec24e6e2a690855cc8003",
+                                  "d06a2dab9f185c8cd2c21c0c97342cbdb7b9f38b",
+                                  "12a63757dbde3b0be25b49bc9e7625059088d319",
+                                  "35ae1c48710ff5a4db20645bc98c719cfb695b9a",
+                                  "85cd86999f70339509692b92cf182ec36697edcf",
+                                  "10d49f830b52ed05d9b41e18c8e1ff4a44a85fb3",
+                                  "3f35b26b8b2dcd856b12b985f9091260d5c5bd71",
+                                  "1a37242fa2af5db30ea72b95f948285efcd63d52",
+                                  "b49bd705dcddd496aedb6e797ce8691d276236af",
+                                  "eb2ae34c80f6b8ffb1bdfc55287d967c6e18cd81",
+                                  "39fbf0a90423a1e6e31c6c042acd9aea00793a18",
+                                  "d658fb8a2566cab11600af4db164c5f1f8656116",
+                                  "f4cf808a3d184c556a51cd53d98a2f4ea05acee4",
+                                  "bdff595cad6a42ba9675f99505bebecdb28209f0",
+                                  "9377591781a5346ed84517688787c305ed6554c4",
+                                  "19099e065da7c810f93e83d68c0776c2336e5e03",
+                                  "a1ac9b101571477a81e1cb3c6999f818bbbf0738",
+                                  "54968f68bc2ba50f59a66fba9f6823215a0bc4f6",
+                                  "9455a8ce3aaccceb4c282ef6c84d7edb36dd0d4c",
+                                  "21c344a479a8fd359a9c875f3056a7e72fe4d5fb",
+                                  "00abcf89d9ad026ddce4af0038db7953b01d8b8b",
+                                  "1a246dd54326124df57cb0e8e051f57abb549c9f",
+                                  "07db66a6ef857edee2c731d1b66f42a4f32d9622",
+                                  "d4867a6583c17001a60590684d91237a580e786a",
+                                  "46573774a27c7a4d20d508f1f07ba72d34616bc3",
+                                  "9184d9473d7b5ecb0dddca4052171534523602be",
+                                  "f6593810da73cf8e1cc982d9020850260fc1ff52",
+                                  "a9442e6660e71fd2058310e6155de3ef5e4f5fdf",
+                                  "cee97cb0ccad90c369b10d6a9512d678a0535cac",
+                                  "aaca2848a1e1eefa71ce2987b19abae2d34cf3aa",
+                                  "3125b53b1aef485ed2239d514b131ef80ad577c1",
+                                  "2990f254f030e62ab15b9399e26368aa3e291d15",
+                                  "b19b8a9677ae9e657e0195ac85a4849a67729cf6",
+                                  "e3b14402ebded2a7ec8f38809bf907ac72692ede",
+                                  "37d229d0262b6fa7dfb96184eff3f7882ddd487e",
+                                  "8002fd226367c0882973c69673bf8379df2fc198",
+                                  "a1c3e0db94579f59cc821132f958187339e68d88",
+                                  "4fdec5a8e10f95a5dbfd84cf382f2755f0342fda",
+                                  "ef73d7e235c4d4ab41402835193ac9ba0c4cc485",
+                                  "ad3d14f1da33d00ee3506f12922fb3faf87b65d7",
+                                  "a1d509759b9195a1c022f2eb9585b74d07a0f084",
+                                  "b7e54b0b41757cd36dd03fb29367b385c5fa3be0",
+                                  "d909440c48b7b64b016478de1e6ee78e2faa9e13",
+                                  "2ca9dc306e8c667eb9f00376898be52d8b980c88",
+                                  "031524c73df6fd40b13e89c44e86d4a62d77075b",
+                                  "6fae0d4fa68a85a1d552c5ae3140dd39f7a05c88",
+                                  "fb27b4238cd6c33bd899e240ead4b5fb8a2a24b1",
+                                  "0890cc54a92627c03119654c94c584a2e3c744ca",
+                                  "339edce03ed7fe59ec4a778abff243fa4cabaa23",
+                                  "2329014b6dbc473326291fa6e101e6d63c4dbd25",
+                                  "872663148e00c4d272fc67e8d369a5012ccbac5a",
+                                  "0e3b1262a168d51512014c4f7df6c37edce0f05d",
+                                  "606d9064b0a6abd82da3731fda9f1558ec1f153c",
+                                  "4bd39999a06fa1f710daae54c6cc8ca7d5784f58",
+                                  "562cd20d05e0427e6b18daa279a3a5f3b08c889d",
+                                  "4bbd44784c7c4eede8e53011a2c4981c16598d1f",
+                                  "dc4bd4cece9a6de7926e85a09f152fe4697a8bc5",
+                                  "770e2583907fa38e2b78601a90799b6ae7ab15eb",
+                                  "f34b3b765fb964dee979ac7646b6d609adbeb2ba",
+                                  "aa10040b570386c1ae311c6245b9e21295b2b83a",
+                                  "fff015f4094ab80ff2eb4978f8cdb3711187c50a",
+                                  "5b2be7d9d8444e0a5b706944c878cd0048ef026a",
+                                  "2cd0ee8cf21eecaa9d39d699692284be44cf6ca2",
+                                  "451043367be65468dd96bbf5868af666b25f1663",
+                                  "4fc29224cf362988a741dc07804225f730a326ec",
+                                  "dd6bc28afb3bafdde93ad7ed9f58b3a0aec2be99",
+                                  "1597c68f7b941fd97881155d7f077852e2914e7b",
+                                  "e59984353acde7207aa1115e261847bf4ddd9a8f",
+                                  "ee1000e153e1b7c8f223bb573bb8169d2033f4af",
+                                  "1d3b2589d734dc94a1719a3af40b87ed8319f329"
+                                ]
+                              },
+                              "publicationTime": "2015-08-06T00:00:00+00:00",
+                              "disclosureTime": "2015-05-18T15:59:00+00:00",
+                              "isUpgradable": false,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2015-3627"
+                                ],
+                                "CWE": [
+                                  "CWE-59"
+                                ]
+                              },
+                              "credit": [
+                                "T\u00f5nis Tiigi"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                              "cvssScore": 8.4,
+                              "patches": [],
+                              "upgradePath": []
+                            }
+                          ],
+                          "licenses": []
+                        },
+                        "dependencyCount": 28,
+                        "org": {
+                          "name": "atokeneduser",
+                          "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+                        },
+                        "licensesPolicy": null,
+                        "packageManager": "govendor"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "Org1": {
+      "title": "Org1",
+      "required": [
+        "name",
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "name": "atokeneduser",
+        "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+      }
+    },
+    "govendorrequestpayload": {
+      "title": "govendorrequestpayload",
+      "required": [
+        "files"
+      ],
+      "type": "object",
+      "properties": {
+        "encoding": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/encoding"
+            },
+            {
+              "description": "the encoding for the manifest files sent."
+            }
+          ]
+        },
+        "files": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/files1"
+            },
+            {
+              "description": "The manifest files:"
+            }
+          ]
+        }
+      }
+    },
+    "Vulnerability5": {
+      "title": "Vulnerability5",
+      "required": [
+        "id",
+        "url",
+        "title",
+        "type",
+        "description",
+        "functions",
+        "from",
+        "package",
+        "version",
+        "severity",
+        "exploitMaturity",
+        "language",
+        "packageManager",
+        "semver",
+        "publicationTime",
+        "disclosureTime",
+        "isUpgradable",
+        "isPatchable",
+        "isPinnable",
+        "identifiers",
+        "credit",
+        "CVSSv3",
+        "cvssScore",
+        "patches",
+        "upgradePath"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "package": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "exploitMaturity": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "packageManager": {
+          "type": "string"
+        },
+        "semver": {
+          "$ref": "#/components/schemas/Semver6"
+        },
+        "publicationTime": {
+          "type": "string"
+        },
+        "disclosureTime": {
+          "type": "string"
+        },
+        "isUpgradable": {
+          "type": "boolean"
+        },
+        "isPatchable": {
+          "type": "boolean"
+        },
+        "isPinnable": {
+          "type": "boolean"
+        },
+        "identifiers": {
+          "$ref": "#/components/schemas/Identifiers2"
+        },
+        "credit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVSSv3": {
+          "type": "string"
+        },
+        "cvssScore": {
+          "type": "number"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "upgradePath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "id": "SNYK-GOLANG-GITHUBCOMSATORIGOUUID-72488",
+        "url": "http://localhost:34612/vuln/SNYK-GOLANG-GITHUBCOMSATORIGOUUID-72488",
+        "title": "Insecure Randomness",
+        "type": "vuln",
+        "description": "## Overview\n[github.com/satori/go.uuid](https://github.com/satori/go.uuid) provides pure Go implementation of Universally Unique Identifier (UUID).\r\n\r\nAffected versions of this package are vulnerable to Insecure Randomness producing predictable `UUID` identifiers due to the limited number of bytes read when using the `g.rand.Read` function.\r\n \r\n## Disclosure Timeline\r\n* Jun 3th, 2018 - The vulnerability introduced by replacing the function `rand.Read()` with the function `g.rand.Read()` (https://github.com/satori/go.uuid/commit/0ef6afb2f6cdd6cdaeee3885a95099c63f18fc8c)\r\n* Mar 23th, 2018- An issue was reported.\r\n* Oct 16th, 2018 Issue fixed\r\n\r\n## Remediation\r\nA fix was merged into the master branch but not yet published.\n\n## References\n- [GitHub Commit](https://github.com/satori/go.uuid/commit/d91630c8510268e75203009fe7daf2b8e1d60c45)\n- [Github Issue](https://github.com/satori/go.uuid/issues/73)\n",
+        "functions": [],
+        "from": [
+          "github.com/satori/go.uuid@v1.2.0"
+        ],
+        "package": "github.com/satori/go.uuid",
+        "version": "v1.2.0",
+        "severity": "high",
+        "exploitMaturity": "no-known-exploit",
+        "language": "golang",
+        "packageManager": "golang",
+        "semver": {
+          "hashesRange": [
+            ">=0ef6afb2f6cdd6cdaeee3885a95099c63f18fc8c <d91630c8510268e75203009fe7daf2b8e1d60c45"
+          ],
+          "vulnerable": [
+            "=1.2.0"
+          ],
+          "vulnerableHashes": [
+            "c596ec57260fd2ad47b2ae6809d6890a2f99c3b2",
+            "36e9d2ebbde5e3f13ab2e25625fd453271d6522e",
+            "f6920249aa08fc2a2c2e8274ea9648d0bb1e9364",
+            "0ef6afb2f6cdd6cdaeee3885a95099c63f18fc8c"
+          ]
+        },
+        "publicationTime": "2018-10-24T08:56:41+00:00",
+        "disclosureTime": "2018-03-23T08:57:24+00:00",
+        "isUpgradable": false,
+        "isPatchable": false,
+        "isPinnable": false,
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-338"
+          ]
+        },
+        "credit": [
+          "josselin-c"
+        ],
+        "CVSSv3": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "cvssScore": 8.1,
+        "patches": [],
+        "upgradePath": []
+      }
+    },
+    "Identifiers2": {
+      "title": "Identifiers2",
+      "required": [
+        "CVE",
+        "CWE"
+      ],
+      "type": "object",
+      "properties": {
+        "CVE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CWE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "CVE": [
+          "CVE-2017-5641"
+        ],
+        "CWE": [
+          "CWE-502"
+        ]
+      }
+    },
+    "Issues7": {
+      "title": "Issues7",
+      "required": [
+        "vulnerabilities",
+        "licenses"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Vulnerability5"
+          },
+          "description": ""
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerabilities": [
+          {
+            "id": "SNYK-GOLANG-GITHUBCOMDOCKERLIBCONTAINER-50012",
+            "url": "https://snyk.io/vuln/SNYK-GOLANG-GITHUBCOMDOCKERLIBCONTAINER-50012",
+            "title": "Symlink Attack",
+            "type": "vuln",
+            "description": "## Overview\nAffected version of [`github.com/docker/libcontainer`](https://github.com/docker/libcontainer) are vulnerable to Symlink Attacks.\nLibcontainer and Docker Engine before 1.6.1 opens the file-descriptor passed to the pid-1 process before performing the chroot, which allows local users to gain privileges via a symlink attack in an image.\n\n## References\n- [NVD](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-3627)\n- [GitHub Commit](https://github.com/docker/libcontainer/commit/46132cebcf391b56842f5cf9b247d508c59bc625)\n- [Packetstorm Security](http://packetstormsecurity.com/files/131835/Docker-Privilege-Escalation-Information-Disclosure.html)\n- [Seclists](http://seclists.org/fulldisclosure/2015/May/28)\n- [Docker Security Advisory](https://groups.google.com/forum/#%21searchin/docker-user/1.6.1/docker-user/47GZrihtr-4/nwgeOOFLexIJ)\n",
+            "functions": [],
+            "from": [
+              "github.com/docker/libcontainer@v1.4.0"
+            ],
+            "package": "github.com/docker/libcontainer",
+            "version": "v1.4.0",
+            "severity": "critical",
+            "exploitMaturity": "no-known-exploit",
+            "language": "golang",
+            "packageManager": "golang",
+            "semver": {
+              "hashesRange": [
+                ">=5c246d038fc47b8d57a474e1b212ffe646764ee9 <46132cebcf391b56842f5cf9b247d508c59bc625"
+              ],
+              "vulnerable": [
+                "<1.6.1"
+              ],
+              "vulnerableHashes": [
+                "cab4b9bce1bece1b6c575e1826f3e5b221faebf3",
+                "4a72e540feb67091156b907c4700e580a99f5a9d",
+                "eb74393a3d2daeafbef4f5f27c0821cbdd67559c",
+                "4332ffcfc6765245e8e9151a2907b0e4b76f218f",
+                "7eceabd47f41328d6e894418ae167ce8377bda22",
+                "ecace12e5a3e309d82c5b3b1548a3251b3bc4e2a",
+                "afb167a417ed8379c008b070fb5c0b1bc84bbcba",
+                "2b4512809110033e5ec532167efd6fabf2dd596d",
+                "c2403c32dbf8a67870ab2ba7524c117fc0652256",
+                "4077c254a6ac99930d720a9b95709dbd2614bc61",
+                "1b755bf962ec1d29e9e5e66e2cc15704fac088e7",
+                "1c9de5b4d21b94499a1e91c9b94ba06831ac5393",
+                "e3184f97e040c3121502dc382d41ac58a98b685a",
+                "0dee9793d5efd9842a2e8890fa0f8981d20b196e",
+                "3e9299d6da5749b263fc3dc93d50b5c854fa199c",
+                "152107f44ae9e38b38609fdbc75ac6f9f56c4fed",
+                "623fe598e4d5e75e70440f45298eecec414788b3",
+                "e30793aed7a30772054abfb1b3f3f703f119b55b",
+                "0596e6384a586223c56c5ea7d14467ebf5d17247",
+                "42fed751fbab3f340461d06edb896cd10cd49812",
+                "e451df796aaa605413a0b84ddd1bf39ec4a751a0",
+                "b0eece8d7d945e1e7fc98c2ae3b7dd0a860a7c2a",
+                "5c246d038fc47b8d57a474e1b212ffe646764ee9",
+                "bfa67ab988f434fd6836c1868eb5d7d1d7864e8a",
+                "9bebc660423ca974192599a6a5ea8e016a6fe1fc",
+                "e22b58954324b3593737438032412f15ed9602e9",
+                "af371eae767ceb51b8804f212bf97584d876feb3",
+                "f61899ece3fc1da206a0eb28fada0595ab381887",
+                "0d0402712b5a13d1b54a345a63ec67982e2e0089",
+                "d1ae7cd67310f482af22de3abeb26d28e65274bf",
+                "9f2c67332f48c0050846ac86e01cb5dadbd1d8fe",
+                "62bdfc482d8edaa618b544fb2beafdf0c44dce5e",
+                "699429e60f23ab0fa3bdd97b6326316be08791ad",
+                "35c01f9eb3c228201a3fc5d2301d1fc7a00bde13",
+                "a72f710d89eaabf23dad7c084082bccb26e6336f",
+                "eb84dd1b73df035e6e64c8513daaa476c72dedfc",
+                "5b73860e65598203b26d57aabc96ae0f52c9f9ab",
+                "d64cfe5c05448935c75c92f65d604c751bbf5153",
+                "62626677876330d60fe3512f59f1fd8f82799ca5",
+                "43842efeccbd8077dba8f85fc9e772e0647b82cb",
+                "d6cd7ce43faa53d212052dbbcf209029ec2ec951",
+                "ebefcddc3c4b99ae312ac575c288856e177ed6ef",
+                "83add60f217d32561ff0ff62ebf1d6db6a2a11a3",
+                "14af6755f04233fbe55cb354a9351fe05afd43a0",
+                "8530167f7f5b5eb329f5377b6b74a904482a10ed",
+                "000d36e109f5d04bad5342bb779e02b2b9b252f7",
+                "1db687f4f480c06e6cadfdb0971985df4313ddc7",
+                "689e8ec9493a4294856dc1568f5ef667e106707c",
+                "0eb8a1aac3d903b3c7925208c34f09c02910e7aa",
+                "edb31ce0a6fd7956bffc0829000c60bdd56b9f32",
+                "53fce307557cbffdbc54647ef63956b2cb0cee86",
+                "c22d5c90cf907f4f34d2bc13cad9c82a7fce9077",
+                "ef1c1c4289559e818d3ec77ce9c1b6a77d2ac764",
+                "2da44f8c7b703f87e9c07164c9cc1cdd31031783",
+                "ee102305fb35a23668136b102ed4d0dd5b3d9ce5",
+                "3ca0e1ff95c54577c65b5fbb734c267c23782974",
+                "f115a5f6c8c2a3cc6340408e6644236a88dcaad0",
+                "29ba9b3179d014cc87129af5c51b1263443f387b",
+                "c1ca18404fa63209e0a65abf443669155991b4df",
+                "5bb81469895d669ddcb4b49e83809a980d57d6b1",
+                "6feb7bda04b3130e81cf9606ddb7a156d4a63f7a",
+                "7c8550af53b4d428d8f3a7c19c0c4a8ebca8ff21",
+                "7766c1e07bd49fdc290f0557268950d35b867823",
+                "4903df2ed52a01f08626739ad35937752de82a09",
+                "58feafa848d9657dda34e5ccc3a196e359566bda",
+                "9e787db1b108941edab18209a7468e6c555002ce",
+                "e7953c3609b62a25b0bfedcd9d3885ca1b99d2fb",
+                "8c3b6b18689796bc9625258258e8664746b24e85",
+                "dd3cb8822352fd4acc0b8b426bd86e47e98f6853",
+                "cc524f1b729cb5d7592d0a0b07cb3ff1fe6eda98",
+                "c22ac4876f0a218584ae862900f3058470be38a3",
+                "c1fb904d1047359e8c4dadafaa0ab065efe9e03e",
+                "1f176f3c0dae283d66df5360de8a93ec14b4fbd0",
+                "50f0faa795dc62773857a0cc3cfb6d5681ba3562",
+                "3fbf1856025f54b6eab6e73b7ff8aa4d1020e1c1",
+                "f4a4391e4ef7e886e56816ae59cbe99d8cff91d9",
+                "2d9ef3af72e89ad9df164bd0f435371aa4fa0dea",
+                "187792e35bb47c89fdfe34409162c814627daacc",
+                "b322073f27b0e9e60b2ab07eff7f4e96a24cb3f9",
+                "f78bf211f023d28392c6aa0d1934bb1001b3a180",
+                "20af7e70e2511b4da0e035bf2fa2d6295f198970",
+                "f8eb40433c4a8617a20ad36119973af6f9dd2cd0",
+                "d7dea0e925315bab640115053204c16718839b1e",
+                "295c70865d10d7c57ba13cbef45c1d276ebfa83e",
+                "5a87153824b838be92503b57e76e96519b84b522",
+                "fec4c5ab0a75d7e6a46955bda0818bed7f8fecf3",
+                "6a76ecb1ce53d9e623826b238033b86f072395a9",
+                "2c037b7fd98e1c03e0c67ceccfd8e3300457e07e",
+                "4ce8d973204ebace2970c662f6f841ab11a3cc13",
+                "870119e763b5976d7331fbd8656ed65207ba95ad",
+                "58fc93160e03387a4f41dcf4aed2e376c4a92db4",
+                "a3b0209cc61301941810e54bc3678ccff9af71c1",
+                "ec005e73b9169d17651618b91836a5d86eb7b24c",
+                "2fac2dad91e390acb8937ede6154c265b7011cf9",
+                "0195469398f4fc1d42c0c20172b51e03ccf9ff1a",
+                "8d0b06257ba659ee91fa3862ed358cecbee37f73",
+                "6516e6ce8c7c71e44f95332ef740ea4082cfee39",
+                "55d61e22c5e0e4dc00c99847ba20a8ffa1e3a3d4",
+                "ca73d7aede7eaa05f4a0acb4bd5cb17a9408cd27",
+                "43fabe36d18fa36326d9e5efd2cca8b9376a7fdf",
+                "c06f92353f4f74cdb1c66ee0bbae1cdbb46934ce",
+                "d6fae7bb26807a386f5dd9a1ec2dc5ac51c24498",
+                "bde8bf2ebc5630399c7d0965f58b502100180400",
+                "444cc2989aca50986b45a56bfd8a32bd7ea23c1c",
+                "f5dfd9a702ad163be35023fe08c9573a614d6121",
+                "6c2f20eeeca488b98a613e013712d7c9a3d1e619",
+                "cc42996625afaf38d281f2457b08551a3df0d7bc",
+                "903680701ad5cf25484d0ac3e78152807dfa90b3",
+                "69228248334a576549a9af9df389b3cbfe0c211c",
+                "6460fd79667466d2d9ec03f77f319a241c58d40b",
+                "7d9244eab20fc96230636a066f88ad5165c34bc7",
+                "9387ebb6ba5fca526aedb54c7df684102639caa3",
+                "b21b19e0607582cceb8d715b85d27ec113a0b799",
+                "c4821b6f3e0a41af6bf3ed1cfa168c13381b9554",
+                "397b675315d00a34a09f058dd7e462af6f715da3",
+                "c504f85aabbff0d7380ca9da3f6051c56905c7c0",
+                "0f8f0601ae5668510ab7bde03041dafd39b18ec6",
+                "c3ab8d0cb4b439b7691edf7b63fcecd169834250",
+                "22df5551ed7367eb9cbb0cc22aea46351d2495ad",
+                "d284fdfaa36d37cbba5749562d6f9303ebab7d2f",
+                "a9a503082e492575be352c9c82040c1f4ed468d1",
+                "5fedffd8fd387b24b25186622c9566325ab3db1b",
+                "dc827aa0ee51829d292524fdf3a7a163feadabe2",
+                "f925aa3503eeba9d372c74d1fe2b17c8ecd97960",
+                "bc1d229dbe94a0100f4530b47e9c918f27b8cecd",
+                "71a57166c1209103dcd4355d21c161bd0f09e481",
+                "a9644c209f7764f9155db0c4aeb4f690c0cdb585",
+                "bcfdee970e8a32d04b472cd2c5712e10a5e425fe",
+                "3c474b9e2aad7c577faefca6c35a8512140c0c65",
+                "c34b3d5ce90a6b2828d5b97f553f4b49f64081af",
+                "286fffa4eeda7745f3b36dc938dae3e155d1b204",
+                "d1f0d5705debbe4d4b1aed7e087d5c49300eb271",
+                "08fdb50b03dc810ca8c4386f4f8271a8d51d4445",
+                "c44ab12c86689065978950d2ed92bb131b2a932c",
+                "5df859ad240af502aebef01ca28da3ef24951e05",
+                "ef4efd065cb6c136c7fcbdd65285cff549b745ac",
+                "2f1b2ce204490854938fab57142b557caa4ab66d",
+                "a36d471a0ef4e119ecfb41257aad246464024a40",
+                "83663f82e3d76f57ea57faf80b8fd7eb96933b9b",
+                "e8f5b543010eb0db146fd2593284ed19af93eccd",
+                "c8512754166539461fd860451ff1a0af7491c197",
+                "dc4c502efd85727abfed95af7789caa7f10d020d",
+                "4940cee052ece5a8b2ea477699e7bb232de1e1f8",
+                "025e6be6c5dc3d535286461088416afa74c42927",
+                "b4cda7a6cabf1966daf67f291c2c41ff9a1369f4",
+                "074441b495052c456f4b96524bd7a80d00db42e8",
+                "5847aacb32742fd734fa2c0584cae65636bba370",
+                "f9590b0927744d22ad0e1b737eecd07a48bb4c2f",
+                "e05f807a8936b4491632290f13958ca26d0aaace",
+                "fd0087d3acdc4c5865de1829d4accee5e3ebb658",
+                "38f729e577e07b2c3333ed4b04146e1d64f665a8",
+                "8a8eb57746e5372080a5f5e5b6fb9dce178c8220",
+                "afa8443118347a1f909941aec2732039d28a9034",
+                "d6eb76f8a2184688489fc3a611d80de36ef50877",
+                "0f397d4e145fb4053792d42b3424dd2143fb23ad",
+                "ba613c5a847ff30d312726eeff444714f8e31cde",
+                "445bebc1b16b1f2646a3cae841fe0e1266d79ada",
+                "e2ed997ae5b675fc8e78e7d0f9e6918c8b87503c",
+                "3b95acdfa1e54de15cae2fc3083147a185a31792",
+                "cacc15360ec04abb4c45f918e83bf33203946e32",
+                "09809b551ce9f05e96fc3055ae7a23329604415b",
+                "2a9511a0266afd48251609a03533094afe22fce2",
+                "b6cf7a6c8520fd21e75f8b3becec6dc355d844b0",
+                "fc3981ea5c10fb21cae6d6a8e78755be5b169999",
+                "dc34fe188385f42198997f6aedc170487c57c7eb",
+                "e9f8f8528abef64b8e1b8bc046a008b009ab2417",
+                "fe9f7668957641a404b0d2c8850f104df591e7f2",
+                "8da9c6878fa29f33dcfd74b1146d457a576d738a",
+                "4622c8ac9541790365eda22b6ce65d038f4026fe",
+                "3977c892e78d91a0c6d2a34fd2512a6c53c8d924",
+                "1bd146ed82f771395f991851f7d896d9ae778f3c",
+                "77085907a44039fe1cf9fe24d9c7675aa53d2f9b",
+                "107bad0ee5141bb847257a6f57dff2469dd584da",
+                "2da159823d0a54756308e73dc0e58a420daffad4",
+                "94fb37f5573e1484ba686b195079684cace18eb0",
+                "5c6332687d5d7c902cdd954e4e6a107ed6c60848",
+                "8b77eba9a6b506c71d1542d2fab1495249a7f7b6",
+                "da32455210de558c829f089e8c3a3d1ed8c34a5b",
+                "e1c14b3ca245fd06ef538005cd3a250904be5b4c",
+                "f0d1a8fc27830b899c5789ba2f80dfa9458792a4",
+                "846e522ffc157c12ba244c2c8a2c6adb1ed789f7",
+                "2a452c17aa2417cd89b5e25e8549f9e09c94a0dc",
+                "3cd416efe1e5b7d1679a20a91a73d757d481633b",
+                "e0de51f53c6b2711f39f4f29eb58b63a9ebf2c5c",
+                "f7837f4f717a9f09cf34fc325061ee8e38d1100a",
+                "13a5703d853fbd311e1fcfc5c95d459021781951",
+                "2aebf7d849e47ca927de332b82983ba8fe03d062",
+                "56bc1485df0ac0c2fe8ae5e0499e50a0580f2522",
+                "8d0f911e1d9265a8f362a7a16b893f7c40aee434",
+                "dc82e30089dbba31a1d0cf459321486a9b546fa0",
+                "4d863b7bd0d7da6ca1108031fd7d7997bf504496",
+                "73ba097bf596249068513559225d6e18c1767b47",
+                "da109f3af037352af24f935b1ea57ba8a7f26cad",
+                "3c52181f613353cc3b8aefbbf637c15a11cb8242",
+                "c96cde4e5db0da7e798e2712c2312f2468720a98",
+                "52a8c004ca94cf98f6866536de828c71eb42d1ec",
+                "b89112c542edcc9cf5af75694c16af28a3e4f12b",
+                "c099a20eb8bd084c17d9348bd0f6bef066ea514f",
+                "8067e34ec01588d2952d57e21c8c637fd3d3d114",
+                "9d4f6b3d3d4feba35ea13097be415bf099b670ce",
+                "334b1963711b743bf014502c5513a82a23eb65cc",
+                "190e50b08dbd72fd1d9f21f20581fa27a498481c",
+                "4c43b0f49880840966cb5df13abeeb19aa8e16d7",
+                "9946e299af9e911a54c83626f245dff20127e442",
+                "9825a26db570697e058a4580ec3b71ab3d82fc24",
+                "f8daab8a96fe2c73974073696d00deb4ffb40d47",
+                "88989e66d3a1ab960deb37f3dd7f824d85e1b9bc",
+                "c5eef904604b7e22083927bb99ea0c196d4cb8b9",
+                "4661c239dc6394aba960ba73144f2a7e3859537f",
+                "9303a8f15f6e55931a08542636922c1bf041ad52",
+                "9d91f080ced0bbfcbd3c003e2a20c9cdc81bc4ff",
+                "99233fde8c4f58853a474a5831ef0bcf6bf866c5",
+                "14a7d2f468404e25577dced6982248e80ddce79a",
+                "b6a1b889852cd6b365833ce2b04a0c1092867f75",
+                "5d6c507d7cfeff97172deedf3db13b5295bcacef",
+                "b89cd0cf5cf5deec2ed6fdc0d8ed4e4f3167aeb4",
+                "be02944484da197166020d6b3f08a19d7d7d244c",
+                "c37b9125ecaad0c100b6851baacf97adfa2339d6",
+                "045e9ae4a0fa8bff397b3c4f2614a3e609e6dd66",
+                "9744d72c740dd8cdfbb8cb4c58fb235355e0a0b4",
+                "74005ed4e0cdbc87ce40c6b79edfd599ba2355e9",
+                "1d7207079fc6ab5b2cbfedda3fc8993bc4441b02",
+                "8961fd20e6e213bf967db90166e24d38da065807",
+                "dd5576b2b3f5667811f882d1f64a11e13164791a",
+                "8600e6f3158bafe927706f0613c1520971d16c32",
+                "e9c1b0144ae784df9d26f59bfadd8cb2fc3a1d69",
+                "6423c8d2613e5130e9c37620773d2173c76f0acd",
+                "b48acf4613cc5347ca10b6d6edd6e1b94a5378c4",
+                "6c285c1d4964662ac64f0b98620d154caf423d79",
+                "312f997de638b8c18f92a59596a984bdb1a06a4e",
+                "11d14f2621370a527d2401c8bba10d2408819131",
+                "a6044b701c166fe538fc760f9e2dcea3d737cd2a",
+                "91a3f162afc90339b1d8f8d2f22d9c4271eddb84",
+                "54301f55934f42598b8f7c88effc4bd588e5f3e7",
+                "29f5cb6b391eea625c512df1f2ae7d9efccfbae9",
+                "087caf69e8cabd8f1f66f6239079b60172c9fb78",
+                "21ed4766b1523373b0463af497ef1c6b3b98c2ca",
+                "30b33064169e09e1c5daacb38ed461ed5820d0d2",
+                "a8a798a7c9b1da5beea8acfec16409d015ad85a7",
+                "a4f2e1e1878c1ce541aec24e6e2a690855cc8003",
+                "d06a2dab9f185c8cd2c21c0c97342cbdb7b9f38b",
+                "12a63757dbde3b0be25b49bc9e7625059088d319",
+                "35ae1c48710ff5a4db20645bc98c719cfb695b9a",
+                "85cd86999f70339509692b92cf182ec36697edcf",
+                "10d49f830b52ed05d9b41e18c8e1ff4a44a85fb3",
+                "3f35b26b8b2dcd856b12b985f9091260d5c5bd71",
+                "1a37242fa2af5db30ea72b95f948285efcd63d52",
+                "b49bd705dcddd496aedb6e797ce8691d276236af",
+                "eb2ae34c80f6b8ffb1bdfc55287d967c6e18cd81",
+                "39fbf0a90423a1e6e31c6c042acd9aea00793a18",
+                "d658fb8a2566cab11600af4db164c5f1f8656116",
+                "f4cf808a3d184c556a51cd53d98a2f4ea05acee4",
+                "bdff595cad6a42ba9675f99505bebecdb28209f0",
+                "9377591781a5346ed84517688787c305ed6554c4",
+                "19099e065da7c810f93e83d68c0776c2336e5e03",
+                "a1ac9b101571477a81e1cb3c6999f818bbbf0738",
+                "54968f68bc2ba50f59a66fba9f6823215a0bc4f6",
+                "9455a8ce3aaccceb4c282ef6c84d7edb36dd0d4c",
+                "21c344a479a8fd359a9c875f3056a7e72fe4d5fb",
+                "00abcf89d9ad026ddce4af0038db7953b01d8b8b",
+                "1a246dd54326124df57cb0e8e051f57abb549c9f",
+                "07db66a6ef857edee2c731d1b66f42a4f32d9622",
+                "d4867a6583c17001a60590684d91237a580e786a",
+                "46573774a27c7a4d20d508f1f07ba72d34616bc3",
+                "9184d9473d7b5ecb0dddca4052171534523602be",
+                "f6593810da73cf8e1cc982d9020850260fc1ff52",
+                "a9442e6660e71fd2058310e6155de3ef5e4f5fdf",
+                "cee97cb0ccad90c369b10d6a9512d678a0535cac",
+                "aaca2848a1e1eefa71ce2987b19abae2d34cf3aa",
+                "3125b53b1aef485ed2239d514b131ef80ad577c1",
+                "2990f254f030e62ab15b9399e26368aa3e291d15",
+                "b19b8a9677ae9e657e0195ac85a4849a67729cf6",
+                "e3b14402ebded2a7ec8f38809bf907ac72692ede",
+                "37d229d0262b6fa7dfb96184eff3f7882ddd487e",
+                "8002fd226367c0882973c69673bf8379df2fc198",
+                "a1c3e0db94579f59cc821132f958187339e68d88",
+                "4fdec5a8e10f95a5dbfd84cf382f2755f0342fda",
+                "ef73d7e235c4d4ab41402835193ac9ba0c4cc485",
+                "ad3d14f1da33d00ee3506f12922fb3faf87b65d7",
+                "a1d509759b9195a1c022f2eb9585b74d07a0f084",
+                "b7e54b0b41757cd36dd03fb29367b385c5fa3be0",
+                "d909440c48b7b64b016478de1e6ee78e2faa9e13",
+                "2ca9dc306e8c667eb9f00376898be52d8b980c88",
+                "031524c73df6fd40b13e89c44e86d4a62d77075b",
+                "6fae0d4fa68a85a1d552c5ae3140dd39f7a05c88",
+                "fb27b4238cd6c33bd899e240ead4b5fb8a2a24b1",
+                "0890cc54a92627c03119654c94c584a2e3c744ca",
+                "339edce03ed7fe59ec4a778abff243fa4cabaa23",
+                "2329014b6dbc473326291fa6e101e6d63c4dbd25",
+                "872663148e00c4d272fc67e8d369a5012ccbac5a",
+                "0e3b1262a168d51512014c4f7df6c37edce0f05d",
+                "606d9064b0a6abd82da3731fda9f1558ec1f153c",
+                "4bd39999a06fa1f710daae54c6cc8ca7d5784f58",
+                "562cd20d05e0427e6b18daa279a3a5f3b08c889d",
+                "4bbd44784c7c4eede8e53011a2c4981c16598d1f",
+                "dc4bd4cece9a6de7926e85a09f152fe4697a8bc5",
+                "770e2583907fa38e2b78601a90799b6ae7ab15eb",
+                "f34b3b765fb964dee979ac7646b6d609adbeb2ba",
+                "aa10040b570386c1ae311c6245b9e21295b2b83a",
+                "fff015f4094ab80ff2eb4978f8cdb3711187c50a",
+                "5b2be7d9d8444e0a5b706944c878cd0048ef026a",
+                "2cd0ee8cf21eecaa9d39d699692284be44cf6ca2",
+                "451043367be65468dd96bbf5868af666b25f1663",
+                "4fc29224cf362988a741dc07804225f730a326ec",
+                "dd6bc28afb3bafdde93ad7ed9f58b3a0aec2be99",
+                "1597c68f7b941fd97881155d7f077852e2914e7b",
+                "e59984353acde7207aa1115e261847bf4ddd9a8f",
+                "ee1000e153e1b7c8f223bb573bb8169d2033f4af",
+                "1d3b2589d734dc94a1719a3af40b87ed8319f329"
+              ]
+            },
+            "publicationTime": "2015-08-06T00:00:00+00:00",
+            "disclosureTime": "2015-05-18T15:59:00+00:00",
+            "isUpgradable": false,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [
+                "CVE-2015-3627"
+              ],
+              "CWE": [
+                "CWE-59"
+              ]
+            },
+            "credit": [
+              "T\u00f5nis Tiigi"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "cvssScore": 8.4,
+            "patches": [],
+            "upgradePath": []
+          }
+        ],
+        "licenses": []
+      }
+    },
+    "Semver6": {
+      "title": "Semver6",
+      "required": [
+        "hashesRange",
+        "vulnerable",
+        "vulnerableHashes"
+      ],
+      "type": "object",
+      "properties": {
+        "hashesRange": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "vulnerable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "vulnerableHashes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "hashesRange": [
+          ">=0ef6afb2f6cdd6cdaeee3885a95099c63f18fc8c <d91630c8510268e75203009fe7daf2b8e1d60c45"
+        ],
+        "vulnerable": [
+          "=1.2.0"
+        ],
+        "vulnerableHashes": [
+          "c596ec57260fd2ad47b2ae6809d6890a2f99c3b2",
+          "36e9d2ebbde5e3f13ab2e25625fd453271d6522e",
+          "f6920249aa08fc2a2c2e8274ea9648d0bb1e9364",
+          "0ef6afb2f6cdd6cdaeee3885a95099c63f18fc8c"
+        ]
+      }
+    },
+    "Testvendor.jsonFileresponse": {
+      "title": "Testvendor.jsonFileresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues7"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      }
+    },
+    "target": {
+      "title": "target",
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "string",
+          "example": "{\\\"comment\\\":\\\"\\\",\\\"ignore\\\":\\\"test\\\",\\\"package\\\":[{\\\"checksumSHA1\\\":\\\"o/3cn04KAiwC7NqNVvmfVTD+hgA=\\\",\\\"path\\\":\\\"github.com/Microsoft/go-winio\\\",\\\"revision\\\":\\\"78439966b38d69bf38227fbf57ac8a6fee70f69a\\\",\\\"revisionTime\\\":\\\"2017-08-04T20:09:54Z\\\"},{\\\"checksumSHA1\\\":\\\"GqIrOttKaO7k6HIaHQLPr3cY7rY=\\\",\\\"path\\\":\\\"github.com/containerd/continuity/pathdriver\\\",\\\"revision\\\":\\\"617902de2ab5e18974efd88a58eeef67ac82d127\\\",\\\"revisionTime\\\":\\\"2017-09-25T16:43:31Z\\\"},{\\\"checksumSHA1\\\":\\\"ndnAFCfsGC3upNQ6jAEwzxcurww=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/longpath\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"IVWozKA/coqhti24Ss2b1nLrTSg=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/mount\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"YdUAOhhc/C0zu+eYrJOJjDwr1/4=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/symlink\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"UEMAKQqAyL9hs6RWxesQuYMQ3+I=\\\",\\\"path\\\":\\\"github.com/docker/docker/pkg/system\\\",\\\"revision\\\":\\\"74a084162ce544fe995715ba47aa84d3d75b95c1\\\",\\\"revisionTime\\\":\\\"2017-09-26T16:09:50Z\\\"},{\\\"checksumSHA1\\\":\\\"UmXGieuTJQOzJPspPJTVKKKMiUA=\\\",\\\"path\\\":\\\"github.com/docker/go-units\\\",\\\"revision\\\":\\\"0dadbb0345b35ec7ef35e228dabb8de89a65bf52\\\",\\\"revisionTime\\\":\\\"2017-01-27T09:51:30Z\\\"},{\\\"checksumSHA1\\\":\\\"RCARG9BoOH6jwbqnuix2Ne3K26w=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"OVGl5SGmF1HZmaG6JRmkyWiycYA=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/cgroups\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"q56oWh80PeIBiE/8nQ/Emz18ZZ8=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/cgroups/fs\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"3NQtWwKOT4BlnSWn0tTsy/N+XhU=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/console\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"WPIuCuWS1RkrGCHBRZuOJku7ZBc=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/devices\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"HLo2E8AWKNCwE2p7ndEkKc4SPnM=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/label\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"KYcr4bHkervvLS5wuH9w1+EhflY=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/mount\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"tvHnvhbm17pLR/fA2WXWYlY9aDs=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/mount/nodes\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"k9+kwIouq8vqmodLrGFp+9I7Jxs=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/netlink\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"ndpCrSi/XKZNCCrkjpQ2cgMIxKA=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/network\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"cfgnX7wKfSHOJ4mbhKyjAWizl+s=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/selinux\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"M7/2WUk1uzgdqc5Ce/k9UcSyv1M=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/system\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"2ZMmNaPI3TM4WyMjCw+h1jErSr0=\\\",\\\"path\\\":\\\"github.com/docker/libcontainer/utils\\\",\\\"revision\\\":\\\"53eca435e63db58b06cf796d3a9326db5fd42253\\\",\\\"revisionTime\\\":\\\"2014-12-02T23:28:38Z\\\",\\\"version\\\":\\\"v1.4\\\",\\\"versionExact\\\":\\\"v1.4.0\\\"},{\\\"checksumSHA1\\\":\\\"rJab1YdNhQooDiBWNnt7TLWPyBU=\\\",\\\"path\\\":\\\"github.com/pkg/errors\\\",\\\"revision\\\":\\\"2b3a18b5f0fb6b4f9190549597d3f962c02bc5eb\\\",\\\"revisionTime\\\":\\\"2017-09-10T13:46:14Z\\\"},{\\\"checksumSHA1\\\":\\\"BYvROBsiyAXK4sq6yhDe8RgT4LM=\\\",\\\"path\\\":\\\"github.com/sirupsen/logrus\\\",\\\"revision\\\":\\\"89742aefa4b206dcf400792f3bd35b542998eb3b\\\",\\\"revisionTime\\\":\\\"2017-08-22T13:27:46Z\\\"},{\\\"checksumSHA1\\\":\\\"nqWNlnMmVpt628zzvyo6Yv2CX5Q=\\\",\\\"path\\\":\\\"golang.org/x/crypto/ssh/terminal\\\",\\\"revision\\\":\\\"847319b7fc94cab682988f93da778204da164588\\\",\\\"revisionTime\\\":\\\"2017-08-18T09:57:21Z\\\"},{\\\"checksumSHA1\\\":\\\"uggjqMBFNJd11oNco2kbkAT641w=\\\",\\\"path\\\":\\\"golang.org/x/sys/unix\\\",\\\"revision\\\":\\\"429f518978ab01db8bb6f44b66785088e7fba58b\\\",\\\"revisionTime\\\":\\\"2017-09-20T21:38:28Z\\\"},{\\\"checksumSHA1\\\":\\\"pBPFzDGt3AVSRffB7ffiUnruFUk=\\\",\\\"path\\\":\\\"golang.org/x/sys/windows\\\",\\\"revision\\\":\\\"429f518978ab01db8bb6f44b66785088e7fba58b\\\",\\\"revisionTime\\\":\\\"2017-09-20T21:38:28Z\\\"},{\\\"checksumSHA1\\\":\\\"o5NrWoSkC+ugoK9D6ragLSrXHw0=\\\",\\\"path\\\":\\\"gopkg.in/square/go-jose.v2\\\",\\\"revision\\\":\\\"296c7f1463ec9b712176dc804dea0173d06dc728\\\",\\\"revisionTime\\\":\\\"2016-11-17T00:42:38Z\\\",\\\"version\\\":\\\"v2.0\\\",\\\"versionExact\\\":\\\"v2.0.1\\\"},{\\\"checksumSHA1\\\":\\\"j94zYNLTvPSnfnqVKJ4LUf++uX4=\\\",\\\"path\\\":\\\"gopkg.in/square/go-jose.v2/cipher\\\",\\\"revision\\\":\\\"296c7f1463ec9b712176dc804dea0173d06dc728\\\",\\\"revisionTime\\\":\\\"2016-11-17T00:42:38Z\\\",\\\"version\\\":\\\"v2.0\\\",\\\"versionExact\\\":\\\"v2.0.1\\\"},{\\\"checksumSHA1\\\":\\\"JFun0lWY9eqd80Js2iWsehu1gc4=\\\",\\\"path\\\":\\\"gopkg.in/square/go-jose.v2/json\\\",\\\"revision\\\":\\\"296c7f1463ec9b712176dc804dea0173d06dc728\\\",\\\"revisionTime\\\":\\\"2016-11-17T00:42:38Z\\\",\\\"version\\\":\\\"v2.0\\\",\\\"versionExact\\\":\\\"v2.0.1\\\"}],\\\"rootPath\\\":\\\"with-vuln\\\"}"
+        }
+      },
+      "description": "the `vendor.json` file, encoded according the the \"encoding\" field."
+    },
+    "encoding": {
+      "title": "encoding",
+      "enum": [
+        "plain",
+        "base64"
+      ],
+      "type": "string",
+      "description": "the encoding for the manifest files sent."
+    },
+    "files1": {
+      "title": "files1",
+      "required": [
+        "target"
+      ],
+      "type": "object",
+      "properties": {
+        "target": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/target"
+            },
+            {
+              "description": "the `vendor.json` file, encoded according the the \"encoding\" field."
+            }
+          ]
+        }
+      },
+      "description": "The manifest files:"
+    }
+  },
+  "referenced_common_schemas": []
+}

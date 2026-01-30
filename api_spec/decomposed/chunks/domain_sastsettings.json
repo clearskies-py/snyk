@@ -1,0 +1,312 @@
+{
+  "tag": "SastSettings",
+  "endpoint_count": 2,
+  "schema_count": 1,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/settings/sast",
+      "operation_id": "getSastSettings",
+      "summary": "Retrieves the SAST settings for an org"
+    },
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}/settings/sast",
+      "operation_id": "updateOrgSastSettings",
+      "summary": "Enable/Disable the Snyk Code settings for an org"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/settings/sast",
+      "method": "GET",
+      "operation_id": "getSastSettings",
+      "summary": "Retrieves the SAST settings for an org",
+      "details": {
+        "description": "Retrieves the SAST settings for an org\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "operationId": "getSastSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "The id of the org for which we want to retrieve the SAST settings",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SastEnablement"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The SAST settings for the org are being retrieved",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Retrieves the SAST settings for an org",
+        "tags": [
+          "SastSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-22"
+        ],
+        "x-snyk-api-resource": "sast_settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-06-22",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/settings/sast",
+      "method": "PATCH",
+      "operation_id": "updateOrgSastSettings",
+      "summary": "Enable/Disable the Snyk Code settings for an org",
+      "details": {
+        "description": "Enable/Disable the Snyk Code settings for an org\n\n#### Required permissions\n\n- `View Organization (org.read)`\n\n- `Edit Organization (org.edit)`",
+        "operationId": "updateOrgSastSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "The id of the org for which we want to update the Snyk Code setting",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "sast_enabled": {
+                            "description": "The value of the updated settings for sastEnabled setting",
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "sast_enabled"
+                        ],
+                        "type": "object"
+                      },
+                      "id": {
+                        "format": "uuid",
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "type",
+                      "attributes"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SastEnablement"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The SAST settings for the org are being updated",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Enable/Disable the Snyk Code settings for an org",
+        "tags": [
+          "SastSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-08-24~experimental",
+          "2023-09-11"
+        ],
+        "x-snyk-api-resource": "sast_settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-09-11",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "SastEnablement": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "properties": {
+            "autofix_enabled": {
+              "type": "boolean"
+            },
+            "sast_enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "sast_enabled"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

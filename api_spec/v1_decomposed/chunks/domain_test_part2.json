@@ -1,0 +1,1509 @@
+{
+  "tag": "Test",
+  "endpoint_count": 2,
+  "schema_count": 19,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/test/npm/{packageName}/{version}",
+      "operation_id": "Testforissuesinapublicpackagebynameandversion",
+      "summary": "Test for issues in a public package by name and version"
+    },
+    {
+      "method": "POST",
+      "path": "/test/npm",
+      "operation_id": "Testpackage.json&package-lock.jsonFile",
+      "summary": "Test package.json & package-lock.json File"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/test/npm/{packageName}/{version}",
+      "method": "GET",
+      "operation_id": "Testforissuesinapublicpackagebynameandversion",
+      "summary": "Test for issues in a public package by name and version",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Test for issues in a public package by name and version",
+        "description": "Test for issues in npm files.You can test `npm` packages for issues according to their name and version.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "Testforissuesinapublicpackagebynameandversion",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          },
+          {
+            "name": "packageName",
+            "in": "path",
+            "description": "The package name. For scoped packages, **must** be url-encoded, so to test \"@angular/core\" version 4.3.2, one should `GET /test/npm/%40angular%2Fcore/4.3.2`.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "ms"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The Package version to test.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "0.7.0"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Testforissuesinapublicpackagebynameandversionresponse"
+                    },
+                    {
+                      "example": {
+                        "ok": false,
+                        "issues": {
+                          "vulnerabilities": [
+                            {
+                              "id": "npm:ms:20151024",
+                              "url": "https://snyk.io/vuln/npm:ms:20151024",
+                              "title": "Regular Expression Denial of Service (ReDoS)",
+                              "type": "vuln",
+                              "description": "## Overview\n\n[ms](https://www.npmjs.com/package/ms) is a tiny millisecond conversion utility.\n\n\nAffected versions of this package are vulnerable to Regular Expression Denial of Service (ReDoS)\nattack when converting a time period string (i.e. `\"2 days\"`, `\"1h\"`) into a milliseconds integer. A malicious user could pass extremely long strings to `ms()`, causing the server to take a long time to process, subsequently blocking the event loop for that extended period.\n\n## Details\nDenial of Service (DoS) describes a family of attacks, all aimed at making a system inaccessible to its original and legitimate users. There are many types of DoS attacks, ranging from trying to clog the network pipes to the system by generating a large volume of traffic from many machines (a Distributed Denial of Service - DDoS - attack) to sending crafted requests that cause a system to crash or take a disproportional amount of time to process.\n\n\nThe Regular expression Denial of Service (ReDoS) is a type of Denial of Service attack. Regular expressions are incredibly powerful, but they aren't very intuitive and can ultimately end up making it easy for attackers to take your site down.\n\n\nLet\u2019s take the following regular expression as an example:\n```js\nregex = /A(B|C+)+D/\n```\n\n\nThis regular expression accomplishes the following:\n- `A` The string must start with the letter 'A'\n- `(B|C+)+` The string must then follow the letter A with either the letter 'B' or some number of occurrences of the letter 'C' (the `+` matches one or more times). The `+` at the end of this section states that we can look for one or more matches of this section.\n- `D` Finally, we ensure this section of the string ends with a 'D'\n\n\nThe expression would match inputs such as `ABBD`, `ABCCCCD`, `ABCBCCCD` and `ACCCCCD`\n\n\nIt most cases, it doesn't take very long for a regex engine to find a match:\n\n\n```bash\n$ time node -e '/A(B|C+)+D/.test(\"ACCCCCCCCCCCCCCCCCCCCCCCCCCCCD\")'\n0.04s user 0.01s system 95% cpu 0.052 total\n\n\n$ time node -e '/A(B|C+)+D/.test(\"ACCCCCCCCCCCCCCCCCCCCCCCCCCCCX\")'\n1.79s user 0.02s system 99% cpu 1.812 total\n```\n\n\nThe entire process of testing it against a 30 characters long string takes around ~52ms. But when given an invalid string, it takes nearly two seconds to complete the test, over ten times as long as it took to test a valid string. The dramatic difference is due to the way regular expressions get evaluated.\n\n\nMost Regex engines will work very similarly (with minor differences). The engine will match the first possible way to accept the current character and proceed to the next one. If it then fails to match the next one, it will backtrack and see if there was another way to digest the previous character. If it goes too far down the rabbit hole only to find out the string doesn\u2019t match in the end, and if many characters have multiple valid regex paths, the number of backtracking steps can become very large, resulting in what is known as _catastrophic backtracking_.\n\n\nLet's look at how our expression runs into this problem, using a shorter string: \"ACCCX\". While it seems fairly straightforward, there are still four different ways that the engine could match those three C's:\n1. CCC\n2. CC+C\n3. C+CC\n4. C+C+C.\n\n\nThe engine has to try each of those combinations to see if any of them potentially match against the expression. When you combine that with the other steps the engine must take, we can use [RegEx 101 debugger](https://regex101.com/debugger) to see the engine has to take a total of 38 steps before it can determine the string doesn't match.\n\n\nFrom there, the number of steps the engine must use to validate a string just continues to grow.\n\n\n| String | Number of C's | Number of steps |\n| -------|-------------:| -----:|\n| ACCCX | 3 | 38\n| ACCCCX | 4 | 71\n| ACCCCCX | 5 | 136\n| ACCCCCCCCCCCCCCX | 14 | 65,553\n\n\n\n\nBy the time the string includes 14 C's, the engine has to take over 65,000 steps just to see if the string is valid. These extreme situations can cause them to work very slowly (exponentially related to input size, as shown above), allowing an attacker to exploit this and can cause the service to excessively consume CPU, resulting in a Denial of Service.\n\n## Remediation\n\nUpgrade `ms` to version 0.7.1 or higher.\n\n\n## References\n\n- [OSS Security advisory](https://www.openwall.com/lists/oss-security/2016/04/20/11)\n\n- [OWASP - ReDoS](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS)\n\n- [Security Focus](https://www.securityfocus.com/bid/96389)\n",
+                              "functions": [
+                                {
+                                  "functionId": {
+                                    "filePath": "ms.js",
+                                    "functionName": "parse"
+                                  },
+                                  "version": [
+                                    ">0.1.0 <=0.3.0"
+                                  ]
+                                },
+                                {
+                                  "functionId": {
+                                    "filePath": "index.js",
+                                    "functionName": "parse"
+                                  },
+                                  "version": [
+                                    ">0.3.0 <0.7.1"
+                                  ]
+                                }
+                              ],
+                              "from": [
+                                "ms@0.7.0"
+                              ],
+                              "package": "ms",
+                              "version": "0.7.0",
+                              "severity": "medium",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "js",
+                              "packageManager": "npm",
+                              "semver": {
+                                "vulnerable": [
+                                  "<0.7.1"
+                                ]
+                              },
+                              "publicationTime": "2015-11-06T02:09:36+00:00",
+                              "disclosureTime": "2015-10-24T20:39:59+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": true,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "ALTERNATIVE": [
+                                  "SNYK-JS-MS-10064"
+                                ],
+                                "CVE": [
+                                  "CVE-2015-8315"
+                                ],
+                                "CWE": [
+                                  "CWE-400"
+                                ],
+                                "NSP": [
+                                  46
+                                ]
+                              },
+                              "credit": [
+                                "Adam Baldwin"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+                              "cvssScore": 5.3,
+                              "patches": [
+                                {
+                                  "comments": [],
+                                  "id": "patch:npm:ms:20151024:5",
+                                  "modificationTime": "2019-12-03T11:40:45.777474+00:00",
+                                  "urls": [
+                                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_5_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk5.patch"
+                                  ],
+                                  "version": "=0.1.0"
+                                },
+                                {
+                                  "comments": [],
+                                  "id": "patch:npm:ms:20151024:4",
+                                  "modificationTime": "2019-12-03T11:40:45.776329+00:00",
+                                  "urls": [
+                                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_4_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk4.patch"
+                                  ],
+                                  "version": "=0.2.0"
+                                },
+                                {
+                                  "comments": [],
+                                  "id": "patch:npm:ms:20151024:3",
+                                  "modificationTime": "2019-12-03T11:40:45.775292+00:00",
+                                  "urls": [
+                                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_3_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk3.patch"
+                                  ],
+                                  "version": "=0.3.0"
+                                },
+                                {
+                                  "comments": [],
+                                  "id": "patch:npm:ms:20151024:2",
+                                  "modificationTime": "2019-12-03T11:40:45.774221+00:00",
+                                  "urls": [
+                                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_2_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk2.patch"
+                                  ],
+                                  "version": "<0.6.0 >0.3.0"
+                                },
+                                {
+                                  "comments": [],
+                                  "id": "patch:npm:ms:20151024:1",
+                                  "modificationTime": "2019-12-03T11:40:45.773094+00:00",
+                                  "urls": [
+                                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_1_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk.patch"
+                                  ],
+                                  "version": "<0.7.0 >=0.6.0"
+                                },
+                                {
+                                  "comments": [],
+                                  "id": "patch:npm:ms:20151024:0",
+                                  "modificationTime": "2019-12-03T11:40:45.772009+00:00",
+                                  "urls": [
+                                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_0_0_48701f029417faf65e6f5e0b61a3cebe5436b07b.patch"
+                                  ],
+                                  "version": "=0.7.0"
+                                }
+                              ],
+                              "upgradePath": [
+                                "ms@0.7.1"
+                              ]
+                            }
+                          ],
+                          "licenses": []
+                        },
+                        "dependencyCount": 1,
+                        "org": {
+                          "name": "atokeneduser",
+                          "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+                        },
+                        "licensesPolicy": null,
+                        "packageManager": "npm"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/test/npm",
+      "method": "POST",
+      "operation_id": "Testpackage.json&package-lock.jsonFile",
+      "summary": "Test package.json & package-lock.json File",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Test package.json & package-lock.json File",
+        "description": "Test for issues in npm files.You can test your npm packages for issues according to their manifest file & optional lockfile using this action. It takes a JSON object containing a \"target\" `package.json` and optionally a `package-lock.json`.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "Testpackage.json&package-lock.jsonFile",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/npmrequestpayload"
+                  },
+                  {
+                    "example": {
+                      "encoding": "plain",
+                      "files": {
+                        "target": {
+                          "contents": "eyAibmFtZSI6ICJzaGFsbG93LWdvb2YiLCAidmVyc2lvbiI6ICIwLjAuMSIsICJkZXNjcmlwdGlvbiI6ICJBIHZ1bG5lcmFibGUgZGVtbyBhcHBsaWNhdGlvbiIsICJob21lcGFnZSI6ICJodHRwczovL3NueWsuaW8vIiwgInJlcG9zaXRvcnkiOiB7ICJ0eXBlIjogImdpdCIsICJ1cmwiOiAiaHR0cHM6Ly9naXRodWIuY29tL1NueWsvc2hhbGxvdy1nb29mIiB9LCAiZGVwZW5kZW5jaWVzIjogeyAibm9kZS11dWlkIjogIjEuNC4wIiwgInFzIjogIjAuMC42IiB9IH0K"
+                        },
+                        "additional": [
+                          {
+                            "contents": "eyAibmFtZSI6ICJzaGFsbG93LWdvb2YiLCAidmVyc2lvbiI6ICIwLjAuMSIsICJsb2NrZmlsZVZlcnNpb24iOiAxLCAicmVxdWlyZXMiOiB0cnVlLCAiZGVwZW5kZW5jaWVzIjogeyAibm9kZS11dWlkIjogeyAidmVyc2lvbiI6ICIxLjQuMCIsICJyZXNvbHZlZCI6ICJodHRwczovL3JlZ2lzdHJ5Lm5wbWpzLm9yZy9ub2RlLXV1aWQvLS9ub2RlLXV1aWQtMS40LjAudGd6IiwgImludGVncml0eSI6ICJzaGExLUIvbXlNM1Z5LzJKMXgzWGgxSVVUODZSZGVtVT0iIH0sICJxcyI6IHsgInZlcnNpb24iOiAiMC4wLjYiLCAicmVzb2x2ZWQiOiAiaHR0cHM6Ly9yZWdpc3RyeS5ucG1qcy5vcmcvcXMvLS9xcy0wLjAuNi50Z3oiLCAiaW50ZWdyaXR5IjogInNoYTEtU0JaWnQrVy9hbDZvbUFFTjVhN1RYclJwNFNRPSIgfSB9IH0K"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "encoding": "plain",
+                "files": {
+                  "target": {
+                    "contents": "eyAibmFtZSI6ICJzaGFsbG93LWdvb2YiLCAidmVyc2lvbiI6ICIwLjAuMSIsICJkZXNjcmlwdGlvbiI6ICJBIHZ1bG5lcmFibGUgZGVtbyBhcHBsaWNhdGlvbiIsICJob21lcGFnZSI6ICJodHRwczovL3NueWsuaW8vIiwgInJlcG9zaXRvcnkiOiB7ICJ0eXBlIjogImdpdCIsICJ1cmwiOiAiaHR0cHM6Ly9naXRodWIuY29tL1NueWsvc2hhbGxvdy1nb29mIiB9LCAiZGVwZW5kZW5jaWVzIjogeyAibm9kZS11dWlkIjogIjEuNC4wIiwgInFzIjogIjAuMC42IiB9IH0K"
+                  },
+                  "additional": [
+                    {
+                      "contents": "eyAibmFtZSI6ICJzaGFsbG93LWdvb2YiLCAidmVyc2lvbiI6ICIwLjAuMSIsICJsb2NrZmlsZVZlcnNpb24iOiAxLCAicmVxdWlyZXMiOiB0cnVlLCAiZGVwZW5kZW5jaWVzIjogeyAibm9kZS11dWlkIjogeyAidmVyc2lvbiI6ICIxLjQuMCIsICJyZXNvbHZlZCI6ICJodHRwczovL3JlZ2lzdHJ5Lm5wbWpzLm9yZy9ub2RlLXV1aWQvLS9ub2RlLXV1aWQtMS40LjAudGd6IiwgImludGVncml0eSI6ICJzaGExLUIvbXlNM1Z5LzJKMXgzWGgxSVVUODZSZGVtVT0iIH0sICJxcyI6IHsgInZlcnNpb24iOiAiMC4wLjYiLCAicmVzb2x2ZWQiOiAiaHR0cHM6Ly9yZWdpc3RyeS5ucG1qcy5vcmcvcXMvLS9xcy0wLjAuNi50Z3oiLCAiaW50ZWdyaXR5IjogInNoYTEtU0JaWnQrVy9hbDZvbUFFTjVhN1RYclJwNFNRPSIgfSB9IH0K"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Testpackage.jsonpackage-lock.jsonFileresponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "target2": {
+      "title": "target2",
+      "required": [
+        "contents"
+      ],
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "string",
+          "description": "the contents of `package.json` as a string.",
+          "example": "eyAibmFtZSI6ICJzaGFsbG93LWdvb2YiLCAidmVyc2lvbiI6ICIwLjAuMSIsICJkZXNjcmlwdGlvbiI6ICJBIHZ1bG5lcmFibGUgZGVtbyBhcHBsaWNhdGlvbiIsICJob21lcGFnZSI6ICJodHRwczovL3NueWsuaW8vIiwgInJlcG9zaXRvcnkiOiB7ICJ0eXBlIjogImdpdCIsICJ1cmwiOiAiaHR0cHM6Ly9naXRodWIuY29tL1NueWsvc2hhbGxvdy1nb29mIiB9LCAiZGVwZW5kZW5jaWVzIjogeyAibm9kZS11dWlkIjogIjEuNC4wIiwgInFzIjogIjAuMC42IiB9IH0K"
+        }
+      },
+      "description": "the `package.json` file, encoded according the the \"encoding\" field."
+    },
+    "Org1": {
+      "title": "Org1",
+      "required": [
+        "name",
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "name": "atokeneduser",
+        "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+      }
+    },
+    "npmrequestpayload": {
+      "title": "npmrequestpayload",
+      "required": [
+        "files"
+      ],
+      "type": "object",
+      "properties": {
+        "encoding": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/encoding"
+            },
+            {
+              "description": "the encoding for the manifest files sent."
+            }
+          ]
+        },
+        "files": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/files3"
+            },
+            {
+              "description": "The manifest files:"
+            }
+          ]
+        }
+      }
+    },
+    "Identifiers4": {
+      "title": "Identifiers4",
+      "required": [
+        "ALTERNATIVE",
+        "CVE",
+        "CWE",
+        "NSP"
+      ],
+      "type": "object",
+      "properties": {
+        "ALTERNATIVE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CWE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "NSP": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "ALTERNATIVE": [
+          "SNYK-JS-MS-10064"
+        ],
+        "CVE": [
+          "CVE-2015-8315"
+        ],
+        "CWE": [
+          "CWE-400"
+        ],
+        "NSP": [
+          46
+        ]
+      }
+    },
+    "Vulnerability3": {
+      "title": "Vulnerability3",
+      "required": [
+        "id",
+        "url",
+        "title",
+        "type",
+        "description",
+        "functions",
+        "from",
+        "package",
+        "version",
+        "severity",
+        "exploitMaturity",
+        "language",
+        "packageManager",
+        "semver",
+        "publicationTime",
+        "disclosureTime",
+        "isUpgradable",
+        "isPatchable",
+        "isPinnable",
+        "identifiers",
+        "credit",
+        "CVSSv3",
+        "cvssScore",
+        "patches",
+        "upgradePath"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Function2"
+          },
+          "description": ""
+        },
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "package": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "exploitMaturity": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "packageManager": {
+          "type": "string"
+        },
+        "semver": {
+          "$ref": "#/components/schemas/Semver2"
+        },
+        "publicationTime": {
+          "type": "string"
+        },
+        "disclosureTime": {
+          "type": "string"
+        },
+        "isUpgradable": {
+          "type": "boolean"
+        },
+        "isPatchable": {
+          "type": "boolean"
+        },
+        "isPinnable": {
+          "type": "boolean"
+        },
+        "identifiers": {
+          "$ref": "#/components/schemas/Identifiers4"
+        },
+        "credit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVSSv3": {
+          "type": "string"
+        },
+        "cvssScore": {
+          "type": "number"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Patches2"
+          },
+          "description": ""
+        },
+        "upgradePath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "id": "npm:ms:20151024",
+        "url": "https://snyk.io/vuln/npm:ms:20151024",
+        "title": "Regular Expression Denial of Service (ReDoS)",
+        "type": "vuln",
+        "description": "## Overview\n\n[ms](https://www.npmjs.com/package/ms) is a tiny millisecond conversion utility.\n\n\nAffected versions of this package are vulnerable to Regular Expression Denial of Service (ReDoS)\nattack when converting a time period string (i.e. `\"2 days\"`, `\"1h\"`) into a milliseconds integer. A malicious user could pass extremely long strings to `ms()`, causing the server to take a long time to process, subsequently blocking the event loop for that extended period.\n\n## Details\nDenial of Service (DoS) describes a family of attacks, all aimed at making a system inaccessible to its original and legitimate users. There are many types of DoS attacks, ranging from trying to clog the network pipes to the system by generating a large volume of traffic from many machines (a Distributed Denial of Service - DDoS - attack) to sending crafted requests that cause a system to crash or take a disproportional amount of time to process.\n\n\nThe Regular expression Denial of Service (ReDoS) is a type of Denial of Service attack. Regular expressions are incredibly powerful, but they aren't very intuitive and can ultimately end up making it easy for attackers to take your site down.\n\n\nLet\u2019s take the following regular expression as an example:\n```js\nregex = /A(B|C+)+D/\n```\n\n\nThis regular expression accomplishes the following:\n- `A` The string must start with the letter 'A'\n- `(B|C+)+` The string must then follow the letter A with either the letter 'B' or some number of occurrences of the letter 'C' (the `+` matches one or more times). The `+` at the end of this section states that we can look for one or more matches of this section.\n- `D` Finally, we ensure this section of the string ends with a 'D'\n\n\nThe expression would match inputs such as `ABBD`, `ABCCCCD`, `ABCBCCCD` and `ACCCCCD`\n\n\nIt most cases, it doesn't take very long for a regex engine to find a match:\n\n\n```bash\n$ time node -e '/A(B|C+)+D/.test(\"ACCCCCCCCCCCCCCCCCCCCCCCCCCCCD\")'\n0.04s user 0.01s system 95% cpu 0.052 total\n\n\n$ time node -e '/A(B|C+)+D/.test(\"ACCCCCCCCCCCCCCCCCCCCCCCCCCCCX\")'\n1.79s user 0.02s system 99% cpu 1.812 total\n```\n\n\nThe entire process of testing it against a 30 characters long string takes around ~52ms. But when given an invalid string, it takes nearly two seconds to complete the test, over ten times as long as it took to test a valid string. The dramatic difference is due to the way regular expressions get evaluated.\n\n\nMost Regex engines will work very similarly (with minor differences). The engine will match the first possible way to accept the current character and proceed to the next one. If it then fails to match the next one, it will backtrack and see if there was another way to digest the previous character. If it goes too far down the rabbit hole only to find out the string doesn\u2019t match in the end, and if many characters have multiple valid regex paths, the number of backtracking steps can become very large, resulting in what is known as _catastrophic backtracking_.\n\n\nLet's look at how our expression runs into this problem, using a shorter string: \"ACCCX\". While it seems fairly straightforward, there are still four different ways that the engine could match those three C's:\n1. CCC\n2. CC+C\n3. C+CC\n4. C+C+C.\n\n\nThe engine has to try each of those combinations to see if any of them potentially match against the expression. When you combine that with the other steps the engine must take, we can use [RegEx 101 debugger](https://regex101.com/debugger) to see the engine has to take a total of 38 steps before it can determine the string doesn't match.\n\n\nFrom there, the number of steps the engine must use to validate a string just continues to grow.\n\n\n| String | Number of C's | Number of steps |\n| -------|-------------:| -----:|\n| ACCCX | 3 | 38\n| ACCCCX | 4 | 71\n| ACCCCCX | 5 | 136\n| ACCCCCCCCCCCCCCX | 14 | 65,553\n\n\n\n\nBy the time the string includes 14 C's, the engine has to take over 65,000 steps just to see if the string is valid. These extreme situations can cause them to work very slowly (exponentially related to input size, as shown above), allowing an attacker to exploit this and can cause the service to excessively consume CPU, resulting in a Denial of Service.\n\n## Remediation\n\nUpgrade `ms` to version 0.7.1 or higher.\n\n\n## References\n\n- [OSS Security advisory](https://www.openwall.com/lists/oss-security/2016/04/20/11)\n\n- [OWASP - ReDoS](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS)\n\n- [Security Focus](https://www.securityfocus.com/bid/96389)\n",
+        "functions": [
+          {
+            "functionId": {
+              "filePath": "ms.js",
+              "functionName": "parse"
+            },
+            "version": [
+              ">0.1.0 <=0.3.0"
+            ]
+          },
+          {
+            "functionId": {
+              "filePath": "index.js",
+              "functionName": "parse"
+            },
+            "version": [
+              ">0.3.0 <0.7.1"
+            ]
+          }
+        ],
+        "from": [
+          "ms@0.7.0"
+        ],
+        "package": "ms",
+        "version": "0.7.0",
+        "severity": "medium",
+        "exploitMaturity": "no-known-exploit",
+        "language": "js",
+        "packageManager": "npm",
+        "semver": {
+          "vulnerable": [
+            "<0.7.1"
+          ]
+        },
+        "publicationTime": "2015-11-06T02:09:36+00:00",
+        "disclosureTime": "2015-10-24T20:39:59+00:00",
+        "isUpgradable": true,
+        "isPatchable": true,
+        "isPinnable": false,
+        "identifiers": {
+          "ALTERNATIVE": [
+            "SNYK-JS-MS-10064"
+          ],
+          "CVE": [
+            "CVE-2015-8315"
+          ],
+          "CWE": [
+            "CWE-400"
+          ],
+          "NSP": [
+            46
+          ]
+        },
+        "credit": [
+          "Adam Baldwin"
+        ],
+        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+        "cvssScore": 5.3,
+        "patches": [
+          {
+            "comments": [],
+            "id": "patch:npm:ms:20151024:5",
+            "modificationTime": "2019-12-03T11:40:45.777474+00:00",
+            "urls": [
+              "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_5_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk5.patch"
+            ],
+            "version": "=0.1.0"
+          },
+          {
+            "comments": [],
+            "id": "patch:npm:ms:20151024:4",
+            "modificationTime": "2019-12-03T11:40:45.776329+00:00",
+            "urls": [
+              "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_4_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk4.patch"
+            ],
+            "version": "=0.2.0"
+          },
+          {
+            "comments": [],
+            "id": "patch:npm:ms:20151024:3",
+            "modificationTime": "2019-12-03T11:40:45.775292+00:00",
+            "urls": [
+              "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_3_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk3.patch"
+            ],
+            "version": "=0.3.0"
+          },
+          {
+            "comments": [],
+            "id": "patch:npm:ms:20151024:2",
+            "modificationTime": "2019-12-03T11:40:45.774221+00:00",
+            "urls": [
+              "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_2_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk2.patch"
+            ],
+            "version": "<0.6.0 >0.3.0"
+          },
+          {
+            "comments": [],
+            "id": "patch:npm:ms:20151024:1",
+            "modificationTime": "2019-12-03T11:40:45.773094+00:00",
+            "urls": [
+              "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_1_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk.patch"
+            ],
+            "version": "<0.7.0 >=0.6.0"
+          },
+          {
+            "comments": [],
+            "id": "patch:npm:ms:20151024:0",
+            "modificationTime": "2019-12-03T11:40:45.772009+00:00",
+            "urls": [
+              "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_0_0_48701f029417faf65e6f5e0b61a3cebe5436b07b.patch"
+            ],
+            "version": "=0.7.0"
+          }
+        ],
+        "upgradePath": [
+          "ms@0.7.1"
+        ]
+      }
+    },
+    "Semver2": {
+      "title": "Semver2",
+      "required": [
+        "vulnerable"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerable": [
+          "[,4.7.3)"
+        ]
+      }
+    },
+    "FunctionId3": {
+      "title": "FunctionId3",
+      "required": [
+        "filePath",
+        "functionName"
+      ],
+      "type": "object",
+      "properties": {
+        "filePath": {
+          "type": "string"
+        },
+        "functionName": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "filePath": "ms.js",
+        "functionName": "parse"
+      }
+    },
+    "PackageLockJsonFile": {
+      "title": "PackageLockJsonFile",
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "string",
+          "description": "The contents of the file, encoded according to the `encoding` field.",
+          "example": "eyAibmFtZSI6ICJzaGFsbG93LWdvb2YiLCAidmVyc2lvbiI6ICIwLjAuMSIsICJsb2NrZmlsZVZlcnNpb24iOiAxLCAicmVxdWlyZXMiOiB0cnVlLCAiZGVwZW5kZW5jaWVzIjogeyAibm9kZS11dWlkIjogeyAidmVyc2lvbiI6ICIxLjQuMCIsICJyZXNvbHZlZCI6ICJodHRwczovL3JlZ2lzdHJ5Lm5wbWpzLm9yZy9ub2RlLXV1aWQvLS9ub2RlLXV1aWQtMS40LjAudGd6IiwgImludGVncml0eSI6ICJzaGExLUIvbXlNM1Z5LzJKMXgzWGgxSVVUODZSZGVtVT0iIH0sICJxcyI6IHsgInZlcnNpb24iOiAiMC4wLjYiLCAicmVzb2x2ZWQiOiAiaHR0cHM6Ly9yZWdpc3RyeS5ucG1qcy5vcmcvcXMvLS9xcy0wLjAuNi50Z3oiLCAiaW50ZWdyaXR5IjogInNoYTEtU0JaWnQrVy9hbDZvbUFFTjVhN1RYclJwNFNRPSIgfSB9IH0K"
+        }
+      }
+    },
+    "encoding": {
+      "title": "encoding",
+      "enum": [
+        "plain",
+        "base64"
+      ],
+      "type": "string",
+      "description": "the encoding for the manifest files sent."
+    },
+    "files3": {
+      "title": "files3",
+      "required": [
+        "target"
+      ],
+      "type": "object",
+      "properties": {
+        "target": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/target2"
+            },
+            {
+              "description": "the `package.json` file, encoded according the the \"encoding\" field."
+            }
+          ]
+        },
+        "additional": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PackageLockJsonFile"
+          },
+          "description": "a lockfile can be sent (if needed), encoded according the the \"encoding\" field."
+        }
+      },
+      "description": "The manifest files:"
+    },
+    "Vulnerability4": {
+      "title": "Vulnerability4",
+      "required": [
+        "id",
+        "url",
+        "title",
+        "type",
+        "description",
+        "functions",
+        "from",
+        "package",
+        "version",
+        "severity",
+        "exploitMaturity",
+        "language",
+        "packageManager",
+        "semver",
+        "publicationTime",
+        "disclosureTime",
+        "isUpgradable",
+        "isPatchable",
+        "isPinnable",
+        "identifiers",
+        "credit",
+        "CVSSv3",
+        "cvssScore",
+        "patches",
+        "upgradePath"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Function3"
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Function2"
+                  },
+                  {
+                    "example": {
+                      "functionId": {
+                        "filePath": "index.js",
+                        "functionName": "compact"
+                      },
+                      "version": [
+                        "<1.0.0"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "description": ""
+        },
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "package": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "exploitMaturity": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "packageManager": {
+          "type": "string"
+        },
+        "semver": {
+          "$ref": "#/components/schemas/Semver2"
+        },
+        "publicationTime": {
+          "type": "string"
+        },
+        "disclosureTime": {
+          "type": "string"
+        },
+        "isUpgradable": {
+          "type": "boolean"
+        },
+        "isPatchable": {
+          "type": "boolean"
+        },
+        "isPinnable": {
+          "type": "boolean"
+        },
+        "identifiers": {
+          "$ref": "#/components/schemas/Identifiers5"
+        },
+        "credit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVSSv3": {
+          "type": "string"
+        },
+        "cvssScore": {
+          "type": "number"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Patches2"
+          },
+          "description": ""
+        },
+        "upgradePath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "id": "npm:node-uuid:20160328",
+        "url": "https://snyk.io/vuln/npm:node-uuid:20160328",
+        "title": "Insecure Randomness",
+        "type": "vuln",
+        "description": "## Overview\n[`node-uuid`](https://github.com/kelektiv/node-uuid) is a Simple, fast generation of RFC4122 UUIDS.\n\nAffected versions of this package are vulnerable to Insecure Randomness. It uses the cryptographically insecure `Math.random` which can produce predictable values and should not be used in security-sensitive context.\n\n## Remediation\nUpgrade `node-uuid` to version 1.4.4 or greater.\n\n## References\n- [GitHub Issue](https://github.com/broofa/node-uuid/issues/108)\n- [GitHub Issue 2](https://github.com/broofa/node-uuid/issues/122)\n",
+        "functions": [],
+        "from": [
+          "node-uuid@1.4.0"
+        ],
+        "package": "node-uuid",
+        "version": "1.4.0",
+        "severity": "medium",
+        "exploitMaturity": "no-known-exploit",
+        "language": "js",
+        "packageManager": "npm",
+        "semver": {
+          "vulnerable": [
+            "<1.4.4"
+          ]
+        },
+        "publicationTime": "2016-03-28T22:00:02.566000+00:00",
+        "disclosureTime": "2016-03-28T21:29:30+00:00",
+        "isUpgradable": true,
+        "isPatchable": false,
+        "isPinnable": false,
+        "identifiers": {
+          "ALTERNATIVE": [
+            "SNYK-JS-NODEUUID-10089"
+          ],
+          "CVE": [],
+          "CWE": [
+            "CWE-330"
+          ],
+          "NSP": [
+            93
+          ]
+        },
+        "credit": [
+          "Fedot Praslov"
+        ],
+        "CVSSv3": "CVSS:3.0/AV:A/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "cvssScore": 4.2,
+        "patches": [
+          {
+            "comments": [],
+            "id": "patch:npm:node-uuid:20160328:0",
+            "modificationTime": "2019-12-03T11:40:45.815314+00:00",
+            "urls": [
+              "https://snyk-patches.s3.amazonaws.com/npm/node-uuid/20160328/node-uuid_20160328_0_0_616ad3800f35cf58089215f420db9654801a5a02.patch"
+            ],
+            "version": "<=1.4.3 >=1.4.2"
+          }
+        ],
+        "upgradePath": [
+          "node-uuid@1.4.6"
+        ]
+      }
+    },
+    "Issues5": {
+      "title": "Issues5",
+      "required": [
+        "vulnerabilities",
+        "licenses"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Vulnerability4"
+          },
+          "description": ""
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      }
+    },
+    "Function2": {
+      "title": "Function2",
+      "required": [
+        "functionId",
+        "version"
+      ],
+      "type": "object",
+      "properties": {
+        "functionId": {
+          "$ref": "#/components/schemas/FunctionId3"
+        },
+        "version": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "functionId": {
+          "filePath": "ms.js",
+          "functionName": "parse"
+        },
+        "version": [
+          ">0.1.0 <=0.3.0"
+        ]
+      }
+    },
+    "Testpackage.jsonpackage-lock.jsonFileresponse": {
+      "title": "Testpackage.jsonpackage-lock.jsonFileresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues5"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      }
+    },
+    "Issues4": {
+      "title": "Issues4",
+      "required": [
+        "vulnerabilities",
+        "licenses"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Vulnerability3"
+          },
+          "description": ""
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerabilities": [
+          {
+            "id": "npm:ms:20151024",
+            "url": "https://snyk.io/vuln/npm:ms:20151024",
+            "title": "Regular Expression Denial of Service (ReDoS)",
+            "type": "vuln",
+            "description": "## Overview\n\n[ms](https://www.npmjs.com/package/ms) is a tiny millisecond conversion utility.\n\n\nAffected versions of this package are vulnerable to Regular Expression Denial of Service (ReDoS)\nattack when converting a time period string (i.e. `\"2 days\"`, `\"1h\"`) into a milliseconds integer. A malicious user could pass extremely long strings to `ms()`, causing the server to take a long time to process, subsequently blocking the event loop for that extended period.\n\n## Details\nDenial of Service (DoS) describes a family of attacks, all aimed at making a system inaccessible to its original and legitimate users. There are many types of DoS attacks, ranging from trying to clog the network pipes to the system by generating a large volume of traffic from many machines (a Distributed Denial of Service - DDoS - attack) to sending crafted requests that cause a system to crash or take a disproportional amount of time to process.\n\n\nThe Regular expression Denial of Service (ReDoS) is a type of Denial of Service attack. Regular expressions are incredibly powerful, but they aren't very intuitive and can ultimately end up making it easy for attackers to take your site down.\n\n\nLet\u2019s take the following regular expression as an example:\n```js\nregex = /A(B|C+)+D/\n```\n\n\nThis regular expression accomplishes the following:\n- `A` The string must start with the letter 'A'\n- `(B|C+)+` The string must then follow the letter A with either the letter 'B' or some number of occurrences of the letter 'C' (the `+` matches one or more times). The `+` at the end of this section states that we can look for one or more matches of this section.\n- `D` Finally, we ensure this section of the string ends with a 'D'\n\n\nThe expression would match inputs such as `ABBD`, `ABCCCCD`, `ABCBCCCD` and `ACCCCCD`\n\n\nIt most cases, it doesn't take very long for a regex engine to find a match:\n\n\n```bash\n$ time node -e '/A(B|C+)+D/.test(\"ACCCCCCCCCCCCCCCCCCCCCCCCCCCCD\")'\n0.04s user 0.01s system 95% cpu 0.052 total\n\n\n$ time node -e '/A(B|C+)+D/.test(\"ACCCCCCCCCCCCCCCCCCCCCCCCCCCCX\")'\n1.79s user 0.02s system 99% cpu 1.812 total\n```\n\n\nThe entire process of testing it against a 30 characters long string takes around ~52ms. But when given an invalid string, it takes nearly two seconds to complete the test, over ten times as long as it took to test a valid string. The dramatic difference is due to the way regular expressions get evaluated.\n\n\nMost Regex engines will work very similarly (with minor differences). The engine will match the first possible way to accept the current character and proceed to the next one. If it then fails to match the next one, it will backtrack and see if there was another way to digest the previous character. If it goes too far down the rabbit hole only to find out the string doesn\u2019t match in the end, and if many characters have multiple valid regex paths, the number of backtracking steps can become very large, resulting in what is known as _catastrophic backtracking_.\n\n\nLet's look at how our expression runs into this problem, using a shorter string: \"ACCCX\". While it seems fairly straightforward, there are still four different ways that the engine could match those three C's:\n1. CCC\n2. CC+C\n3. C+CC\n4. C+C+C.\n\n\nThe engine has to try each of those combinations to see if any of them potentially match against the expression. When you combine that with the other steps the engine must take, we can use [RegEx 101 debugger](https://regex101.com/debugger) to see the engine has to take a total of 38 steps before it can determine the string doesn't match.\n\n\nFrom there, the number of steps the engine must use to validate a string just continues to grow.\n\n\n| String | Number of C's | Number of steps |\n| -------|-------------:| -----:|\n| ACCCX | 3 | 38\n| ACCCCX | 4 | 71\n| ACCCCCX | 5 | 136\n| ACCCCCCCCCCCCCCX | 14 | 65,553\n\n\n\n\nBy the time the string includes 14 C's, the engine has to take over 65,000 steps just to see if the string is valid. These extreme situations can cause them to work very slowly (exponentially related to input size, as shown above), allowing an attacker to exploit this and can cause the service to excessively consume CPU, resulting in a Denial of Service.\n\n## Remediation\n\nUpgrade `ms` to version 0.7.1 or higher.\n\n\n## References\n\n- [OSS Security advisory](https://www.openwall.com/lists/oss-security/2016/04/20/11)\n\n- [OWASP - ReDoS](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS)\n\n- [Security Focus](https://www.securityfocus.com/bid/96389)\n",
+            "functions": [
+              {
+                "functionId": {
+                  "filePath": "ms.js",
+                  "functionName": "parse"
+                },
+                "version": [
+                  ">0.1.0 <=0.3.0"
+                ]
+              },
+              {
+                "functionId": {
+                  "filePath": "index.js",
+                  "functionName": "parse"
+                },
+                "version": [
+                  ">0.3.0 <0.7.1"
+                ]
+              }
+            ],
+            "from": [
+              "ms@0.7.0"
+            ],
+            "package": "ms",
+            "version": "0.7.0",
+            "severity": "medium",
+            "exploitMaturity": "no-known-exploit",
+            "language": "js",
+            "packageManager": "npm",
+            "semver": {
+              "vulnerable": [
+                "<0.7.1"
+              ]
+            },
+            "publicationTime": "2015-11-06T02:09:36+00:00",
+            "disclosureTime": "2015-10-24T20:39:59+00:00",
+            "isUpgradable": true,
+            "isPatchable": true,
+            "isPinnable": false,
+            "identifiers": {
+              "ALTERNATIVE": [
+                "SNYK-JS-MS-10064"
+              ],
+              "CVE": [
+                "CVE-2015-8315"
+              ],
+              "CWE": [
+                "CWE-400"
+              ],
+              "NSP": [
+                46
+              ]
+            },
+            "credit": [
+              "Adam Baldwin"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+            "cvssScore": 5.3,
+            "patches": [
+              {
+                "comments": [],
+                "id": "patch:npm:ms:20151024:5",
+                "modificationTime": "2019-12-03T11:40:45.777474+00:00",
+                "urls": [
+                  "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_5_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk5.patch"
+                ],
+                "version": "=0.1.0"
+              },
+              {
+                "comments": [],
+                "id": "patch:npm:ms:20151024:4",
+                "modificationTime": "2019-12-03T11:40:45.776329+00:00",
+                "urls": [
+                  "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_4_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk4.patch"
+                ],
+                "version": "=0.2.0"
+              },
+              {
+                "comments": [],
+                "id": "patch:npm:ms:20151024:3",
+                "modificationTime": "2019-12-03T11:40:45.775292+00:00",
+                "urls": [
+                  "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_3_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk3.patch"
+                ],
+                "version": "=0.3.0"
+              },
+              {
+                "comments": [],
+                "id": "patch:npm:ms:20151024:2",
+                "modificationTime": "2019-12-03T11:40:45.774221+00:00",
+                "urls": [
+                  "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_2_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk2.patch"
+                ],
+                "version": "<0.6.0 >0.3.0"
+              },
+              {
+                "comments": [],
+                "id": "patch:npm:ms:20151024:1",
+                "modificationTime": "2019-12-03T11:40:45.773094+00:00",
+                "urls": [
+                  "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_1_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk.patch"
+                ],
+                "version": "<0.7.0 >=0.6.0"
+              },
+              {
+                "comments": [],
+                "id": "patch:npm:ms:20151024:0",
+                "modificationTime": "2019-12-03T11:40:45.772009+00:00",
+                "urls": [
+                  "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_0_0_48701f029417faf65e6f5e0b61a3cebe5436b07b.patch"
+                ],
+                "version": "=0.7.0"
+              }
+            ],
+            "upgradePath": [
+              "ms@0.7.1"
+            ]
+          }
+        ],
+        "licenses": []
+      }
+    },
+    "Identifiers5": {
+      "title": "Identifiers5",
+      "required": [
+        "ALTERNATIVE",
+        "CVE",
+        "CWE"
+      ],
+      "type": "object",
+      "properties": {
+        "ALTERNATIVE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CWE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "NSP": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "ALTERNATIVE": [
+          "SNYK-JS-NODEUUID-10089"
+        ],
+        "CVE": [],
+        "CWE": [
+          "CWE-330"
+        ],
+        "NSP": [
+          93
+        ]
+      }
+    },
+    "Patches2": {
+      "title": "Patches2",
+      "required": [
+        "comments",
+        "id",
+        "modificationTime",
+        "urls",
+        "version"
+      ],
+      "type": "object",
+      "properties": {
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "id": {
+          "type": "string"
+        },
+        "modificationTime": {
+          "type": "string"
+        },
+        "urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "comments": [],
+        "id": "patch:npm:ms:20151024:5",
+        "modificationTime": "2019-12-03T11:40:45.777474+00:00",
+        "urls": [
+          "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_5_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk5.patch"
+        ],
+        "version": "=0.1.0"
+      }
+    },
+    "Testforissuesinapublicpackagebynameandversionresponse": {
+      "title": "Testforissuesinapublicpackagebynameandversionresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues4"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "ok": false,
+        "issues": {
+          "vulnerabilities": [
+            {
+              "id": "npm:ms:20151024",
+              "url": "https://snyk.io/vuln/npm:ms:20151024",
+              "title": "Regular Expression Denial of Service (ReDoS)",
+              "type": "vuln",
+              "description": "## Overview\n\n[ms](https://www.npmjs.com/package/ms) is a tiny millisecond conversion utility.\n\n\nAffected versions of this package are vulnerable to Regular Expression Denial of Service (ReDoS)\nattack when converting a time period string (i.e. `\"2 days\"`, `\"1h\"`) into a milliseconds integer. A malicious user could pass extremely long strings to `ms()`, causing the server to take a long time to process, subsequently blocking the event loop for that extended period.\n\n## Details\nDenial of Service (DoS) describes a family of attacks, all aimed at making a system inaccessible to its original and legitimate users. There are many types of DoS attacks, ranging from trying to clog the network pipes to the system by generating a large volume of traffic from many machines (a Distributed Denial of Service - DDoS - attack) to sending crafted requests that cause a system to crash or take a disproportional amount of time to process.\n\n\nThe Regular expression Denial of Service (ReDoS) is a type of Denial of Service attack. Regular expressions are incredibly powerful, but they aren't very intuitive and can ultimately end up making it easy for attackers to take your site down.\n\n\nLet\u2019s take the following regular expression as an example:\n```js\nregex = /A(B|C+)+D/\n```\n\n\nThis regular expression accomplishes the following:\n- `A` The string must start with the letter 'A'\n- `(B|C+)+` The string must then follow the letter A with either the letter 'B' or some number of occurrences of the letter 'C' (the `+` matches one or more times). The `+` at the end of this section states that we can look for one or more matches of this section.\n- `D` Finally, we ensure this section of the string ends with a 'D'\n\n\nThe expression would match inputs such as `ABBD`, `ABCCCCD`, `ABCBCCCD` and `ACCCCCD`\n\n\nIt most cases, it doesn't take very long for a regex engine to find a match:\n\n\n```bash\n$ time node -e '/A(B|C+)+D/.test(\"ACCCCCCCCCCCCCCCCCCCCCCCCCCCCD\")'\n0.04s user 0.01s system 95% cpu 0.052 total\n\n\n$ time node -e '/A(B|C+)+D/.test(\"ACCCCCCCCCCCCCCCCCCCCCCCCCCCCX\")'\n1.79s user 0.02s system 99% cpu 1.812 total\n```\n\n\nThe entire process of testing it against a 30 characters long string takes around ~52ms. But when given an invalid string, it takes nearly two seconds to complete the test, over ten times as long as it took to test a valid string. The dramatic difference is due to the way regular expressions get evaluated.\n\n\nMost Regex engines will work very similarly (with minor differences). The engine will match the first possible way to accept the current character and proceed to the next one. If it then fails to match the next one, it will backtrack and see if there was another way to digest the previous character. If it goes too far down the rabbit hole only to find out the string doesn\u2019t match in the end, and if many characters have multiple valid regex paths, the number of backtracking steps can become very large, resulting in what is known as _catastrophic backtracking_.\n\n\nLet's look at how our expression runs into this problem, using a shorter string: \"ACCCX\". While it seems fairly straightforward, there are still four different ways that the engine could match those three C's:\n1. CCC\n2. CC+C\n3. C+CC\n4. C+C+C.\n\n\nThe engine has to try each of those combinations to see if any of them potentially match against the expression. When you combine that with the other steps the engine must take, we can use [RegEx 101 debugger](https://regex101.com/debugger) to see the engine has to take a total of 38 steps before it can determine the string doesn't match.\n\n\nFrom there, the number of steps the engine must use to validate a string just continues to grow.\n\n\n| String | Number of C's | Number of steps |\n| -------|-------------:| -----:|\n| ACCCX | 3 | 38\n| ACCCCX | 4 | 71\n| ACCCCCX | 5 | 136\n| ACCCCCCCCCCCCCCX | 14 | 65,553\n\n\n\n\nBy the time the string includes 14 C's, the engine has to take over 65,000 steps just to see if the string is valid. These extreme situations can cause them to work very slowly (exponentially related to input size, as shown above), allowing an attacker to exploit this and can cause the service to excessively consume CPU, resulting in a Denial of Service.\n\n## Remediation\n\nUpgrade `ms` to version 0.7.1 or higher.\n\n\n## References\n\n- [OSS Security advisory](https://www.openwall.com/lists/oss-security/2016/04/20/11)\n\n- [OWASP - ReDoS](https://www.owasp.org/index.php/Regular_expression_Denial_of_Service_-_ReDoS)\n\n- [Security Focus](https://www.securityfocus.com/bid/96389)\n",
+              "functions": [
+                {
+                  "functionId": {
+                    "filePath": "ms.js",
+                    "functionName": "parse"
+                  },
+                  "version": [
+                    ">0.1.0 <=0.3.0"
+                  ]
+                },
+                {
+                  "functionId": {
+                    "filePath": "index.js",
+                    "functionName": "parse"
+                  },
+                  "version": [
+                    ">0.3.0 <0.7.1"
+                  ]
+                }
+              ],
+              "from": [
+                "ms@0.7.0"
+              ],
+              "package": "ms",
+              "version": "0.7.0",
+              "severity": "medium",
+              "exploitMaturity": "no-known-exploit",
+              "language": "js",
+              "packageManager": "npm",
+              "semver": {
+                "vulnerable": [
+                  "<0.7.1"
+                ]
+              },
+              "publicationTime": "2015-11-06T02:09:36+00:00",
+              "disclosureTime": "2015-10-24T20:39:59+00:00",
+              "isUpgradable": true,
+              "isPatchable": true,
+              "isPinnable": false,
+              "identifiers": {
+                "ALTERNATIVE": [
+                  "SNYK-JS-MS-10064"
+                ],
+                "CVE": [
+                  "CVE-2015-8315"
+                ],
+                "CWE": [
+                  "CWE-400"
+                ],
+                "NSP": [
+                  46
+                ]
+              },
+              "credit": [
+                "Adam Baldwin"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+              "cvssScore": 5.3,
+              "patches": [
+                {
+                  "comments": [],
+                  "id": "patch:npm:ms:20151024:5",
+                  "modificationTime": "2019-12-03T11:40:45.777474+00:00",
+                  "urls": [
+                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_5_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk5.patch"
+                  ],
+                  "version": "=0.1.0"
+                },
+                {
+                  "comments": [],
+                  "id": "patch:npm:ms:20151024:4",
+                  "modificationTime": "2019-12-03T11:40:45.776329+00:00",
+                  "urls": [
+                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_4_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk4.patch"
+                  ],
+                  "version": "=0.2.0"
+                },
+                {
+                  "comments": [],
+                  "id": "patch:npm:ms:20151024:3",
+                  "modificationTime": "2019-12-03T11:40:45.775292+00:00",
+                  "urls": [
+                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_3_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk3.patch"
+                  ],
+                  "version": "=0.3.0"
+                },
+                {
+                  "comments": [],
+                  "id": "patch:npm:ms:20151024:2",
+                  "modificationTime": "2019-12-03T11:40:45.774221+00:00",
+                  "urls": [
+                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_2_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk2.patch"
+                  ],
+                  "version": "<0.6.0 >0.3.0"
+                },
+                {
+                  "comments": [],
+                  "id": "patch:npm:ms:20151024:1",
+                  "modificationTime": "2019-12-03T11:40:45.773094+00:00",
+                  "urls": [
+                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_1_0_48701f029417faf65e6f5e0b61a3cebe5436b07b_snyk.patch"
+                  ],
+                  "version": "<0.7.0 >=0.6.0"
+                },
+                {
+                  "comments": [],
+                  "id": "patch:npm:ms:20151024:0",
+                  "modificationTime": "2019-12-03T11:40:45.772009+00:00",
+                  "urls": [
+                    "https://snyk-patches.s3.amazonaws.com/npm/ms/20151024/ms_20151024_0_0_48701f029417faf65e6f5e0b61a3cebe5436b07b.patch"
+                  ],
+                  "version": "=0.7.0"
+                }
+              ],
+              "upgradePath": [
+                "ms@0.7.1"
+              ]
+            }
+          ],
+          "licenses": []
+        },
+        "dependencyCount": 1,
+        "org": {
+          "name": "atokeneduser",
+          "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+        },
+        "licensesPolicy": null,
+        "packageManager": "npm"
+      }
+    },
+    "Function3": {
+      "title": "Function3",
+      "type": "object",
+      "properties": {
+        "functionId": {
+          "$ref": "#/components/schemas/FunctionId3"
+        },
+        "version": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      }
+    }
+  },
+  "referenced_common_schemas": []
+}

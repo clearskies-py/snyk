@@ -1,0 +1,547 @@
+{
+  "tag": "Users",
+  "endpoint_count": 3,
+  "schema_count": 6,
+  "endpoints_summary": [
+    {
+      "method": "PATCH",
+      "path": "/groups/{group_id}/users/{id}",
+      "operation_id": "updateUser",
+      "summary": "Update a user's role in a group (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/users/{id}",
+      "operation_id": "getUser",
+      "summary": "Get user by ID (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/self",
+      "operation_id": "getSelf",
+      "summary": "My User Details"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/groups/{group_id}/users/{id}",
+      "method": "PATCH",
+      "operation_id": "updateUser",
+      "summary": "Update a user's role in a group (Early Access)",
+      "details": {
+        "description": "Update a user's membership of the group.\n\nTo remove a user's membership, provide 'null' as the membership parameter (see example).\n\nAt present, only removing memberships is supported by this endpoint. To update a user's group membership, please use\nthe UI or legacy API.\n\n#### Required permissions\n\n- `View Groups (group.read)`\n\n- `View users (group.user.read)`\n\n- `Remove users (group.user.remove)`",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "description": "The id of the group",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "example": {
+                "data": {
+                  "attributes": {
+                    "membership": null
+                  },
+                  "id": "55a348e2-c3ad-4bbc-b40e-9b232d1f4122",
+                  "type": "user"
+                }
+              },
+              "schema": {
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/UserPatchRequestBody"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update a user's role in a group (Early Access)",
+        "tags": [
+          "Users"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-10-06~beta"
+        ],
+        "x-snyk-api-resource": "users",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2022-10-06~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/users/{id}",
+      "method": "GET",
+      "operation_id": "getUser",
+      "summary": "Get user by ID (Early Access)",
+      "details": {
+        "description": "Get a summary of user.\n\nNote that Service Accounts are not returned by this endpoint. Please use the Service Accounts endpoints.\n\n#### Required permissions\n\n- `View users (org.user.read)`",
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "description": "The id of the org",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The id of the user",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "User details",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get user by ID (Early Access)",
+        "tags": [
+          "Users"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2021-09-13~beta"
+        ],
+        "x-snyk-api-resource": "users",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2021-09-13~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/self",
+      "method": "GET",
+      "operation_id": "getSelf",
+      "summary": "My User Details",
+      "details": {
+        "description": "Retrieves information about the the user making the request.",
+        "operationId": "getSelf",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Principal20240422"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Current user is returned",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "My User Details",
+        "tags": [
+          "Users"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-03-01~experimental",
+          "2022-09-14~experimental",
+          "2024-04-22"
+        ],
+        "x-snyk-api-resource": "self",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-04-22",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "UserPatchRequestBody": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "properties": {
+            "membership": {
+              "nullable": true,
+              "properties": {
+                "role": {
+                  "description": "Role name",
+                  "example": "MEMBER",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "required": [
+            "membership"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "description": "The Snyk ID corresponding to this user",
+          "example": "55a348e2-c3ad-4bbc-b40e-9b232d1f4121",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type",
+          "example": "user",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "Principal20240422": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/User20240422"
+            },
+            {
+              "$ref": "#/components/schemas/ServiceAccount20240422"
+            },
+            {
+              "$ref": "#/components/schemas/AppInstance"
+            }
+          ]
+        },
+        "id": {
+          "description": "The Snyk ID corresponding to this user, service account or app",
+          "example": "55a348e2-c3ad-4bbc-b40e-9b232d1f4121",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type.",
+          "enum": [
+            "user",
+            "service_account",
+            "app_instance"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "User20240422": {
+      "additionalProperties": false,
+      "properties": {
+        "avatar_url": {
+          "description": "The avatar url of the user.",
+          "example": "https://snyk.io/avatar.png",
+          "format": "uri",
+          "type": "string"
+        },
+        "default_org_context": {
+          "description": "ID of the default org for the user.",
+          "format": "uuid",
+          "type": "string"
+        },
+        "email": {
+          "description": "The email of the user.",
+          "example": "user@someorg.com",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the user.",
+          "example": "user",
+          "type": "string"
+        },
+        "username": {
+          "description": "The username of the user.",
+          "example": "username",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "avatar_url"
+      ],
+      "type": "object"
+    },
+    "User": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "properties": {
+            "active": {
+              "description": "Whether the user status is enabled or not",
+              "example": true,
+              "type": "boolean"
+            },
+            "email": {
+              "description": "The email of the user.",
+              "example": "user@someorg.com",
+              "type": "string"
+            },
+            "membership": {
+              "properties": {
+                "created_at": {
+                  "description": "The date the membership was established.",
+                  "example": "2022-09-14T09:19:29.206Z",
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "strategy": {
+                  "description": "Whether the membership is a direct, or indirect membership.",
+                  "enum": [
+                    "direct",
+                    "indirect"
+                  ],
+                  "example": "direct",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "name": {
+              "description": "The name of the user.",
+              "example": "user",
+              "type": "string"
+            },
+            "username": {
+              "description": "The username of the user.",
+              "example": "username",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "description": "The Snyk ID corresponding to this user",
+          "example": "55a348e2-c3ad-4bbc-b40e-9b232d1f4121",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "user",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "ServiceAccount20240422": {
+      "additionalProperties": false,
+      "properties": {
+        "default_org_context": {
+          "description": "ID of the default org for the service account.",
+          "format": "uuid",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the service account.",
+          "example": "user",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "AppInstance": {
+      "additionalProperties": false,
+      "properties": {
+        "default_org_context": {
+          "description": "ID of the default org for the service account.",
+          "format": "uuid",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the service account.",
+          "example": "user",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

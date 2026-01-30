@@ -1,0 +1,431 @@
+{
+  "tag": "Export",
+  "endpoint_count": 6,
+  "schema_count": 0,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/groups/{group_id}/export",
+      "operation_id": "createGroupExport",
+      "summary": "Start an export"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/export/{export_id}",
+      "operation_id": "getGroupExport",
+      "summary": "Get export results"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/jobs/export/{export_id}",
+      "operation_id": "getGroupExportJobStatus",
+      "summary": "Get export status"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/export",
+      "operation_id": "createExport",
+      "summary": "Start an export"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/export/{export_id}",
+      "operation_id": "getExport",
+      "summary": "Get export results"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/jobs/export/{export_id}",
+      "operation_id": "getExportJobStatus",
+      "summary": "Get export status"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/groups/{group_id}/export",
+      "method": "POST",
+      "operation_id": "createGroupExport",
+      "summary": "Start an export",
+      "details": {
+        "description": "Create and start an export for a group\n\n#### Required permissions\n\n- `View reports (group.report.read)`",
+        "operationId": "createGroupExport",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/groupId"
+          },
+          {
+            "$ref": "#/components/parameters/include_deleted"
+          },
+          {
+            "$ref": "#/components/parameters/include_deactivated"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CreateGroupExport"
+        },
+        "responses": {
+          "202": {
+            "$ref": "#/components/responses/CreateExport"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "TokenAuth": []
+          }
+        ],
+        "summary": "Start an export",
+        "tags": [
+          "Export"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "export",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/export/{export_id}",
+      "method": "GET",
+      "operation_id": "getGroupExport",
+      "summary": "Get export results",
+      "details": {
+        "description": "Get an export results\n\n#### Required permissions\n\n- `View reports (group.report.read)`",
+        "operationId": "getGroupExport",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/groupId"
+          },
+          {
+            "$ref": "#/components/parameters/exportId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetExport"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "TokenAuth": []
+          }
+        ],
+        "summary": "Get export results",
+        "tags": [
+          "Export"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "export",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/jobs/export/{export_id}",
+      "method": "GET",
+      "operation_id": "getGroupExportJobStatus",
+      "summary": "Get export status",
+      "details": {
+        "description": "Get an export job status\n\n#### Required permissions\n\n- `View reports (group.report.read)`",
+        "operationId": "getGroupExportJobStatus",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/groupId"
+          },
+          {
+            "$ref": "#/components/parameters/exportId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetExportJob"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "TokenAuth": []
+          }
+        ],
+        "summary": "Get export status",
+        "tags": [
+          "Export"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "export",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/export",
+      "method": "POST",
+      "operation_id": "createExport",
+      "summary": "Start an export",
+      "details": {
+        "description": "Create and start an export for an org\n\n#### Required permissions\n\n- `View Organization reports (org.report.read)`",
+        "operationId": "createExport",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/orgId"
+          },
+          {
+            "$ref": "#/components/parameters/include_deleted"
+          },
+          {
+            "$ref": "#/components/parameters/include_deactivated"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/CreateOrgExport"
+        },
+        "responses": {
+          "202": {
+            "$ref": "#/components/responses/CreateExport"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "TokenAuth": []
+          }
+        ],
+        "summary": "Start an export",
+        "tags": [
+          "Export"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "export",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/export/{export_id}",
+      "method": "GET",
+      "operation_id": "getExport",
+      "summary": "Get export results",
+      "details": {
+        "description": "Get an export results\n\n#### Required permissions\n\n- `View Organization reports (org.report.read)`",
+        "operationId": "getExport",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/orgId"
+          },
+          {
+            "$ref": "#/components/parameters/exportId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetExport"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "TokenAuth": []
+          }
+        ],
+        "summary": "Get export results",
+        "tags": [
+          "Export"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "export",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/jobs/export/{export_id}",
+      "method": "GET",
+      "operation_id": "getExportJobStatus",
+      "summary": "Get export status",
+      "details": {
+        "description": "Get an export job status\n\n#### Required permissions\n\n- `View Organization reports (org.report.read)`",
+        "operationId": "getExportJobStatus",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/orgId"
+          },
+          {
+            "$ref": "#/components/parameters/exportId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetExportJob"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "security": [
+          {
+            "TokenAuth": []
+          }
+        ],
+        "summary": "Get export status",
+        "tags": [
+          "Export"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "export",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {},
+  "referenced_common_schemas": []
+}

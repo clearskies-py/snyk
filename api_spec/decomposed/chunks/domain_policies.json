@@ -1,0 +1,2381 @@
+{
+  "tag": "Policies",
+  "endpoint_count": 10,
+  "schema_count": 49,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/policies",
+      "operation_id": "listGroupPolicies",
+      "summary": "Get group level policies (Early Access)"
+    },
+    {
+      "method": "POST",
+      "path": "/groups/{group_id}/policies",
+      "operation_id": "createGroupPolicy",
+      "summary": "Create a new group level policy (Early Access)"
+    },
+    {
+      "method": "DELETE",
+      "path": "/groups/{group_id}/policies/{policy_id}",
+      "operation_id": "deleteGroupPolicy",
+      "summary": "Delete an group-level policy (Early Access)"
+    },
+    {
+      "method": "PATCH",
+      "path": "/groups/{group_id}/policies/{policy_id}",
+      "operation_id": "updateGroupPolicy",
+      "summary": "Update a group-level policy (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/policies",
+      "operation_id": "getOrgPolicies",
+      "summary": "Get org-level policies"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/policies",
+      "operation_id": "createOrgPolicy",
+      "summary": "Create a new org-level policy"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/policies/{policy_id}",
+      "operation_id": "deleteOrgPolicy",
+      "summary": "Delete an org-level policy"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/policies/{policy_id}",
+      "operation_id": "getOrgPolicy",
+      "summary": "Get an org-level policy"
+    },
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}/policies/{policy_id}",
+      "operation_id": "updateOrgPolicy",
+      "summary": "Update an org-level policy"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/policies/{policy_id}/events",
+      "operation_id": "getOrgPolicyEvents",
+      "summary": "List org policy events (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/groups/{group_id}/policies",
+      "method": "GET",
+      "operation_id": "listGroupPolicies",
+      "summary": "Get group level policies (Early Access)",
+      "details": {
+        "description": "Get all policies for the requested group\n\n*Group level Policy APIs Access Notice:* Access to our Group level Policy APIs is currently\nrestricted via \"use-group-policy-apis\" feature flag and will result in a 403 Forbidden error\nwithout the flag enabled. Please contact your account representative for eligibility requirements.\n\n#### Required permissions\n\n- `View Policies (group.policy.read)`",
+        "operationId": "listGroupPolicies",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/GroupPolicyResponse"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The group policies for the requested group",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        },
+        "summary": "Get group level policies (Early Access)",
+        "tags": [
+          "Policies"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "grouppolicies",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/policies",
+      "method": "POST",
+      "operation_id": "createGroupPolicy",
+      "summary": "Create a new group level policy (Early Access)",
+      "details": {
+        "description": "Create one new group level policy.\n\n*Group level Policy APIs Access Notice:* Access to our Group level Policy APIs is currently\nrestricted via \"use-group-policy-apis\" feature flag and will result in a 403 Forbidden error\nwithout the flag enabled. Please contact your account representative for eligibility requirements.\n\n#### Required permissions\n\n- `Create Policies (group.policy.create)`",
+        "operationId": "createGroupPolicy",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGroupPolicyPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GroupPolicyResponse"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A single policy is returned if it is successfully created.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create a new group level policy (Early Access)",
+        "tags": [
+          "Policies"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "grouppolicies",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/policies/{policy_id}",
+      "method": "DELETE",
+      "operation_id": "deleteGroupPolicy",
+      "summary": "Delete an group-level policy (Early Access)",
+      "details": {
+        "description": "Delete an existing group-level policy.\n\n*Group level Policy APIs Access Notice:* Access to our Group level Policy APIs is currently\nrestricted via \"use-group-policy-apis\" feature flag and will result in a 403 Forbidden error\nwithout the flag enabled. Please contact your account representative for eligibility requirements.\n\n#### Required permissions\n\n- `Delete Policies (group.policy.delete)`",
+        "operationId": "deleteGroupPolicy",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/PolicyId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete an group-level policy (Early Access)",
+        "tags": [
+          "Policies"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "grouppolicies",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/policies/{policy_id}",
+      "method": "PATCH",
+      "operation_id": "updateGroupPolicy",
+      "summary": "Update a group-level policy (Early Access)",
+      "details": {
+        "description": "Update the group-level policy.\n\n*Group level Policy APIs Access Notice:* Access to our Group level Policy APIs is currently\nrestricted via \"use-group-policy-apis\" feature flag and will result in a 403 Forbidden error\nwithout the flag enabled. Please contact your account representative for eligibility requirements.\n\n#### Required permissions\n\n- `Edit Policies (group.policy.edit)`",
+        "operationId": "updateGroupPolicy",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/PolicyId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGroupPolicyPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GroupPolicyResponse"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A single group policy is returned if it is successfully updated.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          }
+        },
+        "summary": "Update a group-level policy (Early Access)",
+        "tags": [
+          "Policies"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "grouppolicies",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/policies",
+      "method": "GET",
+      "operation_id": "getOrgPolicies",
+      "summary": "Get org-level policies",
+      "details": {
+        "description": "Get all policies for the requested organisation.\n\n*Org level Policy APIs Access Notice:* Org level Policy APIs are only available \nfor use with Code Consistent Ignores. For information about how to enable Code Consistent Ignores \nsee [this](https://docs.snyk.io/manage-risk/prioritize-issues-for-fixing/ignore-issues/consistent-ignores-for-snyk-code#enable-snyk-code-consistent-ignores) \ndocumentation.\n\n#### Required permissions\n\n- `View Ignores (org.project.ignore.read)`",
+        "operationId": "getOrgPolicies",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Search"
+          },
+          {
+            "$ref": "#/components/parameters/OrderBy"
+          },
+          {
+            "$ref": "#/components/parameters/OrderDirection"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Review"
+          },
+          {
+            "description": "Select only policies with an expiry strictly before the given time.",
+            "in": "query",
+            "name": "expires_before",
+            "schema": {
+              "example": "2024-03-16T00:00:00Z",
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Select only policies with an expiry strictly past the given time.",
+            "in": "query",
+            "name": "expires_after",
+            "schema": {
+              "example": "2024-03-16T00:00:00Z",
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Select only policies that never expire.",
+            "in": "query",
+            "name": "expires_never",
+            "schema": {
+              "example": true,
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/PolicyResponse"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The policies for the requested organisation.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        },
+        "summary": "Get org-level policies",
+        "tags": [
+          "Policies"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "policies",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/policies",
+      "method": "POST",
+      "operation_id": "createOrgPolicy",
+      "summary": "Create a new org-level policy",
+      "details": {
+        "description": "Create a new org-level policy.\n\n*Org level Policy APIs Access Notice:* Org level Policy APIs are only available \nfor use with Code Consistent Ignores. For information about how to enable Code Consistent Ignores \nsee [this](https://docs.snyk.io/manage-risk/prioritize-issues-for-fixing/ignore-issues/consistent-ignores-for-snyk-code#enable-snyk-code-consistent-ignores) \ndocumentation.\n\n#### Required permissions\n\n- `Create Ignores (org.project.ignore.create)`",
+        "operationId": "createOrgPolicy",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePolicyPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PolicyResponse"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A single policy is returned if it is successfully created.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create a new org-level policy",
+        "tags": [
+          "Policies"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "policies",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/policies/{policy_id}",
+      "method": "DELETE",
+      "operation_id": "deleteOrgPolicy",
+      "summary": "Delete an org-level policy",
+      "details": {
+        "description": "Delete an existing org-level policy.\n\n*Org level Policy APIs Access Notice:* Org level Policy APIs are only available \nfor use with Code Consistent Ignores. For information about how to enable Code Consistent Ignores \nsee [this](https://docs.snyk.io/manage-risk/prioritize-issues-for-fixing/ignore-issues/consistent-ignores-for-snyk-code#enable-snyk-code-consistent-ignores) \ndocumentation.\n\n#### Required permissions\n\n- `Remove Ignores (org.project.ignore.delete)`",
+        "operationId": "deleteOrgPolicy",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/PolicyId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete an org-level policy",
+        "tags": [
+          "Policies"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "policies",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/policies/{policy_id}",
+      "method": "GET",
+      "operation_id": "getOrgPolicy",
+      "summary": "Get an org-level policy",
+      "details": {
+        "description": "Get a specific org-level policy based on its ID.\n\n*Org level Policy APIs Access Notice:* Org level Policy APIs are only available \nfor use with Code Consistent Ignores. For information about how to enable Code Consistent Ignores \nsee [this](https://docs.snyk.io/manage-risk/prioritize-issues-for-fixing/ignore-issues/consistent-ignores-for-snyk-code#enable-snyk-code-consistent-ignores) \ndocumentation.\n\n#### Required permissions\n\n- `View Ignores (org.project.ignore.read)`",
+        "operationId": "getOrgPolicy",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/PolicyId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PolicyResponse"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The requested policy.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        },
+        "summary": "Get an org-level policy",
+        "tags": [
+          "Policies"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "policies",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/policies/{policy_id}",
+      "method": "PATCH",
+      "operation_id": "updateOrgPolicy",
+      "summary": "Update an org-level policy",
+      "details": {
+        "description": "Update the org-level policy. \n\n*Org level Policy APIs Access Notice:* Org level Policy APIs are only available \nfor use with Code Consistent Ignores. For information about how to enable Code Consistent Ignores \nsee [this](https://docs.snyk.io/manage-risk/prioritize-issues-for-fixing/ignore-issues/consistent-ignores-for-snyk-code#enable-snyk-code-consistent-ignores) \ndocumentation.\n\n#### Required permissions\n\n- `Edit Ignores (org.project.ignore.edit)`",
+        "operationId": "updateOrgPolicy",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/PolicyId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePolicyPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PolicyResponse"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A single policy is returned if it is successfully updated.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          }
+        },
+        "summary": "Update an org-level policy",
+        "tags": [
+          "Policies"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "policies",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/policies/{policy_id}/events",
+      "method": "GET",
+      "operation_id": "getOrgPolicyEvents",
+      "summary": "List org policy events (Early Access)",
+      "details": {
+        "description": "Retrieve the event history for the given policy.\n\n*Org level Policy APIs Access Notice:* Access to our Org level Policy APIs is currently\nrestricted via \"snykCodeConsistentIgnores\" and \"ignoreApprovalWorkflow\" feature flags\nand will result in a 403 Forbidden error without the flag enabled. Please contact your\naccount representative for eligibility requirements.\n\n#### Required permissions\n\n- `View Ignores (org.project.ignore.read)`",
+        "operationId": "getOrgPolicyEvents",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/PolicyId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/PolicyEventResponse"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The requested policy.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        },
+        "summary": "List org policy events (Early Access)",
+        "tags": [
+          "Policies"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-13~beta"
+        ],
+        "x-snyk-api-resource": "policyevents",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-13~beta",
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "GroupPolicyConditionLifecycle": {
+      "additionalProperties": false,
+      "description": "Matches on the project lifecycle - if lifecycle is provided, the policy will only apply to projects with the specified lifecycle.",
+      "properties": {
+        "field": {
+          "enum": [
+            "lifecycle"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicyLifecycle"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "enum": [
+              "development",
+              "production",
+              "sandbox"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionSnykAssetFindingV1": {
+      "additionalProperties": false,
+      "description": "Matches on the Snyk Asset Finding V1 identifier.",
+      "properties": {
+        "field": {
+          "enum": [
+            "snyk/asset/finding/v1"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicySnykAssetFindingV1"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionOrgID": {
+      "additionalProperties": false,
+      "description": "Matches on the organization ID - if org ID is provided, the policy will only apply to the specified organization. If no org ID is provided, the policy will apply to all organizations.",
+      "properties": {
+        "field": {
+          "enum": [
+            "org-id"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicyOrgID"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/GroupPolicyResponseAttributes"
+        },
+        "id": {
+          "description": "A unique identifier for this particular occurrence of the group level policy.",
+          "example": "f16c31b5-6129-4571-add8-d589da9be524",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "policy"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionsGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "conditions": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionExploitMaturity"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionSnykAssetFindingV1"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionRuleId"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionSeverity"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionCWE"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionCVE"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionSnykId"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionOrgID"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionProjectTags"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionBusinessCriticality"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionEnvironment"
+              },
+              {
+                "$ref": "#/components/schemas/GroupPolicyConditionLifecycle"
+              }
+            ]
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "logical_operator": {
+          "$ref": "#/components/schemas/GroupPolicyOperator"
+        }
+      },
+      "required": [
+        "logical_operator",
+        "conditions"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionProjectTags": {
+      "additionalProperties": false,
+      "description": "Matches on the project tags - if project tags are provided, the policy will only apply to projects with the specified tags.\nThe value is a list of key:value pairs.\nThe key and value must be Alphanumeric including - and _ with a limit of 30 characters for each key and value.\n",
+      "properties": {
+        "field": {
+          "enum": [
+            "project-tags"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicyProjectTags"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "example": "key:value",
+            "pattern": "^[A-Za-z0-9_-]{1,30}:[A-Za-z0-9_-]{1,30}$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyRequestAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/components/schemas/GroupPolicyAction"
+        },
+        "action_type": {
+          "$ref": "#/components/schemas/GroupPolicyActionType"
+        },
+        "conditions_group": {
+          "$ref": "#/components/schemas/GroupPolicyConditionsGroup"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "conditions_group",
+        "action_type",
+        "action"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyActionSeverityOverride": {
+      "additionalProperties": false,
+      "description": "Severity override action",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/GroupPolicyActionSeverityOverrideData"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "PolicyReview": {
+      "description": "Review status.",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "not-required"
+      ],
+      "type": "string"
+    },
+    "GroupPolicyActionIgnoreData": {
+      "additionalProperties": false,
+      "properties": {
+        "ignore_type": {
+          "enum": [
+            "wont-fix",
+            "not-vulnerable",
+            "temporary-ignore"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicyWontFix",
+            "GroupPolicyNotVulnerable",
+            "GroupPolicyTemporaryIgnore"
+          ]
+        },
+        "reason": {
+          "maxLength": 10000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "ignore_type"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionCWE": {
+      "additionalProperties": false,
+      "description": "Matches on the CWE.",
+      "properties": {
+        "field": {
+          "enum": [
+            "cwe"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicyCWE"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "PolicyEventType": {
+      "enum": [
+        "approve",
+        "reject",
+        "cancel",
+        "reopen",
+        "edit",
+        "create"
+      ],
+      "type": "string"
+    },
+    "PolicyResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/PolicyResponseAttributes"
+        },
+        "id": {
+          "description": "A unique identifier for this particular occurrence of the policy.",
+          "example": "f16c31b5-6129-4571-add8-d589da9be524",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "policy"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionRuleId": {
+      "additionalProperties": false,
+      "description": "Matches on the rule ID.",
+      "properties": {
+        "field": {
+          "enum": [
+            "rule-id"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicyRuleId"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyPrincipal": {
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "nullable": true,
+          "type": "string"
+        },
+        "id": {
+          "description": "The Snyk ID corresponding to this user or service account that created the policy",
+          "format": "uuid",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the user or service account that created the policy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "id"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyAction": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/GroupPolicyActionIgnore"
+        },
+        {
+          "$ref": "#/components/schemas/GroupPolicyActionAnnotation"
+        },
+        {
+          "$ref": "#/components/schemas/GroupPolicyActionSeverityOverride"
+        }
+      ]
+    },
+    "GroupPolicyConditionBusinessCriticality": {
+      "additionalProperties": false,
+      "description": "Matches on the project business criticality - if business criticality is provided, the policy will only apply to projects with the specified business criticality.",
+      "properties": {
+        "field": {
+          "enum": [
+            "business-criticality"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicyBusinessCriticality"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionEnvironment": {
+      "additionalProperties": false,
+      "description": "Matches on the project environment - if environment is provided, the policy will only apply to projects with the specified environment.",
+      "properties": {
+        "field": {
+          "enum": [
+            "environment"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicyEnvironment"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "enum": [
+              "frontend",
+              "backend",
+              "mobile",
+              "internal",
+              "external",
+              "saas",
+              "on-prem",
+              "hosted",
+              "distributed"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "PolicyConditionsGroup": {
+      "properties": {
+        "conditions": {
+          "items": {
+            "$ref": "#/components/schemas/PolicyCondition"
+          },
+          "maxItems": 1,
+          "minItems": 1,
+          "type": "array"
+        },
+        "logical_operator": {
+          "description": "The logical operator for the policy condition. Currently only 'and' is supported.",
+          "enum": [
+            "and"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "logical_operator",
+        "conditions"
+      ],
+      "type": "object"
+    },
+    "CreateGroupPolicyPayload": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/GroupPolicyRequestAttributes"
+            },
+            "type": {
+              "enum": [
+                "policy"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "PolicyEventAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "changes": {
+          "$ref": "#/components/schemas/PolicyEventChanges"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "created_at": {
+          "example": "2024-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "created_by": {
+          "$ref": "#/components/schemas/Principal"
+        },
+        "type": {
+          "$ref": "#/components/schemas/PolicyEventType"
+        }
+      },
+      "required": [
+        "created_at",
+        "type",
+        "created_by",
+        "changes"
+      ],
+      "type": "object"
+    },
+    "UpdateGroupPolicyPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/UpdateGroupPolicyAttributes"
+            },
+            "id": {
+              "description": "the UUID of the policy to update.",
+              "example": "f16c31b5-6129-4571-add8-d589da9be524",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "policy"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "attributes",
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "Principal": {
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "id": {
+          "description": "The Snyk ID corresponding to this user or service account that created the policy",
+          "format": "uuid",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the user or service account that created the policy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "id"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyActionIgnore": {
+      "additionalProperties": false,
+      "description": "Ignore action",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/GroupPolicyActionIgnoreData"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyActionAnnotationData": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionExploitMaturity": {
+      "additionalProperties": false,
+      "description": "Matches on the exploit maturity.",
+      "properties": {
+        "field": {
+          "enum": [
+            "exploit-maturity"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicyExploitMaturity"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "enum": [
+              "mature",
+              "proof-of-concept",
+              "no-known-exploit",
+              "no-data"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "PolicyActionIgnoreData": {
+      "additionalProperties": false,
+      "properties": {
+        "expires": {
+          "example": "2024-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "ignore_type": {
+          "enum": [
+            "wont-fix",
+            "not-vulnerable",
+            "temporary-ignore"
+          ],
+          "type": "string"
+        },
+        "reason": {
+          "maxLength": 10000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "ignore_type"
+      ],
+      "type": "object"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "GroupPolicyResponseAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/components/schemas/GroupPolicyAction"
+        },
+        "action_type": {
+          "$ref": "#/components/schemas/GroupPolicyActionType"
+        },
+        "conditions_group": {
+          "$ref": "#/components/schemas/GroupPolicyConditionsGroup"
+        },
+        "created_at": {
+          "example": "2024-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "created_by": {
+          "$ref": "#/components/schemas/GroupPolicyPrincipal"
+        },
+        "name": {
+          "type": "string"
+        },
+        "updated_at": {
+          "example": "2024-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "conditions_group",
+        "action_type",
+        "action",
+        "created_by",
+        "created_at",
+        "updated_at"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionSnykId": {
+      "additionalProperties": false,
+      "description": "Matches on the Snyk ID.",
+      "properties": {
+        "field": {
+          "enum": [
+            "snyk-id"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicySnykId"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "PolicyCondition": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "description": "field refers to the type of identifier used in the condition of the policy.  The available value is versioned and hierarchical:\n- `snyk/asset/finding/v1` : identity of the finding scoped to a Snyk assets (e.g. a repository).\nFor a given issue, `snyk/asset/finding/v1` can be extracted from the `key_asset` field in the [issues API](https://apidocs.snyk.io/?version=2024-10-15#get-/orgs/-org_id-/issues). \nIn addition, finding identities can be extracted from the fingerprints section of the SARIF, which is accessible via the Snyk CLI. More details can be found in the [CLI documentation](https://docs.snyk.io/snyk-cli/scan-and-maintain-projects-using-the-cli/snyk-cli-for-snyk-code/view-snyk-code-cli-results#export-test-results).\n",
+          "enum": [
+            "snyk/asset/finding/v1"
+          ],
+          "type": "string"
+        },
+        "operator": {
+          "description": "Operator for the field to value matching. Currently\nonly 'includes' is supported, which does an exact\nstring match on the value.\n",
+          "enum": [
+            "includes"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of the field to match on.\n",
+          "type": "string"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyActionAnnotation": {
+      "additionalProperties": false,
+      "description": "Annotation action",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/GroupPolicyActionAnnotationData"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "CreatePolicyPayload": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/PolicyAttributes"
+            },
+            "meta": {
+              "$ref": "#/components/schemas/Meta"
+            },
+            "type": {
+              "enum": [
+                "policy"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyOperator": {
+      "enum": [
+        "and"
+      ],
+      "type": "string",
+      "x-enum-varnames": [
+        "GroupPolicyAnd"
+      ]
+    },
+    "PolicyActionIgnore": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/PolicyActionIgnoreData"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyActionType": {
+      "enum": [
+        "ignore",
+        "annotation",
+        "severity-override"
+      ],
+      "type": "string"
+    },
+    "UpdateGroupPolicyAttributes": {
+      "additionalProperties": false,
+      "description": "Attributes of a policy that can be updated.\nAt least one of 'name', 'conditions_group', 'action_type', or 'action' must be provided.\n",
+      "minProperties": 1,
+      "properties": {
+        "action": {
+          "$ref": "#/components/schemas/GroupPolicyAction"
+        },
+        "action_type": {
+          "$ref": "#/components/schemas/GroupPolicyActionType"
+        },
+        "conditions_group": {
+          "$ref": "#/components/schemas/GroupPolicyConditionsGroup"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PolicyResponseAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/components/schemas/PolicyActionIgnore"
+        },
+        "action_type": {
+          "enum": [
+            "ignore"
+          ],
+          "type": "string"
+        },
+        "conditions_group": {
+          "$ref": "#/components/schemas/PolicyConditionsGroup"
+        },
+        "created_at": {
+          "example": "2024-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "created_by": {
+          "$ref": "#/components/schemas/Principal"
+        },
+        "name": {
+          "type": "string"
+        },
+        "review": {
+          "$ref": "#/components/schemas/PolicyReview"
+        },
+        "updated_at": {
+          "example": "2024-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "conditions_group",
+        "action",
+        "action_type",
+        "review",
+        "created_at",
+        "updated_at"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionOperator": {
+      "enum": [
+        "includes",
+        "not-includes"
+      ],
+      "type": "string",
+      "x-enum-varnames": [
+        "GroupPolicyIncludes",
+        "GroupPolicyNotIncludes"
+      ]
+    },
+    "GroupPolicyConditionSeverity": {
+      "additionalProperties": false,
+      "description": "Matches on the severity.",
+      "properties": {
+        "field": {
+          "enum": [
+            "severity"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicySeverity"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "GroupPolicyConditionCVE": {
+      "additionalProperties": false,
+      "description": "Matches on the CVE.",
+      "properties": {
+        "field": {
+          "enum": [
+            "cve"
+          ],
+          "type": "string",
+          "x-enum-varnames": [
+            "GroupPolicyCVE"
+          ]
+        },
+        "operator": {
+          "$ref": "#/components/schemas/GroupPolicyConditionOperator"
+        },
+        "value": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "field",
+        "operator",
+        "value"
+      ],
+      "type": "object"
+    },
+    "PolicyEventResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/PolicyEventAttributes"
+        },
+        "id": {
+          "description": "A unique identifier for this event.",
+          "example": "f16c31b5-6129-4571-add8-d589da9be524",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "policy_event"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "PolicyEventChanges": {
+      "additionalProperties": false,
+      "properties": {
+        "new_action": {
+          "$ref": "#/components/schemas/PolicyActionIgnore"
+        },
+        "new_conditions_group": {
+          "$ref": "#/components/schemas/PolicyConditionsGroup"
+        },
+        "new_name": {
+          "type": "string"
+        },
+        "new_review": {
+          "$ref": "#/components/schemas/PolicyReview"
+        },
+        "old_action": {
+          "$ref": "#/components/schemas/PolicyActionIgnore"
+        },
+        "old_conditions_group": {
+          "$ref": "#/components/schemas/PolicyConditionsGroup"
+        },
+        "old_name": {
+          "type": "string"
+        },
+        "old_review": {
+          "$ref": "#/components/schemas/PolicyReview"
+        }
+      },
+      "type": "object"
+    },
+    "PolicyAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/components/schemas/PolicyActionIgnore"
+        },
+        "action_type": {
+          "enum": [
+            "ignore"
+          ],
+          "type": "string"
+        },
+        "conditions_group": {
+          "$ref": "#/components/schemas/PolicyConditionsGroup"
+        },
+        "name": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "source": {
+          "description": "The source of the policy creation. Defaults to 'api' if not provided.",
+          "enum": [
+            "api",
+            "cli",
+            "ide",
+            "web",
+            "unknown"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "conditions_group",
+        "action",
+        "action_type"
+      ],
+      "type": "object"
+    },
+    "UpdatePolicyReview": {
+      "description": "Review update.\n\nTo provide an optional message relating to the review state change, add a string 'message' property to the 'meta' object.\n",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "type": "string"
+    },
+    "GroupPolicyActionSeverityOverrideData": {
+      "additionalProperties": false,
+      "properties": {
+        "reason": {
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/components/schemas/SeverityLevel"
+        }
+      },
+      "required": [
+        "severity"
+      ],
+      "type": "object"
+    },
+    "UpdatePolicyAttributes": {
+      "additionalProperties": false,
+      "description": "Attributes of a policy that can be updated.\nAt least one of 'name', 'conditions_group', 'action', or 'review' must be provided.\n\nIn order to update the review field, the caller will need to have the\n\"Review Ignore Request\" permission.\n",
+      "properties": {
+        "action": {
+          "$ref": "#/components/schemas/PolicyActionIgnore"
+        },
+        "conditions_group": {
+          "$ref": "#/components/schemas/PolicyConditionsGroup"
+        },
+        "name": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "review": {
+          "$ref": "#/components/schemas/UpdatePolicyReview"
+        }
+      },
+      "type": "object"
+    },
+    "UpdatePolicyPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/UpdatePolicyAttributes"
+            },
+            "id": {
+              "description": "the UUID of the policy to update.",
+              "example": "f16c31b5-6129-4571-add8-d589da9be524",
+              "format": "uuid",
+              "type": "string"
+            },
+            "meta": {
+              "$ref": "#/components/schemas/Meta"
+            },
+            "type": {
+              "enum": [
+                "policy"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "SeverityLevel": {
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "type": "string",
+      "x-enum-varnames": [
+        "Low",
+        "Medium",
+        "High",
+        "Critical"
+      ]
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Meta",
+    "LinkProperty",
+    "PaginatedLinks",
+    "Links"
+  ]
+}

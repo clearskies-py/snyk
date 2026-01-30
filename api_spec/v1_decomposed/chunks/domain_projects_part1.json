@@ -1,0 +1,2706 @@
+{
+  "tag": "Projects",
+  "endpoint_count": 14,
+  "schema_count": 51,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/project/{projectId}",
+      "operation_id": "Retrieveasingleproject",
+      "summary": "Retrieve a single project"
+    },
+    {
+      "method": "PUT",
+      "path": "/org/{orgId}/project/{projectId}",
+      "operation_id": "Updateaproject",
+      "summary": "Update a project"
+    },
+    {
+      "method": "DELETE",
+      "path": "/org/{orgId}/project/{projectId}",
+      "operation_id": "Deleteaproject",
+      "summary": "Delete a project"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/project/{projectId}/deactivate",
+      "operation_id": "Deactivate",
+      "summary": "Deactivate a project"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/project/{projectId}/activate",
+      "operation_id": "Activate",
+      "summary": "Activate a project"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/project/{projectId}/aggregated-issues",
+      "operation_id": "ListallAggregatedissues",
+      "summary": "List all Aggregated issues"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/project/{projectId}/issue/{issueId}/paths",
+      "operation_id": "Listallprojectissuepaths",
+      "summary": "List all project issue paths"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/project/{projectId}/history",
+      "operation_id": "Listallprojectsnapshots",
+      "summary": "List all project snapshots"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/project/{projectId}/history/{snapshotId}/aggregated-issues",
+      "operation_id": "Listallprojectsnapshotaggregatedissues",
+      "summary": "List all project snapshot aggregated issues"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/project/{projectId}/history/{snapshotId}/issue/{issueId}/paths",
+      "operation_id": "Listallprojectsnapshotissuepaths",
+      "summary": "List all project snapshot issue paths"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/project/{projectId}/dep-graph",
+      "operation_id": "GetProjectdependencygraph",
+      "summary": "Get Project dependency graph"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/project/{projectId}/ignores",
+      "operation_id": "Listallignores",
+      "summary": "List all ignores"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/project/{projectId}/ignore/{issueId}",
+      "operation_id": "Retrieveignore",
+      "summary": "Retrieve ignore"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/project/{projectId}/ignore/{issueId}",
+      "operation_id": "Addignore",
+      "summary": "Add ignore"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/org/{orgId}/project/{projectId}",
+      "method": "GET",
+      "operation_id": "Retrieveasingleproject",
+      "summary": "Retrieve a single project",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Retrieve a single project",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Project`\n- `View Project Snapshot`",
+        "operationId": "Retrieveasingleproject",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID the project belongs to. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}",
+      "method": "PUT",
+      "operation_id": "Updateaproject",
+      "summary": "Update a project",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Update a project",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Project`\n- `Edit Project`",
+        "operationId": "Updateaproject",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID the project belongs to. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Updateaprojectrequest"
+              },
+              "example": {
+                "owner": {
+                  "id": "1acd4d09-5602-4d04-9640-045fe928aaea"
+                },
+                "branch": "main"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}",
+      "method": "DELETE",
+      "operation_id": "Deleteaproject",
+      "summary": "Delete a project",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Delete a project",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Project`\n- `Remove Project`",
+        "operationId": "Deleteaproject",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID the project belongs to. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/deactivate",
+      "method": "POST",
+      "operation_id": "Deactivate",
+      "summary": "Deactivate a project",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Deactivate a project",
+        "description": "Deactivating a project will:\n- Disable pull request tests for new vulnerabilities.\n- Disable Fix pull request from being opened for newly disclosed vulnerabilities.\n- Disable recurring tests - email alerts about newly disclosed vulnerabilities will be turned off.\n- If the repository has no other active projects, then remove any webhooks related to the project.\n#### Required permissions\n- `View Organization`\n- `View Project`\n- `Project Status`",
+        "operationId": "Deactivate",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID the project belongs to. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/activate",
+      "method": "POST",
+      "operation_id": "Activate",
+      "summary": "Activate a project",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Activate a project",
+        "description": "Activating a project will:\n- Add a repository webhook for supported integrations.\n- Enable pull request tests for new vulnerabilities.\n- Open Fix pull request for newly disclosed vulnerabilities.\n- Enable recurring tests, sending email alerts about newly disclosed vulnerabilities.\n#### Required permissions\n- `View Organization`\n- `View Project`\n- `Project Status`",
+        "operationId": "Activate",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID the project belongs to. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/aggregated-issues",
+      "method": "POST",
+      "operation_id": "ListallAggregatedissues",
+      "summary": "List all Aggregated issues",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "List all Aggregated issues",
+        "description": "#### Required permissions\n- `View Project`\n- `View Project Snapshot`",
+        "operationId": "ListallAggregatedissues",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to return issues for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aggregatedprojectissuesfilters"
+              },
+              "example": {
+                "includeDescription": false,
+                "includeIntroducedThrough": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aggregatedprojectissues"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/issue/{issueId}/paths",
+      "method": "GET",
+      "operation_id": "Listallprojectissuepaths",
+      "summary": "List all project issue paths",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "List all project issue paths",
+        "description": "#### Required permissions\n- `View Project`\n- `View Project Snapshot`",
+        "operationId": "Listallprojectissuepaths",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID for which to return issue paths.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "description": "The issue ID for which to return issue paths.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "SNYK-JS-LODASH-590103"
+            }
+          },
+          {
+            "name": "snapshotId",
+            "in": "query",
+            "description": "The project snapshot ID for which to return issue paths. If set to `latest`, the most recent snapshot will be used. Use the \"List all project snapshots\" endpoint to find suitable values for this.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454553"
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "The number of results to return per page (1 - 1000, inclusive).",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 3
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page of results to return.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 2
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Link": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "<https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/issue/SNYK-JS-LODASH-590103?snapshotId=6d5813be-7e6d-4ab8-80c2-1e3e2a454553&page=1&perPage=3>; rel=prev, <https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/issue/SNYK-JS-LODASH-590103?snapshotId=6d5813be-7e6d-4ab8-80c2-1e3e2a454553&page=3&perPage=3>; rel=next, <https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/issue/SNYK-JS-LODASH-590103?snapshotId=6d5813be-7e6d-4ab8-80c2-1e3e2a454553&page=4&perPage=3>; rel=last"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Issuepaths"
+                },
+                "example": {
+                  "snapshotId": "6d5813be-7e6d-4ab8-80c2-1e3e2a454553",
+                  "paths": [
+                    [
+                      {
+                        "name": "tap",
+                        "version": "11.1.5"
+                      },
+                      {
+                        "name": "nyc",
+                        "version": "11.9.0"
+                      },
+                      {
+                        "name": "istanbul-lib-instrument",
+                        "version": "1.10.1"
+                      },
+                      {
+                        "name": "babel-traverse",
+                        "version": "6.26.0"
+                      },
+                      {
+                        "name": "lodash",
+                        "version": "4.17.10"
+                      }
+                    ],
+                    [
+                      {
+                        "name": "tap",
+                        "version": "11.1.5",
+                        "fixVersion": "11.1.5"
+                      },
+                      {
+                        "name": "nyc",
+                        "version": "11.9.0"
+                      },
+                      {
+                        "name": "istanbul-lib-instrument",
+                        "version": "1.10.1"
+                      },
+                      {
+                        "name": "babel-template",
+                        "version": "6.26.0"
+                      },
+                      {
+                        "name": "lodash",
+                        "version": "4.17.10"
+                      }
+                    ]
+                  ],
+                  "total": 10,
+                  "links": {
+                    "prev": "https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/issue/SNYK-JS-LODASH-590103?snapshotId=6d5813be-7e6d-4ab8-80c2-1e3e2a454553&page=1&perPage=3",
+                    "next": "https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/issue/SNYK-JS-LODASH-590103?snapshotId=6d5813be-7e6d-4ab8-80c2-1e3e2a454553&page=3&perPage=3",
+                    "last": "https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/issue/SNYK-JS-LODASH-590103?snapshotId=6d5813be-7e6d-4ab8-80c2-1e3e2a454553&page=4&perPage=3"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/history",
+      "method": "POST",
+      "operation_id": "Listallprojectsnapshots",
+      "summary": "List all project snapshots",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-documentation": {
+          "category": "Snapshots"
+        },
+        "summary": "List all project snapshots",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Project`\n- `View Project Snapshot`",
+        "operationId": "Listallprojectsnapshots",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to return snapshots for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "The number of results to return (the default is 10, the maximum is 100).",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 10
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The offset from which to start returning results from.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 1
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Projectsnapshotsfilters"
+              },
+              "example": {
+                "filters": {
+                  "imageId": "sha256:a368cbcfa6789bc347345f6d78902afe138b62ff5373d2aa5f37120277c90a67"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Link": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "<https://api.snyk.io/v1/org/2d5c4d0c-c6d6-4658-a703-c2721c135b26/project/84dc70ad-eea9-468d-ae43-f0966ba12c99/history?page=3&perPage=100>; rel=last, <https://api.snyk.io/v1/org/2d5c4d0c-c6d6-4658-a703-c2721c135b26/project/84dc70ad-eea9-468d-ae43-f0966ba12c99/history?page=2&perPage=100>; rel=next"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Projectsnapshots"
+                },
+                "example": {
+                  "snapshots": [
+                    {
+                      "id": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545",
+                      "created": "2019-02-05T06:21:00+00:00",
+                      "totalDependencies": 438,
+                      "issueCounts": {
+                        "vuln": {
+                          "low": 8,
+                          "medium": 15,
+                          "high": 13,
+                          "critical": 0
+                        },
+                        "license": {
+                          "low": 8,
+                          "medium": 15,
+                          "high": 13,
+                          "critical": 0
+                        }
+                      },
+                      "imageId": "sha256:a368cbcfa6789bc347345f6d78902afe138b62ff5373d2aa5f37120277c90a67",
+                      "imageTag": "latest",
+                      "imagePlatform": "linux/amd64",
+                      "baseImageName": "fedora:32",
+                      "method": "web-test"
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/history/{snapshotId}/aggregated-issues",
+      "method": "POST",
+      "operation_id": "Listallprojectsnapshotaggregatedissues",
+      "summary": "List all project snapshot aggregated issues",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-documentation": {
+          "category": "Snapshots"
+        },
+        "summary": "List all project snapshot aggregated issues",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Project`\n- `View Project Snapshot`",
+        "operationId": "Listallprojectsnapshotaggregatedissues",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "2d5c4d0c-c6d6-4658-a703-c2721c135b26"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          },
+          {
+            "name": "snapshotId",
+            "in": "path",
+            "description": "The snapshot ID. If set to latest, the most recent snapshot will be used.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454553"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aggregatedprojectissuesfilters"
+              },
+              "example": {
+                "includeDescription": false,
+                "includeIntroducedThrough": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aggregatedprojectissues"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/history/{snapshotId}/issue/{issueId}/paths",
+      "method": "GET",
+      "operation_id": "Listallprojectsnapshotissuepaths",
+      "summary": "List all project snapshot issue paths",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-documentation": {
+          "category": "Snapshots"
+        },
+        "summary": "List all project snapshot issue paths",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Project`\n- `View Project Snapshot`",
+        "operationId": "Listallprojectsnapshotissuepaths",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID for which to return issue paths.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          },
+          {
+            "name": "snapshotId",
+            "in": "path",
+            "description": "The project snapshot ID for which to return issue paths. If set to `latest`, the most recent snapshot will be used. Use the \"List all project snapshots\" endpoint to find suitable values for this.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454553"
+            }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "description": "The issue ID for which to return issue paths.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "SNYK-JS-LODASH-590103"
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "The number of results to return per page (1 - 1000, inclusive).",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 3
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page of results to return.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 2
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "<https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/history/6d5813be-7e6d-4ab8-80c2-1e3e2a454553/issue/SNYK-JS-LODASH-590103?page=1&perPage=3>; rel=prev, <https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/history/6d5813be-7e6d-4ab8-80c2-1e3e2a454553/issue/SNYK-JS-LODASH-590103?page=3&perPage=3>; rel=next, <https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/history/6d5813be-7e6d-4ab8-80c2-1e3e2a454553/issue/SNYK-JS-LODASH-590103?page=4&perPage=3>; rel=last"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Issuepaths"
+                },
+                "example": {
+                  "snapshotId": "6d5813be-7e6d-4ab8-80c2-1e3e2a454553",
+                  "paths": [
+                    [
+                      {
+                        "name": "tap",
+                        "version": "11.1.5"
+                      },
+                      {
+                        "name": "nyc",
+                        "version": "11.9.0"
+                      },
+                      {
+                        "name": "istanbul-lib-instrument",
+                        "version": "1.10.1"
+                      },
+                      {
+                        "name": "babel-traverse",
+                        "version": "6.26.0"
+                      },
+                      {
+                        "name": "lodash",
+                        "version": "4.17.10"
+                      }
+                    ],
+                    [
+                      {
+                        "name": "tap",
+                        "version": "11.1.5",
+                        "fixVersion": "11.1.5"
+                      },
+                      {
+                        "name": "nyc",
+                        "version": "11.9.0"
+                      },
+                      {
+                        "name": "istanbul-lib-instrument",
+                        "version": "1.10.1"
+                      },
+                      {
+                        "name": "babel-template",
+                        "version": "6.26.0"
+                      },
+                      {
+                        "name": "lodash",
+                        "version": "4.17.10"
+                      }
+                    ]
+                  ],
+                  "total": 10,
+                  "links": {
+                    "prev": "https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/history/6d5813be-7e6d-4ab8-80c2-1e3e2a454553/issue/SNYK-JS-LODASH-590103?page=1&perPage=3",
+                    "next": "https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/history/6d5813be-7e6d-4ab8-80c2-1e3e2a454553/issue/SNYK-JS-LODASH-590103?page=3&perPage=3",
+                    "last": "https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/6d5813be-7e6d-4ab8-80c2-1e3e2a454545/history/6d5813be-7e6d-4ab8-80c2-1e3e2a454553/issue/SNYK-JS-LODASH-590103?page=4&perPage=3"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/dep-graph",
+      "method": "GET",
+      "operation_id": "GetProjectdependencygraph",
+      "summary": "Get Project dependency graph",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Get Project dependency graph",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Project`\n- `View Project Snapshot`",
+        "operationId": "GetProjectdependencygraph",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to return issues for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "* A reference implementation of the graph, as well as conversion functions to/from legacy tree format, can be found at: https://github.com/snyk/dep-graph.\n* The object might contain additional fields in the future, in a backward-compatible way (`schemaVersion` will change accordingly).",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Projectdependencygraph"
+                },
+                "example": {
+                  "depGraph": {
+                    "schemaVersion": "1.1.0",
+                    "pkgManager": {
+                      "name": "npm"
+                    },
+                    "pkgs": [
+                      {
+                        "id": "demo-app-for-test@1.1.1",
+                        "info": {
+                          "name": "demo-app-for-test",
+                          "version": "1.1.1"
+                        }
+                      },
+                      {
+                        "id": "express@4.4.0",
+                        "info": {
+                          "name": "express",
+                          "version": "4.4.0"
+                        }
+                      },
+                      {
+                        "id": "ws@1.0.0",
+                        "info": {
+                          "name": "ws",
+                          "version": "1.0.0"
+                        }
+                      }
+                    ],
+                    "graph": {
+                      "rootNodeId": "root-node",
+                      "nodes": [
+                        {
+                          "nodeId": "root-node",
+                          "pkgId": "demo-app-for-test@1.1.1",
+                          "deps": [
+                            {
+                              "nodeId": "express@4.4.0"
+                            },
+                            {
+                              "nodeId": "ws@1.0.0"
+                            }
+                          ]
+                        },
+                        {
+                          "nodeId": "express@4.4.0",
+                          "pkgId": "express@4.4.0",
+                          "deps": []
+                        },
+                        {
+                          "nodeId": "ws@1.0.0",
+                          "pkgId": "ws@1.0.0",
+                          "deps": []
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/ignores",
+      "method": "GET",
+      "operation_id": "Listallignores",
+      "summary": "List all ignores",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-documentation": {
+          "category": "Ignores"
+        },
+        "summary": "List all ignores",
+        "description": "Ignores from `.snyk` files are not included here.\nIgnores from Policies are not included here.\nTemporary ignores include an `expires` attribute, while permanent ignores do not.\n#### Required permissions\n- `View Organization`\n- `View Project`\n- `View Project Ignores`",
+        "operationId": "Listallignores",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to list ignores for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to list ignores for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Allignores"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/ignore/{issueId}",
+      "method": "GET",
+      "operation_id": "Retrieveignore",
+      "summary": "Retrieve ignore",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-documentation": {
+          "category": "Ignores"
+        },
+        "summary": "Retrieve ignore",
+        "description": "It is possible to modify/retrieve ignored vulnerability or license issues for a given organization and project.\nIgnores from `.snyk` files are not included here\n#### Required permissions\n- `View Project`\n- `View Project Ignores`",
+        "operationId": "Retrieveignore",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to modify ignores for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to modify ignores for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "description": "The issue ID to modify ignores for. Can be a vulnerability or a license Issue.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "SNYK-JS-QS-10019"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ignore"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/ignore/{issueId}",
+      "method": "POST",
+      "operation_id": "Addignore",
+      "summary": "Add ignore",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-documentation": {
+          "category": "Ignores"
+        },
+        "summary": "Add ignore",
+        "description": "It is possible to modify/retrieve ignored vulnerability or license issues for a given organization and project.\nIgnores from `.snyk` files are not included here\n#### Required permissions\n- `View Organization`\n- `View Project Ignores`\n- `Create new project ignores`",
+        "operationId": "Addignore",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to modify ignores for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to modify ignores for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "description": "The issue ID to modify ignores for. Can be a vulnerability or a license Issue.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "SNYK-JS-QS-10019"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Ignorerule"
+              },
+              "example": {
+                "ignorePath": "",
+                "reason": "",
+                "reasonType": "not-vulnerable",
+                "disregardIfFixable": false,
+                "expires": ""
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ignore"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "links": {
+      "title": "links",
+      "type": "object",
+      "properties": {
+        "paths": {
+          "type": "string",
+          "description": "The URL for the dependency paths that introduce this issue"
+        }
+      },
+      "description": "Onward links from this record (Non-IaC projects only)"
+    },
+    "snapshots": {
+      "title": "snapshots",
+      "required": [
+        "id",
+        "created",
+        "totalDependencies",
+        "issueCounts"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The snapshot identifier"
+        },
+        "created": {
+          "type": "string",
+          "description": "The date that the snapshot was taken",
+          "example": "2018-10-29T09:50:54.014000+00:00"
+        },
+        "totalDependencies": {
+          "type": "number",
+          "description": "Number of dependencies of the project"
+        },
+        "issueCounts": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/issueCounts2"
+            },
+            {
+              "description": "Number of known vulnerabilities in the project, not including ignored issues"
+            }
+          ]
+        },
+        "imageId": {
+          "type": "string",
+          "example": "sha256:caf27325b298a6730837023a8a342699c8b7b388b8d878966b064a1320043019"
+        },
+        "imageTag": {
+          "type": "string",
+          "example": "latest"
+        },
+        "imageBaseImage": {
+          "type": "string",
+          "example": "alpine:3"
+        },
+        "imagePlatform": {
+          "type": "string",
+          "example": "linux/arm64"
+        },
+        "method": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/method"
+            },
+            {
+              "description": "The method by which this snapshot was created."
+            }
+          ]
+        }
+      }
+    },
+    "aggregatedProjectIssuesfilter": {
+      "title": "aggregatedProjectIssuesFilter",
+      "type": "object",
+      "properties": {
+        "severities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The severity levels of issues to filter the results by"
+        },
+        "exploitMaturity": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The exploit maturity levels of issues to filter the results by (Non-IaC projects only)"
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The type of issues to filter the results by (Non-IaC projects only)"
+        },
+        "ignored": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are ignored, if set to `false`, only include issues which are not ignored"
+        },
+        "patched": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are patched, if set to `false`, only include issues which are not patched (Non-IaC projects only)"
+        },
+        "priority": {
+          "$ref": "#/components/schemas/priority1"
+        }
+      }
+    },
+    "Aggregatedprojectissuesfilters": {
+      "title": "Aggregatedprojectissuesfilters",
+      "type": "object",
+      "properties": {
+        "includeDescription": {
+          "type": "boolean",
+          "description": "If set to `true`, Include issue's description, if set to `false` (by default), it won't (Non-IaC projects only)"
+        },
+        "includeIntroducedThrough": {
+          "type": "boolean",
+          "description": "If set to `true`, include the dockerfile instruction that the issue is introducedThrough. If set to false (default), it won\u2019t. This only applies to Container projects with an associated Dockerfile (CLI or Container Registry source)"
+        },
+        "filters": {
+          "$ref": "#/components/schemas/aggregatedProjectIssuesfilter"
+        }
+      }
+    },
+    "Issuepaths": {
+      "title": "Issuepaths",
+      "type": "object",
+      "properties": {
+        "snapshotId": {
+          "type": "string",
+          "description": "The identifier of the snapshot for which the paths have been found"
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {}
+          },
+          "description": "A list of the dependency paths that introduce the issue"
+        },
+        "total": {
+          "type": "number",
+          "description": "The total number of results"
+        },
+        "links": {
+          "$ref": "#/components/schemas/issuePathsLinks"
+        }
+      }
+    },
+    "maturityLevel": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "description": "The standard by which the \u201cmaturity\u201d value is shown"
+        },
+        "level": {
+          "type": "string",
+          "description": "The exploit maturity of the issue"
+        }
+      }
+    },
+    "introducedThrough": {
+      "title": "introducedThrough",
+      "required": [
+        "kind",
+        "data"
+      ],
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "The data kind, each data kind can have different data fields e.g. \"ImageLayer\"",
+          "example": "imageLayer"
+        },
+        "data": {
+          "type": "object",
+          "description": "The information about what introduced the issue. The data structure varies based on the data kind."
+        }
+      }
+    },
+    "sast": {
+      "title": "sast",
+      "required": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "type": "object",
+      "properties": {
+        "low": {
+          "type": "number",
+          "description": "Number of low severity vulnerabilities"
+        },
+        "medium": {
+          "type": "number",
+          "description": "Number of medium severity vulnerabilities"
+        },
+        "high": {
+          "type": "number",
+          "description": "Number of high severity vulnerabilities"
+        },
+        "critical": {
+          "type": "number",
+          "description": "Number of critical severity vulnerabilities"
+        }
+      }
+    },
+    "exploitDetail": {
+      "type": "object",
+      "properties": {
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The sources by which we determined the exploit maturity level"
+        },
+        "maturityLevels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/maturityLevel"
+          }
+        }
+      }
+    },
+    "repositories": {
+      "title": "repositories",
+      "required": [
+        "alias"
+      ],
+      "type": "object",
+      "properties": {
+        "alias": {
+          "type": "string"
+        }
+      }
+    },
+    "Projectsnapshotsfilters": {
+      "title": "Projectsnapshotsfilters",
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/components/schemas/filters2"
+        }
+      }
+    },
+    "Ignore": {
+      "title": "Ignore",
+      "required": [
+        "ignorePath"
+      ],
+      "type": "object",
+      "properties": {
+        "ignorePath": {
+          "$ref": "#/components/schemas/ignorePath"
+        }
+      }
+    },
+    "source": {
+      "title": "source",
+      "enum": [
+        "cli",
+        "api"
+      ],
+      "type": "string",
+      "description": "The place where the ignore rule was applied from"
+    },
+    "ignorePath": {
+      "title": "ignorePath",
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "description": "The reason that the issue was ignored."
+        },
+        "reasonType": {
+          "$ref": "#/components/schemas/reasonType"
+        },
+        "ignoredBy": {
+          "$ref": "#/components/schemas/ignoredBy"
+        },
+        "disregardIfFixable": {
+          "type": "boolean",
+          "description": "Only ignore the issue if no upgrade or patch is available."
+        },
+        "expires": {
+          "type": "string",
+          "description": "The timestamp that the issue will no longer be ignored."
+        },
+        "created": {
+          "type": "string",
+          "description": "The timestamp that the issue was ignored."
+        }
+      },
+      "description": "The path that should be ignored. Wildcards can be specified with a `*`."
+    },
+    "identifiers": {
+      "title": "identifiers",
+      "type": "object",
+      "properties": {
+        "CVE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Common Vulnerability Enumeration identifiers"
+        },
+        "CWE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Common Weakness Enumeration identifiers"
+        },
+        "OSVDB": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Identifiers assigned by the Open Source Vulnerability Database (OSVDB)"
+        }
+      },
+      "description": "External identifiers assigned to the issue (Non-IaC projects only)"
+    },
+    "Aggregatedprojectissues": {
+      "title": "Aggregatedprojectissues",
+      "type": "object",
+      "properties": {
+        "issues": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/aggregatedProjectIssue"
+          },
+          "description": "An array of identified issues"
+        }
+      }
+    },
+    "aggregatedProjectIssue": {
+      "title": "aggregatedProjectIssue",
+      "required": [
+        "id",
+        "issueType",
+        "pkgName",
+        "pkgVersions",
+        "issueData",
+        "isPatched",
+        "isIgnored"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The identifier of the issue",
+          "example": "npm:ms:20170412"
+        },
+        "issueType": {
+          "type": "string",
+          "description": "type of the issue ('vuln', 'license' or 'configuration')",
+          "example": "vuln"
+        },
+        "pkgName": {
+          "type": "string",
+          "description": "The package name (Non-IaC projects only)",
+          "example": "ms"
+        },
+        "pkgVersions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of affected package versions (Non-IaC projects only)"
+        },
+        "issueData": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/issueData"
+            },
+            {
+              "description": "The details of the issue"
+            }
+          ]
+        },
+        "introducedThrough": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/introducedThrough"
+          },
+          "description": "The list of what introduced the issue (it is available only for container project with Dockerfile)"
+        },
+        "isPatched": {
+          "type": "boolean",
+          "description": "Whether the issue has been patched (Non-IaC projects only)"
+        },
+        "isIgnored": {
+          "type": "boolean",
+          "description": "Whether the issue has been ignored"
+        },
+        "ignoreReasons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ignoreReasons"
+          },
+          "description": "The list of reasons why the issue was ignored"
+        },
+        "fixInfo": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/fixInfo"
+            },
+            {
+              "description": "Information about fix/upgrade/pinnable options for the issue (Non-IaC projects only)"
+            }
+          ]
+        },
+        "priority": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/priority"
+            },
+            {
+              "description": "Information about the priority of the issue (Non-IaC projects only)"
+            }
+          ]
+        },
+        "links": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/links"
+            },
+            {
+              "description": "Onward links from this record (Non-IaC projects only)"
+            }
+          ]
+        }
+      }
+    },
+    "vuln": {
+      "title": "vuln",
+      "required": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "type": "object",
+      "properties": {
+        "low": {
+          "type": "number",
+          "description": "Number of low severity vulnerabilities"
+        },
+        "medium": {
+          "type": "number",
+          "description": "Number of medium severity vulnerabilities"
+        },
+        "high": {
+          "type": "number",
+          "description": "Number of high severity vulnerabilities"
+        },
+        "critical": {
+          "type": "number",
+          "description": "Number of critical severity vulnerabilities"
+        }
+      }
+    },
+    "filters2": {
+      "title": "filters2",
+      "type": "object",
+      "properties": {
+        "imageId": {
+          "type": "string",
+          "description": "For container projects, filter by the ID of the image",
+          "example": "sha256:caf27325b298a6730837023a8a342699c8b7b388b8d878966b064a1320043019"
+        }
+      }
+    },
+    "score": {
+      "title": "score",
+      "type": "object",
+      "properties": {
+        "min": {
+          "type": "number",
+          "example": 0
+        },
+        "max": {
+          "type": "number",
+          "example": 1000
+        }
+      },
+      "description": "Include issues where the priority score is between min and max"
+    },
+    "importingUser": {
+      "title": "importingUser",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The ID of the user.",
+          "example": "e713cf94-bb02-4ea0-89d9-613cce0caed2"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the user.",
+          "example": "example-user@snyk.io"
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the user.",
+          "example": "exampleUser"
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the user.",
+          "example": "example-user@snyk.io"
+        }
+      },
+      "description": "The user who imported the project"
+    },
+    "deps": {
+      "title": "deps",
+      "required": [
+        "nodeId"
+      ],
+      "type": "object",
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "description": "The id of the node"
+        }
+      }
+    },
+    "fixInfo": {
+      "title": "fixInfo",
+      "type": "object",
+      "properties": {
+        "isUpgradable": {
+          "type": "boolean",
+          "description": "Whether all of the issue's paths are upgradable"
+        },
+        "isPinnable": {
+          "type": "boolean",
+          "description": "Whether the issue can be fixed by pinning a transitive"
+        },
+        "isPatchable": {
+          "type": "boolean",
+          "description": "Whether all the of issue's paths are patchable"
+        },
+        "isFixable": {
+          "type": "boolean",
+          "description": "Whether all of the issue's paths are fixable. Paths that are already patched are not considered fixable unless they have an alternative remediation (e.g. pinning or upgrading). An upgrade path where the only changes are in transitive dependencies is only considered fixable if the package manager supports it."
+        },
+        "isPartiallyFixable": {
+          "type": "boolean",
+          "description": "Whether any of the issue's paths can be fixed. Paths that are already patched are not considered fixable unless they have an alternative remediation (e.g. pinning or upgrading).  An upgrade path where the only changes are in transitive dependencies is only considered fixable if the package manager supports it."
+        },
+        "nearestFixedInVersion": {
+          "type": "string",
+          "description": "Nearest version which includes a fix for the issue. This is populated for container projects only.",
+          "example": "2.0.0"
+        },
+        "fixedIn": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The set of versions in which this issue has been fixed. If the issue spanned multiple versions (i.e. `1.x` and `2.x`) then there will be multiple `fixedIn` entries"
+        }
+      },
+      "description": "Information about fix/upgrade/pinnable options for the issue (Non-IaC projects only)"
+    },
+    "priority": {
+      "title": "priority",
+      "type": "object",
+      "properties": {
+        "score": {
+          "type": "number",
+          "description": "The priority score of the issue",
+          "example": 399
+        },
+        "factors": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": "The list of factors that contributed to the priority of the issue"
+        }
+      },
+      "description": "Information about the priority of the issue (Non-IaC projects only)"
+    },
+    "owner": {
+      "title": "owner",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A user to assign as the project owner.",
+          "example": "1acd4d09-5602-4d04-9640-045fe928aaea"
+        }
+      },
+      "description": "Set to `null` to remove all ownership. User must be a member of the same organization as the project."
+    },
+    "priority1": {
+      "title": "priority1",
+      "type": "object",
+      "properties": {
+        "score": {
+          "$ref": "#/components/schemas/score"
+        }
+      },
+      "description": "The priority to filter the issues by (Non-IaC projects only)"
+    },
+    "issueData": {
+      "title": "issueData",
+      "required": [
+        "id",
+        "title",
+        "severity",
+        "originalSeverity",
+        "url",
+        "exploitMaturity",
+        "path",
+        "violatedPolicyPublicId"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The identifier of the issue",
+          "example": "npm:ms:20170412"
+        },
+        "title": {
+          "type": "string",
+          "description": "The issue title",
+          "example": "Regular Expression Denial of Service (ReDoS)"
+        },
+        "severity": {
+          "type": "string",
+          "description": "The severity status of the issue, after policies are applied",
+          "example": "low"
+        },
+        "originalSeverity": {
+          "type": "string",
+          "description": "The original severity status of the issue, as retrieved from Snyk Vulnerability database, before policies are applied",
+          "example": "high"
+        },
+        "url": {
+          "type": "string",
+          "description": "URL to a page containing information about the issue",
+          "example": "https://snyk.io/vuln/npm:ms:20170412"
+        },
+        "description": {
+          "type": "string",
+          "example": "`## Overview\\r\\n[`ms`](https://www.npmjs.com/package/ms) is a tiny millisecond conversion utility.\\r\\n\\r\\nAffected versions of this package are vulnerable to Regular Expression Denial of Service (ReDoS) due to an incomplete fix for previously reported vulnerability [npm:ms:20151024](https://snyk.io/vuln/npm:ms:20151024). The fix limited the length of accepted input string to 10,000 characters, and turned to be insufficient making it possible to block the event loop for 0.3 seconds (on a typical laptop) with a specially crafted string passed to `ms"
+        },
+        "identifiers": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/identifiers"
+            },
+            {
+              "description": "External identifiers assigned to the issue (Non-IaC projects only)"
+            }
+          ]
+        },
+        "credit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of people responsible for first uncovering or reporting the issue (Non-IaC projects only)"
+        },
+        "exploitMaturity": {
+          "type": "string",
+          "description": "The exploit maturity of the issue",
+          "example": "no-known-exploit"
+        },
+        "semver": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/semver"
+            },
+            {
+              "description": "The ranges that are vulnerable and unaffected by the issue (Non-IaC projects only)"
+            }
+          ]
+        },
+        "publicationTime": {
+          "type": "string",
+          "description": "The date that the vulnerability was first published by Snyk (Non-IaC projects only)",
+          "example": "2017-05-15T06:02:45+00:00"
+        },
+        "disclosureTime": {
+          "type": "string",
+          "description": "The date that the vulnerability was first disclosed",
+          "example": "2017-04-11T21:00:00+00:00"
+        },
+        "CVSSv3": {
+          "type": "string",
+          "description": "The CVSS v3 string that signifies how the CVSS score was calculated (Non-IaC projects only)",
+          "example": "CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        },
+        "cvssScore": {
+          "type": "number",
+          "description": "The CVSS score that results from running the vector from `severities` with the highest CVSS version available.",
+          "example": 3.7
+        },
+        "severities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/severityData"
+          },
+          "description": "The list of cvssSources renamed to severities for issueData model",
+          "example": [
+            {
+              "assigner": "NVD",
+              "severity": "medium",
+              "baseScore": 4.8,
+              "vector": "CVSS:4.0/AV:N/AC:H/AT:N/PR:L/UI:A/VC:N/VI:N/VA:N/SC:H/SI:L/SA:L/E:A",
+              "cvssVersion": "4.0",
+              "modificationTime": "2024-03-07T07:47:26.644482+00:00"
+            }
+          ]
+        },
+        "exploitDetails": {
+          "type": "object",
+          "properties": {
+            "target": {
+              "$ref": "#/components/schemas/exploitDetail"
+            }
+          },
+          "description": "The exploit maturity of the vulnerability in different industry-standard formats, as well as the sources of the information.",
+          "example": {
+            "sources": [
+              "CISA"
+            ],
+            "maturityLevels": [
+              {
+                "format": "CVSS_v3",
+                "level": "no-known-exploit"
+              }
+            ]
+          }
+        },
+        "language": {
+          "type": "string",
+          "description": "The language of the issue (Non-IaC projects only)",
+          "example": "js"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/patches"
+          },
+          "description": "A list of patches available for the given issue (Non-IaC projects only)"
+        },
+        "nearestFixedInVersion": {
+          "type": "string",
+          "description": "Nearest version which includes a fix for the issue. This is populated for container projects only. (Non-IaC projects only)",
+          "example": "2.0.0"
+        },
+        "path": {
+          "type": "string",
+          "description": "Path to the resource property violating the policy within the scanned project. (IaC projects only)",
+          "example": "[DocId: 1].input.spec.template.spec.containers[snyk2].securityContext.privileged"
+        },
+        "violatedPolicyPublicId": {
+          "type": "string",
+          "description": "The ID of the violated policy in the issue (IaC projects only)",
+          "example": "SNYK-CC-K8S-1"
+        },
+        "isMaliciousPackage": {
+          "type": "boolean",
+          "description": "Whether the issue is intentional, indicating a malicious package",
+          "example": true
+        }
+      },
+      "description": "The details of the issue"
+    },
+    "issueCounts2": {
+      "title": "issueCounts2",
+      "type": "object",
+      "properties": {
+        "vuln": {
+          "$ref": "#/components/schemas/vuln"
+        },
+        "license": {
+          "$ref": "#/components/schemas/license"
+        },
+        "sast": {
+          "$ref": "#/components/schemas/sast"
+        }
+      },
+      "description": "Number of known vulnerabilities in the project, not including ignored issues"
+    },
+    "remediation": {
+      "title": "remediation",
+      "type": "object",
+      "properties": {
+        "upgrade": {
+          "type": "object",
+          "description": "Recommended upgrades to apply to the project\n(object)\n    + upgradeTo (string, required) - `package@version` to upgrade to\n    + upgrades (array[string], required) -  List of `package@version` that will be upgraded as part of this upgrade\n    + vulns (array[string], required) - List of vulnerability ids that will be fixed as part of this upgrade"
+        },
+        "patch": {
+          "type": "object",
+          "description": "Recommended patches to apply to the project\n(object)\n   paths (array) - List of paths to the vulnerable dependency that can be patched"
+        },
+        "pin": {
+          "type": "object",
+          "description": "Recommended pins to apply to the project (Python only)\n\n(object)\n    + upgradeTo (string, required) - `package@version` to upgrade to\n    + vulns (array[string], required) - List of vulnerability ids that will be fixed as part of this upgrade\n    + isTransitive (boolean) - Describes if the dependency to be pinned is a transitive dependency"
+        }
+      },
+      "description": "Remediation data (if available)"
+    },
+    "patches": {
+      "title": "patches",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The identifier of the patch",
+          "example": "patch:npm:ms:20170412:0"
+        },
+        "urls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The URLs where the patch files can be downloaded"
+        },
+        "version": {
+          "type": "string",
+          "description": "The version number(s) that the patch can be applied to",
+          "example": "=1.0.0"
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Any comments about the patch"
+        },
+        "modificationTime": {
+          "type": "string",
+          "description": "When the patch was last modified",
+          "example": "2019-12-03T11:40:45.863964+00:00"
+        }
+      }
+    },
+    "reasonType": {
+      "title": "reasonType",
+      "enum": [
+        "not-vulnerable",
+        "wont-fix",
+        "temporary-ignore"
+      ],
+      "type": "string",
+      "description": "The classification of the ignore."
+    },
+    "license": {
+      "title": "license",
+      "required": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "type": "object",
+      "properties": {
+        "low": {
+          "type": "number",
+          "description": "Number of low severity vulnerabilities"
+        },
+        "medium": {
+          "type": "number",
+          "description": "Number of medium severity vulnerabilities"
+        },
+        "high": {
+          "type": "number",
+          "description": "Number of high severity vulnerabilities"
+        },
+        "critical": {
+          "type": "number",
+          "description": "Number of critical severity vulnerabilities"
+        }
+      }
+    },
+    "Allignores": {
+      "title": "Allignores",
+      "required": [
+        "issueId"
+      ],
+      "type": "object",
+      "properties": {
+        "issueId": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Ignore"
+          },
+          "description": "The issue ID that should be ignored."
+        }
+      }
+    },
+    "ignoredBy": {
+      "title": "ignoredBy",
+      "required": [
+        "name",
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the person who ignored the issue."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the person who ignored the issue."
+        },
+        "id": {
+          "type": "string",
+          "description": "The user ID of the person who ignored the issue."
+        }
+      },
+      "description": "The person who ignored the issue."
+    },
+    "depGraph": {
+      "title": "depGraph",
+      "required": [
+        "schemaVersion",
+        "pkgManager",
+        "pkgs",
+        "graph"
+      ],
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "description": "The scheme version of the depGraph object"
+        },
+        "pkgManager": {
+          "$ref": "#/components/schemas/pkgManager2"
+        },
+        "pkgs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/pkgs"
+          },
+          "description": "A list of dependencies in the project"
+        },
+        "graph": {
+          "$ref": "#/components/schemas/graph2"
+        }
+      },
+      "description": "The dependency-graph object"
+    },
+    "graph2": {
+      "title": "graph2",
+      "required": [
+        "rootNodeId"
+      ],
+      "type": "object",
+      "properties": {
+        "rootNodeId": {
+          "type": "string",
+          "description": "The internal id of the root node"
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/nodes"
+          },
+          "description": "A list of the first-level packages"
+        }
+      },
+      "description": "A directional graph of the packages in the project"
+    },
+    "ignoreReasons": {
+      "title": "ignoreReasons",
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "description": "A reason why the issue was ignored"
+        },
+        "expires": {
+          "type": "string",
+          "description": "The date when the ignore will no longer apply"
+        },
+        "source": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/source"
+            },
+            {
+              "description": "The place where the ignore rule was applied from"
+            }
+          ]
+        }
+      }
+    },
+    "Projectsnapshots": {
+      "title": "Projectsnapshots",
+      "type": "object",
+      "properties": {
+        "snapshots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/snapshots"
+          },
+          "description": "A list of the project's snapshots, ordered according to date (latest first)."
+        },
+        "total": {
+          "type": "number",
+          "description": "The total number of results"
+        }
+      }
+    },
+    "Updateaprojectrequest": {
+      "title": "Updateaprojectrequest",
+      "type": "object",
+      "properties": {
+        "owner": {
+          "$ref": "#/components/schemas/owner"
+        },
+        "branch": {
+          "type": "string",
+          "description": "The branch that this project should be monitoring",
+          "example": "main"
+        }
+      }
+    },
+    "Ignorerule": {
+      "title": "Ignorerule",
+      "required": [
+        "reasonType",
+        "disregardIfFixable"
+      ],
+      "type": "object",
+      "properties": {
+        "ignorePath": {
+          "type": "string",
+          "description": "The path to ignore (default is `*` which represents all paths)."
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason that the issue was ignored."
+        },
+        "reasonType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/reasonType"
+            },
+            {
+              "description": "The classification of the ignore."
+            }
+          ]
+        },
+        "disregardIfFixable": {
+          "type": "boolean",
+          "description": "Only ignore the issue if no upgrade or patch is available."
+        },
+        "expires": {
+          "type": "string",
+          "description": "The timestamp that the issue will no longer be ignored."
+        }
+      }
+    },
+    "Project": {
+      "title": "Project",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "snyk/goof"
+        },
+        "id": {
+          "type": "string",
+          "description": "The project identifier",
+          "example": "af137b96-6966-46c1-826b-2e79ac49bbd9"
+        },
+        "created": {
+          "type": "string",
+          "description": "The date that the project was created on",
+          "example": "2018-10-29T09:50:54.014000+00:00"
+        },
+        "origin": {
+          "type": "string",
+          "description": "The origin the project was added from",
+          "example": "github"
+        },
+        "type": {
+          "type": "string",
+          "description": "The package manager of the project",
+          "example": "maven"
+        },
+        "readOnly": {
+          "type": "boolean",
+          "description": "Whether the project is read-only",
+          "example": false
+        },
+        "testFrequency": {
+          "type": "string",
+          "description": "The frequency of automated Snyk re-test. Can be 'daily', 'weekly or 'never'",
+          "example": "daily"
+        },
+        "totalDependencies": {
+          "type": "number",
+          "description": "Number of dependencies of the project",
+          "example": 42
+        },
+        "issueCountsBySeverity": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/issueCountsBySeverity"
+            },
+            {
+              "description": "Number of known vulnerabilities in the project, not including ignored issues"
+            }
+          ]
+        },
+        "imageId": {
+          "type": "string",
+          "description": "For docker projects shows the ID of the image",
+          "example": "sha256:caf27325b298a6730837023a8a342699c8b7b388b8d878966b064a1320043019"
+        },
+        "imageTag": {
+          "type": "string",
+          "description": "For docker projects shows the tag of the image",
+          "example": "latest"
+        },
+        "imageBaseImage": {
+          "type": "string",
+          "description": "For docker projects shows the base image",
+          "example": "alpine:3"
+        },
+        "imagePlatform": {
+          "type": "string",
+          "description": "For docker projects shows the platform of the image",
+          "example": "linux/arm64"
+        },
+        "imageCluster": {
+          "type": "string",
+          "description": "For Kubernetes projects shows the origin cluster name",
+          "example": "Production"
+        },
+        "hostname": {
+          "type": "string",
+          "description": "The hostname for a CLI project, null if not set",
+          "nullable": true
+        },
+        "remoteRepoUrl": {
+          "type": "string",
+          "description": "The project remote repository url. Only set for projects imported via the Snyk CLI tool.",
+          "example": "https://github.com/snyk/goof.git"
+        },
+        "lastTestedDate": {
+          "type": "string",
+          "description": "The date on which the most recent test was conducted for this project",
+          "example": "2019-02-05T08:54:07.704000+00:00"
+        },
+        "owner": {
+          "type": "object",
+          "description": "The user who owns the project, null if not set\n\n{\n    \"id\": \"e713cf94-bb02-4ea0-89d9-613cce0caed2\",\n    \"name\": \"example-user@snyk.io\",\n    \"username\": \"exampleUser\",\n    \"email\": \"example-user@snyk.io\"\n}",
+          "nullable": true
+        },
+        "browseUrl": {
+          "type": "string",
+          "description": "URL with project overview",
+          "example": "https://app.snyk.io/org/4a18d42f-0706-4ad0-b127-24078731fbed/project/af137b96-6966-46c1-826b-2e79ac49bbd9"
+        },
+        "importingUser": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/importingUser"
+            },
+            {
+              "description": "The user who imported the project"
+            }
+          ]
+        },
+        "isMonitored": {
+          "type": "boolean",
+          "description": "Describes if a project is currently monitored or it is de-activated"
+        },
+        "branch": {
+          "type": "string",
+          "description": "The monitored branch (if available)",
+          "nullable": true
+        },
+        "targetReference": {
+          "type": "string",
+          "description": "The identifier for which revision of the resource is scanned by Snyk. For example this may be a branch for SCM project, or a tag for a container image",
+          "nullable": true
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of applied tags"
+        },
+        "attributes": {
+          "type": "string",
+          "description": "Applied project attributes"
+        },
+        "remediation": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/remediation"
+            },
+            {
+              "description": "Remediation data (if available)"
+            }
+          ]
+        }
+      }
+    },
+    "severityData": {
+      "type": "object",
+      "properties": {
+        "assigner": {
+          "type": "string",
+          "description": "The entity that assigned this CVSS vector"
+        },
+        "severity": {
+          "type": "string",
+          "description": "The severity calculated via vector"
+        },
+        "baseScore": {
+          "type": "number",
+          "description": "The CVSS score that results from running the CVSS string (Non-IaC projects only)"
+        },
+        "vector": {
+          "type": "string",
+          "description": "The CVSS string that signifies how the CVSS score was calculated (Non-IaC projects only)"
+        },
+        "cvssVersion": {
+          "type": "string",
+          "description": "The CVSS version that is being described"
+        },
+        "modificationTime": {
+          "type": "string",
+          "description": "The date severities was last modified"
+        }
+      }
+    },
+    "info": {
+      "title": "info",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the package"
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the package"
+        }
+      }
+    },
+    "issueCountsBySeverity": {
+      "title": "issueCountsBySeverity",
+      "type": "object",
+      "properties": {
+        "low": {
+          "type": "number",
+          "description": "Number of low severity vulnerabilities",
+          "example": 13
+        },
+        "medium": {
+          "type": "number",
+          "description": "Number of medium severity vulnerabilities",
+          "example": 8
+        },
+        "high": {
+          "type": "number",
+          "description": "Number of high severity vulnerabilities",
+          "example": 1
+        },
+        "critical": {
+          "type": "number",
+          "description": "Number of critical severity vulnerabilities",
+          "example": 3
+        }
+      },
+      "description": "Number of known vulnerabilities in the project, not including ignored issues"
+    },
+    "Projectdependencygraph": {
+      "title": "Projectdependencygraph",
+      "required": [
+        "depGraph"
+      ],
+      "type": "object",
+      "properties": {
+        "depGraph": {
+          "$ref": "#/components/schemas/depGraph"
+        }
+      }
+    },
+    "nodes": {
+      "title": "nodes",
+      "required": [
+        "nodeId",
+        "pkgId",
+        "deps"
+      ],
+      "type": "object",
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "description": "The internal id of the node"
+        },
+        "pkgId": {
+          "type": "string",
+          "description": "The id of the package"
+        },
+        "deps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/deps"
+          },
+          "description": "A list of the direct dependencies of the package"
+        }
+      }
+    },
+    "semver": {
+      "title": "semver",
+      "type": "object",
+      "properties": {
+        "vulnerable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The ranges that are vulnerable to the issue. May be an array or a string."
+        },
+        "unaffected": {
+          "type": "string",
+          "description": "The ranges that are unaffected by the issue"
+        }
+      },
+      "description": "The ranges that are vulnerable and unaffected by the issue (Non-IaC projects only)"
+    },
+    "pkgs": {
+      "title": "pkgs",
+      "required": [
+        "id",
+        "info"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The internal id of the package"
+        },
+        "info": {
+          "$ref": "#/components/schemas/info"
+        }
+      }
+    },
+    "pkgManager2": {
+      "title": "pkgManager2",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the package manager"
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the package manager"
+        },
+        "repositories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/repositories"
+          },
+          "description": ""
+        }
+      },
+      "description": "The package manager of the project"
+    },
+    "method": {
+      "title": "method",
+      "enum": [
+        "api",
+        "cli",
+        "recurring",
+        "web",
+        "web-test",
+        "wizard"
+      ],
+      "type": "string",
+      "description": "The method by which this snapshot was created."
+    },
+    "issuePathsLinks": {
+      "title": "issuePathsLinks",
+      "type": "object",
+      "properties": {
+        "prev": {
+          "type": "string",
+          "description": "The URL of the previous page of paths for the issue, if not on the first page"
+        },
+        "next": {
+          "type": "string",
+          "description": "The URL of the next page of paths for the issue, if not on the last page"
+        },
+        "last": {
+          "type": "string",
+          "description": "The URL of the last page of paths for the issue"
+        }
+      },
+      "description": "Onward links from this record"
+    }
+  },
+  "referenced_common_schemas": []
+}

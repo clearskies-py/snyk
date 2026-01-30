@@ -1,0 +1,247 @@
+{
+  "spec_info": {
+    "title": "Snyk API",
+    "contact": {},
+    "version": "1.0",
+    "description": "Snyk V1 API"
+  },
+  "total_endpoints": 100,
+  "total_tags": 13,
+  "shared_files": [
+    "shared/common_schemas.json",
+    "shared/common_parameters.json"
+  ],
+  "chunks": [
+    {
+      "tag": "Projects",
+      "slug": "projects_part1",
+      "path": "chunks/domain_projects_part1.json",
+      "endpoint_count": 14,
+      "schema_count": 51,
+      "estimated_tokens": 14679,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 2
+    },
+    {
+      "tag": "Projects",
+      "slug": "projects_part2",
+      "path": "chunks/domain_projects_part2.json",
+      "endpoint_count": 11,
+      "schema_count": 21,
+      "estimated_tokens": 6920,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 2
+    },
+    {
+      "tag": "Test",
+      "slug": "test_part1",
+      "path": "chunks/domain_test_part1.json",
+      "endpoint_count": 2,
+      "schema_count": 17,
+      "estimated_tokens": 6869,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 10
+    },
+    {
+      "tag": "Test",
+      "slug": "test_part2",
+      "path": "chunks/domain_test_part2.json",
+      "endpoint_count": 2,
+      "schema_count": 19,
+      "estimated_tokens": 11670,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 10
+    },
+    {
+      "tag": "Test",
+      "slug": "test_part3",
+      "path": "chunks/domain_test_part3.json",
+      "endpoint_count": 1,
+      "schema_count": 13,
+      "estimated_tokens": 18304,
+      "is_partial": true,
+      "part": 3,
+      "total_parts": 10
+    },
+    {
+      "tag": "Test",
+      "slug": "test_part4",
+      "path": "chunks/domain_test_part4.json",
+      "endpoint_count": 1,
+      "schema_count": 10,
+      "estimated_tokens": 15552,
+      "is_partial": true,
+      "part": 4,
+      "total_parts": 10
+    },
+    {
+      "tag": "Test",
+      "slug": "test_part5",
+      "path": "chunks/domain_test_part5.json",
+      "endpoint_count": 2,
+      "schema_count": 19,
+      "estimated_tokens": 8599,
+      "is_partial": true,
+      "part": 5,
+      "total_parts": 10
+    },
+    {
+      "tag": "Test",
+      "slug": "test_part6",
+      "path": "chunks/domain_test_part6.json",
+      "endpoint_count": 1,
+      "schema_count": 10,
+      "estimated_tokens": 14045,
+      "is_partial": true,
+      "part": 6,
+      "total_parts": 10
+    },
+    {
+      "tag": "Test",
+      "slug": "test_part7",
+      "path": "chunks/domain_test_part7.json",
+      "endpoint_count": 5,
+      "schema_count": 23,
+      "estimated_tokens": 12969,
+      "is_partial": true,
+      "part": 7,
+      "total_parts": 10
+    },
+    {
+      "tag": "Test",
+      "slug": "test_part8",
+      "path": "chunks/domain_test_part8.json",
+      "endpoint_count": 1,
+      "schema_count": 10,
+      "estimated_tokens": 6584,
+      "is_partial": true,
+      "part": 8,
+      "total_parts": 10
+    },
+    {
+      "tag": "Test",
+      "slug": "test_part9",
+      "path": "chunks/domain_test_part9.json",
+      "endpoint_count": 1,
+      "schema_count": 11,
+      "estimated_tokens": 68256,
+      "is_partial": true,
+      "part": 9,
+      "total_parts": 10
+    },
+    {
+      "tag": "Test",
+      "slug": "test_part10",
+      "path": "chunks/domain_test_part10.json",
+      "endpoint_count": 1,
+      "schema_count": 17,
+      "estimated_tokens": 4567,
+      "is_partial": true,
+      "part": 10,
+      "total_parts": 10
+    },
+    {
+      "tag": "Organizations",
+      "slug": "organizations",
+      "path": "chunks/domain_organizations.json",
+      "endpoint_count": 15,
+      "schema_count": 21,
+      "estimated_tokens": 8603,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Integrations",
+      "slug": "integrations",
+      "path": "chunks/domain_integrations.json",
+      "endpoint_count": 10,
+      "schema_count": 36,
+      "estimated_tokens": 7371,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Groups",
+      "slug": "groups",
+      "path": "chunks/domain_groups.json",
+      "endpoint_count": 8,
+      "schema_count": 11,
+      "estimated_tokens": 4240,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Reporting API",
+      "slug": "reporting_api",
+      "path": "chunks/domain_reporting_api.json",
+      "endpoint_count": 7,
+      "schema_count": 28,
+      "estimated_tokens": 8677,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Users",
+      "slug": "users",
+      "path": "chunks/domain_users.json",
+      "endpoint_count": 6,
+      "schema_count": 9,
+      "estimated_tokens": 3498,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Webhooks",
+      "slug": "webhooks",
+      "path": "chunks/domain_webhooks.json",
+      "endpoint_count": 5,
+      "schema_count": 5,
+      "estimated_tokens": 2062,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Import Projects",
+      "slug": "import_projects",
+      "path": "chunks/domain_import_projects.json",
+      "endpoint_count": 2,
+      "schema_count": 26,
+      "estimated_tokens": 4005,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Entitlements",
+      "slug": "entitlements",
+      "path": "chunks/domain_entitlements.json",
+      "endpoint_count": 2,
+      "schema_count": 2,
+      "estimated_tokens": 775,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Dependencies",
+      "slug": "dependencies",
+      "path": "chunks/domain_dependencies.json",
+      "endpoint_count": 1,
+      "schema_count": 8,
+      "estimated_tokens": 1861,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Licenses",
+      "slug": "licenses",
+      "path": "chunks/domain_licenses.json",
+      "endpoint_count": 1,
+      "schema_count": 9,
+      "estimated_tokens": 1345,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Monitor",
+      "slug": "monitor",
+      "path": "chunks/domain_monitor.json",
+      "endpoint_count": 1,
+      "schema_count": 11,
+      "estimated_tokens": 1907,
+      "needs_splitting": false
+    }
+  ]
+}

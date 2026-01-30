@@ -1,0 +1,174 @@
+{
+  "tag": "AccessRequests",
+  "endpoint_count": 1,
+  "schema_count": 3,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/self/access_requests",
+      "operation_id": "getAccessRequests",
+      "summary": "Get access requests (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/self/access_requests",
+      "method": "GET",
+      "operation_id": "getAccessRequests",
+      "summary": "Get access requests (Early Access)",
+      "details": {
+        "description": "Get a list of user's access requests",
+        "operationId": "getAccessRequests",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/OrgIdFilter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/AccessRequest"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of access requests are returned",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get access requests (Early Access)",
+        "tags": [
+          "AccessRequests"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-12-01~experimental",
+          "2023-12-21~beta"
+        ],
+        "x-snyk-api-resource": "self",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-12-21~beta",
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "Types": {
+      "example": "resource",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+      "type": "string"
+    },
+    "AccessRequestAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "pending",
+            "expired"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "type": "object"
+    },
+    "AccessRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AccessRequestAttributes"
+        },
+        "id": {
+          "description": "The Snyk ID of the access request.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Types"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

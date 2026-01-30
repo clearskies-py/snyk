@@ -1,0 +1,807 @@
+{
+  "tag": "Custom Base Images",
+  "endpoint_count": 5,
+  "schema_count": 12,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/custom_base_images",
+      "operation_id": "getCustomBaseImages",
+      "summary": "Get a custom base image collection"
+    },
+    {
+      "method": "POST",
+      "path": "/custom_base_images",
+      "operation_id": "createCustomBaseImage",
+      "summary": "Create a Custom Base Image from an existing container project"
+    },
+    {
+      "method": "DELETE",
+      "path": "/custom_base_images/{custombaseimage_id}",
+      "operation_id": "deleteCustomBaseImage",
+      "summary": "Delete a custom base image"
+    },
+    {
+      "method": "GET",
+      "path": "/custom_base_images/{custombaseimage_id}",
+      "operation_id": "getCustomBaseImage",
+      "summary": "Get a custom base image"
+    },
+    {
+      "method": "PATCH",
+      "path": "/custom_base_images/{custombaseimage_id}",
+      "operation_id": "updateCustomBaseImage",
+      "summary": "Update a custom base image"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/custom_base_images",
+      "method": "GET",
+      "operation_id": "getCustomBaseImages",
+      "summary": "Get a custom base image collection",
+      "details": {
+        "description": "Get a list of custom base images with support for ordering and filtering.\nEither the org_id or group_id parameters must be set to authorize successfully.\nIf sorting by version, the repository filter is required.\n",
+        "operationId": "getCustomBaseImages",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "The ID of the container project that the custom base image is based off of.",
+            "in": "query",
+            "name": "project_id",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The organization ID of the custom base image",
+            "in": "query",
+            "name": "org_id",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The group ID of the custom base image",
+            "in": "query",
+            "name": "group_id",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Repository"
+          },
+          {
+            "$ref": "#/components/parameters/Tag"
+          },
+          {
+            "$ref": "#/components/parameters/IncludeInRecommendations"
+          },
+          {
+            "description": "Which column to sort by. \nIf sorting by version, the versioning schema is used.\n",
+            "in": "query",
+            "name": "sort_by",
+            "schema": {
+              "enum": [
+                "repository",
+                "tag",
+                "version"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/SortDirection"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomBaseImageCollectionResponse"
+                }
+              }
+            },
+            "description": "Returns custom base images",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get a custom base image collection",
+        "tags": [
+          "Custom Base Images"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-08-21",
+          "2023-09-20",
+          "2024-01-04",
+          "2024-05-31"
+        ],
+        "x-snyk-api-resource": "custombaseimages",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-31",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/custom_base_images",
+      "method": "POST",
+      "operation_id": "createCustomBaseImage",
+      "summary": "Create a Custom Base Image from an existing container project",
+      "details": {
+        "description": "In order to create a custom base image, you first need to import your base images into Snyk.\nYou can do this through the CLI, UI, or API.\n\nThis endpoint marks an image as a custom base image. This means that the image will get\nadded to the pool of images from which Snyk can recommend base image upgrades.\n\nNote, after the first image in a repository gets added, a versioning schema cannot be passed in this endpoint.\nTo update the versioning schema, the PATCH endpoint must be used.\n",
+        "operationId": "createCustomBaseImage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomBaseImagePostRequest"
+              }
+            }
+          },
+          "description": "The properties used in the creation of a custom base image"
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomBaseImageResponse"
+                }
+              }
+            },
+            "description": "Successfully created a custom base image",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create a Custom Base Image from an existing container project",
+        "tags": [
+          "Custom Base Images"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-08-21",
+          "2023-09-20",
+          "2024-01-04",
+          "2024-05-31"
+        ],
+        "x-snyk-api-resource": "custombaseimages",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-31",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/custom_base_images/{custombaseimage_id}",
+      "method": "DELETE",
+      "operation_id": "deleteCustomBaseImage",
+      "summary": "Delete a custom base image",
+      "details": {
+        "description": "Delete a custom base image resource. (the related container project is unaffected)",
+        "operationId": "deleteCustomBaseImage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/CustomBaseImageId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted the custom base image",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete a custom base image",
+        "tags": [
+          "Custom Base Images"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-08-21",
+          "2023-09-20",
+          "2024-01-04",
+          "2024-05-31"
+        ],
+        "x-snyk-api-resource": "custombaseimages",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-31",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/custom_base_images/{custombaseimage_id}",
+      "method": "GET",
+      "operation_id": "getCustomBaseImage",
+      "summary": "Get a custom base image",
+      "details": {
+        "description": "Get a custom base image",
+        "operationId": "getCustomBaseImage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/CustomBaseImageId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomBaseImageResponse"
+                }
+              }
+            },
+            "description": "Returns a custom base image",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get a custom base image",
+        "tags": [
+          "Custom Base Images"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-08-21",
+          "2023-09-20",
+          "2024-01-04",
+          "2024-05-31"
+        ],
+        "x-snyk-api-resource": "custombaseimages",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-31",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/custom_base_images/{custombaseimage_id}",
+      "method": "PATCH",
+      "operation_id": "updateCustomBaseImage",
+      "summary": "Update a custom base image",
+      "details": {
+        "description": "Updates a custom base image's attributes",
+        "operationId": "updateCustomBaseImage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/CustomBaseImageId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomBaseImagePatchRequest"
+              }
+            }
+          },
+          "description": "custom base image to be updated"
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomBaseImageResponse"
+                }
+              }
+            },
+            "description": "Returns the updated custom base image",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update a custom base image",
+        "tags": [
+          "Custom Base Images"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-08-21",
+          "2023-09-20",
+          "2024-01-04",
+          "2024-05-31"
+        ],
+        "x-snyk-api-resource": "custombaseimages",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-31",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "CustomBaseImagePostRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/CustomBaseImageAttributes"
+            },
+            "type": {
+              "description": "This should always be \"custom_base_image\"",
+              "example": "custom_base_image",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "CustomBaseImageResource": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/CustomBaseImageAttributes"
+        },
+        "id": {
+          "example": "2cab3939-d112-4ef0-836d-e09c87cbe69b",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "example": "custom_base_image",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "CustomBaseImagePatchRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "minProperties": 1,
+              "properties": {
+                "include_in_recommendations": {
+                  "example": true,
+                  "type": "boolean"
+                },
+                "versioning_schema": {
+                  "$ref": "#/components/schemas/VersioningSchema"
+                }
+              },
+              "type": "object"
+            },
+            "id": {
+              "description": "The ID of the custom base image that should be updated. (Same one used in the URI)",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "description": "This should always be \"custom_base_image\"",
+              "example": "custom_base_image",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "VersioningSchemaSemverType": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "semver"
+          ],
+          "example": "semver",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "VersioningSchemaSingleSelectionType": {
+      "additionalProperties": false,
+      "description": "The Single Selection Versioning Schema allows manual setting of which image should be given as a recommendation.\n\nOnly one image can be set as the current recommendation. If no images are set as the current selection, \nno recommendation will be given.\n\nIt is recommended to use this versioning schema if your repository's tags aren't supported by the other schemas.\n",
+      "properties": {
+        "is_selected": {
+          "description": "Whether this image should be the recommendation. Only one image can be selected at a given time. Setting this\nas true will remove previous selection.\n",
+          "example": true,
+          "type": "boolean"
+        },
+        "type": {
+          "enum": [
+            "single-selection"
+          ],
+          "example": "single-selection",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "is_selected"
+      ],
+      "type": "object"
+    },
+    "CustomBaseImageSnapshot": {
+      "properties": {
+        "group_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "include_in_recommendations": {
+          "type": "boolean"
+        },
+        "org_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "project_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CustomBaseImageCollectionResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "properties": {
+              "attributes": {
+                "$ref": "#/components/schemas/CustomBaseImageSnapshot"
+              },
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "data",
+        "jsonapi"
+      ],
+      "type": "object"
+    },
+    "VersioningSchema": {
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/VersioningSchemaSemverType"
+            },
+            {
+              "$ref": "#/components/schemas/VersioningSchemaCustomType"
+            },
+            {
+              "$ref": "#/components/schemas/VersioningSchemaSingleSelectionType"
+            }
+          ]
+        }
+      ],
+      "description": "The versioning scheme used by images in the repository.\n\nA versioning schema is a system for identifying and organizing different versions of a project. \nIt is used to track changes and updates to the project over time, and to help users identify which version they are using. \nA versioning schema typically consists of a series of numbers or labels that are incremented to reflect the progression of versions. \nFor example, a versioning schema might use a series of numbers, such as \"1.0\", \"1.1\", \"2.0\", and so on, to indicate major and minor releases of a product. \nA consistent and well-defined versioning schema helps users and tools understand and track the development of a project.\n"
+    },
+    "CustomBaseImageAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "include_in_recommendations": {
+          "description": "Whether this image should be recommended as a base image upgrade. \nIf set to true, this image could be shown as a base image upgrade to other projects.\nIf set to false this image will never be recommended as an upgrade.\n",
+          "example": true,
+          "type": "boolean"
+        },
+        "project_id": {
+          "description": "The ID of the container project that the custom base image is based off of.\nThe attributes of this custom base image are taken from the latest snapshot at the time of creation.\nThis means that no changes should be made to the original project after the creation of the custom base image,\nas new snapshots created from any changes will NOT be picked up.\n",
+          "example": "2cab3939-d112-4ef0-836d-e09c87cbe69b",
+          "format": "uuid",
+          "type": "string"
+        },
+        "versioning_schema": {
+          "$ref": "#/components/schemas/VersioningSchema"
+        }
+      },
+      "required": [
+        "project_id",
+        "include_in_recommendations"
+      ],
+      "type": "object"
+    },
+    "VersioningSchemaCustomType": {
+      "additionalProperties": false,
+      "description": "The Custom Schema type is a way for Snyk to understand your company\u2019s container image tag versioning scheme,\nenabling Snyk to give more accurate base image upgrade recommendations.\n\nThis schema type is essentially a regular expression that groups the different parts of an image\u2019s tag into comparable sections.\n\nIf your container image's tags follow a versioning scheme other than Semantic Versioning (SemVer), \nit is highly recommended that you select the \"Custom Versioning\" schema for your image repositories.\n",
+      "properties": {
+        "expression": {
+          "description": "The regular expression used to describe the format of tags.\nKeep in mind that backslashes in the expression need to be escaped due to being encompassed in a JSON string.\n",
+          "example": "(?<C0>.)\\-(?<M2>.*)",
+          "type": "string"
+        },
+        "label": {
+          "description": "A customizable string that can be set for a custom versioning schema to describe its meaning.\nThis label has no function.\n",
+          "example": "calendar with flavor schema",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "custom"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "expression"
+      ],
+      "type": "object"
+    },
+    "CustomBaseImageResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/CustomBaseImageResource"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/SelfLink"
+        }
+      },
+      "required": [
+        "data",
+        "jsonapi"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "PaginatedLinks",
+    "LinkProperty",
+    "Meta",
+    "JsonApi"
+  ]
+}

@@ -1,0 +1,544 @@
+{
+  "tag": "ContainerRegistryImportPolicy",
+  "endpoint_count": 2,
+  "schema_count": 9,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/container_import/{integration_id}/policy/dry_run",
+      "operation_id": "createContainerRegistryImportPolicyDryRun",
+      "summary": "Create a dry run job for a container registry import policy (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/container_import/{integration_id}/policy/dry_run/{job_id}",
+      "operation_id": "getDryRunJob",
+      "summary": "Get a dry run job (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/container_import/{integration_id}/policy/dry_run",
+      "method": "POST",
+      "operation_id": "createContainerRegistryImportPolicyDryRun",
+      "summary": "Create a dry run job for a container registry import policy (Early Access)",
+      "details": {
+        "description": "Creates an asynchronous dry run job to test a container registry import policy\n\n#### Required permissions\n\n- `Edit integrations (org.integration.edit)`",
+        "operationId": "createContainerRegistryImportPolicyDryRun",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Container Registry Integration ID",
+            "in": "path",
+            "name": "integration_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "$ref": "#/components/schemas/ContainerRegistryImportPolicyAttributes"
+                      },
+                      "type": {
+                        "enum": [
+                          "container_registry_import_policy"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "attributes"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "dry run job resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/DryRunJobCreationResponseAttributes"
+                        },
+                        "id": {
+                          "description": "The dry run job ID",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "enum": [
+                            "dry_run_job"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "attributes"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Dry run job created successfully",
+            "headers": {
+              "content-location": {
+                "description": "A pointer to the newly created dry run job resource",
+                "required": true,
+                "schema": {
+                  "format": "string",
+                  "type": "string"
+                }
+              },
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create a dry run job for a container registry import policy (Early Access)",
+        "tags": [
+          "ContainerRegistryImportPolicy"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta",
+          "2025-09-17~beta"
+        ],
+        "x-snyk-api-resource": "import_policy",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-17~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/container_import/{integration_id}/policy/dry_run/{job_id}",
+      "method": "GET",
+      "operation_id": "getDryRunJob",
+      "summary": "Get a dry run job (Early Access)",
+      "details": {
+        "description": "Retrieves the status and results of a dry run job\n\n#### Required permissions\n\n- `Edit integrations (org.integration.edit)`",
+        "operationId": "getDryRunJob",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Container Registry Integration ID",
+            "in": "path",
+            "name": "integration_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Dry run job ID",
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "dry run job resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/DryRunJobResponseAttributes"
+                        },
+                        "id": {
+                          "description": "The dry run job ID",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "enum": [
+                            "dry_run_job"
+                          ],
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "attributes"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Dry run job retrieved successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get a dry run job (Early Access)",
+        "tags": [
+          "ContainerRegistryImportPolicy"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2025-09-17~beta"
+        ],
+        "x-snyk-api-resource": "import_policy",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-17~beta",
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "DryRunJobCreationResponseAttributes": {
+      "description": "Attributes for a dry run job creation response",
+      "properties": {
+        "status": {
+          "description": "The current status of the dry run job",
+          "enum": [
+            "pending",
+            "running",
+            "completed",
+            "failed"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "type": "object"
+    },
+    "DryRunJobResponseAttributes": {
+      "description": "Attributes for a dry run job response",
+      "properties": {
+        "completed_at": {
+          "description": "When the job completed processing (only present when status is completed or failed)",
+          "format": "date-time",
+          "type": "string"
+        },
+        "error_message": {
+          "description": "Error message if the job failed (only present when status is failed)",
+          "type": "string"
+        },
+        "policy": {
+          "$ref": "#/components/schemas/ContainerRegistryPolicy"
+        },
+        "result": {
+          "$ref": "#/components/schemas/DryRunPolicyResult"
+        },
+        "started_at": {
+          "description": "When the job started processing (only present when status is running, completed, or failed)",
+          "format": "date-time",
+          "type": "string"
+        },
+        "status": {
+          "description": "The current status of the dry run job",
+          "enum": [
+            "pending",
+            "running",
+            "completed",
+            "failed"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "policy"
+      ],
+      "type": "object"
+    },
+    "DryRunPolicyResult": {
+      "description": "The results of a dry run policy execution",
+      "properties": {
+        "images_to_delete": {
+          "description": "List of images grouped by repositories that would be deleted based on the policy rules (only populated when delete_images is enabled)",
+          "items": {
+            "$ref": "#/components/schemas/RepositoryGroup"
+          },
+          "type": "array"
+        },
+        "images_to_import": {
+          "description": "List of images grouped by repositories that would be imported based on the policy rules",
+          "items": {
+            "$ref": "#/components/schemas/RepositoryGroup"
+          },
+          "type": "array"
+        },
+        "total_images_processed": {
+          "description": "Total number of images that were evaluated during the policy test, including both matching and non-matching images",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "images_to_import",
+        "images_to_delete",
+        "total_images_processed"
+      ],
+      "type": "object"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "ContainerRegistryImportPolicyAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "policy": {
+          "$ref": "#/components/schemas/ContainerRegistryPolicy"
+        }
+      },
+      "required": [
+        "policy"
+      ],
+      "type": "object"
+    },
+    "PolicyComponent": {
+      "description": "A component policy, an overall policy is made up of one or more component policies combined in various ways.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "policy": {
+          "type": "object"
+        },
+        "sub_policies": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "type": "object"
+    },
+    "ContainerRegistryPolicy": {
+      "description": "A policy",
+      "properties": {
+        "delete_images": {
+          "description": "Delete images no longer matching the policy. False by default.",
+          "type": "boolean"
+        },
+        "import_policy": {
+          "$ref": "#/components/schemas/PolicyComponent"
+        },
+        "name": {
+          "type": "string"
+        },
+        "schedule_frequency_hours": {
+          "description": "The frequency of the import policy in hours.",
+          "minimum": 12,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name",
+        "import_policy"
+      ],
+      "type": "object"
+    },
+    "RepositoryGroup": {
+      "description": "A repository with its matching tags grouped together",
+      "properties": {
+        "repository": {
+          "description": "The repository name",
+          "type": "string"
+        },
+        "tags": {
+          "items": {
+            "$ref": "#/components/schemas/ImageTag"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "repository",
+        "tags"
+      ],
+      "type": "object"
+    },
+    "ImageTag": {
+      "description": "A tag within a repository",
+      "properties": {
+        "observed_at": {
+          "description": "When the image was first observed",
+          "format": "date-time",
+          "type": "string"
+        },
+        "tag": {
+          "description": "The tag name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tag"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Meta",
+    "LinkProperty"
+  ]
+}

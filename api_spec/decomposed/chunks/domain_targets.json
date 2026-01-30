@@ -1,0 +1,605 @@
+{
+  "tag": "Targets",
+  "endpoint_count": 3,
+  "schema_count": 1,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/targets",
+      "operation_id": "getOrgsTargets",
+      "summary": "Get targets by org ID"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/targets/{target_id}",
+      "operation_id": "deleteOrgsTarget",
+      "summary": "Delete target by target ID"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/targets/{target_id}",
+      "operation_id": "getOrgsTarget",
+      "summary": "Get target by target ID"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/targets",
+      "method": "GET",
+      "operation_id": "getOrgsTargets",
+      "summary": "Get targets by org ID",
+      "details": {
+        "description": "Get a list of an organization's targets.\n\n#### Required permissions\n\n- `View Projects (org.project.read)`",
+        "operationId": "getOrgsTargets",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "description": "Calculate total amount of filtered results",
+            "in": "query",
+            "name": "count",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Number of results to return per page",
+            "example": 10,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "format": "int32",
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "The id of the org to return a list of targets",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return targets that match the provided value of is_private",
+            "in": "query",
+            "name": "is_private",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Return only the targets that has projects",
+            "in": "query",
+            "name": "exclude_empty",
+            "schema": {
+              "default": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Return targets that match the provided remote_url.",
+            "in": "query",
+            "name": "url",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return targets that match the provided source_types",
+            "explode": false,
+            "in": "query",
+            "name": "source_types",
+            "schema": {
+              "items": {
+                "enum": [
+                  "bitbucket-server",
+                  "gitlab",
+                  "github-enterprise",
+                  "bitbucket-cloud",
+                  "bitbucket-connect-app",
+                  "azure-repos",
+                  "github",
+                  "github-cloud-app",
+                  "github-server-app",
+                  "cli",
+                  "docker-hub",
+                  "in-memory-fs",
+                  "acr",
+                  "ecr",
+                  "gcr",
+                  "artifactory-cr",
+                  "harbor-cr",
+                  "quay-cr",
+                  "github-cr",
+                  "nexus-cr",
+                  "nexus-private-repo",
+                  "digitalocean-cr",
+                  "gitlab-cr",
+                  "google-artifact-cr",
+                  "heroku",
+                  "kubernetes",
+                  "api",
+                  "aws-lambda",
+                  "azure-functions",
+                  "cloud-foundry",
+                  "pivotal",
+                  "ibm-cloud",
+                  "terraform-cloud"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Return targets with display names starting with the provided string",
+            "in": "query",
+            "name": "display_name",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return only targets which have been created at or after the specified date.\n",
+            "example": "2022-01-01T16:00:00Z",
+            "in": "query",
+            "name": "created_gte",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/PublicTarget"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    },
+                    "meta": {
+                      "additionalProperties": false,
+                      "example": {
+                        "count": 3
+                      },
+                      "properties": {
+                        "count": {
+                          "type": "number"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of targets is returned for the targeted org",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get targets by org ID",
+        "tags": [
+          "Targets"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2021-08-20~beta",
+          "2024-02-21"
+        ],
+        "x-snyk-api-resource": "targets",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-02-21",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/targets/{target_id}",
+      "method": "DELETE",
+      "operation_id": "deleteOrgsTarget",
+      "summary": "Delete target by target ID",
+      "details": {
+        "description": "Delete the specified target.\n\n#### Required permissions\n\n- `Remove Projects (org.project.delete)`",
+        "operationId": "deleteOrgsTarget",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "The id of the org to delete",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The id of the target to delete",
+            "in": "path",
+            "name": "target_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The target is deleted with all projects, if it is found in the specified org.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete target by target ID",
+        "tags": [
+          "Targets"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2021-09-29~beta",
+          "2023-06-23~beta",
+          "2024-02-21"
+        ],
+        "x-snyk-api-resource": "targets",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-02-21",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/targets/{target_id}",
+      "method": "GET",
+      "operation_id": "getOrgsTarget",
+      "summary": "Get target by target ID",
+      "details": {
+        "description": "Get a specified target for an organization.\n\n#### Required permissions\n\n- `View Projects (org.project.read)`",
+        "operationId": "getOrgsTarget",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "The id of the org to return the target from",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The id of the target to return",
+            "in": "path",
+            "name": "target_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/PublicTarget"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A single target is returned if it is found in the specified org",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get target by target ID",
+        "tags": [
+          "Targets"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2021-08-20~beta",
+          "2024-02-21"
+        ],
+        "x-snyk-api-resource": "targets",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-02-21",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "PublicTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "properties": {
+            "created_at": {
+              "description": "The creation date of the target",
+              "example": "2022-09-01T00:00:00Z",
+              "format": "date-time",
+              "type": "string"
+            },
+            "display_name": {
+              "description": "The human readable name that represents this target. These are generated based on the provided properties, and the source.\n",
+              "example": "snyk-fixtures/goof",
+              "type": "string"
+            },
+            "is_private": {
+              "description": "If the target is private, or publicly accessible",
+              "example": false,
+              "type": "boolean"
+            },
+            "url": {
+              "description": "The URL for the resource.",
+              "example": "http://github.com/snyk/local-goof",
+              "nullable": true,
+              "type": "string"
+            }
+          },
+          "required": [
+            "display_name",
+            "url",
+            "is_private"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "description": "The id of this target",
+          "example": "55a348e2-c3ad-4bbc-b40e-9b232d1f4121",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "additionalProperties": false,
+          "properties": {
+            "integration": {
+              "additionalProperties": false,
+              "description": "The configured integration which this target relates to",
+              "properties": {
+                "data": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "attributes": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "integration_type": {
+                          "description": "The human readable name for this type of integration",
+                          "example": "gitlab",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "integration_type"
+                      ],
+                      "type": "object"
+                    },
+                    "id": {
+                      "example": "7667dae6-602c-45d9-baa9-79e1a640f199",
+                      "format": "uuid",
+                      "nullable": true,
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "Content type.",
+                      "example": "integration",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "attributes"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "data"
+              ],
+              "type": "object"
+            },
+            "organization": {
+              "additionalProperties": false,
+              "description": "The organization which owns this target",
+              "properties": {
+                "data": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "example": "e661d4ef-5ad5-4cef-ad16-5157cefa83f5",
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "Content type.",
+                      "example": "organization",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "data"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "organization",
+            "integration"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "target",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

@@ -1,0 +1,691 @@
+{
+  "tag": "IacSettings",
+  "endpoint_count": 4,
+  "schema_count": 9,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/settings/iac",
+      "operation_id": "getIacSettingsForGroup",
+      "summary": "Get the Infrastructure as Code Settings for a group"
+    },
+    {
+      "method": "PATCH",
+      "path": "/groups/{group_id}/settings/iac",
+      "operation_id": "updateIacSettingsForGroup",
+      "summary": "Update the Infrastructure as Code Settings for a group"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/settings/iac",
+      "operation_id": "getIacSettingsForOrg",
+      "summary": "Get the Infrastructure as Code Settings for an org."
+    },
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}/settings/iac",
+      "operation_id": "updateIacSettingsForOrg",
+      "summary": "Update the Infrastructure as Code Settings for an org"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/groups/{group_id}/settings/iac",
+      "method": "GET",
+      "operation_id": "getIacSettingsForGroup",
+      "summary": "Get the Infrastructure as Code Settings for a group",
+      "details": {
+        "description": "Get the Infrastructure as Code Settings for a group.\n\n#### Required permissions\n\n- `View IaC settings (group.iac.settings.read)`",
+        "operationId": "getIacSettingsForGroup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "The id of the group whose Infrastructure as Code settings are requested",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GroupIacSettingsResponse"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The Infrastructure as Code Settings of the group.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get the Infrastructure as Code Settings for a group",
+        "tags": [
+          "IacSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2021-12-09"
+        ],
+        "x-snyk-api-resource": "iac_settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2021-12-09",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/settings/iac",
+      "method": "PATCH",
+      "operation_id": "updateIacSettingsForGroup",
+      "summary": "Update the Infrastructure as Code Settings for a group",
+      "details": {
+        "description": "Update the Infrastructure as Code Settings for a group.\n\n#### Required permissions\n\n- `Edit IaC settings (group.iac.settings.edit)`",
+        "operationId": "updateIacSettingsForGroup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "The id of the group whose Infrastructure as Code settings are getting updated",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/GroupIacSettingsRequest"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GroupIacSettingsResponse"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The Infrastructure as Code Settings of the group were updated.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update the Infrastructure as Code Settings for a group",
+        "tags": [
+          "IacSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2021-12-09"
+        ],
+        "x-snyk-api-resource": "iac_settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2021-12-09",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/settings/iac",
+      "method": "GET",
+      "operation_id": "getIacSettingsForOrg",
+      "summary": "Get the Infrastructure as Code Settings for an org.",
+      "details": {
+        "description": "Get the Infrastructure as Code Settings for an org.\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "operationId": "getIacSettingsForOrg",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "The id of the org whose Infrastructure as Code settings are requested.",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/OrgIacSettingsResponse"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The Infrastructure as Code Settings of the org.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get the Infrastructure as Code Settings for an org.",
+        "tags": [
+          "IacSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2021-12-09"
+        ],
+        "x-snyk-api-resource": "iac_settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2021-12-09",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/settings/iac",
+      "method": "PATCH",
+      "operation_id": "updateIacSettingsForOrg",
+      "summary": "Update the Infrastructure as Code Settings for an org",
+      "details": {
+        "description": "Update the Infrastructure as Code Settings for an org.\n\n#### Required permissions\n\n- `Edit Organization (org.edit)`",
+        "operationId": "updateIacSettingsForOrg",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "The id of the org whose Infrastructure as Code settings are getting updated",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/OrgIacSettingsRequest"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/OrgIacSettingsResponse"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The Infrastructure as Code Settings of the org were updated.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update the Infrastructure as Code Settings for an org",
+        "tags": [
+          "IacSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2021-12-09"
+        ],
+        "x-snyk-api-resource": "iac_settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2021-12-09",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "GroupIacSettingsRequest": {
+      "description": "The Infrastructure as Code settings for a group.",
+      "properties": {
+        "attributes": {
+          "properties": {
+            "custom_rules": {
+              "additionalProperties": false,
+              "description": "The Infrastructure as Code custom rules settings for a group.",
+              "minProperties": 1,
+              "properties": {
+                "is_enabled": {
+                  "$ref": "#/components/schemas/IsEnabled"
+                },
+                "oci_registry_tag": {
+                  "$ref": "#/components/schemas/OciRegistryTag"
+                },
+                "oci_registry_url": {
+                  "$ref": "#/components/schemas/OciRegistryUrl"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "description": "Content type",
+          "example": "iac_settings",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "GroupIacSettingsResponse": {
+      "description": "The Infrastructure as Code settings for a group.",
+      "properties": {
+        "attributes": {
+          "properties": {
+            "custom_rules": {
+              "description": "The Infrastructure as Code custom rules settings for a group.",
+              "properties": {
+                "is_enabled": {
+                  "$ref": "#/components/schemas/IsEnabled"
+                },
+                "oci_registry_tag": {
+                  "$ref": "#/components/schemas/OciRegistryTag"
+                },
+                "oci_registry_url": {
+                  "$ref": "#/components/schemas/OciRegistryUrl"
+                }
+              },
+              "type": "object"
+            },
+            "updated": {
+              "$ref": "#/components/schemas/Updated"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "description": "ID",
+          "example": "ea536a06-0566-40ca-b96b-155568aa2027",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type",
+          "example": "iac_settings",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "OrgIacSettingsRequest": {
+      "description": "The Infrastructure as Code settings for an org.",
+      "properties": {
+        "attributes": {
+          "properties": {
+            "custom_rules": {
+              "additionalProperties": false,
+              "description": "The Infrastructure as Code custom rules settings for an org.",
+              "minProperties": 1,
+              "properties": {
+                "inherit_from_parent": {
+                  "$ref": "#/components/schemas/InheritFromParent"
+                },
+                "is_enabled": {
+                  "$ref": "#/components/schemas/IsEnabled"
+                },
+                "oci_registry_tag": {
+                  "$ref": "#/components/schemas/OciRegistryTag"
+                },
+                "oci_registry_url": {
+                  "$ref": "#/components/schemas/OciRegistryUrl"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "description": "Content type",
+          "example": "iac_settings",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "OciRegistryUrl": {
+      "description": "The URL to an OCI registry.",
+      "example": "https://registry-1.docker.io/account/bundle",
+      "type": "string"
+    },
+    "OrgIacSettingsResponse": {
+      "description": "The Infrastructure as Code settings for an org.",
+      "properties": {
+        "attributes": {
+          "properties": {
+            "custom_rules": {
+              "description": "The Infrastructure as Code custom rules settings for an org.",
+              "properties": {
+                "inherit_from_parent": {
+                  "$ref": "#/components/schemas/InheritFromParent"
+                },
+                "is_enabled": {
+                  "$ref": "#/components/schemas/IsEnabled"
+                },
+                "oci_registry_tag": {
+                  "$ref": "#/components/schemas/OciRegistryTag"
+                },
+                "oci_registry_url": {
+                  "$ref": "#/components/schemas/OciRegistryUrl"
+                },
+                "parents": {
+                  "description": "Contains all parents the org can inherit settings from.",
+                  "properties": {
+                    "group": {
+                      "description": "The Infrastructure as Code settings at the group level.",
+                      "properties": {
+                        "custom_rules": {
+                          "description": "The Infrastructure as Code custom rules settings for a group.",
+                          "properties": {
+                            "is_enabled": {
+                              "$ref": "#/components/schemas/IsEnabled"
+                            },
+                            "oci_registry_tag": {
+                              "$ref": "#/components/schemas/OciRegistryTag"
+                            },
+                            "oci_registry_url": {
+                              "$ref": "#/components/schemas/OciRegistryUrl"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "updated": {
+                          "$ref": "#/components/schemas/Updated"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                },
+                "updated": {
+                  "$ref": "#/components/schemas/Updated"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "description": "ID",
+          "example": "ea536a06-0566-40ca-b96b-155568aa2027",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type",
+          "example": "iac_settings",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "InheritFromParent": {
+      "description": "Which parent to inherit settings from.",
+      "enum": [
+        "group"
+      ],
+      "type": "string"
+    },
+    "IsEnabled": {
+      "description": "Whether the custom rules feature is enabled or not.",
+      "example": true,
+      "type": "boolean"
+    },
+    "Updated": {
+      "description": "The last time the settings were updated.",
+      "example": "2021-11-12T10:31:06.026Z",
+      "format": "date-time",
+      "type": "string"
+    },
+    "OciRegistryTag": {
+      "description": "The tag for an OCI artifact inside an OCI registry.",
+      "example": "latest",
+      "type": "string"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

@@ -1,0 +1,2249 @@
+{
+  "tag": "Reporting API",
+  "endpoint_count": 7,
+  "schema_count": 28,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/reporting/issues/latest",
+      "operation_id": "Getlistoflatestissues",
+      "summary": "Get list of latest issues"
+    },
+    {
+      "method": "POST",
+      "path": "/reporting/issues",
+      "operation_id": "Getlistofissues",
+      "summary": "Get list of issues"
+    },
+    {
+      "method": "POST",
+      "path": "/reporting/counts/issues/latest",
+      "operation_id": "Getlatestissuecounts",
+      "summary": "Get latest issue counts"
+    },
+    {
+      "method": "POST",
+      "path": "/reporting/counts/issues",
+      "operation_id": "Getissuecounts",
+      "summary": "Get issue counts"
+    },
+    {
+      "method": "POST",
+      "path": "/reporting/counts/projects/latest",
+      "operation_id": "Getlatestprojectcounts",
+      "summary": "Get latest project counts"
+    },
+    {
+      "method": "POST",
+      "path": "/reporting/counts/projects",
+      "operation_id": "Getprojectcounts",
+      "summary": "Get project counts"
+    },
+    {
+      "method": "POST",
+      "path": "/reporting/counts/tests",
+      "operation_id": "Gettestcounts",
+      "summary": "Get test counts"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/reporting/issues/latest",
+      "method": "POST",
+      "operation_id": "Getlistoflatestissues",
+      "summary": "Get list of latest issues",
+      "details": {
+        "tags": [
+          "Reporting API"
+        ],
+        "summary": "Get list of latest issues",
+        "description": "Returns issues currently in existence. This data can take up to 9 hours to refresh\n#### Required permissions\n\n- `View Project` for every Organization in `filters.orgs`\n\n- `View Organization Reports` for every Organization in `filters.orgs`",
+        "operationId": "Getlistoflatestissues",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page of results to request",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 1
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "The number of results to return per page (Maximum: 1000)",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 100
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "The key to sort results by",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/sortBy2"
+                },
+                {
+                  "description": "The key to sort results by",
+                  "example": "issueTitle"
+                }
+              ]
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "The direction to sort results.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "asc"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Set to issue to group the same issue in multiple projects",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/groupBy"
+                },
+                {
+                  "description": "Set to issue to group the same issue in multiple projects",
+                  "example": "issue"
+                }
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/IssuesFilters"
+                  },
+                  {
+                    "example": {
+                      "filters": {
+                        "orgs": [],
+                        "severity": [
+                          "critical",
+                          "high",
+                          "medium",
+                          "low"
+                        ],
+                        "exploitMaturity": [
+                          "mature",
+                          "proof-of-concept",
+                          "no-known-exploit",
+                          "no-data"
+                        ],
+                        "types": [
+                          "vuln",
+                          "license",
+                          "configuration"
+                        ],
+                        "languages": [
+                          "node",
+                          "javascript",
+                          "ruby",
+                          "java",
+                          "scala",
+                          "python",
+                          "golang",
+                          "php",
+                          "dotnet",
+                          "swift-objective-c",
+                          "elixir",
+                          "docker",
+                          "linux",
+                          "dockerfile"
+                        ],
+                        "projects": [],
+                        "issues": [],
+                        "identifier": "",
+                        "ignored": false,
+                        "patched": false,
+                        "fixable": false,
+                        "isFixed": false,
+                        "isUpgradable": false,
+                        "isPatchable": false,
+                        "isPinnable": false,
+                        "priorityScore": {
+                          "min": 0,
+                          "max": 1000
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "filters": {
+                  "orgs": [],
+                  "severity": [
+                    "critical",
+                    "high",
+                    "medium",
+                    "low"
+                  ],
+                  "exploitMaturity": [
+                    "mature",
+                    "proof-of-concept",
+                    "no-known-exploit",
+                    "no-data"
+                  ],
+                  "types": [
+                    "vuln",
+                    "license",
+                    "configuration"
+                  ],
+                  "languages": [
+                    "node",
+                    "javascript",
+                    "ruby",
+                    "java",
+                    "scala",
+                    "python",
+                    "golang",
+                    "php",
+                    "dotnet",
+                    "swift-objective-c",
+                    "elixir",
+                    "docker",
+                    "linux",
+                    "dockerfile"
+                  ],
+                  "projects": [],
+                  "issues": [],
+                  "identifier": "",
+                  "ignored": false,
+                  "patched": false,
+                  "fixable": false,
+                  "isFixed": false,
+                  "isUpgradable": false,
+                  "isPatchable": false,
+                  "isPinnable": false,
+                  "priorityScore": {
+                    "min": 0,
+                    "max": 1000
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Issues"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "example": {
+                        "code": 400,
+                        "ok": false,
+                        "error": {
+                          "name": "ValidationError",
+                          "innerErrors": [
+                            "invalid type filters.types is an invalid type unsupported-type"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "code": 400,
+                  "ok": false,
+                  "error": {
+                    "name": "ValidationError",
+                    "innerErrors": [
+                      "invalid type filters.types is an invalid type unsupported-type"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/reporting/issues",
+      "method": "POST",
+      "operation_id": "Getlistofissues",
+      "summary": "Get list of issues",
+      "details": {
+        "tags": [
+          "Reporting API"
+        ],
+        "summary": "Get list of issues",
+        "description": "Returns any issues that are present during the specified timeframe. For example, if an issue from 2018 is still considered a vulnerable today, it will show up in all reports from its inception to the current day. This data can take up to 9 hours to refresh.**Note:** A vulnerability that was introduced and then resolved on the same day will not show up in the response.\n\n#### Required permissions\n\n- `View Project` for every Organization in `filters.orgs`\n\n- `View Organization Reports` for every Organization in `filters.orgs`",
+        "operationId": "Getlistofissues",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The date you wish to fetch results from, in the format `YYYY-MM-DD`",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-01"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "The date you wish to fetch results until, in the format `YYYY-MM-DD`",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-07"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page of results to request",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 1
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "The number of results to return per page (Maximum: 1000)",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 100
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "The key to sort results by",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/sortBy2"
+                },
+                {
+                  "description": "The key to sort results by",
+                  "example": "issueTitle"
+                }
+              ]
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "The direction to sort results.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "asc"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "Set to issue to group the same issue in multiple projects",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/groupBy"
+                },
+                {
+                  "description": "Set to issue to group the same issue in multiple projects",
+                  "example": "issue"
+                }
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/IssuesFilters"
+                  },
+                  {
+                    "example": {
+                      "filters": {
+                        "orgs": [],
+                        "severity": [
+                          "critical",
+                          "high",
+                          "medium",
+                          "low"
+                        ],
+                        "exploitMaturity": [
+                          "mature",
+                          "proof-of-concept",
+                          "no-known-exploit",
+                          "no-data"
+                        ],
+                        "types": [
+                          "vuln",
+                          "license",
+                          "configuration"
+                        ],
+                        "languages": [
+                          "node",
+                          "javascript",
+                          "ruby",
+                          "java",
+                          "scala",
+                          "python",
+                          "golang",
+                          "php",
+                          "dotnet",
+                          "swift-objective-c",
+                          "elixir",
+                          "docker",
+                          "linux",
+                          "dockerfile"
+                        ],
+                        "projects": [],
+                        "issues": [],
+                        "identifier": "",
+                        "ignored": false,
+                        "patched": false,
+                        "fixable": false,
+                        "isFixed": false,
+                        "isUpgradable": false,
+                        "isPatchable": false,
+                        "isPinnable": false,
+                        "priorityScore": {
+                          "min": 0,
+                          "max": 1000
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "filters": {
+                  "orgs": [],
+                  "severity": [
+                    "critical",
+                    "high",
+                    "medium",
+                    "low"
+                  ],
+                  "exploitMaturity": [
+                    "mature",
+                    "proof-of-concept",
+                    "no-known-exploit",
+                    "no-data"
+                  ],
+                  "types": [
+                    "vuln",
+                    "license",
+                    "configuration"
+                  ],
+                  "languages": [
+                    "node",
+                    "javascript",
+                    "ruby",
+                    "java",
+                    "scala",
+                    "python",
+                    "golang",
+                    "php",
+                    "dotnet",
+                    "swift-objective-c",
+                    "elixir",
+                    "docker",
+                    "linux",
+                    "dockerfile"
+                  ],
+                  "projects": [],
+                  "issues": [],
+                  "identifier": "",
+                  "ignored": false,
+                  "patched": false,
+                  "fixable": false,
+                  "isFixed": false,
+                  "isUpgradable": false,
+                  "isPatchable": false,
+                  "isPinnable": false,
+                  "priorityScore": {
+                    "min": 0,
+                    "max": 1000
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Issues"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "example": {
+                        "code": 400,
+                        "ok": false,
+                        "error": {
+                          "name": "ValidationError",
+                          "innerErrors": [
+                            "invalid type filters.types is an invalid type unsupported-type"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "code": 400,
+                  "ok": false,
+                  "error": {
+                    "name": "ValidationError",
+                    "innerErrors": [
+                      "invalid type filters.types is an invalid type unsupported-type"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/reporting/counts/issues/latest",
+      "method": "POST",
+      "operation_id": "Getlatestissuecounts",
+      "summary": "Get latest issue counts",
+      "details": {
+        "tags": [
+          "Reporting API"
+        ],
+        "summary": "Get latest issue counts",
+        "description": "Returns the number of issues currently in existence. This data can take up to 9 hours to refresh\n#### Required permissions\n\n- `View Project` for every Organization in `filters.orgs`\n\n- `View Organization Reports` for every Organization in `filters.orgs`",
+        "operationId": "Getlatestissuecounts",
+        "parameters": [
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "The field to group results by",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/groupBy2"
+                },
+                {
+                  "description": "The field to group results by",
+                  "example": "severity"
+                }
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/IssueCountsFilters"
+                  },
+                  {
+                    "example": {
+                      "filters": {
+                        "orgs": [],
+                        "severity": [
+                          "critical",
+                          "high",
+                          "medium",
+                          "low"
+                        ],
+                        "types": [
+                          "vuln",
+                          "license",
+                          "configuration"
+                        ],
+                        "languages": [
+                          "node",
+                          "javascript",
+                          "ruby",
+                          "java",
+                          "scala",
+                          "python",
+                          "golang",
+                          "php",
+                          "dotnet",
+                          "swift-objective-c",
+                          "elixir",
+                          "docker",
+                          "linux",
+                          "dockerfile"
+                        ],
+                        "projects": [],
+                        "ignored": false,
+                        "patched": false,
+                        "fixable": false,
+                        "isUpgradable": false,
+                        "isPatchable": false,
+                        "isPinnable": false,
+                        "priorityScore": {
+                          "min": 0,
+                          "max": 1000
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "filters": {
+                  "orgs": [],
+                  "severity": [
+                    "critical",
+                    "high",
+                    "medium",
+                    "low"
+                  ],
+                  "types": [
+                    "vuln",
+                    "license",
+                    "configuration"
+                  ],
+                  "languages": [
+                    "node",
+                    "javascript",
+                    "ruby",
+                    "java",
+                    "scala",
+                    "python",
+                    "golang",
+                    "php",
+                    "dotnet",
+                    "swift-objective-c",
+                    "elixir",
+                    "docker",
+                    "linux",
+                    "dockerfile"
+                  ],
+                  "projects": [],
+                  "ignored": false,
+                  "patched": false,
+                  "fixable": false,
+                  "isUpgradable": false,
+                  "isPatchable": false,
+                  "isPinnable": false,
+                  "priorityScore": {
+                    "min": 0,
+                    "max": 1000
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/IssueCounts"
+                    },
+                    {
+                      "example": {
+                        "results": [
+                          {
+                            "day": "2017-07-01",
+                            "count": 0,
+                            "severity": {
+                              "critical": 0,
+                              "high": 0,
+                              "medium": 0,
+                              "low": 0
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "results": [
+                    {
+                      "day": "2017-07-01",
+                      "count": 0,
+                      "severity": {
+                        "critical": 0,
+                        "high": 0,
+                        "medium": 0,
+                        "low": 0
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "example": {
+                        "code": 400,
+                        "ok": false,
+                        "error": {
+                          "name": "ValidationError",
+                          "innerErrors": [
+                            "invalid type filters.types is an invalid type unsupported-type"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "code": 400,
+                  "ok": false,
+                  "error": {
+                    "name": "ValidationError",
+                    "innerErrors": [
+                      "invalid type filters.types is an invalid type unsupported-type"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/reporting/counts/issues",
+      "method": "POST",
+      "operation_id": "Getissuecounts",
+      "summary": "Get issue counts",
+      "details": {
+        "tags": [
+          "Reporting API"
+        ],
+        "summary": "Get issue counts",
+        "description": "Returns issue counts within a time frame. This data can take up to 9 hours to refresh\n#### Required permissions\n\n- `View Project` for every Organization in `filters.orgs`\n\n- `View Organization Reports` for every Organization in `filters.orgs`",
+        "operationId": "Getissuecounts",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The date you wish to fetch results from, in the format `YYYY-MM-DD`",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-01"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "The date you wish to fetch results until, in the format `YYYY-MM-DD`",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-03"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "The field to group results by",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/groupBy2"
+                },
+                {
+                  "description": "The field to group results by",
+                  "example": "severity"
+                }
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/IssueCountsFilters"
+                  },
+                  {
+                    "example": {
+                      "filters": {
+                        "orgs": [],
+                        "severity": [
+                          "critical",
+                          "high",
+                          "medium",
+                          "low"
+                        ],
+                        "types": [
+                          "vuln",
+                          "license",
+                          "configuration"
+                        ],
+                        "languages": [
+                          "node",
+                          "javascript",
+                          "ruby",
+                          "java",
+                          "scala",
+                          "python",
+                          "golang",
+                          "php",
+                          "dotnet",
+                          "swift-objective-c",
+                          "elixir",
+                          "docker",
+                          "linux",
+                          "dockerfile"
+                        ],
+                        "projects": [],
+                        "ignored": false,
+                        "patched": false,
+                        "fixable": false,
+                        "isUpgradable": false,
+                        "isPatchable": false,
+                        "isPinnable": false,
+                        "priorityScore": {
+                          "min": 0,
+                          "max": 1000
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "filters": {
+                  "orgs": [],
+                  "severity": [
+                    "critical",
+                    "high",
+                    "medium",
+                    "low"
+                  ],
+                  "types": [
+                    "vuln",
+                    "license",
+                    "configuration"
+                  ],
+                  "languages": [
+                    "node",
+                    "javascript",
+                    "ruby",
+                    "java",
+                    "scala",
+                    "python",
+                    "golang",
+                    "php",
+                    "dotnet",
+                    "swift-objective-c",
+                    "elixir",
+                    "docker",
+                    "linux",
+                    "dockerfile"
+                  ],
+                  "projects": [],
+                  "ignored": false,
+                  "patched": false,
+                  "fixable": false,
+                  "isUpgradable": false,
+                  "isPatchable": false,
+                  "isPinnable": false,
+                  "priorityScore": {
+                    "min": 0,
+                    "max": 1000
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/IssueCounts"
+                    },
+                    {
+                      "example": {
+                        "results": [
+                          {
+                            "day": "2017-07-01",
+                            "count": 0,
+                            "severity": {
+                              "critical": 0,
+                              "high": 0,
+                              "medium": 0,
+                              "low": 0
+                            }
+                          },
+                          {
+                            "day": "2017-07-02",
+                            "count": 0,
+                            "severity": {
+                              "critical": 0,
+                              "high": 0,
+                              "medium": 0,
+                              "low": 0
+                            }
+                          },
+                          {
+                            "day": "2017-07-03",
+                            "count": 0,
+                            "severity": {
+                              "critical": 0,
+                              "high": 0,
+                              "medium": 0,
+                              "low": 0
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "results": [
+                    {
+                      "day": "2017-07-01",
+                      "count": 0,
+                      "severity": {
+                        "critical": 0,
+                        "high": 0,
+                        "medium": 0,
+                        "low": 0
+                      }
+                    },
+                    {
+                      "day": "2017-07-02",
+                      "count": 0,
+                      "severity": {
+                        "critical": 0,
+                        "high": 0,
+                        "medium": 0,
+                        "low": 0
+                      }
+                    },
+                    {
+                      "day": "2017-07-03",
+                      "count": 0,
+                      "severity": {
+                        "critical": 0,
+                        "high": 0,
+                        "medium": 0,
+                        "low": 0
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "example": {
+                        "code": 400,
+                        "ok": false,
+                        "error": {
+                          "name": "ValidationError",
+                          "innerErrors": [
+                            "invalid type filters.types is an invalid type unsupported-type"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "code": 400,
+                  "ok": false,
+                  "error": {
+                    "name": "ValidationError",
+                    "innerErrors": [
+                      "invalid type filters.types is an invalid type unsupported-type"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/reporting/counts/projects/latest",
+      "method": "POST",
+      "operation_id": "Getlatestprojectcounts",
+      "summary": "Get latest project counts",
+      "details": {
+        "tags": [
+          "Reporting API"
+        ],
+        "summary": "Get latest project counts",
+        "description": "Returns the number of projects currently in existence. This data can take up to 9 hours to refresh.\n\n+ Params#### Required permissions\n\n- `View Project` for every Organization in `filters.orgs`\n\n- `View Organization Reports` for every Organization in `filters.orgs`",
+        "operationId": "Getlatestprojectcounts",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ProjectCountsFilters"
+                  },
+                  {
+                    "example": {
+                      "filters": {
+                        "orgs": [],
+                        "languages": [
+                          "node",
+                          "javascript",
+                          "ruby",
+                          "java",
+                          "scala",
+                          "python",
+                          "golang",
+                          "php",
+                          "dotnet",
+                          "swift-objective-c",
+                          "elixir",
+                          "docker",
+                          "linux",
+                          "dockerfile"
+                        ],
+                        "projects": []
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "filters": {
+                  "orgs": [],
+                  "languages": [
+                    "node",
+                    "javascript",
+                    "ruby",
+                    "java",
+                    "scala",
+                    "python",
+                    "golang",
+                    "php",
+                    "dotnet",
+                    "swift-objective-c",
+                    "elixir",
+                    "docker",
+                    "linux",
+                    "dockerfile"
+                  ],
+                  "projects": []
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ProjectCounts"
+                    },
+                    {
+                      "example": {
+                        "results": [
+                          {
+                            "day": "2017-07-01",
+                            "count": 0
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "results": [
+                    {
+                      "day": "2017-07-01",
+                      "count": 0
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "example": {
+                        "code": 400,
+                        "ok": false,
+                        "error": {
+                          "name": "ValidationError",
+                          "innerErrors": [
+                            "invalid type filters.projects is an invalid project unsupported-project"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "code": 400,
+                  "ok": false,
+                  "error": {
+                    "name": "ValidationError",
+                    "innerErrors": [
+                      "invalid type filters.projects is an invalid project unsupported-project"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/reporting/counts/projects",
+      "method": "POST",
+      "operation_id": "Getprojectcounts",
+      "summary": "Get project counts",
+      "details": {
+        "tags": [
+          "Reporting API"
+        ],
+        "summary": "Get project counts",
+        "description": "Returns project counts within a time frame. This data can take up to 9 hours to refresh\n#### Required permissions\n\n- `View Project` for every Organization in `filters.orgs`\n\n- `View Organization Reports` for every Organization in `filters.orgs`",
+        "operationId": "Getprojectcounts",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The date you wish to fetch results from, in the format `YYYY-MM-DD`",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-01"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "The date you wish to fetch results until, in the format `YYYY-MM-DD`",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-03"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ProjectCountsFilters"
+                  },
+                  {
+                    "example": {
+                      "filters": {
+                        "orgs": [],
+                        "languages": [
+                          "node",
+                          "javascript",
+                          "ruby",
+                          "java",
+                          "scala",
+                          "python",
+                          "golang",
+                          "php",
+                          "dotnet",
+                          "swift-objective-c",
+                          "elixir",
+                          "docker",
+                          "linux",
+                          "dockerfile"
+                        ],
+                        "projects": []
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "filters": {
+                  "orgs": [],
+                  "languages": [
+                    "node",
+                    "javascript",
+                    "ruby",
+                    "java",
+                    "scala",
+                    "python",
+                    "golang",
+                    "php",
+                    "dotnet",
+                    "swift-objective-c",
+                    "elixir",
+                    "docker",
+                    "linux",
+                    "dockerfile"
+                  ],
+                  "projects": []
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ProjectCounts"
+                    },
+                    {
+                      "example": {
+                        "results": [
+                          {
+                            "day": "2017-07-01",
+                            "count": 0
+                          },
+                          {
+                            "day": "2017-07-02",
+                            "count": 0
+                          },
+                          {
+                            "day": "2017-07-03",
+                            "count": 0
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "results": [
+                    {
+                      "day": "2017-07-01",
+                      "count": 0
+                    },
+                    {
+                      "day": "2017-07-02",
+                      "count": 0
+                    },
+                    {
+                      "day": "2017-07-03",
+                      "count": 0
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "example": {
+                        "code": 400,
+                        "ok": false,
+                        "error": {
+                          "name": "ValidationError",
+                          "innerErrors": [
+                            "invalid type filters.projects is an invalid project unsupported-project"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "code": 400,
+                  "ok": false,
+                  "error": {
+                    "name": "ValidationError",
+                    "innerErrors": [
+                      "invalid type filters.projects is an invalid project unsupported-project"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/reporting/counts/tests",
+      "method": "POST",
+      "operation_id": "Gettestcounts",
+      "summary": "Get test counts",
+      "details": {
+        "tags": [
+          "Reporting API"
+        ],
+        "summary": "Get test counts",
+        "description": "Returns the number of tests conducted within a time frame. This data is updated in real time\n#### Required permissions\n\n- `View Project` for every Organization in `filters.orgs`\n\n- `View Organization Reports` for every Organization in `filters.orgs`",
+        "operationId": "Gettestcounts",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "The date you wish to count tests from, in the format `YYYY-MM-DD`",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-01"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "The date you wish to count tests until, in the format `YYYY-MM-DD`",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "2017-07-03"
+            }
+          },
+          {
+            "name": "groupBy",
+            "in": "query",
+            "description": "The field to group results by",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/groupBy4"
+                },
+                {
+                  "description": "The field to group results by",
+                  "example": "isPrivate"
+                }
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TestsFilters"
+                  },
+                  {
+                    "example": {
+                      "filters": {
+                        "orgs": [],
+                        "isPrivate": false,
+                        "issuesPrevented": false,
+                        "projects": []
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "filters": {
+                  "orgs": [],
+                  "isPrivate": false,
+                  "issuesPrevented": false,
+                  "projects": []
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/TestCounts"
+                    },
+                    {
+                      "example": {
+                        "results": [
+                          {
+                            "count": 0,
+                            "isPrivate": {
+                              "true": 0,
+                              "false": 0
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "results": [
+                    {
+                      "count": 0,
+                      "isPrivate": {
+                        "true": 0,
+                        "false": 0
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ErrorResponse"
+                    },
+                    {
+                      "example": {
+                        "code": 400,
+                        "ok": false,
+                        "error": {
+                          "name": "ValidationError",
+                          "innerErrors": [
+                            "invalid type filters.isPrivate is not a Boolean"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "code": 400,
+                  "ok": false,
+                  "error": {
+                    "name": "ValidationError",
+                    "innerErrors": [
+                      "invalid type filters.isPrivate is not a Boolean"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "IssueCountsFilters": {
+      "title": "IssueCountsFilters",
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/components/schemas/filters7"
+        }
+      }
+    },
+    "ProjectCountsFilters": {
+      "title": "ProjectCountsFilters",
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/components/schemas/filters8"
+        }
+      }
+    },
+    "results4": {
+      "title": "results4",
+      "required": [
+        "day",
+        "count"
+      ],
+      "type": "object",
+      "properties": {
+        "day": {
+          "type": "string",
+          "description": "The date in the format `YYYY-MM-DD`"
+        },
+        "count": {
+          "type": "number",
+          "description": "The number of projects"
+        }
+      }
+    },
+    "PriorityScore": {
+      "title": "PriorityScore",
+      "type": "object",
+      "properties": {
+        "min": {
+          "type": "number",
+          "example": 0
+        },
+        "max": {
+          "type": "number",
+          "example": 1000
+        }
+      }
+    },
+    "Issues": {
+      "title": "Issues",
+      "required": [
+        "results",
+        "total"
+      ],
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/projects2"
+                }
+              },
+              {
+                "$ref": "#/components/schemas/project1"
+              }
+            ]
+          },
+          "description": "A list of issues"
+        },
+        "total": {
+          "type": "number",
+          "description": "The total number of results found"
+        }
+      }
+    },
+    "sortBy2": {
+      "title": "sortBy2",
+      "enum": [
+        "severity",
+        "issueTitle",
+        "projectName",
+        "isFixed",
+        "isPatched",
+        "isIgnored",
+        "introducedDate",
+        "isUpgradable",
+        "isPatchable",
+        "priorityScore"
+      ],
+      "type": "string"
+    },
+    "filters8": {
+      "title": "filters8",
+      "required": [
+        "orgs"
+      ],
+      "type": "object",
+      "properties": {
+        "orgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of org IDs to filter the results by"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The type of languages to filter the results by"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of project IDs to filter the results by, max projects allowed is 1000"
+        }
+      }
+    },
+    "error": {
+      "title": "error",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "A descriptive message of the error"
+        },
+        "innerErrors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of additional reasons why the error occurred"
+        }
+      }
+    },
+    "project1": {
+      "title": "project1",
+      "required": [
+        "url",
+        "id",
+        "name",
+        "source",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL to a page containing information about the project"
+        },
+        "id": {
+          "type": "string",
+          "description": "The identifier of the project"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the project"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source of the project (e.g. github, heroku etc)"
+        },
+        "packageManager": {
+          "type": "string",
+          "description": "The package manager for the project (e.g. npm, rubygems etc)"
+        },
+        "targetFile": {
+          "type": "string",
+          "description": "The file path to the dependency manifest or lock file (e.g. package.json, Gemfile.lock etc)"
+        }
+      },
+      "description": "When no `groupBy` is used, a single project is returned per issue"
+    },
+    "IssuesFilters": {
+      "title": "IssuesFilters",
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/components/schemas/filters6"
+        }
+      }
+    },
+    "fixable": {
+      "title": "fixable",
+      "type": "object",
+      "properties": {
+        "true": {
+          "type": "number",
+          "description": "The number of fixable issues"
+        },
+        "false": {
+          "type": "number",
+          "description": "The number of non-fixable issues"
+        }
+      }
+    },
+    "issuesPrevented": {
+      "title": "issuesPrevented",
+      "type": "object",
+      "properties": {
+        "true": {
+          "type": "number",
+          "description": "The number of tests that prevented issues from being introduced"
+        },
+        "false": {
+          "type": "number",
+          "description": "The number of tests that did not prevent issues from being introduced"
+        }
+      }
+    },
+    "TestsFilters": {
+      "title": "TestsFilters",
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/components/schemas/filters9"
+        }
+      }
+    },
+    "groupBy4": {
+      "title": "groupBy4",
+      "enum": [
+        "isPrivate",
+        "issuesPrevented"
+      ],
+      "type": "string"
+    },
+    "filters7": {
+      "title": "filters7",
+      "required": [
+        "orgs"
+      ],
+      "type": "object",
+      "properties": {
+        "orgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of org IDs to filter the results by"
+        },
+        "severity": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The severity levels of issues to filter the results by"
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The type of issues to filter the results by"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The type of languages to filter the results by"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of project IDs to filter issues by, max projects allowed is 1000"
+        },
+        "ignored": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are ignored, if set to `false`, only include issues which are not ignored"
+        },
+        "patched": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are patched, if set to `false`, only include issues which are not patched"
+        },
+        "fixable": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are fixable, if set to `false`, only include issues which are not fixable. An issue is fixable if it is either upgradable, patchable or pinnable. Also see isUpgradable, isPatchable and isPinnable filters."
+        },
+        "isUpgradable": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are upgradable, if set to `false`, only include issues which are not upgradable"
+        },
+        "isPatchable": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are patchable, if set to `false`, only include issues which are not patchable"
+        },
+        "isPinnable": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are pinnable, if set to `false`, only include issues which are not pinnable"
+        },
+        "priorityScore": {
+          "$ref": "#/components/schemas/PriorityScore"
+        }
+      }
+    },
+    "TestCounts": {
+      "title": "TestCounts",
+      "required": [
+        "results"
+      ],
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/results5"
+          },
+          "description": "A list of test counts"
+        }
+      }
+    },
+    "results3": {
+      "title": "results3",
+      "required": [
+        "day",
+        "count"
+      ],
+      "type": "object",
+      "properties": {
+        "day": {
+          "type": "string",
+          "description": "The date in the format `YYYY-MM-DD`"
+        },
+        "count": {
+          "type": "number",
+          "description": "The number of issues"
+        },
+        "severity": {
+          "$ref": "#/components/schemas/severity1"
+        },
+        "fixable": {
+          "$ref": "#/components/schemas/fixable"
+        }
+      }
+    },
+    "projects2": {
+      "title": "projects2",
+      "required": [
+        "url",
+        "id",
+        "name",
+        "source",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL to a page containing information about the project"
+        },
+        "id": {
+          "type": "string",
+          "description": "The identifier of the project"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the project"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source of the project (e.g. github, heroku etc)"
+        },
+        "packageManager": {
+          "type": "string",
+          "description": "The package manager for the project (e.g. npm, rubygems etc)"
+        },
+        "targetFile": {
+          "type": "string",
+          "description": "The file path to the dependency manifest or lock file (e.g. package.json, Gemfile.lock etc)"
+        }
+      }
+    },
+    "groupBy": {
+      "title": "groupBy",
+      "enum": [
+        "issue"
+      ],
+      "type": "string"
+    },
+    "severity1": {
+      "title": "severity1",
+      "type": "object",
+      "properties": {
+        "critical": {
+          "type": "number",
+          "description": "The number of critical severity issues"
+        },
+        "high": {
+          "type": "number",
+          "description": "The number of high severity issues"
+        },
+        "medium": {
+          "type": "number",
+          "description": "The number of medium severity issues"
+        },
+        "low": {
+          "type": "number",
+          "description": "The number of low severity issues"
+        }
+      }
+    },
+    "ProjectCounts": {
+      "title": "ProjectCounts",
+      "required": [
+        "results"
+      ],
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/results4"
+          },
+          "description": "A list of project counts by day"
+        }
+      }
+    },
+    "isPrivate": {
+      "title": "isPrivate",
+      "type": "object",
+      "properties": {
+        "true": {
+          "type": "number",
+          "description": "The number of tests conducted against private projects"
+        },
+        "false": {
+          "type": "number",
+          "description": "The number of tests conducted against public projects"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "title": "ErrorResponse",
+      "required": [
+        "code",
+        "ok",
+        "error"
+      ],
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "number",
+          "description": "The error response code",
+          "example": 400
+        },
+        "ok": {
+          "type": "boolean"
+        },
+        "error": {
+          "$ref": "#/components/schemas/error"
+        }
+      }
+    },
+    "groupBy2": {
+      "title": "groupBy2",
+      "enum": [
+        "severity",
+        "fixable",
+        "project,[severity|fixable]"
+      ],
+      "type": "string"
+    },
+    "IssueCounts": {
+      "title": "IssueCounts",
+      "required": [
+        "results"
+      ],
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/results3"
+          },
+          "description": "A list of issue counts by day"
+        }
+      }
+    },
+    "results5": {
+      "title": "results5",
+      "required": [
+        "count"
+      ],
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "description": "The number of tests conducted"
+        },
+        "isPrivate": {
+          "$ref": "#/components/schemas/isPrivate"
+        },
+        "issuesPrevented": {
+          "$ref": "#/components/schemas/issuesPrevented"
+        }
+      }
+    },
+    "filters9": {
+      "title": "filters9",
+      "required": [
+        "orgs"
+      ],
+      "type": "object",
+      "properties": {
+        "orgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of org IDs to filter the results by"
+        },
+        "isPrivate": {
+          "type": "boolean",
+          "description": "If set to `true`, only include tests which were conducted against private projects, if set to `false` only include tests which were conducted against public projects"
+        },
+        "issuesPrevented": {
+          "type": "boolean",
+          "description": "If set to `true`, only include tests which prevented issues from being introduced, if set to `false` only include tests which did not prevent issues from being introduced"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of project IDs to filter issues by, max projects allowed is 1000"
+        }
+      }
+    },
+    "filters6": {
+      "title": "filters6",
+      "required": [
+        "orgs"
+      ],
+      "type": "object",
+      "properties": {
+        "orgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of org IDs to filter the results by"
+        },
+        "severity": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The severity levels of issues to filter the results by"
+        },
+        "exploitMaturity": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The exploit maturity levels of issues to filter the results by"
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The type of issues to filter the results by"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The type of languages to filter the results by"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of project IDs to filter issues by, max projects allowed is 1000"
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of issue IDs to filter issues by"
+        },
+        "identifier": {
+          "type": "string",
+          "description": "Search term to filter issue name by, or an exact CVE or CWE"
+        },
+        "ignored": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are ignored, if set to `false`, only include issues which are not ignored"
+        },
+        "patched": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are patched, if set to `false`, only include issues which are not patched"
+        },
+        "fixable": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are fixable, if set to `false`, only include issues which are not fixable. An issue is fixable if it is either upgradable, patchable or pinnable. Also see isUpgradable, isPatchable and isPinnable filters."
+        },
+        "isFixed": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are fixed, if set to `false`, only include issues which are not fixed"
+        },
+        "isUpgradable": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are upgradable, if set to `false`, only include issues which are not upgradable"
+        },
+        "isPatchable": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are patchable, if set to `false`, only include issues which are not patchable"
+        },
+        "isPinnable": {
+          "type": "boolean",
+          "description": "If set to `true`, only include issues which are pinnable, if set to `false`, only include issues which are not pinnable"
+        },
+        "priorityScore": {
+          "$ref": "#/components/schemas/PriorityScore"
+        }
+      }
+    }
+  },
+  "referenced_common_schemas": []
+}

@@ -1,0 +1,1027 @@
+{
+  "tag": "SlackSettings",
+  "endpoint_count": 7,
+  "schema_count": 11,
+  "endpoints_summary": [
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/slack_app/{bot_id}",
+      "operation_id": "deleteSlackDefaultNotificationSettings",
+      "summary": "Remove the given Slack App integration"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/slack_app/{bot_id}",
+      "operation_id": "getSlackDefaultNotificationSettings",
+      "summary": "Get Slack integration default notification settings."
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/slack_app/{bot_id}",
+      "operation_id": "createSlackDefaultNotificationSettings",
+      "summary": "Create new Slack notification default settings."
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/slack_app/{bot_id}/projects",
+      "operation_id": "getSlackProjectNotificationSettingsCollection",
+      "summary": "Slack notification settings overrides for projects"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/slack_app/{bot_id}/projects/{project_id}",
+      "operation_id": "deleteSlackProjectNotificationSettings",
+      "summary": "Remove Slack settings override for a project."
+    },
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}/slack_app/{bot_id}/projects/{project_id}",
+      "operation_id": "updateSlackProjectNotificationSettings",
+      "summary": "Update Slack notification settings for a project."
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/slack_app/{bot_id}/projects/{project_id}",
+      "operation_id": "createSlackProjectNotificationSettings",
+      "summary": "Create a new Slack settings override for a given project."
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/slack_app/{bot_id}",
+      "method": "DELETE",
+      "operation_id": "deleteSlackDefaultNotificationSettings",
+      "summary": "Remove the given Slack App integration",
+      "details": {
+        "description": "Remove the given Slack App integration\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "deleteSlackDefaultNotificationSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/BotId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Slack App integration successfully removed",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Remove the given Slack App integration",
+        "tags": [
+          "SlackSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-07~experimental",
+          "2022-12-14"
+        ],
+        "x-snyk-api-resource": "settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-12-14",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/slack_app/{bot_id}",
+      "method": "GET",
+      "operation_id": "getSlackDefaultNotificationSettings",
+      "summary": "Get Slack integration default notification settings.",
+      "details": {
+        "description": "Get Slack integration default notification settings for the provided tenant ID and bot ID.\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "getSlackDefaultNotificationSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/BotId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SlackDefaultSettingsData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default settings created successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get Slack integration default notification settings.",
+        "tags": [
+          "SlackSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-07~experimental",
+          "2022-12-14"
+        ],
+        "x-snyk-api-resource": "settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-12-14",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/slack_app/{bot_id}",
+      "method": "POST",
+      "operation_id": "createSlackDefaultNotificationSettings",
+      "summary": "Create new Slack notification default settings.",
+      "details": {
+        "description": "Create new Slack notification default settings for a given tenant.\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "createSlackDefaultNotificationSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/BotId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingsRequest"
+              }
+            }
+          },
+          "description": "Create new Slack notification default settings for a tenant."
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SlackDefaultSettingsData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Default settings created successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create new Slack notification default settings.",
+        "tags": [
+          "SlackSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-07~experimental",
+          "2022-12-14"
+        ],
+        "x-snyk-api-resource": "settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-12-14",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/slack_app/{bot_id}/projects",
+      "method": "GET",
+      "operation_id": "getSlackProjectNotificationSettingsCollection",
+      "summary": "Slack notification settings overrides for projects",
+      "details": {
+        "description": "Slack notification settings overrides for projects. These settings overrides the default settings configured for the tenant.\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "getSlackProjectNotificationSettingsCollection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/BotId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectSettingsCollection"
+                }
+              }
+            },
+            "description": "Return default settings for a tenant",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Slack notification settings overrides for projects",
+        "tags": [
+          "SlackSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-07~experimental",
+          "2022-12-14"
+        ],
+        "x-snyk-api-resource": "settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-12-14",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/slack_app/{bot_id}/projects/{project_id}",
+      "method": "DELETE",
+      "operation_id": "deleteSlackProjectNotificationSettings",
+      "summary": "Remove Slack settings override for a project.",
+      "details": {
+        "description": "Remove Slack settings override for a project.\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "deleteSlackProjectNotificationSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Project ID",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/BotId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Slack settings override for the project removed successfully.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Remove Slack settings override for a project.",
+        "tags": [
+          "SlackSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-07~experimental",
+          "2022-12-14"
+        ],
+        "x-snyk-api-resource": "settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-12-14",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/slack_app/{bot_id}/projects/{project_id}",
+      "method": "PATCH",
+      "operation_id": "updateSlackProjectNotificationSettings",
+      "summary": "Update Slack notification settings for a project.",
+      "details": {
+        "description": "Update Slack notification settings for a project.\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "updateSlackProjectNotificationSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/BotId"
+          },
+          {
+            "description": "Project ID",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectSettingsPatchRequest"
+              }
+            }
+          },
+          "description": "Update existing project specific settings for a project."
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ProjectSettingsData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Slack notification settings for a project updated successfully.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update Slack notification settings for a project.",
+        "tags": [
+          "SlackSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-07~experimental",
+          "2022-12-14"
+        ],
+        "x-snyk-api-resource": "settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-12-14",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/slack_app/{bot_id}/projects/{project_id}",
+      "method": "POST",
+      "operation_id": "createSlackProjectNotificationSettings",
+      "summary": "Create a new Slack settings override for a given project.",
+      "details": {
+        "description": "Create Slack settings override for a project.\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "createSlackProjectNotificationSettings",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Project ID",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/BotId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingsRequest"
+              }
+            }
+          },
+          "description": "Create new Slack notification default settings for a tenant."
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ProjectSettingsData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Project settings created successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create a new Slack settings override for a given project.",
+        "tags": [
+          "SlackSettings"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-07~experimental",
+          "2022-12-14"
+        ],
+        "x-snyk-api-resource": "settings",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-12-14",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "TargetChannelName": {
+      "example": "channel-name",
+      "minLength": 1,
+      "type": "string"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "SettingsRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/SettingsAttributes"
+            },
+            "type": {
+              "enum": [
+                "slack"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "ProjectSettingsPatchRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "minProperties": 1,
+              "properties": {
+                "is_active": {
+                  "$ref": "#/components/schemas/IsActive"
+                },
+                "severity_threshold": {
+                  "$ref": "#/components/schemas/SeverityThreshold"
+                },
+                "target_channel_id": {
+                  "$ref": "#/components/schemas/TargetChannelId"
+                }
+              },
+              "type": "object"
+            },
+            "id": {
+              "$ref": "#/components/schemas/Uuid"
+            },
+            "type": {
+              "enum": [
+                "slack"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "attributes",
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "SlackDefaultSettingsData": {
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "properties": {
+            "severity_threshold": {
+              "$ref": "#/components/schemas/SeverityThreshold"
+            },
+            "target_channel_id": {
+              "$ref": "#/components/schemas/TargetChannelId"
+            },
+            "target_channel_name": {
+              "$ref": "#/components/schemas/TargetChannelName"
+            }
+          },
+          "required": [
+            "target_channel_id",
+            "target_channel_name",
+            "severity_threshold"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "type": {
+          "example": "slack",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SeverityThreshold": {
+      "description": "Minimum Snyk issue severity to send a notification for, messages will not be sent for any issue below this value",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "example": "high",
+      "type": "string"
+    },
+    "TargetChannelId": {
+      "example": "slack://channel?team=team-id&id=channel-id",
+      "format": "uri",
+      "type": "string"
+    },
+    "IsActive": {
+      "description": "Current status of the project settings.",
+      "example": true,
+      "type": "boolean"
+    },
+    "ProjectSettingsData": {
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "properties": {
+            "is_active": {
+              "$ref": "#/components/schemas/IsActive"
+            },
+            "severity_threshold": {
+              "$ref": "#/components/schemas/SeverityThreshold"
+            },
+            "target_channel_id": {
+              "$ref": "#/components/schemas/TargetChannelId"
+            },
+            "target_channel_name": {
+              "$ref": "#/components/schemas/TargetChannelName"
+            },
+            "target_project_name": {
+              "description": "The target file name for the project.",
+              "example": "snyk/goof:package.json",
+              "type": "string"
+            }
+          },
+          "required": [
+            "target_channel_id",
+            "target_channel_name",
+            "severity_threshold",
+            "target_project_name",
+            "is_active"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "type": {
+          "example": "slack",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GetProjectSettingsCollection": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/ProjectSettingsData"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "data",
+        "jsonapi",
+        "links"
+      ],
+      "type": "object"
+    },
+    "SettingsAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "severity_threshold": {
+          "$ref": "#/components/schemas/SeverityThreshold"
+        },
+        "target_channel_id": {
+          "$ref": "#/components/schemas/TargetChannelId"
+        }
+      },
+      "required": [
+        "target_channel_id",
+        "severity_threshold"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "Uuid",
+    "JsonApi",
+    "Meta",
+    "LinkProperty",
+    "PaginatedLinks"
+  ]
+}

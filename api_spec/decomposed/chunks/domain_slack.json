@@ -1,0 +1,304 @@
+{
+  "tag": "Slack",
+  "endpoint_count": 2,
+  "schema_count": 2,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/slack_app/{tenant_id}/channels",
+      "operation_id": "listChannels",
+      "summary": "Get a list of Slack channels"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/slack_app/{tenant_id}/channels/{channel_id}",
+      "operation_id": "getChannelNameById",
+      "summary": "Get Slack Channel name by Slack Channel ID."
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/slack_app/{tenant_id}/channels",
+      "method": "GET",
+      "operation_id": "listChannels",
+      "summary": "Get a list of Slack channels",
+      "details": {
+        "description": "Requires the Snyk Slack App to be set up for this org, will retrieve a list of channels the Snyk Slack App can access. Note that it is currently only possible to page forwards through this collection, no prev links will be generated and the ending_before parameter will not function.\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "listChannels",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/ChannelLimit"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/TenantId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/SlackChannel"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "List of Slack channels",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get a list of Slack channels",
+        "tags": [
+          "Slack"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-07"
+        ],
+        "x-snyk-api-resource": "channels",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-11-07",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/slack_app/{tenant_id}/channels/{channel_id}",
+      "method": "GET",
+      "operation_id": "getChannelNameById",
+      "summary": "Get Slack Channel name by Slack Channel ID.",
+      "details": {
+        "description": "Requires the Snyk Slack App to be set up for this org. It will return the Slack channel name for the provided Slack channel ID.\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "getChannelNameById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/ChannelId"
+          },
+          {
+            "$ref": "#/components/parameters/TenantId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SlackChannel"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "List of Slack channels",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get Slack Channel name by Slack Channel ID.",
+        "tags": [
+          "Slack"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-07"
+        ],
+        "x-snyk-api-resource": "channels",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-11-07",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "SlackChannel": {
+      "properties": {
+        "attributes": {
+          "properties": {
+            "name": {
+              "description": "Name of the Slack Channel",
+              "example": "general",
+              "type": "string"
+            },
+            "type": {
+              "description": "Channel type",
+              "enum": [
+                "public",
+                "private",
+                "direct_message",
+                "multiparty_direct_message"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "example": "slack://channel?team=T123456&id=C123456",
+          "format": "uri",
+          "type": "string"
+        },
+        "type": {
+          "example": "slack_channel",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "PaginatedLinks",
+    "Meta",
+    "LinkProperty"
+  ]
+}

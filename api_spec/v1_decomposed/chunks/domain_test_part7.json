@@ -1,0 +1,1947 @@
+{
+  "tag": "Test",
+  "endpoint_count": 5,
+  "schema_count": 23,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/test/gradle/{group}/{name}/{version}",
+      "operation_id": "Testforissuesinapublicpackagebygroup,nameandversion",
+      "summary": "Test for issues in a public package by group, name and version"
+    },
+    {
+      "method": "POST",
+      "path": "/test/gradle",
+      "operation_id": "Testgradlefile",
+      "summary": "Test gradle file"
+    },
+    {
+      "method": "GET",
+      "path": "/test/sbt/{groupId}/{artifactId}/{version}",
+      "operation_id": "sbt_Testforissuesinapublicpackagebygroupid,artifactidandversion",
+      "summary": "sbt_Test for issues in a public package by group id, artifact id and version"
+    },
+    {
+      "method": "POST",
+      "path": "/test/sbt",
+      "operation_id": "Testsbtfile",
+      "summary": "Test sbt file"
+    },
+    {
+      "method": "GET",
+      "path": "/test/pip/{packageName}/{version}",
+      "operation_id": "pip_Testforissuesinapublicpackagebynameandversion",
+      "summary": "pip_Test for issues in a public package by name and version"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/test/gradle/{group}/{name}/{version}",
+      "method": "GET",
+      "operation_id": "Testforissuesinapublicpackagebygroup,nameandversion",
+      "summary": "Test for issues in a public package by group, name and version",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Test for issues in a public package by group, name and version",
+        "description": "Test for issues in Gradle files.You can test `gradle` packages for issues according to their group, name and version. This is done via the maven endpoint (for Java), since the packages are hosted on maven central or a compatible repository. See \"Maven\" above for details.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "Testforissuesinapublicpackagebygroup,nameandversion",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          },
+          {
+            "name": "repository",
+            "in": "query",
+            "description": "The repository hosting this package. The default value is Maven Central. More than one value is supported, in order.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "https://repo1.maven.org/maven2"
+            }
+          },
+          {
+            "name": "group",
+            "in": "path",
+            "description": "The package's group ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "org.apache.flex.blazeds"
+            }
+          },
+          {
+            "name": "name",
+            "in": "path",
+            "description": "The package's artifact ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "blazeds"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The package version to test.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4.7.2"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Testforissuesinapublicpackagebygroupnameandversionresponse"
+                    },
+                    {
+                      "example": {
+                        "ok": false,
+                        "issues": {
+                          "vulnerabilities": [
+                            {
+                              "id": "SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+                              "url": "https://snyk.io/vuln/SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+                              "title": "Arbitrary Code Execution",
+                              "type": "vuln",
+                              "description": "## Overview\n\n[org.apache.flex.blazeds:blazeds](https://github.com/apache/flex-blazeds) is an application development framework for easily building Flash-based applications for mobile devices, web browsers, and desktops.\n\n\nAffected versions of this package are vulnerable to Arbitrary Code Execution.\nThe AMF deserialization implementation of Flex BlazeDS is vulnerable to Deserialization of Untrusted Data. By sending a specially crafted AMF message, it is possible to make the server establish a connection to an endpoint specified in the message and request an RMI remote object from that endpoint. This can result in the execution of arbitrary code on the server via Java deserialization.\n\n\nStarting with BlazeDS version `4.7.3`, Deserialization of XML is disabled completely per default, while the `ClassDeserializationValidator` allows deserialization of whitelisted classes only. BlazeDS internally comes with the following whitelist:\n```\nflex.messaging.io.amf.ASObject\nflex.messaging.io.amf.SerializedObject\nflex.messaging.io.ArrayCollection\nflex.messaging.io.ArrayList\nflex.messaging.messages.AcknowledgeMessage\nflex.messaging.messages.AcknowledgeMessageExt\nflex.messaging.messages.AsyncMessage\nflex.messaging.messages.AsyncMessageExt\nflex.messaging.messages.CommandMessage\nflex.messaging.messages.CommandMessageExt\nflex.messaging.messages.ErrorMessage\nflex.messaging.messages.HTTPMessage\nflex.messaging.messages.RemotingMessage\nflex.messaging.messages.SOAPMessage\njava.lang.Boolean\njava.lang.Byte\njava.lang.Character\njava.lang.Double\njava.lang.Float\njava.lang.Integer\njava.lang.Long\njava.lang.Object\njava.lang.Short\njava.lang.String\njava.util.ArrayList\njava.util.Date\njava.util.HashMap\norg.w3c.dom.Document\n```\n\n## Remediation\n\nUpgrade `org.apache.flex.blazeds:blazeds` to version 4.7.3 or higher.\n\n\n## References\n\n- [CVE-2017-3066](https://nvd.nist.gov/vuln/detail/CVE-2017-5641)\n\n- [Github Commit](https://github.com/apache/flex-blazeds/commit/f861f0993c35e664906609cad275e45a71e2aaf1)\n\n- [Github Release Notes](https://github.com/apache/flex-blazeds/blob/master/RELEASE_NOTES)\n\n- [Securitytracker Issue](http://www.securitytracker.com/id/1038364)\n",
+                              "functions": [],
+                              "from": [
+                                "org.apache.flex.blazeds:blazeds@4.7.2"
+                              ],
+                              "package": "org.apache.flex.blazeds:blazeds",
+                              "version": "4.7.2",
+                              "severity": "critical",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "java",
+                              "packageManager": "maven",
+                              "semver": {
+                                "vulnerable": [
+                                  "[,4.7.3)"
+                                ]
+                              },
+                              "publicationTime": "2017-08-09T14:17:08+00:00",
+                              "disclosureTime": "2017-04-25T21:00:00+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2017-5641"
+                                ],
+                                "CWE": [
+                                  "CWE-502"
+                                ]
+                              },
+                              "credit": [
+                                "Markus Wulftange"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                              "cvssScore": 9.8,
+                              "patches": [],
+                              "upgradePath": [
+                                "org.apache.flex.blazeds:blazeds@4.7.3"
+                              ]
+                            }
+                          ],
+                          "licenses": []
+                        },
+                        "dependencyCount": 1,
+                        "org": {
+                          "name": "atokeneduser",
+                          "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+                        },
+                        "licensesPolicy": null,
+                        "packageManager": "maven"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/test/gradle",
+      "method": "POST",
+      "operation_id": "Testgradlefile",
+      "summary": "Test gradle file",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Test gradle file",
+        "description": "Test for issues in Gradle files.You can test your Gradle packages for issues according to their manifest file using this action. It takes a JSON object containing the \"target\" `build.gradle`.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "Testgradlefile",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          },
+          {
+            "name": "repository",
+            "in": "query",
+            "description": "The repository hosting this package. The default value is Maven Central. More than one value is supported, in order.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "https://repo1.maven.org/maven2"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Gradlerequestpayload"
+                  },
+                  {
+                    "example": {
+                      "encoding": "plain",
+                      "files": {
+                        "target": {
+                          "contents": "dependencies { compile 'axis:axis:1.4' }"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "encoding": "plain",
+                "files": {
+                  "target": {
+                    "contents": "dependencies { compile 'axis:axis:1.4' }"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Testgradlefileresponse"
+                    },
+                    {
+                      "example": {
+                        "ok": false,
+                        "issues": {
+                          "vulnerabilities": [
+                            {
+                              "id": "SNYK-JAVA-AXIS-30071",
+                              "url": "https://snyk.io/vuln/SNYK-JAVA-AXIS-30071",
+                              "title": "Man-in-the-Middle (MitM)",
+                              "type": "vuln",
+                              "description": "## Overview\n\n[axis:axis](https://search.maven.org/search?q=g:axis) is an implementation of the SOAP (\"Simple Object Access Protocol\") submission to W3C.\n\n\nAffected versions of this package are vulnerable to Man-in-the-Middle (MitM).\nIt does not verify the requesting server's hostname against existing domain names in the SSL Certificate. \r\n\r\n## Details\r\nThe `getCN` function in Apache Axis 1.4 and earlier does not properly verify that the server hostname matches a domain name in the subject's `Common Name (CN)` or `subjectAltName` field of the X.509 certificate, which allows man-in-the-middle attackers to spoof SSL servers via a certificate with a subject that specifies a common name in a field that is not the CN field.  \r\n\r\n**NOTE:** this issue exists because of an incomplete fix for [CVE-2012-5784](https://snyk.io/vuln/SNYK-JAVA-AXIS-30189).\n\n## Remediation\n\nThere is no fixed version for `axis:axis`.\n\n\n## References\n\n- [Axis Issue](https://issues.apache.org/jira/browse/AXIS-2905)\n\n- [NVD](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3596)\n\n- [Redhat Bugzilla](https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2014-3596)\n",
+                              "functions": [],
+                              "from": [
+                                "axis:axis@1.4"
+                              ],
+                              "package": "axis:axis",
+                              "version": "1.4",
+                              "severity": "medium",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "java",
+                              "packageManager": "maven",
+                              "semver": {
+                                "vulnerable": [
+                                  "[0,]"
+                                ]
+                              },
+                              "publicationTime": "2014-08-18T16:51:53+00:00",
+                              "disclosureTime": "2014-08-18T16:51:53+00:00",
+                              "isUpgradable": false,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2014-3596"
+                                ],
+                                "CWE": [
+                                  "CWE-297"
+                                ]
+                              },
+                              "credit": [
+                                "David Jorm",
+                                "Arun Neelicattu"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+                              "cvssScore": 5.4,
+                              "patches": [],
+                              "upgradePath": []
+                            },
+                            {
+                              "id": "SNYK-JAVA-AXIS-30189",
+                              "url": "https://snyk.io/vuln/SNYK-JAVA-AXIS-30189",
+                              "title": "Man-in-the-Middle (MitM)",
+                              "type": "vuln",
+                              "description": "## Overview\n\n[axis:axis](https://search.maven.org/search?q=g:axis) is an implementation of the SOAP (\"Simple Object Access Protocol\") submission to W3C.\n\n\nAffected versions of this package are vulnerable to Man-in-the-Middle (MitM).\nIt does not verify the requesting server's hostname against existing domain names in the SSL Certificate.\n\n\n## Details\nApache Axis 1.4 and earlier does not properly verify that the server hostname matches a domain name in the subject's `Common Name (CN)` or `subjectAltName` field of the X.509 certificate, which allows man-in-the-middle attackers to spoof SSL servers via an arbitrary valid certificate.\n\n## Remediation\n\nThere is no fixed version for `axis:axis`.\n\n\n## References\n\n- [Jira Issue](https://issues.apache.org/jira/browse/AXIS-2883)\n\n- [NVD](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-5784)\n\n- [Texas University](http://www.cs.utexas.edu/~shmat/shmat_ccs12.pdf)\n",
+                              "functions": [],
+                              "from": [
+                                "axis:axis@1.4"
+                              ],
+                              "package": "axis:axis",
+                              "version": "1.4",
+                              "severity": "medium",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "java",
+                              "packageManager": "maven",
+                              "semver": {
+                                "vulnerable": [
+                                  "[0,]"
+                                ]
+                              },
+                              "publicationTime": "2017-03-13T08:00:21+00:00",
+                              "disclosureTime": "2012-11-04T22:55:00+00:00",
+                              "isUpgradable": false,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2012-5784"
+                                ],
+                                "CWE": [
+                                  "CWE-20"
+                                ]
+                              },
+                              "credit": [
+                                "Alberto Fern\u00e1ndez"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+                              "cvssScore": 5.4,
+                              "patches": [],
+                              "upgradePath": []
+                            }
+                          ],
+                          "licenses": []
+                        },
+                        "dependencyCount": 6,
+                        "org": {
+                          "name": "atokeneduser",
+                          "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+                        },
+                        "licensesPolicy": null,
+                        "packageManager": "gradle"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/test/sbt/{groupId}/{artifactId}/{version}",
+      "method": "GET",
+      "operation_id": "sbt_Testforissuesinapublicpackagebygroupid,artifactidandversion",
+      "summary": "sbt_Test for issues in a public package by group id, artifact id and version",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "sbt_Test for issues in a public package by group id, artifact id and version",
+        "description": "Test for issues in sbt files.You can test `sbt` packages for issues according to their group ID, artifact ID and version. This is done via the maven endpoint (for Java), since the packages are hosted on maven central or a compatible repository. See \"Maven\" above for details.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "sbt_Testforissuesinapublicpackagebygroupid,artifactidandversion",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          },
+          {
+            "name": "repository",
+            "in": "query",
+            "description": "The repository hosting this package. The default value is Maven Central. More than one value is supported, in order.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "https://repo1.maven.org/maven2"
+            }
+          },
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The package's group ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "org.apache.flex.blazeds"
+            }
+          },
+          {
+            "name": "artifactId",
+            "in": "path",
+            "description": "The package's artifact ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "blazeds"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The package version to test.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4.7.2"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/sbt_Testforissuesinapublicpackagebygroupidartifactidandversionresponse"
+                    },
+                    {
+                      "example": {
+                        "ok": false,
+                        "issues": {
+                          "vulnerabilities": [
+                            {
+                              "id": "SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+                              "url": "https://snyk.io/vuln/SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+                              "title": "Arbitrary Code Execution",
+                              "type": "vuln",
+                              "description": "## Overview\n\n[org.apache.flex.blazeds:blazeds](https://github.com/apache/flex-blazeds) is an application development framework for easily building Flash-based applications for mobile devices, web browsers, and desktops.\n\n\nAffected versions of this package are vulnerable to Arbitrary Code Execution.\nThe AMF deserialization implementation of Flex BlazeDS is vulnerable to Deserialization of Untrusted Data. By sending a specially crafted AMF message, it is possible to make the server establish a connection to an endpoint specified in the message and request an RMI remote object from that endpoint. This can result in the execution of arbitrary code on the server via Java deserialization.\n\n\nStarting with BlazeDS version `4.7.3`, Deserialization of XML is disabled completely per default, while the `ClassDeserializationValidator` allows deserialization of whitelisted classes only. BlazeDS internally comes with the following whitelist:\n```\nflex.messaging.io.amf.ASObject\nflex.messaging.io.amf.SerializedObject\nflex.messaging.io.ArrayCollection\nflex.messaging.io.ArrayList\nflex.messaging.messages.AcknowledgeMessage\nflex.messaging.messages.AcknowledgeMessageExt\nflex.messaging.messages.AsyncMessage\nflex.messaging.messages.AsyncMessageExt\nflex.messaging.messages.CommandMessage\nflex.messaging.messages.CommandMessageExt\nflex.messaging.messages.ErrorMessage\nflex.messaging.messages.HTTPMessage\nflex.messaging.messages.RemotingMessage\nflex.messaging.messages.SOAPMessage\njava.lang.Boolean\njava.lang.Byte\njava.lang.Character\njava.lang.Double\njava.lang.Float\njava.lang.Integer\njava.lang.Long\njava.lang.Object\njava.lang.Short\njava.lang.String\njava.util.ArrayList\njava.util.Date\njava.util.HashMap\norg.w3c.dom.Document\n```\n\n## Remediation\n\nUpgrade `org.apache.flex.blazeds:blazeds` to version 4.7.3 or higher.\n\n\n## References\n\n- [CVE-2017-3066](https://nvd.nist.gov/vuln/detail/CVE-2017-5641)\n\n- [Github Commit](https://github.com/apache/flex-blazeds/commit/f861f0993c35e664906609cad275e45a71e2aaf1)\n\n- [Github Release Notes](https://github.com/apache/flex-blazeds/blob/master/RELEASE_NOTES)\n\n- [Securitytracker Issue](http://www.securitytracker.com/id/1038364)\n",
+                              "functions": [],
+                              "from": [
+                                "org.apache.flex.blazeds:blazeds@4.7.2"
+                              ],
+                              "package": "org.apache.flex.blazeds:blazeds",
+                              "version": "4.7.2",
+                              "severity": "critical",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "java",
+                              "packageManager": "maven",
+                              "semver": {
+                                "vulnerable": [
+                                  "[,4.7.3)"
+                                ]
+                              },
+                              "publicationTime": "2017-08-09T14:17:08+00:00",
+                              "disclosureTime": "2017-04-25T21:00:00+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2017-5641"
+                                ],
+                                "CWE": [
+                                  "CWE-502"
+                                ]
+                              },
+                              "credit": [
+                                "Markus Wulftange"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                              "cvssScore": 9.8,
+                              "patches": [],
+                              "upgradePath": [
+                                "org.apache.flex.blazeds:blazeds@4.7.3"
+                              ]
+                            }
+                          ],
+                          "licenses": []
+                        },
+                        "dependencyCount": 1,
+                        "org": {
+                          "name": "atokeneduser",
+                          "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+                        },
+                        "licensesPolicy": null,
+                        "packageManager": "maven"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/test/sbt",
+      "method": "POST",
+      "operation_id": "Testsbtfile",
+      "summary": "Test sbt file",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Test sbt file",
+        "description": "Test for issues in sbt files.You can test your `sbt` packages for issues according to their manifest file using this action. It takes a JSON object containing a the \"target\" `build.sbt`.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "Testsbtfile",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          },
+          {
+            "name": "repository",
+            "in": "query",
+            "description": "The repository hosting this package. The default value is Maven Central. More than one value is supported, in order.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "https://repo1.maven.org/maven2"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/sbtrequestpayload"
+                  },
+                  {
+                    "example": {
+                      "encoding": "plain",
+                      "files": {
+                        "target": {
+                          "contents": "\\nname := \\\"subsearch\\\"\\n\\nassemblyJarName in assembly := s\\\"subsearch-0.2.0.jar\\\"\\n\\nscalaVersion := \\\"2.11.8\\\"\\n\\nscalacOptions ++= Seq(\\\"-unchecked\\\", \\\"-deprecation\\\")\\n\\nresolvers += Resolver.sonatypeRepo(\\\"public\\\")\\n\\nlibraryDependencies += \\\"org.scalatest\\\" % \\\"scalatest_2.11\\\" % \\\"2.2.1\\\" % \\\"test\\\"\\nlibraryDependencies += \\\"org.scalamock\\\" %% \\\"scalamock-scalatest-support\\\" % \\\"3.2.2\\\" % \\\"test\\\"\\nlibraryDependencies += \\\"net.databinder.dispatch\\\" %% \\\"dispatch-core\\\" % \\\"0.11.2\\\"\\nlibraryDependencies += \\\"org.slf4j\\\" % \\\"slf4j-simple\\\" % \\\"1.6.6\\\"\\nlibraryDependencies += \\\"com.github.scopt\\\" %% \\\"scopt\\\" % \\\"3.4.0\\\"\\nlibraryDependencies += \\\"pl.project13.scala\\\" %% \\\"rainbow\\\" % \\\"0.2\\\"\\nlibraryDependencies += \\\"dnsjava\\\" % \\\"dnsjava\\\" % \\\"2.1.7\\\"\\nlibraryDependencies += \\\"com.typesafe.akka\\\" %% \\\"akka-actor\\\" % \\\"2.4.1\\\"\\nlibraryDependencies += \\\"org.scala-lang.modules\\\" % \\\"scala-jline\\\" % \\\"2.12.1\\\"\\nlibraryDependencies += \\\"net.ruippeixotog\\\" %% \\\"scala-scraper\\\" % \\\"1.0.0\\\""
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "encoding": "plain",
+                "files": {
+                  "target": {
+                    "contents": "\\nname := \\\"subsearch\\\"\\n\\nassemblyJarName in assembly := s\\\"subsearch-0.2.0.jar\\\"\\n\\nscalaVersion := \\\"2.11.8\\\"\\n\\nscalacOptions ++= Seq(\\\"-unchecked\\\", \\\"-deprecation\\\")\\n\\nresolvers += Resolver.sonatypeRepo(\\\"public\\\")\\n\\nlibraryDependencies += \\\"org.scalatest\\\" % \\\"scalatest_2.11\\\" % \\\"2.2.1\\\" % \\\"test\\\"\\nlibraryDependencies += \\\"org.scalamock\\\" %% \\\"scalamock-scalatest-support\\\" % \\\"3.2.2\\\" % \\\"test\\\"\\nlibraryDependencies += \\\"net.databinder.dispatch\\\" %% \\\"dispatch-core\\\" % \\\"0.11.2\\\"\\nlibraryDependencies += \\\"org.slf4j\\\" % \\\"slf4j-simple\\\" % \\\"1.6.6\\\"\\nlibraryDependencies += \\\"com.github.scopt\\\" %% \\\"scopt\\\" % \\\"3.4.0\\\"\\nlibraryDependencies += \\\"pl.project13.scala\\\" %% \\\"rainbow\\\" % \\\"0.2\\\"\\nlibraryDependencies += \\\"dnsjava\\\" % \\\"dnsjava\\\" % \\\"2.1.7\\\"\\nlibraryDependencies += \\\"com.typesafe.akka\\\" %% \\\"akka-actor\\\" % \\\"2.4.1\\\"\\nlibraryDependencies += \\\"org.scala-lang.modules\\\" % \\\"scala-jline\\\" % \\\"2.12.1\\\"\\nlibraryDependencies += \\\"net.ruippeixotog\\\" %% \\\"scala-scraper\\\" % \\\"1.0.0\\\""
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Testsbtfileresponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/test/pip/{packageName}/{version}",
+      "method": "GET",
+      "operation_id": "pip_Testforissuesinapublicpackagebynameandversion",
+      "summary": "pip_Test for issues in a public package by name and version",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "pip_Test for issues in a public package by name and version",
+        "description": "Test for issues in pip files.You can test `pip` packages for issues according to their name and version.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "pip_Testforissuesinapublicpackagebynameandversion",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          },
+          {
+            "name": "packageName",
+            "in": "path",
+            "description": "The package name.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "rsa"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The Package version to test.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "3.3"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/pip_Testforissuesinapublicpackagebynameandversionresponse"
+                    },
+                    {
+                      "example": {
+                        "ok": false,
+                        "issues": {
+                          "vulnerabilities": [
+                            {
+                              "id": "SNYK-PYTHON-RSA-40541",
+                              "url": "https://snyk.io/vuln/SNYK-PYTHON-RSA-40541",
+                              "title": "Timing Attack",
+                              "type": "vuln",
+                              "description": "## Overview\n[`rsa`](https://pypi.python.org/pypi/rsa) is a Pure-Python RSA implementation.\n\nAffected versions of this package are vulnerable to Timing attacks.\n\n## References\n- [GitHub Issue](https://github.com/sybrenstuvel/python-rsa/issues/19)\n- [GitHub Commit](https://github.com/sybrenstuvel/python-rsa/commit/2310b34bdb530e0bad793d42f589c9f848ff181b)\n",
+                              "functions": [],
+                              "from": [
+                                "rsa@3.3"
+                              ],
+                              "package": "rsa",
+                              "version": "3.3",
+                              "severity": "medium",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "python",
+                              "packageManager": "pip",
+                              "semver": {
+                                "vulnerable": [
+                                  "[3.0,3.4.0)"
+                                ]
+                              },
+                              "publicationTime": "2013-11-15T02:34:45.265000+00:00",
+                              "disclosureTime": "2013-11-15T02:34:45.265000+00:00",
+                              "isUpgradable": false,
+                              "isPatchable": false,
+                              "isPinnable": true,
+                              "identifiers": {
+                                "CVE": [],
+                                "CWE": [
+                                  "CWE-208"
+                                ]
+                              },
+                              "credit": [
+                                "Manuel Aude Morales"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+                              "cvssScore": 5.3,
+                              "patches": [],
+                              "upgradePath": []
+                            },
+                            {
+                              "id": "SNYK-PYTHON-RSA-40542",
+                              "url": "https://snyk.io/vuln/SNYK-PYTHON-RSA-40542",
+                              "title": "Authentication Bypass",
+                              "type": "vuln",
+                              "description": "## Overview\n[`rsa`](https://pypi.python.org/pypi/rsa) is a Pure-Python RSA implementation.\n\nAffected versions of this package are vulnerable to Authentication Bypass due to not implementing authentication encryption or use MACs to validate messages before decrypting public key encrypted messages.\n\n## References\n- [GitHub Issue](https://github.com/sybrenstuvel/python-rsa/issues/13)\n- [GitHub Commit](https://github.com/sybrenstuvel/python-rsa/commit/1681a0b2f84a4a252c71b87de870a2816de06fdf)\n",
+                              "functions": [],
+                              "from": [
+                                "rsa@3.3"
+                              ],
+                              "package": "rsa",
+                              "version": "3.3",
+                              "severity": "high",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "python",
+                              "packageManager": "pip",
+                              "semver": {
+                                "vulnerable": [
+                                  "[3.0,3.4)"
+                                ]
+                              },
+                              "publicationTime": "2012-12-07T03:15:00.052000+00:00",
+                              "disclosureTime": "2012-12-07T03:15:00.052000+00:00",
+                              "isUpgradable": false,
+                              "isPatchable": false,
+                              "isPinnable": true,
+                              "identifiers": {
+                                "CVE": [],
+                                "CWE": [
+                                  "CWE-287"
+                                ]
+                              },
+                              "credit": [
+                                "Sergio Lerner"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                              "cvssScore": 7.5,
+                              "patches": [],
+                              "upgradePath": []
+                            }
+                          ],
+                          "licenses": []
+                        },
+                        "dependencyCount": 2,
+                        "org": {
+                          "name": "gitphill",
+                          "id": "229b76f3-802c-4553-aa1d-01d4d86f7f61"
+                        },
+                        "licensesPolicy": null,
+                        "packageManager": "pip"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "files6": {
+      "title": "files6",
+      "required": [
+        "target"
+      ],
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/GradleFile"
+        }
+      },
+      "description": "The manifest files:"
+    },
+    "sbtrequestpayload": {
+      "title": "sbtrequestpayload",
+      "required": [
+        "files"
+      ],
+      "type": "object",
+      "properties": {
+        "encoding": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/encoding"
+            },
+            {
+              "description": "the encoding for the manifest files sent."
+            }
+          ]
+        },
+        "files": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/files7"
+            },
+            {
+              "description": "The manifest files:"
+            }
+          ]
+        }
+      }
+    },
+    "Gradlerequestpayload": {
+      "title": "Gradlerequestpayload",
+      "required": [
+        "files"
+      ],
+      "type": "object",
+      "properties": {
+        "encoding": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/encoding"
+            },
+            {
+              "description": "the encoding for the manifest files sent."
+            }
+          ]
+        },
+        "files": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/files6"
+            },
+            {
+              "description": "The manifest files:"
+            }
+          ]
+        }
+      }
+    },
+    "Org1": {
+      "title": "Org1",
+      "required": [
+        "name",
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "name": "atokeneduser",
+        "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+      }
+    },
+    "Identifiers2": {
+      "title": "Identifiers2",
+      "required": [
+        "CVE",
+        "CWE"
+      ],
+      "type": "object",
+      "properties": {
+        "CVE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CWE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "CVE": [
+          "CVE-2017-5641"
+        ],
+        "CWE": [
+          "CWE-502"
+        ]
+      }
+    },
+    "Licenses3": {
+      "title": "Licenses3",
+      "required": [
+        "id",
+        "url",
+        "title",
+        "type",
+        "from",
+        "package",
+        "version",
+        "severity",
+        "language",
+        "packageManager",
+        "semver"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "package": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "packageManager": {
+          "type": "string"
+        },
+        "semver": {
+          "$ref": "#/components/schemas/Semver2"
+        }
+      },
+      "example": {
+        "id": "snyk:lic:maven:net.databinder.dispatch:dispatch-core_2.11:LGPL-3.0",
+        "url": "https://snyk.io/vuln/snyk:lic:maven:net.databinder.dispatch:dispatch-core_2.11:LGPL-3.0",
+        "title": "LGPL-3.0 license",
+        "type": "license",
+        "from": [
+          "net.databinder.dispatch:dispatch-core_2.11@0.11.2"
+        ],
+        "package": "net.databinder.dispatch:dispatch-core_2.11",
+        "version": "0.11.2",
+        "severity": "medium",
+        "language": "java",
+        "packageManager": "maven",
+        "semver": {
+          "vulnerable": [
+            "[0,)"
+          ]
+        }
+      }
+    },
+    "Testgradlefileresponse": {
+      "title": "Testgradlefileresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues1"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "ok": false,
+        "issues": {
+          "vulnerabilities": [
+            {
+              "id": "SNYK-JAVA-AXIS-30071",
+              "url": "https://snyk.io/vuln/SNYK-JAVA-AXIS-30071",
+              "title": "Man-in-the-Middle (MitM)",
+              "type": "vuln",
+              "description": "## Overview\n\n[axis:axis](https://search.maven.org/search?q=g:axis) is an implementation of the SOAP (\"Simple Object Access Protocol\") submission to W3C.\n\n\nAffected versions of this package are vulnerable to Man-in-the-Middle (MitM).\nIt does not verify the requesting server's hostname against existing domain names in the SSL Certificate. \r\n\r\n## Details\r\nThe `getCN` function in Apache Axis 1.4 and earlier does not properly verify that the server hostname matches a domain name in the subject's `Common Name (CN)` or `subjectAltName` field of the X.509 certificate, which allows man-in-the-middle attackers to spoof SSL servers via a certificate with a subject that specifies a common name in a field that is not the CN field.  \r\n\r\n**NOTE:** this issue exists because of an incomplete fix for [CVE-2012-5784](https://snyk.io/vuln/SNYK-JAVA-AXIS-30189).\n\n## Remediation\n\nThere is no fixed version for `axis:axis`.\n\n\n## References\n\n- [Axis Issue](https://issues.apache.org/jira/browse/AXIS-2905)\n\n- [NVD](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3596)\n\n- [Redhat Bugzilla](https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2014-3596)\n",
+              "functions": [],
+              "from": [
+                "axis:axis@1.4"
+              ],
+              "package": "axis:axis",
+              "version": "1.4",
+              "severity": "medium",
+              "exploitMaturity": "no-known-exploit",
+              "language": "java",
+              "packageManager": "maven",
+              "semver": {
+                "vulnerable": [
+                  "[0,]"
+                ]
+              },
+              "publicationTime": "2014-08-18T16:51:53+00:00",
+              "disclosureTime": "2014-08-18T16:51:53+00:00",
+              "isUpgradable": false,
+              "isPatchable": false,
+              "isPinnable": false,
+              "identifiers": {
+                "CVE": [
+                  "CVE-2014-3596"
+                ],
+                "CWE": [
+                  "CWE-297"
+                ]
+              },
+              "credit": [
+                "David Jorm",
+                "Arun Neelicattu"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+              "cvssScore": 5.4,
+              "patches": [],
+              "upgradePath": []
+            },
+            {
+              "id": "SNYK-JAVA-AXIS-30189",
+              "url": "https://snyk.io/vuln/SNYK-JAVA-AXIS-30189",
+              "title": "Man-in-the-Middle (MitM)",
+              "type": "vuln",
+              "description": "## Overview\n\n[axis:axis](https://search.maven.org/search?q=g:axis) is an implementation of the SOAP (\"Simple Object Access Protocol\") submission to W3C.\n\n\nAffected versions of this package are vulnerable to Man-in-the-Middle (MitM).\nIt does not verify the requesting server's hostname against existing domain names in the SSL Certificate.\n\n\n## Details\nApache Axis 1.4 and earlier does not properly verify that the server hostname matches a domain name in the subject's `Common Name (CN)` or `subjectAltName` field of the X.509 certificate, which allows man-in-the-middle attackers to spoof SSL servers via an arbitrary valid certificate.\n\n## Remediation\n\nThere is no fixed version for `axis:axis`.\n\n\n## References\n\n- [Jira Issue](https://issues.apache.org/jira/browse/AXIS-2883)\n\n- [NVD](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-5784)\n\n- [Texas University](http://www.cs.utexas.edu/~shmat/shmat_ccs12.pdf)\n",
+              "functions": [],
+              "from": [
+                "axis:axis@1.4"
+              ],
+              "package": "axis:axis",
+              "version": "1.4",
+              "severity": "medium",
+              "exploitMaturity": "no-known-exploit",
+              "language": "java",
+              "packageManager": "maven",
+              "semver": {
+                "vulnerable": [
+                  "[0,]"
+                ]
+              },
+              "publicationTime": "2017-03-13T08:00:21+00:00",
+              "disclosureTime": "2012-11-04T22:55:00+00:00",
+              "isUpgradable": false,
+              "isPatchable": false,
+              "isPinnable": false,
+              "identifiers": {
+                "CVE": [
+                  "CVE-2012-5784"
+                ],
+                "CWE": [
+                  "CWE-20"
+                ]
+              },
+              "credit": [
+                "Alberto Fern\u00e1ndez"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+              "cvssScore": 5.4,
+              "patches": [],
+              "upgradePath": []
+            }
+          ],
+          "licenses": []
+        },
+        "dependencyCount": 6,
+        "org": {
+          "name": "atokeneduser",
+          "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+        },
+        "licensesPolicy": null,
+        "packageManager": "gradle"
+      }
+    },
+    "Testsbtfileresponse": {
+      "title": "Testsbtfileresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues14"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      }
+    },
+    "FunctionId1": {
+      "title": "FunctionId1",
+      "required": [
+        "className",
+        "functionName"
+      ],
+      "type": "object",
+      "properties": {
+        "className": {
+          "type": "string"
+        },
+        "functionName": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "className": "org.apache.zookeeper.server.NIOServerCnxn",
+        "functionName": "checkFourLetterWord"
+      }
+    },
+    "Issues1": {
+      "title": "Issues1",
+      "required": [
+        "vulnerabilities",
+        "licenses"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Vulnerability1"
+          },
+          "description": ""
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerabilities": [
+          {
+            "id": "SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+            "url": "https://snyk.io/vuln/SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+            "title": "Arbitrary Code Execution",
+            "type": "vuln",
+            "description": "## Overview\n\n[org.apache.flex.blazeds:blazeds](https://github.com/apache/flex-blazeds) is an application development framework for easily building Flash-based applications for mobile devices, web browsers, and desktops.\n\n\nAffected versions of this package are vulnerable to Arbitrary Code Execution.\nThe AMF deserialization implementation of Flex BlazeDS is vulnerable to Deserialization of Untrusted Data. By sending a specially crafted AMF message, it is possible to make the server establish a connection to an endpoint specified in the message and request an RMI remote object from that endpoint. This can result in the execution of arbitrary code on the server via Java deserialization.\n\n\nStarting with BlazeDS version `4.7.3`, Deserialization of XML is disabled completely per default, while the `ClassDeserializationValidator` allows deserialization of whitelisted classes only. BlazeDS internally comes with the following whitelist:\n```\nflex.messaging.io.amf.ASObject\nflex.messaging.io.amf.SerializedObject\nflex.messaging.io.ArrayCollection\nflex.messaging.io.ArrayList\nflex.messaging.messages.AcknowledgeMessage\nflex.messaging.messages.AcknowledgeMessageExt\nflex.messaging.messages.AsyncMessage\nflex.messaging.messages.AsyncMessageExt\nflex.messaging.messages.CommandMessage\nflex.messaging.messages.CommandMessageExt\nflex.messaging.messages.ErrorMessage\nflex.messaging.messages.HTTPMessage\nflex.messaging.messages.RemotingMessage\nflex.messaging.messages.SOAPMessage\njava.lang.Boolean\njava.lang.Byte\njava.lang.Character\njava.lang.Double\njava.lang.Float\njava.lang.Integer\njava.lang.Long\njava.lang.Object\njava.lang.Short\njava.lang.String\njava.util.ArrayList\njava.util.Date\njava.util.HashMap\norg.w3c.dom.Document\n```\n\n## Remediation\n\nUpgrade `org.apache.flex.blazeds:blazeds` to version 4.7.3 or higher.\n\n\n## References\n\n- [CVE-2017-3066](https://nvd.nist.gov/vuln/detail/CVE-2017-5641)\n\n- [Github Commit](https://github.com/apache/flex-blazeds/commit/f861f0993c35e664906609cad275e45a71e2aaf1)\n\n- [Github Release Notes](https://github.com/apache/flex-blazeds/blob/master/RELEASE_NOTES)\n\n- [Securitytracker Issue](http://www.securitytracker.com/id/1038364)\n",
+            "functions": [],
+            "from": [
+              "org.apache.flex.blazeds:blazeds@4.7.2"
+            ],
+            "package": "org.apache.flex.blazeds:blazeds",
+            "version": "4.7.2",
+            "severity": "critical",
+            "exploitMaturity": "no-known-exploit",
+            "language": "java",
+            "packageManager": "maven",
+            "semver": {
+              "vulnerable": [
+                "[,4.7.3)"
+              ]
+            },
+            "publicationTime": "2017-08-09T14:17:08+00:00",
+            "disclosureTime": "2017-04-25T21:00:00+00:00",
+            "isUpgradable": true,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [
+                "CVE-2017-5641"
+              ],
+              "CWE": [
+                "CWE-502"
+              ]
+            },
+            "credit": [
+              "Markus Wulftange"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "cvssScore": 9.8,
+            "patches": [],
+            "upgradePath": [
+              "org.apache.flex.blazeds:blazeds@4.7.3"
+            ]
+          }
+        ],
+        "licenses": []
+      }
+    },
+    "Vulnerability1": {
+      "title": "Vulnerability1",
+      "required": [
+        "id",
+        "url",
+        "title",
+        "type",
+        "description",
+        "functions",
+        "from",
+        "package",
+        "version",
+        "severity",
+        "exploitMaturity",
+        "language",
+        "packageManager",
+        "semver",
+        "publicationTime",
+        "disclosureTime",
+        "isUpgradable",
+        "isPatchable",
+        "isPinnable",
+        "identifiers",
+        "credit",
+        "CVSSv3",
+        "cvssScore",
+        "patches",
+        "upgradePath"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "package": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "exploitMaturity": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "packageManager": {
+          "type": "string"
+        },
+        "semver": {
+          "$ref": "#/components/schemas/Semver2"
+        },
+        "publicationTime": {
+          "type": "string"
+        },
+        "disclosureTime": {
+          "type": "string"
+        },
+        "isUpgradable": {
+          "type": "boolean"
+        },
+        "isPatchable": {
+          "type": "boolean"
+        },
+        "isPinnable": {
+          "type": "boolean"
+        },
+        "identifiers": {
+          "$ref": "#/components/schemas/Identifiers2"
+        },
+        "credit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVSSv3": {
+          "type": "string"
+        },
+        "cvssScore": {
+          "type": "number"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "upgradePath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "id": "SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+        "url": "https://snyk.io/vuln/SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+        "title": "Arbitrary Code Execution",
+        "type": "vuln",
+        "description": "## Overview\n\n[org.apache.flex.blazeds:blazeds](https://github.com/apache/flex-blazeds) is an application development framework for easily building Flash-based applications for mobile devices, web browsers, and desktops.\n\n\nAffected versions of this package are vulnerable to Arbitrary Code Execution.\nThe AMF deserialization implementation of Flex BlazeDS is vulnerable to Deserialization of Untrusted Data. By sending a specially crafted AMF message, it is possible to make the server establish a connection to an endpoint specified in the message and request an RMI remote object from that endpoint. This can result in the execution of arbitrary code on the server via Java deserialization.\n\n\nStarting with BlazeDS version `4.7.3`, Deserialization of XML is disabled completely per default, while the `ClassDeserializationValidator` allows deserialization of whitelisted classes only. BlazeDS internally comes with the following whitelist:\n```\nflex.messaging.io.amf.ASObject\nflex.messaging.io.amf.SerializedObject\nflex.messaging.io.ArrayCollection\nflex.messaging.io.ArrayList\nflex.messaging.messages.AcknowledgeMessage\nflex.messaging.messages.AcknowledgeMessageExt\nflex.messaging.messages.AsyncMessage\nflex.messaging.messages.AsyncMessageExt\nflex.messaging.messages.CommandMessage\nflex.messaging.messages.CommandMessageExt\nflex.messaging.messages.ErrorMessage\nflex.messaging.messages.HTTPMessage\nflex.messaging.messages.RemotingMessage\nflex.messaging.messages.SOAPMessage\njava.lang.Boolean\njava.lang.Byte\njava.lang.Character\njava.lang.Double\njava.lang.Float\njava.lang.Integer\njava.lang.Long\njava.lang.Object\njava.lang.Short\njava.lang.String\njava.util.ArrayList\njava.util.Date\njava.util.HashMap\norg.w3c.dom.Document\n```\n\n## Remediation\n\nUpgrade `org.apache.flex.blazeds:blazeds` to version 4.7.3 or higher.\n\n\n## References\n\n- [CVE-2017-3066](https://nvd.nist.gov/vuln/detail/CVE-2017-5641)\n\n- [Github Commit](https://github.com/apache/flex-blazeds/commit/f861f0993c35e664906609cad275e45a71e2aaf1)\n\n- [Github Release Notes](https://github.com/apache/flex-blazeds/blob/master/RELEASE_NOTES)\n\n- [Securitytracker Issue](http://www.securitytracker.com/id/1038364)\n",
+        "functions": [],
+        "from": [
+          "org.apache.flex.blazeds:blazeds@4.7.2"
+        ],
+        "package": "org.apache.flex.blazeds:blazeds",
+        "version": "4.7.2",
+        "severity": "critical",
+        "exploitMaturity": "no-known-exploit",
+        "language": "java",
+        "packageManager": "maven",
+        "semver": {
+          "vulnerable": [
+            "[,4.7.3)"
+          ]
+        },
+        "publicationTime": "2017-08-09T14:17:08+00:00",
+        "disclosureTime": "2017-04-25T21:00:00+00:00",
+        "isUpgradable": true,
+        "isPatchable": false,
+        "isPinnable": false,
+        "identifiers": {
+          "CVE": [
+            "CVE-2017-5641"
+          ],
+          "CWE": [
+            "CWE-502"
+          ]
+        },
+        "credit": [
+          "Markus Wulftange"
+        ],
+        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "cvssScore": 9.8,
+        "patches": [],
+        "upgradePath": [
+          "org.apache.flex.blazeds:blazeds@4.7.3"
+        ]
+      }
+    },
+    "Semver2": {
+      "title": "Semver2",
+      "required": [
+        "vulnerable"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerable": [
+          "[,4.7.3)"
+        ]
+      }
+    },
+    "pip_Testforissuesinapublicpackagebynameandversionresponse": {
+      "title": "pip_Testforissuesinapublicpackagebynameandversionresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues1"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "ok": false,
+        "issues": {
+          "vulnerabilities": [
+            {
+              "id": "SNYK-PYTHON-RSA-40541",
+              "url": "https://snyk.io/vuln/SNYK-PYTHON-RSA-40541",
+              "title": "Timing Attack",
+              "type": "vuln",
+              "description": "## Overview\n[`rsa`](https://pypi.python.org/pypi/rsa) is a Pure-Python RSA implementation.\n\nAffected versions of this package are vulnerable to Timing attacks.\n\n## References\n- [GitHub Issue](https://github.com/sybrenstuvel/python-rsa/issues/19)\n- [GitHub Commit](https://github.com/sybrenstuvel/python-rsa/commit/2310b34bdb530e0bad793d42f589c9f848ff181b)\n",
+              "functions": [],
+              "from": [
+                "rsa@3.3"
+              ],
+              "package": "rsa",
+              "version": "3.3",
+              "severity": "medium",
+              "exploitMaturity": "no-known-exploit",
+              "language": "python",
+              "packageManager": "pip",
+              "semver": {
+                "vulnerable": [
+                  "[3.0,3.4.0)"
+                ]
+              },
+              "publicationTime": "2013-11-15T02:34:45.265000+00:00",
+              "disclosureTime": "2013-11-15T02:34:45.265000+00:00",
+              "isUpgradable": false,
+              "isPatchable": false,
+              "isPinnable": true,
+              "identifiers": {
+                "CVE": [],
+                "CWE": [
+                  "CWE-208"
+                ]
+              },
+              "credit": [
+                "Manuel Aude Morales"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "cvssScore": 5.3,
+              "patches": [],
+              "upgradePath": []
+            },
+            {
+              "id": "SNYK-PYTHON-RSA-40542",
+              "url": "https://snyk.io/vuln/SNYK-PYTHON-RSA-40542",
+              "title": "Authentication Bypass",
+              "type": "vuln",
+              "description": "## Overview\n[`rsa`](https://pypi.python.org/pypi/rsa) is a Pure-Python RSA implementation.\n\nAffected versions of this package are vulnerable to Authentication Bypass due to not implementing authentication encryption or use MACs to validate messages before decrypting public key encrypted messages.\n\n## References\n- [GitHub Issue](https://github.com/sybrenstuvel/python-rsa/issues/13)\n- [GitHub Commit](https://github.com/sybrenstuvel/python-rsa/commit/1681a0b2f84a4a252c71b87de870a2816de06fdf)\n",
+              "functions": [],
+              "from": [
+                "rsa@3.3"
+              ],
+              "package": "rsa",
+              "version": "3.3",
+              "severity": "high",
+              "exploitMaturity": "no-known-exploit",
+              "language": "python",
+              "packageManager": "pip",
+              "semver": {
+                "vulnerable": [
+                  "[3.0,3.4)"
+                ]
+              },
+              "publicationTime": "2012-12-07T03:15:00.052000+00:00",
+              "disclosureTime": "2012-12-07T03:15:00.052000+00:00",
+              "isUpgradable": false,
+              "isPatchable": false,
+              "isPinnable": true,
+              "identifiers": {
+                "CVE": [],
+                "CWE": [
+                  "CWE-287"
+                ]
+              },
+              "credit": [
+                "Sergio Lerner"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "cvssScore": 7.5,
+              "patches": [],
+              "upgradePath": []
+            }
+          ],
+          "licenses": []
+        },
+        "dependencyCount": 2,
+        "org": {
+          "name": "gitphill",
+          "id": "229b76f3-802c-4553-aa1d-01d4d86f7f61"
+        },
+        "licensesPolicy": null,
+        "packageManager": "pip"
+      }
+    },
+    "Function1": {
+      "title": "Function1",
+      "type": "object",
+      "properties": {
+        "functionId": {
+          "$ref": "#/components/schemas/FunctionId1"
+        },
+        "version": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      }
+    },
+    "SBTFile": {
+      "title": "SBTFile",
+      "required": [
+        "contents"
+      ],
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "string",
+          "description": "The contents of the file, encoded according to the `encoding` field.",
+          "example": "\\nname := \\\"subsearch\\\"\\n\\nassemblyJarName in assembly := s\\\"subsearch-0.2.0.jar\\\"\\n\\nscalaVersion := \\\"2.11.8\\\"\\n\\nscalacOptions ++= Seq(\\\"-unchecked\\\", \\\"-deprecation\\\")\\n\\nresolvers += Resolver.sonatypeRepo(\\\"public\\\")\\n\\nlibraryDependencies += \\\"org.scalatest\\\" % \\\"scalatest_2.11\\\" % \\\"2.2.1\\\" % \\\"test\\\"\\nlibraryDependencies += \\\"org.scalamock\\\" %% \\\"scalamock-scalatest-support\\\" % \\\"3.2.2\\\" % \\\"test\\\"\\nlibraryDependencies += \\\"net.databinder.dispatch\\\" %% \\\"dispatch-core\\\" % \\\"0.11.2\\\"\\nlibraryDependencies += \\\"org.slf4j\\\" % \\\"slf4j-simple\\\" % \\\"1.6.6\\\"\\nlibraryDependencies += \\\"com.github.scopt\\\" %% \\\"scopt\\\" % \\\"3.4.0\\\"\\nlibraryDependencies += \\\"pl.project13.scala\\\" %% \\\"rainbow\\\" % \\\"0.2\\\"\\nlibraryDependencies += \\\"dnsjava\\\" % \\\"dnsjava\\\" % \\\"2.1.7\\\"\\nlibraryDependencies += \\\"com.typesafe.akka\\\" %% \\\"akka-actor\\\" % \\\"2.4.1\\\"\\nlibraryDependencies += \\\"org.scala-lang.modules\\\" % \\\"scala-jline\\\" % \\\"2.12.1\\\"\\nlibraryDependencies += \\\"net.ruippeixotog\\\" %% \\\"scala-scraper\\\" % \\\"1.0.0\\\""
+        }
+      }
+    },
+    "Vulnerability13": {
+      "title": "Vulnerability13",
+      "required": [
+        "id",
+        "url",
+        "title",
+        "type",
+        "description",
+        "functions",
+        "from",
+        "package",
+        "version",
+        "severity",
+        "exploitMaturity",
+        "language",
+        "packageManager",
+        "semver",
+        "publicationTime",
+        "disclosureTime",
+        "isUpgradable",
+        "isPatchable",
+        "isPinnable",
+        "identifiers",
+        "credit",
+        "CVSSv3",
+        "cvssScore",
+        "patches",
+        "upgradePath"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Function1"
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Function11"
+                  },
+                  {
+                    "example": {
+                      "functionId": {
+                        "className": "org.jboss.netty.handler.codec.http.CookieEncoder",
+                        "functionName": "encode"
+                      },
+                      "version": [
+                        "[3.10.0,3.10.2)",
+                        "[3.3.0,3.9.7)"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "description": ""
+        },
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "package": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "exploitMaturity": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "packageManager": {
+          "type": "string"
+        },
+        "semver": {
+          "$ref": "#/components/schemas/Semver2"
+        },
+        "publicationTime": {
+          "type": "string"
+        },
+        "disclosureTime": {
+          "type": "string"
+        },
+        "isUpgradable": {
+          "type": "boolean"
+        },
+        "isPatchable": {
+          "type": "boolean"
+        },
+        "isPinnable": {
+          "type": "boolean"
+        },
+        "identifiers": {
+          "$ref": "#/components/schemas/Identifiers2"
+        },
+        "credit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVSSv3": {
+          "type": "string"
+        },
+        "cvssScore": {
+          "type": "number"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "upgradePath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "id": "SNYK-JAVA-COMNING-30317",
+        "url": "https://snyk.io/vuln/SNYK-JAVA-COMNING-30317",
+        "title": "Insufficient Verification of Data Authenticity",
+        "type": "vuln",
+        "description": "## Overview\n[`com.ning:async-http-client`](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22async-http-client%22)\nAsync Http Client (aka AHC or async-http-client) before 1.9.0 skips X.509 certificate verification unless both a keyStore location and a trustStore location are explicitly set, which allows man-in-the-middle attackers to spoof HTTPS servers by presenting an arbitrary certificate during use of a typical AHC configuration, as demonstrated by a configuration that does not send client certificates.\n\n## References\n- [NVD](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7397)\n- [OSS Security](http://openwall.com/lists/oss-security/2014/08/26/1)\n- [GitHub Issue](https://github.com/AsyncHttpClient/async-http-client/issues/352)\n- [GitHub Commit](https://github.com/AsyncHttpClient/async-http-client/commit/dfacb8e05d0822c7b2024c452554bd8e1d6221d8)\n",
+        "functions": [],
+        "from": [
+          "net.databinder.dispatch:dispatch-core_2.11@0.11.2",
+          "com.ning:async-http-client@1.8.10"
+        ],
+        "package": "com.ning:async-http-client",
+        "version": "1.8.10",
+        "severity": "medium",
+        "exploitMaturity": "no-known-exploit",
+        "language": "java",
+        "packageManager": "maven",
+        "semver": {
+          "vulnerable": [
+            "[,1.9.0)"
+          ]
+        },
+        "publicationTime": "2017-03-28T08:29:28.375000+00:00",
+        "disclosureTime": "2015-06-24T16:59:00+00:00",
+        "isUpgradable": true,
+        "isPatchable": false,
+        "isPinnable": false,
+        "identifiers": {
+          "CVE": [
+            "CVE-2013-7397"
+          ],
+          "CWE": [
+            "CWE-345"
+          ]
+        },
+        "credit": [
+          "Unknown"
+        ],
+        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+        "cvssScore": 4.3,
+        "patches": [],
+        "upgradePath": [
+          "net.databinder.dispatch:dispatch-core_2.11@0.11.3",
+          "com.ning:async-http-client@1.9.11"
+        ]
+      }
+    },
+    "Issues14": {
+      "title": "Issues14",
+      "required": [
+        "vulnerabilities",
+        "licenses"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Vulnerability13"
+          },
+          "description": ""
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Licenses3"
+          },
+          "description": ""
+        }
+      }
+    },
+    "files7": {
+      "title": "files7",
+      "required": [
+        "target"
+      ],
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/SBTFile"
+        }
+      },
+      "description": "The manifest files:"
+    },
+    "sbt_Testforissuesinapublicpackagebygroupidartifactidandversionresponse": {
+      "title": "sbt_Testforissuesinapublicpackagebygroupidartifactidandversionresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues1"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      }
+    },
+    "Function11": {
+      "title": "Function11",
+      "required": [
+        "functionId",
+        "version"
+      ],
+      "type": "object",
+      "properties": {
+        "functionId": {
+          "$ref": "#/components/schemas/FunctionId1"
+        },
+        "version": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "functionId": {
+          "className": "org.apache.zookeeper.server.NIOServerCnxn",
+          "functionName": "checkFourLetterWord"
+        },
+        "version": [
+          "[,3.3.7)"
+        ]
+      }
+    },
+    "Testforissuesinapublicpackagebygroupnameandversionresponse": {
+      "title": "Testforissuesinapublicpackagebygroupnameandversionresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues1"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      }
+    },
+    "GradleFile": {
+      "title": "GradleFile",
+      "required": [
+        "contents"
+      ],
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "string",
+          "description": "The contents of the file, encoded according to the `encoding` field.",
+          "example": "dependencies { compile 'axis:axis:1.4' }"
+        }
+      }
+    },
+    "encoding": {
+      "title": "encoding",
+      "enum": [
+        "plain",
+        "base64"
+      ],
+      "type": "string",
+      "description": "the encoding for the manifest files sent."
+    }
+  },
+  "referenced_common_schemas": []
+}

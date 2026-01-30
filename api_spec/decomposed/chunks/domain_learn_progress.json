@@ -1,0 +1,605 @@
+{
+  "tag": "Learn progress",
+  "endpoint_count": 2,
+  "schema_count": 9,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/learn/progress/catalog",
+      "operation_id": "getCatalogProgress",
+      "summary": "Get collective learning progress (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/learn/progress/users",
+      "operation_id": "getUsersProgress",
+      "summary": "Get individual user learning progress (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/learn/progress/catalog",
+      "method": "GET",
+      "operation_id": "getCatalogProgress",
+      "summary": "Get collective learning progress (Early Access)",
+      "details": {
+        "description": "Retrieves aggregated counts of users' lesson or learning path statuses (completed, in progress, todo) across all catalog resources for an organization.\n\n#### Required permissions\n\n- `View Organization Snyk Learn Reports (org.learn_report.read)`",
+        "operationId": "getCatalogProgress",
+        "parameters": [
+          {
+            "description": "The unique identifier of the organization.",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/ApiVersion"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "Filter by the learn catalog resource type",
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "default": "lesson",
+              "enum": [
+                "learning_path",
+                "lesson"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Title"
+          },
+          {
+            "$ref": "#/components/parameters/Cwes"
+          },
+          {
+            "$ref": "#/components/parameters/Cves"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatalogProgressResponse"
+                }
+              }
+            },
+            "description": "Organization reporting users overview",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get collective learning progress (Early Access)",
+        "tags": [
+          "Learn progress"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "progress",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-snyk-documentation": {
+          "category": "learn"
+        },
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/learn/progress/users",
+      "method": "GET",
+      "operation_id": "getUsersProgress",
+      "summary": "Get individual user learning progress (Early Access)",
+      "details": {
+        "description": "Retrieves detailed learning progress status per user, including completion dates and history for each catalog resource.\n\n#### Required permissions\n\n- `View Organization Snyk Learn Reports (org.learn_report.read)`",
+        "operationId": "getUsersProgress",
+        "parameters": [
+          {
+            "description": "The unique identifier of the organization.",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/ApiVersion"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "Filter by the learn catalog resource type",
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "default": "lesson",
+              "enum": [
+                "learning_path",
+                "lesson"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Title"
+          },
+          {
+            "$ref": "#/components/parameters/Titles"
+          },
+          {
+            "description": "Filter by progress status of the resources",
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "enum": [
+                "completed",
+                "inProgress"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Emails"
+          },
+          {
+            "$ref": "#/components/parameters/CompletionInterval"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersProgressResponse"
+                }
+              }
+            },
+            "description": "Organization reporting users overview",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get individual user learning progress (Early Access)",
+        "tags": [
+          "Learn progress"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "progress",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-snyk-documentation": {
+          "category": "learn"
+        },
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "CatalogProgressAttributes": {
+      "properties": {
+        "completed_count": {
+          "description": "Percentage of users in the organization who have completed the resource.",
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        "in_progress_count": {
+          "description": "Percentage of users in the organization who have started progress on the resource.",
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        "todo_count": {
+          "description": "Percentage of users in the organization who have not started progress on the resource.",
+          "maximum": 100,
+          "minimum": 0,
+          "type": "number"
+        },
+        "users_completed_count": {
+          "description": "Number of users in the organization who have completed the resource.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "users_in_progress_count": {
+          "description": "Number of users in the organization who are in-progress who have started progress on the resource.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "users_todo_count": {
+          "description": "Number of users in the organization who have not started not started progress on the resource.",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "todo_count",
+        "in_progress_count",
+        "completed_count"
+      ],
+      "type": "object"
+    },
+    "UsersProgress": {
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/UsersProgressAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/ProgressRelationships"
+        },
+        "type": {
+          "enum": [
+            "progress"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "UsersProgressResponse": {
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/UsersProgress"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "jsonapi",
+        "links",
+        "data"
+      ],
+      "type": "object"
+    },
+    "CatalogRelationship": {
+      "properties": {
+        "data": {
+          "properties": {
+            "attributes": {
+              "properties": {
+                "cves": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "cwes": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "slug": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "title",
+                "slug",
+                "cwes",
+                "cves"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "lesson",
+                "learning_path"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        },
+        "links": {
+          "properties": {
+            "self": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "self"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "links",
+        "data"
+      ],
+      "type": "object"
+    },
+    "ProgressRelationships": {
+      "properties": {
+        "catalog": {
+          "$ref": "#/components/schemas/CatalogRelationship"
+        },
+        "user": {
+          "$ref": "#/components/schemas/UserRelationship"
+        }
+      },
+      "required": [
+        "user",
+        "catalog"
+      ],
+      "type": "object"
+    },
+    "CatalogProgressResponse": {
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/CatalogProgress"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        },
+        "meta": {
+          "properties": {
+            "total_org_members": {
+              "description": "Total number of organization members for which the progress report is generated",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "total_org_members"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "jsonapi",
+        "links",
+        "data"
+      ],
+      "type": "object"
+    },
+    "UsersProgressAttributes": {
+      "properties": {
+        "completion_date": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "completion_history": {
+          "items": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "is_expired": {
+          "type": "boolean"
+        },
+        "resource": {
+          "enum": [
+            "learning_path",
+            "lesson"
+          ],
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "completed",
+            "inProgress",
+            "todo"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "resource",
+        "completion_history"
+      ],
+      "type": "object"
+    },
+    "UserRelationship": {
+      "properties": {
+        "data": {
+          "properties": {
+            "attributes": {
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "email",
+                "username"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "user"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "links",
+        "data"
+      ],
+      "type": "object"
+    },
+    "CatalogProgress": {
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/CatalogProgressAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "properties": {
+            "catalog": {
+              "$ref": "#/components/schemas/CatalogRelationship"
+            }
+          },
+          "required": [
+            "catalog"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "progress"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "PaginatedLinks",
+    "LinkProperty",
+    "Meta",
+    "JsonApi"
+  ]
+}

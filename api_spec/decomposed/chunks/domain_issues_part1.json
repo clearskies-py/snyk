@@ -1,0 +1,1997 @@
+{
+  "tag": "Issues",
+  "endpoint_count": 2,
+  "schema_count": 0,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/issues",
+      "operation_id": "listGroupIssues",
+      "summary": "Get issues by group ID"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/issues/{issue_id}",
+      "operation_id": "getGroupIssueByIssueID",
+      "summary": "Get an issue"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/groups/{group_id}/issues",
+      "method": "GET",
+      "operation_id": "listGroupIssues",
+      "summary": "Get issues by group ID",
+      "details": {
+        "description": "Get a list of a group's issues.\n\n#### Required permissions\n\n- `View Issues (group.issues.read)`",
+        "operationId": "listGroupIssues",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/ScanItemId"
+          },
+          {
+            "$ref": "#/components/parameters/ScanItemType"
+          },
+          {
+            "$ref": "#/components/parameters/Type"
+          },
+          {
+            "description": "A filter to select issues updated before this date.",
+            "in": "query",
+            "name": "updated_before",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "A filter to select issues updated after this date.",
+            "in": "query",
+            "name": "updated_after",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "A filter to select issues created before this date.",
+            "in": "query",
+            "name": "created_before",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "A filter to select issues created after this date.",
+            "in": "query",
+            "name": "created_after",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/EffectiveSeverityLevel"
+          },
+          {
+            "$ref": "#/components/parameters/Status"
+          },
+          {
+            "$ref": "#/components/parameters/Ignored"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ListIssues200"
+          },
+          "401": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized: the request requires an authentication token or a token with more permissions.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "example": "2021-07-01T00:00:00Z",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Requested API version",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Resolved API version",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized: the request requires an authentication token or a token with more permissions.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "example": "2021-07-01T00:00:00Z",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Requested API version",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Resolved API version",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not Found: The resource being operated on could not be found.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "example": "2021-07-01T00:00:00Z",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Requested API version",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Resolved API version",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal Server Error: An error was encountered while attempting to process the request.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "example": "2021-07-01T00:00:00Z",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Requested API version",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Resolved API version",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get issues by group ID",
+        "tags": [
+          "Issues"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-03-10~experimental",
+          "2023-09-29~beta",
+          "2024-01-23"
+        ],
+        "x-snyk-api-resource": "issues",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-01-23",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/issues/{issue_id}",
+      "method": "GET",
+      "operation_id": "getGroupIssueByIssueID",
+      "summary": "Get an issue",
+      "details": {
+        "description": "Get an issue\n\n#### Required permissions\n\n- `View Issues (group.issues.read)`",
+        "operationId": "getGroupIssueByIssueID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/PathIssueId20240123"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/GetIssue20020240123"
+          },
+          "400": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Bad Request: A parameter provided as a part of the request was invalid.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "example": "2021-07-01T00:00:00Z",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Requested API version",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Resolved API version",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized: the request requires an authentication token or a token with more permissions.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "example": "2021-07-01T00:00:00Z",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Requested API version",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Resolved API version",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized: the request requires an authentication token or a token with more permissions.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "example": "2021-07-01T00:00:00Z",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Requested API version",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Resolved API version",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not Found: The resource being operated on could not be found.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "example": "2021-07-01T00:00:00Z",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Requested API version",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Resolved API version",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Conflict: The requested operation conflicts with the current state of the resource in some way.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "example": "2021-07-01T00:00:00Z",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Requested API version",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Resolved API version",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal Server Error: An error was encountered while attempting to process the request.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "example": "2021-07-01T00:00:00Z",
+                "schema": {
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                "schema": {
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Requested API version",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "example": "2021-06-04",
+                "schema": {
+                  "description": "Resolved API version",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get an issue",
+        "tags": [
+          "Issues"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-01-23"
+        ],
+        "x-snyk-api-resource": "issues",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-01-23",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {},
+  "referenced_common_schemas": []
+}

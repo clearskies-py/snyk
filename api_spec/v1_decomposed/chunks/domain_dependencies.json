@@ -1,0 +1,412 @@
+{
+  "tag": "Dependencies",
+  "endpoint_count": 1,
+  "schema_count": 8,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/dependencies",
+      "operation_id": "Listalldependencies",
+      "summary": "List all dependencies"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/org/{orgId}/dependencies",
+      "method": "POST",
+      "operation_id": "Listalldependencies",
+      "summary": "List all dependencies",
+      "details": {
+        "tags": [
+          "Dependencies"
+        ],
+        "summary": "List all dependencies",
+        "description": "Dependencies are packages/modules that your projects depend on.\nCurrent rate limit is up to 150 requests per minute, per user.\n#### Required permissions\n- `View Organization`\n- `View Project`\n- `View Project Snapshot`",
+        "operationId": "Listalldependencies",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to list projects for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "The field to sort results by.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/sortBy"
+            },
+            "example": "dependency"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "The direction to sort results by.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/order"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The page of results to fetch.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "The number of results to fetch per page (maximum is 1000).",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Dependenciesfilters"
+              },
+              "example": {
+                "filters": {
+                  "languages": [
+                    "cpp",
+                    "dockerfile",
+                    "dotnet",
+                    "elixir",
+                    "golang",
+                    "helm",
+                    "java",
+                    "javascript",
+                    "kubernetes",
+                    "linux",
+                    "php",
+                    "python",
+                    "ruby",
+                    "scala",
+                    "swift",
+                    "terraform"
+                  ],
+                  "projects": [],
+                  "dependencies": [],
+                  "licenses": [],
+                  "severity": [
+                    "critical",
+                    "high",
+                    "medium",
+                    "low"
+                  ],
+                  "depStatus": ""
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Link": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "<https://api.snyk.io/v1/org/4a18d42f-0706-4ad0-b127-24078731fbed/dependencies?order=asc&page=1&perPage=20&sortBy=dependency>; rel=last"
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dependencies"
+                },
+                "example": {
+                  "results": [
+                    {
+                      "id": "gulp@3.9.1",
+                      "name": "gulp",
+                      "version": "3.9.1",
+                      "latestVersion": "4.0.0",
+                      "latestVersionPublishedDate": "2018-01-01T01:29:06.863000+00:00",
+                      "firstPublishedDate": "2013-07-04T23:27:07.828000+00:00",
+                      "isDeprecated": false,
+                      "deprecatedVersions": [
+                        "0.0.1",
+                        "0.0.2",
+                        "0.0.3"
+                      ],
+                      "licenses": [
+                        {
+                          "id": "snyk:lic:npm:gulp:MIT",
+                          "title": "MIT license",
+                          "license": "MIT"
+                        }
+                      ],
+                      "dependenciesWithIssues": [
+                        "minimatch@2.0.10",
+                        "minimatch@0.2.14"
+                      ],
+                      "type": "npm",
+                      "projects": [
+                        {
+                          "name": "atokeneduser/goof",
+                          "id": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+                        }
+                      ]
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "order": {
+      "title": "order",
+      "enum": [
+        "asc",
+        "desc"
+      ],
+      "type": "string"
+    },
+    "results": {
+      "title": "results",
+      "required": [
+        "id",
+        "name",
+        "version",
+        "type",
+        "licenses",
+        "projects"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The identifier of the package"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the package"
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the package"
+        },
+        "latestVersion": {
+          "type": "string",
+          "description": "The latest version available for the specified package"
+        },
+        "latestVersionPublishedDate": {
+          "type": "string",
+          "description": "The timestamp for when the latest version of the specified package was published."
+        },
+        "firstPublishedDate": {
+          "type": "string",
+          "description": "The timestamp for when the specified package was first published."
+        },
+        "isDeprecated": {
+          "type": "boolean",
+          "description": "True if the latest version of the package is marked as deprecated; False otherwise."
+        },
+        "deprecatedVersions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The numbers for those versions that are marked as deprecated"
+        },
+        "dependenciesWithIssues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The identifiers of dependencies with issues that are depended upon as a result of this dependency"
+        },
+        "type": {
+          "type": "string",
+          "description": "The package type of the dependency"
+        },
+        "issuesCritical": {
+          "type": "number",
+          "description": "The number of critical severity issues in this dependency"
+        },
+        "issuesHigh": {
+          "type": "number",
+          "description": "The number of high severity issues in this dependency"
+        },
+        "issuesMedium": {
+          "type": "number",
+          "description": "The number of medium severity issues in this dependency"
+        },
+        "issuesLow": {
+          "type": "number",
+          "description": "The number of low severity issues in this dependency"
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/licenses2"
+          },
+          "description": "The licenses of the dependency"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/projects"
+          },
+          "description": "The projects which depend on the dependency"
+        }
+      }
+    },
+    "Dependenciesfilters": {
+      "title": "Dependenciesfilters",
+      "type": "object",
+      "properties": {
+        "filters": {
+          "$ref": "#/components/schemas/filters4"
+        }
+      }
+    },
+    "filters4": {
+      "title": "filters4",
+      "type": "object",
+      "properties": {
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The type of languages to filter the results by"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of project IDs to filter the results by"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of dependency IDs to filter the results by (i.e amdefine@1.0.1 or org.javassist:javassist@3.18.1-GA)"
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The list of license IDs to filter the results by"
+        },
+        "severity": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The severities to filter the results by"
+        },
+        "depStatus": {
+          "type": "string",
+          "description": "Status of the dependency. Requires reporting entitlement. Options: `deprecated` - Include only deprecated packages; `notDeprecated` - Include all packages that are not marked as deprecated; `any` - Include all packages (default)"
+        }
+      }
+    },
+    "Dependencies": {
+      "title": "Dependencies",
+      "required": [
+        "results"
+      ],
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/results"
+          },
+          "description": "A list of issues"
+        },
+        "total": {
+          "type": "number",
+          "description": "The number of results returned"
+        }
+      }
+    },
+    "sortBy": {
+      "title": "sortBy",
+      "enum": [
+        "projects",
+        "dependency",
+        "severity",
+        "dependenciesWithIssues"
+      ],
+      "type": "string"
+    },
+    "licenses2": {
+      "title": "licenses2",
+      "required": [
+        "id",
+        "title",
+        "license"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The identifier of the license"
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the license"
+        },
+        "license": {
+          "type": "string",
+          "description": "The type of the license"
+        }
+      }
+    },
+    "projects": {
+      "title": "projects",
+      "required": [
+        "id",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The identifier of the project"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the project"
+        }
+      }
+    }
+  },
+  "referenced_common_schemas": []
+}

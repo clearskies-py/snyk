@@ -1,0 +1,1650 @@
+{
+  "tag": "Projects",
+  "endpoint_count": 4,
+  "schema_count": 18,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/projects",
+      "operation_id": "listOrgProjects",
+      "summary": "List all Projects for an Org with the given Org ID."
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/projects/{project_id}",
+      "operation_id": "deleteOrgProject",
+      "summary": "Delete project by project ID."
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/projects/{project_id}",
+      "operation_id": "getOrgProject",
+      "summary": "Get project by project ID."
+    },
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}/projects/{project_id}",
+      "operation_id": "updateOrgProject",
+      "summary": "Updates project by project ID."
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/projects",
+      "method": "GET",
+      "operation_id": "listOrgProjects",
+      "summary": "List all Projects for an Org with the given Org ID.",
+      "details": {
+        "description": "List all Projects for an Org.\n\n#### Required permissions\n\n- `View Projects (org.project.read)`",
+        "operationId": "listOrgProjects",
+        "parameters": [
+          {
+            "description": "The ID of the org that the projects belong to.",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return projects that belong to the provided targets",
+            "in": "query",
+            "name": "target_id",
+            "schema": {
+              "items": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "Return projects that match the provided target reference",
+            "in": "query",
+            "name": "target_reference",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return projects that match the provided target file",
+            "in": "query",
+            "name": "target_file",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return projects that match the provided target runtime",
+            "in": "query",
+            "name": "target_runtime",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The collection count.",
+            "in": "query",
+            "name": "meta_count",
+            "schema": {
+              "enum": [
+                "only"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return projects that match the provided IDs.",
+            "explode": false,
+            "in": "query",
+            "name": "ids",
+            "schema": {
+              "items": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Return projects that match the provided names.",
+            "explode": false,
+            "in": "query",
+            "name": "names",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Return projects with names starting with the specified prefix.",
+            "explode": false,
+            "in": "query",
+            "name": "names_start_with",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Return projects that match the provided origins.",
+            "explode": false,
+            "in": "query",
+            "name": "origins",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Return projects that match the provided types.",
+            "explode": false,
+            "in": "query",
+            "name": "types",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Expand relationships.",
+            "explode": false,
+            "in": "query",
+            "name": "expand",
+            "schema": {
+              "items": {
+                "enum": [
+                  "target"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Include a summary count for the issues found in the most recent scan of this project",
+            "in": "query",
+            "name": "meta.latest_issue_counts",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Include the total number of dependencies found in the most recent scan of this project",
+            "in": "query",
+            "name": "meta.latest_dependency_total",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Filter projects uploaded and monitored before this date (encoded value)",
+            "example": "2021-05-29T09:50:54.014Z",
+            "in": "query",
+            "name": "cli_monitored_before",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Filter projects uploaded and monitored after this date (encoded value)",
+            "example": "2021-05-29T09:50:54.014Z",
+            "in": "query",
+            "name": "cli_monitored_after",
+            "schema": {
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return projects that match the provided importing user public ids.",
+            "explode": false,
+            "in": "query",
+            "name": "importing_user_public_id",
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Return projects that match all the provided tags",
+            "example": [
+              "key1:value1",
+              "key2:value2"
+            ],
+            "explode": false,
+            "in": "query",
+            "name": "tags",
+            "schema": {
+              "items": {
+                "pattern": "^[a-zA-Z0-9_-]+:[:/?#@&+=%a-zA-Z0-9_.~-]+$",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Return projects that match all the provided business_criticality value",
+            "explode": false,
+            "in": "query",
+            "name": "business_criticality",
+            "schema": {
+              "items": {
+                "enum": [
+                  "critical",
+                  "high",
+                  "medium",
+                  "low"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Return projects that match all the provided environment values",
+            "explode": false,
+            "in": "query",
+            "name": "environment",
+            "schema": {
+              "items": {
+                "enum": [
+                  "frontend",
+                  "backend",
+                  "internal",
+                  "external",
+                  "mobile",
+                  "saas",
+                  "onprem",
+                  "hosted",
+                  "distributed"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Return projects that match all the provided lifecycle values",
+            "explode": false,
+            "in": "query",
+            "name": "lifecycle",
+            "schema": {
+              "items": {
+                "enum": [
+                  "production",
+                  "development",
+                  "sandbox"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "attributes": {
+                            "$ref": "#/components/schemas/ProjectAttributes"
+                          },
+                          "id": {
+                            "description": "Resource ID.",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "meta": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "cli_monitored_at": {
+                                "description": "The date that the project was last uploaded and monitored using cli.",
+                                "example": "2021-05-29T09:50:54.014Z",
+                                "format": "date-time",
+                                "nullable": true,
+                                "type": "string"
+                              },
+                              "latest_dependency_total": {
+                                "$ref": "#/components/schemas/LatestDependencyTotal"
+                              },
+                              "latest_issue_counts": {
+                                "$ref": "#/components/schemas/LatestIssueCounts"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "relationships": {
+                            "$ref": "#/components/schemas/ProjectRelationships"
+                          },
+                          "type": {
+                            "description": "The Resource type.",
+                            "example": "project",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "attributes"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    },
+                    "meta": {
+                      "properties": {
+                        "count": {
+                          "minimum": 0,
+                          "type": "number"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of projects is returned for the targeted org",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List all Projects for an Org with the given Org ID.",
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2021-06-04~beta",
+          "2022-08-12~experimental",
+          "2022-12-21~experimental",
+          "2023-02-15",
+          "2023-08-28",
+          "2023-09-11",
+          "2023-11-06",
+          "2024-05-31"
+        ],
+        "x-snyk-api-resource": "projects",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-31",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/projects/{project_id}",
+      "method": "DELETE",
+      "operation_id": "deleteOrgProject",
+      "summary": "Delete project by project ID.",
+      "details": {
+        "description": "Delete one project in the organization by project ID.\n\n#### Required permissions\n\n- `View Organization (org.read)`\n\n- `View Projects (org.project.read)`\n\n- `Remove Projects (org.project.delete)`",
+        "operationId": "deleteOrgProject",
+        "parameters": [
+          {
+            "description": "The ID of the org to which the project belongs to.",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID of the project.",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The project has been deleted",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete project by project ID.",
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-11-06",
+          "2024-05-31"
+        ],
+        "x-snyk-api-resource": "projects",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-31",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/projects/{project_id}",
+      "method": "GET",
+      "operation_id": "getOrgProject",
+      "summary": "Get project by project ID.",
+      "details": {
+        "description": "Get one project of the organization by project ID.\n\n#### Required permissions\n\n- `View Projects (org.project.read)`",
+        "operationId": "getOrgProject",
+        "parameters": [
+          {
+            "description": "The ID of the org to which the project belongs to.",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID of the project.",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Expand relationships.",
+            "explode": false,
+            "in": "query",
+            "name": "expand",
+            "schema": {
+              "items": {
+                "enum": [
+                  "target"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Include a summary count for the issues found in the most recent scan of this project",
+            "in": "query",
+            "name": "meta.latest_issue_counts",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Include the total number of dependencies found in the most recent scan of this project",
+            "in": "query",
+            "name": "meta.latest_dependency_total",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/ProjectAttributes"
+                        },
+                        "id": {
+                          "description": "The Resource ID.",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "meta": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "cli_monitored_at": {
+                              "description": "The date that the project was last uploaded and monitored using cli.",
+                              "example": "2021-05-29T09:50:54.014Z",
+                              "format": "date-time",
+                              "nullable": true,
+                              "type": "string"
+                            },
+                            "latest_dependency_total": {
+                              "$ref": "#/components/schemas/LatestDependencyTotal"
+                            },
+                            "latest_issue_counts": {
+                              "$ref": "#/components/schemas/LatestIssueCounts"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "relationships": {
+                          "$ref": "#/components/schemas/ProjectRelationships"
+                        },
+                        "type": {
+                          "description": "The Resource type.",
+                          "example": "project",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "attributes"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A project is returned for the targeted org",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get project by project ID.",
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-02-01~experimental",
+          "2022-08-12~experimental",
+          "2022-12-21~experimental",
+          "2023-02-15",
+          "2023-08-28",
+          "2023-09-11",
+          "2023-11-06",
+          "2024-05-31"
+        ],
+        "x-snyk-api-resource": "projects",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-31",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/projects/{project_id}",
+      "method": "PATCH",
+      "operation_id": "updateOrgProject",
+      "summary": "Updates project by project ID.",
+      "details": {
+        "description": "Updates one project of the organization by project ID.\n\n#### Required permissions\n\n- `View Organization (org.read)`\n\n- `View Projects (org.project.read)`\n\n- `Edit Projects (org.project.edit)`",
+        "operationId": "updateOrgProject",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "The ID of the Org the project belongs to.",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID of the project to patch.",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Expand relationships.",
+            "explode": false,
+            "in": "query",
+            "name": "expand",
+            "schema": {
+              "items": {
+                "enum": [
+                  "target"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchProjectRequest"
+              }
+            }
+          },
+          "description": "The project attributes to be updated."
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/ProjectAttributes"
+                        },
+                        "id": {
+                          "description": "The Resource ID.",
+                          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "links": {
+                          "$ref": "#/components/schemas/Links"
+                        },
+                        "meta": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "cli_monitored_at": {
+                              "description": "The date that the project was last uploaded and monitored using cli.",
+                              "example": "2021-05-29T09:50:54.014Z",
+                              "format": "date-time",
+                              "nullable": true,
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "relationships": {
+                          "$ref": "#/components/schemas/ProjectRelationships"
+                        },
+                        "type": {
+                          "description": "The Resource type.",
+                          "example": "project",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "id",
+                        "attributes"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A project is updated for the targeted org",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Updates project by project ID.",
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-12-21~experimental",
+          "2023-02-15",
+          "2023-08-28",
+          "2023-09-11",
+          "2023-11-06",
+          "2024-05-31"
+        ],
+        "x-snyk-api-resource": "projects",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-31",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "AutoDependencyUpgradeSettings20240531": {
+      "additionalProperties": false,
+      "description": "Automatically create pull requests on recurring tests for dependencies as upgrades become available. If not specified, settings will be inherited from the Organization's integration.",
+      "properties": {
+        "ignored_dependencies": {
+          "description": "Dependencies which should NOT be included in an automatic upgrade operation.",
+          "example": [
+            "typescript"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "is_enabled": {
+          "description": "Automatically raise pull requests to update out-of-date dependencies.",
+          "example": true,
+          "type": "boolean"
+        },
+        "is_inherited": {
+          "description": "Apply the auto dependency integration settings of the Organization to this project.",
+          "example": true,
+          "type": "boolean"
+        },
+        "is_major_upgrade_enabled": {
+          "description": "Include major version in dependency upgrade recommendation.",
+          "example": true,
+          "type": "boolean"
+        },
+        "limit": {
+          "description": "Limit of dependency upgrade PRs which can be opened simultaneously. When the limit is reached, no new upgrade PRs are created. If specified, must be between 1 and 10.",
+          "example": 10,
+          "maximum": 10,
+          "minimum": 1,
+          "type": "number"
+        },
+        "minimum_age": {
+          "description": "Minimum dependency maturity period in days. If specified, must be between 1 and 365.",
+          "example": 365,
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "NugetBuildArgs": {
+      "additionalProperties": false,
+      "properties": {
+        "target_framework": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_framework"
+      ],
+      "type": "object"
+    },
+    "PullRequestsSettings20240531": {
+      "additionalProperties": false,
+      "description": "Settings which describe how pull requests for a project are tested.",
+      "properties": {
+        "fail_only_for_issues_with_fix": {
+          "description": "Only fail when the issues found have a fix available.",
+          "example": true,
+          "type": "boolean"
+        },
+        "is_enabled": {
+          "description": "Test pull requests for vulnerabilities. If this value is unset, the setting is inherited from the org default.",
+          "example": true,
+          "type": "boolean"
+        },
+        "policy": {
+          "description": "Fail if the project has any issues (\"all\"), or fail if a PR is introducing a new dependency with issues (\"only_new\"). If this value is unset, the setting is inherited from the org default.",
+          "enum": [
+            "all",
+            "only_new"
+          ],
+          "example": "all",
+          "type": "string"
+        },
+        "severity_threshold": {
+          "description": "Only fail for issues greater than or equal to the specified severity. If this value is unset, the setting is inherited from the org default.",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "example": "high",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ProjectRelationshipsTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "properties": {
+                "display_name": {
+                  "description": "The human readable name that represents this target. These are generated based on the provided properties, and the source. In the future we may support updating this value.\n",
+                  "example": "snyk-fixtures/goof",
+                  "type": "string"
+                },
+                "url": {
+                  "description": "The URL for the resource. We do not use this as part of our representation of the identity of the target, as it can      be changed externally to Snyk We are reliant on individual integrations providing us with this value. Currently it is only provided by the CLI\n",
+                  "example": "http://github.com/snyk/local-goof",
+                  "nullable": true,
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "id": {
+              "description": "The Resource ID.",
+              "format": "uuid",
+              "type": "string"
+            },
+            "meta": {
+              "properties": {
+                "integration_data": {
+                  "description": "A collection of properties regarding integration data",
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": {
+              "description": "The Resource type.",
+              "example": "target",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        },
+        "links": {
+          "$ref": "#/components/schemas/RelatedLink"
+        }
+      },
+      "required": [
+        "data",
+        "links"
+      ],
+      "type": "object"
+    },
+    "ProjectSettings20240531": {
+      "additionalProperties": false,
+      "properties": {
+        "auto_dependency_upgrade": {
+          "$ref": "#/components/schemas/AutoDependencyUpgradeSettings20240531"
+        },
+        "auto_remediation_prs": {
+          "$ref": "#/components/schemas/AutoRemediationPRsSettings20240531"
+        },
+        "manual_remediation_prs": {
+          "$ref": "#/components/schemas/ManualRemediationPRsSettings20240531"
+        },
+        "pull_request_assignment": {
+          "$ref": "#/components/schemas/PullRequestAssignmentSettings20240531"
+        },
+        "pull_requests": {
+          "$ref": "#/components/schemas/PullRequestsSettings20240531"
+        },
+        "recurring_tests": {
+          "$ref": "#/components/schemas/RecurringTestsSettings"
+        }
+      },
+      "required": [
+        "recurring_tests",
+        "pull_requests"
+      ],
+      "type": "object"
+    },
+    "PullRequestAssignmentSettings20240531": {
+      "additionalProperties": false,
+      "description": "Automatically assign pull requests created by Snyk (limited to private repos). If not specified, settings will be inherited from the Organization's integration.",
+      "properties": {
+        "assignees": {
+          "description": "Manually specify users to assign (and all will be assigned).",
+          "example": [
+            "my-github-username"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "is_enabled": {
+          "description": "Automatically assign pull requests created by Snyk.",
+          "example": true,
+          "type": "boolean"
+        },
+        "type": {
+          "description": "Automatically assign the last user to change the manifest file (\"auto\"), or manually specify a list of users (\"manual\").",
+          "enum": [
+            "auto",
+            "manual"
+          ],
+          "example": "auto",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ManualRemediationPRsSettings20240531": {
+      "additionalProperties": false,
+      "description": "Manually raise pull requests to fix new and existing vulnerabilities. If not specified, settings will be inherited from the Organization's integration.",
+      "properties": {
+        "is_patch_remediation_enabled": {
+          "description": "Include vulnerability patches in manual pull requests.",
+          "example": true,
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "ProjectAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "build_args": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/YarnBuildArgs"
+            },
+            {
+              "$ref": "#/components/schemas/ContainerBuildArgs"
+            },
+            {
+              "$ref": "#/components/schemas/NugetBuildArgs"
+            }
+          ]
+        },
+        "business_criticality": {
+          "example": [
+            "medium"
+          ],
+          "items": {
+            "enum": [
+              "critical",
+              "high",
+              "medium",
+              "low"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "created": {
+          "description": "The date that the project was created on",
+          "example": "2021-05-29T09:50:54.014Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "environment": {
+          "example": [
+            "external",
+            "hosted"
+          ],
+          "items": {
+            "enum": [
+              "frontend",
+              "backend",
+              "internal",
+              "external",
+              "mobile",
+              "saas",
+              "onprem",
+              "hosted",
+              "distributed"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "lifecycle": {
+          "example": [
+            "production"
+          ],
+          "items": {
+            "enum": [
+              "production",
+              "development",
+              "sandbox"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Project name.",
+          "example": "snyk/goof",
+          "type": "string"
+        },
+        "origin": {
+          "description": "The origin the project was added from.",
+          "example": "github",
+          "type": "string"
+        },
+        "read_only": {
+          "description": "Whether the project is read-only",
+          "type": "boolean"
+        },
+        "settings": {
+          "$ref": "#/components/schemas/ProjectSettings20240531"
+        },
+        "status": {
+          "description": "Describes if a project is currently monitored or it is de-activated.",
+          "enum": [
+            "active",
+            "inactive"
+          ],
+          "example": "active",
+          "type": "string"
+        },
+        "tags": {
+          "example": [
+            {
+              "key": "tag-key",
+              "value": "tag-value"
+            }
+          ],
+          "items": {
+            "properties": {
+              "key": {
+                "example": "tag-key",
+                "type": "string"
+              },
+              "value": {
+                "example": "tag-value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "target_file": {
+          "description": "Path within the target to identify a specific file/directory/image etc. when scanning just part  of the target, and not the entity.",
+          "example": "package.json",
+          "type": "string"
+        },
+        "target_reference": {
+          "description": "The additional information required to resolve which revision of the resource should be scanned.",
+          "example": "main",
+          "type": "string"
+        },
+        "target_runtime": {
+          "description": "Dotnet Target, for relevant projects",
+          "type": "string"
+        },
+        "type": {
+          "description": "The package manager of the project.",
+          "example": "maven",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "target_file",
+        "target_reference",
+        "origin",
+        "created",
+        "status",
+        "read_only",
+        "settings"
+      ],
+      "type": "object"
+    },
+    "LatestDependencyTotal": {
+      "additionalProperties": false,
+      "properties": {
+        "total": {
+          "type": "number"
+        },
+        "updated_at": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PatchProjectRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "business_criticality": {
+                  "example": [
+                    "medium"
+                  ],
+                  "items": {
+                    "enum": [
+                      "critical",
+                      "high",
+                      "medium",
+                      "low"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "environment": {
+                  "example": [
+                    "external",
+                    "hosted"
+                  ],
+                  "items": {
+                    "enum": [
+                      "frontend",
+                      "backend",
+                      "internal",
+                      "external",
+                      "mobile",
+                      "saas",
+                      "onprem",
+                      "hosted",
+                      "distributed"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "lifecycle": {
+                  "example": [
+                    "production"
+                  ],
+                  "items": {
+                    "enum": [
+                      "production",
+                      "development",
+                      "sandbox"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "tags": {
+                  "example": [
+                    {
+                      "key": "tag-key",
+                      "value": "tag-value"
+                    }
+                  ],
+                  "items": {
+                    "properties": {
+                      "key": {
+                        "example": "tag-key",
+                        "type": "string"
+                      },
+                      "value": {
+                        "example": "tag-value",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "test_frequency": {
+                  "description": "Test frequency of a project. Also controls when automated PRs may be created.",
+                  "enum": [
+                    "daily",
+                    "weekly",
+                    "never"
+                  ],
+                  "example": "daily",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "id": {
+              "description": "The Resource ID.",
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "relationships": {
+              "properties": {
+                "owner": {
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "id": {
+                          "description": "The public ID of the user that owns the project",
+                          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                          "format": "uuid",
+                          "nullable": true,
+                          "type": "string"
+                        },
+                        "type": {
+                          "enum": [
+                            "user"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "id"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "type": {
+              "description": "The Resource type.",
+              "enum": [
+                "project"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "id",
+            "attributes",
+            "relationships"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "LatestIssueCounts": {
+      "additionalProperties": false,
+      "properties": {
+        "critical": {
+          "type": "number"
+        },
+        "high": {
+          "type": "number"
+        },
+        "low": {
+          "type": "number"
+        },
+        "medium": {
+          "type": "number"
+        },
+        "updated_at": {
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ProjectRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "importer": {
+          "$ref": "#/components/schemas/Relationship"
+        },
+        "organization": {
+          "$ref": "#/components/schemas/Relationship"
+        },
+        "owner": {
+          "$ref": "#/components/schemas/Relationship"
+        },
+        "target": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/Relationship"
+            },
+            {
+              "$ref": "#/components/schemas/ProjectRelationshipsTarget"
+            }
+          ]
+        }
+      },
+      "required": [
+        "target",
+        "organization"
+      ],
+      "type": "object"
+    },
+    "YarnBuildArgs": {
+      "additionalProperties": false,
+      "properties": {
+        "root_workspace": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "root_workspace"
+      ],
+      "type": "object"
+    },
+    "Relationship": {
+      "example": {
+        "data": {
+          "id": "4a72d1db-b465-4764-99e1-ecedad03b06a",
+          "type": "resource"
+        },
+        "links": {
+          "related": {
+            "href": "https://example.com/api/resource/4a72d1db-b465-4764-99e1-ecedad03b06a"
+          }
+        }
+      },
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "example": "4a72d1db-b465-4764-99e1-ecedad03b06a",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "description": "Type of the related resource",
+              "example": "resource",
+              "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "type": "object"
+        },
+        "links": {
+          "$ref": "#/components/schemas/RelatedLink"
+        },
+        "meta": {
+          "$ref": "#/components/schemas/Meta"
+        }
+      },
+      "required": [
+        "data",
+        "links"
+      ],
+      "type": "object"
+    },
+    "RecurringTestsSettings": {
+      "additionalProperties": false,
+      "description": "Settings which describe how recurring tests are run for a project.",
+      "properties": {
+        "frequency": {
+          "description": "Test frequency of a project. Also controls when automated PRs may be created.",
+          "enum": [
+            "daily",
+            "weekly",
+            "never"
+          ],
+          "example": "daily",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "RelatedLink": {
+      "additionalProperties": false,
+      "example": {
+        "related": "https://example.com/api/other_resource"
+      },
+      "properties": {
+        "related": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "ContainerBuildArgs": {
+      "additionalProperties": false,
+      "properties": {
+        "platform": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "platform"
+      ],
+      "type": "object"
+    },
+    "AutoRemediationPRsSettings20240531": {
+      "additionalProperties": false,
+      "description": "Automatically raise pull requests on recurring tests to fix new and existing vulnerabilities. If not specified, settings will be inherited from the Organization's integration.",
+      "properties": {
+        "is_backlog_prs_enabled": {
+          "description": "Automatically create pull requests on scheduled tests for known (backlog) vulnerabilities.",
+          "example": true,
+          "type": "boolean"
+        },
+        "is_fresh_prs_enabled": {
+          "description": "Automatically create pull requests on scheduled tests for new vulnerabilities.",
+          "example": true,
+          "type": "boolean"
+        },
+        "is_patch_remediation_enabled": {
+          "description": "Include vulnerability patches in automatic pull requests.",
+          "example": true,
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

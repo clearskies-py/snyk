@@ -1,0 +1,2051 @@
+{
+  "tag": "Cloud",
+  "endpoint_count": 9,
+  "schema_count": 24,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/cloud/environments",
+      "operation_id": "listEnvironments",
+      "summary": "List Environments (Early Access)"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/cloud/environments",
+      "operation_id": "createEnvironment",
+      "summary": "Create New Environment (Early Access)"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/cloud/environments/{environment_id}",
+      "operation_id": "deleteEnvironment",
+      "summary": "Delete Environment (Early Access)"
+    },
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}/cloud/environments/{environment_id}",
+      "operation_id": "updateEnvironment",
+      "summary": "Update Environment (Early Access)"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/cloud/permissions",
+      "operation_id": "getPermissions",
+      "summary": "Generate Cloud Provider Permissions (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/cloud/resources",
+      "operation_id": "listResources",
+      "summary": "List Resources (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/cloud/scans",
+      "operation_id": "listScan",
+      "summary": "List Scans (Early Access)"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/cloud/scans",
+      "operation_id": "createScan",
+      "summary": "Create Scan (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/cloud/scans/{scan_id}",
+      "operation_id": "getScan",
+      "summary": "Get scan (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/cloud/environments",
+      "method": "GET",
+      "operation_id": "listEnvironments",
+      "summary": "List Environments (Early Access)",
+      "details": {
+        "description": "List environments for an organization\n\n#### Required permissions\n\n- `View environments (org.cloud_environments.read)`",
+        "operationId": "listEnvironments",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Organization ID",
+            "example": "9a46d918-8764-458c-1234-0987abcd6543",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CreatedAfter"
+          },
+          {
+            "$ref": "#/components/parameters/CreatedBefore"
+          },
+          {
+            "$ref": "#/components/parameters/UpdatedAfter"
+          },
+          {
+            "$ref": "#/components/parameters/UpdatedBefore"
+          },
+          {
+            "$ref": "#/components/parameters/NameInQuery"
+          },
+          {
+            "$ref": "#/components/parameters/KindInQuery"
+          },
+          {
+            "$ref": "#/components/parameters/StatusInQuery"
+          },
+          {
+            "$ref": "#/components/parameters/IdInQuery"
+          },
+          {
+            "description": "Filter environments by project ID",
+            "example": "9a46d918-8764-458c-1234-0987abcd6543",
+            "in": "query",
+            "name": "project_id",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "properties": {
+                          "attributes": {
+                            "$ref": "#/components/schemas/EnvironmentAttributes"
+                          },
+                          "id": {
+                            "description": "Environment ID",
+                            "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "relationships": {
+                            "$ref": "#/components/schemas/EnvironmentRelationships"
+                          },
+                          "type": {
+                            "$ref": "#/components/schemas/EnvironmentType"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of environments",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List Environments (Early Access)",
+        "tags": [
+          "Cloud"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-13~experimental",
+          "2022-12-21~beta",
+          "2023-10-19~beta"
+        ],
+        "x-snyk-api-resource": "environments",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-10-19~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/cloud/environments",
+      "method": "POST",
+      "operation_id": "createEnvironment",
+      "summary": "Create New Environment (Early Access)",
+      "details": {
+        "description": "Create a new environment and run a scan\n\n#### Required permissions\n\n- `Create environments (org.cloud_environments.create)`",
+        "operationId": "createEnvironment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Organization ID",
+            "example": "9a46d918-8764-458c-1234-0987abcd6543",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "$ref": "#/components/schemas/EnvironmentCreateAttributes"
+                      },
+                      "type": {
+                        "$ref": "#/components/schemas/EnvironmentType"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "Environment resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/EnvironmentAttributes"
+                        },
+                        "id": {
+                          "description": "Environment ID",
+                          "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "relationships": {
+                          "$ref": "#/components/schemas/EnvironmentRelationships"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/EnvironmentType"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Created environment successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create New Environment (Early Access)",
+        "tags": [
+          "Cloud"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-13~experimental",
+          "2022-12-21~beta",
+          "2023-10-19~beta"
+        ],
+        "x-snyk-api-resource": "environments",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-10-19~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/cloud/environments/{environment_id}",
+      "method": "DELETE",
+      "operation_id": "deleteEnvironment",
+      "summary": "Delete Environment (Early Access)",
+      "details": {
+        "description": "Delete an environment\n\n#### Required permissions\n\n- `Delete environments (org.cloud_environments.delete)`",
+        "operationId": "deleteEnvironment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Organization ID",
+            "example": "9a46d918-8764-458c-1234-0987abcd6543",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/EnvironmentId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Returns an empty response",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete Environment (Early Access)",
+        "tags": [
+          "Cloud"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-13~experimental",
+          "2022-12-21~beta",
+          "2023-10-19~beta"
+        ],
+        "x-snyk-api-resource": "environments",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-10-19~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/cloud/environments/{environment_id}",
+      "method": "PATCH",
+      "operation_id": "updateEnvironment",
+      "summary": "Update Environment (Early Access)",
+      "details": {
+        "description": "Update an environment\n\n#### Required permissions\n\n- `Update environments (org.cloud_environments.edit)`",
+        "operationId": "updateEnvironment",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Organization ID",
+            "example": "9a46d918-8764-458c-1234-0987abcd6543",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/EnvironmentId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "$ref": "#/components/schemas/EnvironmentUpdateAttributes"
+                      },
+                      "id": {
+                        "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                        "format": "uuid",
+                        "type": "string"
+                      },
+                      "type": {
+                        "$ref": "#/components/schemas/EnvironmentType"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "type"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "environment resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/EnvironmentAttributes"
+                        },
+                        "id": {
+                          "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "relationships": {
+                          "$ref": "#/components/schemas/EnvironmentRelationships"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/EnvironmentType"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Updated an environment successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update Environment (Early Access)",
+        "tags": [
+          "Cloud"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-13~experimental",
+          "2022-12-21~beta",
+          "2023-10-19~beta"
+        ],
+        "x-snyk-api-resource": "environments",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-10-19~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/cloud/permissions",
+      "method": "POST",
+      "operation_id": "getPermissions",
+      "summary": "Generate Cloud Provider Permissions (Early Access)",
+      "details": {
+        "description": "Generate IAC template for Snyk to access your cloud resources\n\n#### Required permissions\n\n- `Create environments (org.cloud_environments.create)`",
+        "operationId": "getPermissions",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Organization ID",
+            "example": "9a46d918-8764-458c-1234-0987abcd6543",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "$ref": "#/components/schemas/CreatePermissionsAttributes"
+                      },
+                      "type": {
+                        "example": "permission",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "attributes"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "permissions resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/PermissionsAttributes"
+                        },
+                        "id": {
+                          "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "example": "permission",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "attributes",
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Created permissions successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Generate Cloud Provider Permissions (Early Access)",
+        "tags": [
+          "Cloud"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-13~experimental",
+          "2022-12-21~beta",
+          "2023-10-19~beta"
+        ],
+        "x-snyk-api-resource": "permissions",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-10-19~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/cloud/resources",
+      "method": "GET",
+      "operation_id": "listResources",
+      "summary": "List Resources (Early Access)",
+      "details": {
+        "description": "List resources for an organization\n\n#### Required permissions\n\n- `View resources (org.cloud_resources.read)`",
+        "operationId": "listResources",
+        "parameters": [
+          {
+            "description": "Organization ID",
+            "example": "9a46d918-8764-458c-1234-0987abcd6543",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/EnvironmentIdQuery"
+          },
+          {
+            "$ref": "#/components/parameters/ResourceType"
+          },
+          {
+            "$ref": "#/components/parameters/ResourceId"
+          },
+          {
+            "$ref": "#/components/parameters/NativeId"
+          },
+          {
+            "$ref": "#/components/parameters/Id"
+          },
+          {
+            "$ref": "#/components/parameters/Platform"
+          },
+          {
+            "$ref": "#/components/parameters/Name"
+          },
+          {
+            "$ref": "#/components/parameters/Kind"
+          },
+          {
+            "$ref": "#/components/parameters/Location"
+          },
+          {
+            "$ref": "#/components/parameters/Removed"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "properties": {
+                          "attributes": {
+                            "$ref": "#/components/schemas/ResourceAttributes"
+                          },
+                          "id": {
+                            "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "relationships": {
+                            "$ref": "#/components/schemas/ResourceRelationships"
+                          },
+                          "type": {
+                            "example": "resource",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of resources",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List Resources (Early Access)",
+        "tags": [
+          "Cloud"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-13~experimental",
+          "2022-12-21~beta",
+          "2023-10-19~beta"
+        ],
+        "x-snyk-api-resource": "resources",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-10-19~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/cloud/scans",
+      "method": "GET",
+      "operation_id": "listScan",
+      "summary": "List Scans (Early Access)",
+      "details": {
+        "description": "List scans for an organization\n\n#### Required permissions\n\n- `View scans (org.cloud_scans.read)`",
+        "operationId": "listScan",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "Organization ID",
+            "example": "9a46d918-8764-458c-1234-0987abcd6543",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "properties": {
+                          "attributes": {
+                            "$ref": "#/components/schemas/ScanAttributes"
+                          },
+                          "id": {
+                            "description": "Scan ID",
+                            "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "relationships": {
+                            "$ref": "#/components/schemas/ScanRelationships"
+                          },
+                          "type": {
+                            "$ref": "#/components/schemas/ScanType"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of scan instances",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List Scans (Early Access)",
+        "tags": [
+          "Cloud"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-13~experimental",
+          "2022-12-21~beta"
+        ],
+        "x-snyk-api-resource": "scans",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2022-12-21~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/cloud/scans",
+      "method": "POST",
+      "operation_id": "createScan",
+      "summary": "Create Scan (Early Access)",
+      "details": {
+        "description": "Create and trigger a new scan for an environment\n\n#### Required permissions\n\n- `Create scans (org.cloud_scans.create)`",
+        "operationId": "createScan",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Organization ID",
+            "example": "9a46d918-8764-458c-1234-0987abcd6543",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "$ref": "#/components/schemas/ScanCreateAttributes"
+                      },
+                      "relationships": {
+                        "$ref": "#/components/schemas/ScanCreateRelationships"
+                      },
+                      "type": {
+                        "$ref": "#/components/schemas/ScanType"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "Scan resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/ScanAttributes"
+                        },
+                        "id": {
+                          "description": "Scan ID",
+                          "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "relationships": {
+                          "$ref": "#/components/schemas/ScanRelationships"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/ScanType"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Created scan successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create Scan (Early Access)",
+        "tags": [
+          "Cloud"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-13~experimental",
+          "2022-12-21~beta"
+        ],
+        "x-snyk-api-resource": "scans",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2022-12-21~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/cloud/scans/{scan_id}",
+      "method": "GET",
+      "operation_id": "getScan",
+      "summary": "Get scan (Early Access)",
+      "details": {
+        "description": "Get a single scan for an organization\n\n#### Required permissions\n\n- `View scans (org.cloud_scans.read)`",
+        "operationId": "getScan",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Organization ID",
+            "example": "9a46d918-8764-458c-1234-0987abcd6543",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/ScanId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/ScanAttributes"
+                        },
+                        "id": {
+                          "description": "Scan ID",
+                          "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "relationships": {
+                          "$ref": "#/components/schemas/ScanRelationships"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/ScanType"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a single scan instance",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get scan (Early Access)",
+        "tags": [
+          "Cloud"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-12-21~beta"
+        ],
+        "x-snyk-api-resource": "scans",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2022-12-21~beta",
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "EnvironmentAttributes": {
+      "description": "Environment attributes",
+      "example": {
+        "created_at": "2022-05-06T12:25:15-04:00",
+        "kind": "aws",
+        "name": "Demo AWS Environment",
+        "native_id": "12345678910",
+        "options": {
+          "role_arn": "arn:aws:iam::123456789012:role/SnykCloud1234"
+        },
+        "properties": {
+          "account_id": "123456789012"
+        },
+        "revision": 1,
+        "status": "success",
+        "updated_at": "2022-05-06T12:25:15-04:00"
+      },
+      "properties": {
+        "created_at": {
+          "description": "When the environment was created",
+          "example": "2022-05-06T12:25:15-04:00",
+          "format": "date-time",
+          "type": "string"
+        },
+        "deleted_at": {
+          "format": "date-time",
+          "nullable": true,
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/components/schemas/EnvironmentKind"
+        },
+        "name": {
+          "$ref": "#/components/schemas/EnvironmentName"
+        },
+        "options": {
+          "type": "object"
+        },
+        "properties": {
+          "type": "object"
+        },
+        "revision": {
+          "description": "Increment for each change to an environment",
+          "example": 1,
+          "type": "integer"
+        },
+        "updated_at": {
+          "description": "When the environment was last updated",
+          "example": "2022-05-07T12:25:15-04:00",
+          "format": "date-time",
+          "nullable": true,
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "name",
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "EnvironmentOptions": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/AwsOptions"
+        },
+        {
+          "$ref": "#/components/schemas/GoogleOptions"
+        },
+        {
+          "$ref": "#/components/schemas/AzureOptions__0"
+        }
+      ]
+    },
+    "ResourceRelationships": {
+      "additionalProperties": true,
+      "description": "Resource relationships",
+      "example": {
+        "environment": {
+          "data": {
+            "id": "11000000-0000-0000-0000-000000000000",
+            "type": "environment"
+          },
+          "links": {
+            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
+          }
+        },
+        "organization": {
+          "data": {
+            "id": "10000000-0000-0000-0000-000000000000",
+            "type": "organization"
+          },
+          "links": {
+            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
+          }
+        },
+        "scan": {
+          "data": {
+            "id": "12000000-0000-0000-0000-000000000000",
+            "type": "scan"
+          },
+          "links": {
+            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
+          }
+        }
+      },
+      "type": "object"
+    },
+    "ScanType": {
+      "example": "scan",
+      "type": "string"
+    },
+    "EnvironmentKind": {
+      "description": "Environment kind: aws",
+      "enum": [
+        "aws",
+        "google",
+        "azure",
+        "scm",
+        "tfc",
+        "cli"
+      ],
+      "type": "string"
+    },
+    "EnvironmentType": {
+      "example": "environment",
+      "type": "string"
+    },
+    "EnvironmentCreateAttributes": {
+      "example": {
+        "kind": "aws",
+        "options": {
+          "role_arn": "arn:aws:iam::336447867772:role/SnykCloud1234"
+        }
+      },
+      "properties": {
+        "kind": {
+          "$ref": "#/components/schemas/EnvironmentKind"
+        },
+        "name": {
+          "$ref": "#/components/schemas/EnvironmentName"
+        },
+        "options": {
+          "$ref": "#/components/schemas/EnvironmentOptions"
+        }
+      },
+      "required": [
+        "kind",
+        "options"
+      ],
+      "type": "object"
+    },
+    "ScanRelationships": {
+      "additionalProperties": true,
+      "description": "Scan relationships",
+      "example": {
+        "environment": {
+          "data": {
+            "id": "12000000-0000-0000-0000-000000000000",
+            "type": "environment"
+          },
+          "links": {
+            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
+          }
+        },
+        "organization": {
+          "data": {
+            "id": "10000000-0000-0000-0000-000000000000",
+            "type": "organization"
+          },
+          "links": {
+            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
+          }
+        }
+      },
+      "type": "object"
+    },
+    "EnvironmentName": {
+      "description": "Environment name",
+      "example": "Demo AWS Environment",
+      "type": "string"
+    },
+    "ResourceAttributes": {
+      "example": {
+        "created_at": "2022-08-10T17:19:33.14749Z",
+        "hash": "3333342563a86c675333de5848c9220a7bb35c039e7b9c0688c10f72b4666666",
+        "kind": "runtime",
+        "location": "us-west-2",
+        "name": "example-bucket",
+        "namespace": "us-west-2",
+        "native_id": "arn:aws:s3:::example-bucket",
+        "options": "json here",
+        "origin": "aws-account",
+        "platform": "aws",
+        "resource_id": "example-bucket",
+        "resource_type": "aws_s3_bucket",
+        "revision": 1,
+        "state": {
+          "acl": "private",
+          "arn": "arn:aws:s3:::example-bucket",
+          "bucket": "example-bucket"
+        },
+        "tags": {
+          "stage": "prod"
+        },
+        "updated_at": "2022-08-10T17:19:33.14749Z"
+      },
+      "properties": {
+        "created_at": {
+          "description": "When the resource was first recorded",
+          "example": "2022-08-10T17:19:33.14749Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "deleted_at": {
+          "format": "date-time",
+          "nullable": true,
+          "type": "string"
+        },
+        "hash": {
+          "description": "Computed hash value for the resource based on its attributes",
+          "example": "3333342563a86c675333de5848c9220a7bb35c039e7b9c0688c10f72b4666666",
+          "type": "string"
+        },
+        "is_managed": {
+          "nullable": true,
+          "type": "boolean"
+        },
+        "kind": {
+          "$ref": "#/components/schemas/ResourceKind"
+        },
+        "location": {
+          "description": "Physical location (AWS region)",
+          "example": "us-west-2",
+          "type": "string"
+        },
+        "name": {
+          "description": "Human friendly resource name",
+          "example": "example-bucket",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "Resource namespace (AWS region)",
+          "example": "us-west-2",
+          "type": "string"
+        },
+        "native_id": {
+          "description": "ID of the physical resource from the cloud provider (AWS ARN, if available)",
+          "example": "arn:aws:s3:::example-bucket",
+          "type": "string"
+        },
+        "platform": {
+          "description": "Resource platform: aws",
+          "example": "aws",
+          "type": "string"
+        },
+        "relationships": {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        "removed_at": {
+          "format": "date-time",
+          "nullable": true,
+          "type": "string"
+        },
+        "resource_id": {
+          "description": "Unique ID for the resource",
+          "example": "4a662442-7445-55c3-adcc-cbbbdd99999",
+          "type": "string"
+        },
+        "resource_type": {
+          "description": "Terraform resource type",
+          "example": "aws_s3_bucket",
+          "type": "string"
+        },
+        "revision": {
+          "description": "Increment for each change to a resource",
+          "example": 2,
+          "type": "integer"
+        },
+        "schema_version": {
+          "nullable": true,
+          "type": "string"
+        },
+        "source_location": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "state": {
+          "additionalProperties": true,
+          "description": "Terraform state attributes",
+          "type": "object"
+        },
+        "tags": {
+          "additionalProperties": true,
+          "description": "Resource tags from the cloud provider",
+          "example": {
+            "stage": "prod"
+          },
+          "type": "object"
+        },
+        "updated_at": {
+          "description": "When the resource was last updated",
+          "example": "2022-08-10T17:19:33.14749Z",
+          "format": "date-time",
+          "nullable": true,
+          "type": "string"
+        }
+      },
+      "required": [
+        "created_at",
+        "updated_at",
+        "revision",
+        "kind",
+        "hash",
+        "platform",
+        "resource_type",
+        "resource_id"
+      ],
+      "type": "object"
+    },
+    "ScanCreateAttributes": {
+      "additionalProperties": false,
+      "description": "Scan create attributes",
+      "type": "object"
+    },
+    "ResourceKind": {
+      "description": "Kind of resource: cloud",
+      "example": "cloud - cloud - iac",
+      "type": "string"
+    },
+    "EnvironmentRelationships": {
+      "additionalProperties": true,
+      "description": "Environment relationships",
+      "example": {
+        "organization": {
+          "data": {
+            "id": "00000000-0000-0000-0000-000000000000",
+            "type": "organization"
+          },
+          "links": {
+            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
+          }
+        },
+        "project": {
+          "data": {
+            "id": "11111111-1111-11111-1111-111111111111",
+            "type": "project"
+          }
+        }
+      },
+      "type": "object"
+    },
+    "AzureOptions": {
+      "description": "Options for generating an Azure environment permissions script",
+      "example": {
+        "subscription_id": "6884d000-8dd4-11ed-a1eb-0242ac120002",
+        "tenant_id": "51627f08-8dd4-11ed-a1eb-0242ac120002"
+      },
+      "properties": {
+        "subscription_id": {
+          "description": "ID of the Azure subscription to be scanned",
+          "example": "6884d000-8dd4-11ed-a1eb-0242ac120002",
+          "type": "string"
+        },
+        "tenant_id": {
+          "description": "Azure Tenant (directory) ID",
+          "example": "51627f08-8dd4-11ed-a1eb-0242ac120002",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "subscription_id"
+      ],
+      "type": "object"
+    },
+    "AwsOptions": {
+      "additionalProperties": false,
+      "description": "Options for creating an AWS environment",
+      "example": {
+        "role_arn": "arn:aws:iam::12345678910:role/SnykCloud1234"
+      },
+      "properties": {
+        "role_arn": {
+          "description": "AWS IAM role ARN for Snyk",
+          "example": "arn:aws:iam::12345678910:role/SnykCloud1234",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role_arn"
+      ],
+      "type": "object"
+    },
+    "GoogleOptions": {
+      "additionalProperties": false,
+      "description": "Options for creating a Google environment",
+      "example": {
+        "identity_provider": "https://iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/snyk-workload-identity-123/providers/snyk-identity-provider-123",
+        "project_id": "demo-project",
+        "service_account_email": "snyk-demo@demo-project.iam.gserviceaccount.com"
+      },
+      "properties": {
+        "identity_provider": {
+          "description": "The full resource name of the workload identity provider",
+          "example": "https://iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/snyk-workload-identity-123/providers/snyk-identity-provider-123",
+          "format": "uri",
+          "type": "string"
+        },
+        "project_id": {
+          "description": "Google project ID",
+          "example": "demo-project",
+          "type": "string"
+        },
+        "service_account_email": {
+          "description": "Google service account email",
+          "example": "snyk-demo@demo-project.iam.gserviceaccount.com",
+          "format": "email",
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_account_email",
+        "identity_provider"
+      ],
+      "type": "object"
+    },
+    "PlatformType": {
+      "enum": [
+        "aws",
+        "azure",
+        "google"
+      ],
+      "type": "string"
+    },
+    "PermissionsAttributes": {
+      "properties": {
+        "data": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/components/schemas/PermissionType"
+        }
+      },
+      "required": [
+        "data",
+        "type"
+      ],
+      "type": "object"
+    },
+    "EnvironmentUpdateAttributes": {
+      "description": "Environment update attributes. Only the AWS role ARN can be updated; new ARN must have the same account ID as the old ARN.",
+      "example": {
+        "options": {
+          "role_arn": "arn:aws:iam::123456789012:role/SnykCloud1234"
+        }
+      },
+      "properties": {
+        "name": {
+          "$ref": "#/components/schemas/EnvironmentName"
+        },
+        "options": {
+          "$ref": "#/components/schemas/EnvironmentOptions"
+        }
+      },
+      "required": [
+        "options"
+      ],
+      "type": "object"
+    },
+    "PermissionType": {
+      "enum": [
+        "cf",
+        "tf",
+        "bash"
+      ],
+      "type": "string"
+    },
+    "ScanAttributes": {
+      "description": "Scan attributes",
+      "example": {
+        "created_at": "2022-05-06T12:25:15-04:00",
+        "error": "",
+        "finished_at": "2022-05-06T12:25:15-04:00",
+        "kind": "user_initiated",
+        "options": {
+          "role_arn": "arn:aws:iam::123456789012:role/SnykCloud1234"
+        },
+        "revision": 1,
+        "status": "success",
+        "updated_at": "2022-05-06T12:25:15-04:00"
+      },
+      "properties": {
+        "created_at": {
+          "description": "When the scan was created",
+          "example": "2022-05-06T12:25:15-04:00",
+          "format": "date-time",
+          "type": "string"
+        },
+        "deleted_at": {
+          "format": "date-time",
+          "nullable": true,
+          "type": "string"
+        },
+        "environment_id": {
+          "description": "Environment ID",
+          "example": "052781a7-17f6-494d-0000-25c8b509abcd",
+          "format": "uuid",
+          "type": "string"
+        },
+        "error": {
+          "description": "Error message if the scan failed",
+          "example": "could not start scan",
+          "nullable": true,
+          "type": "string"
+        },
+        "finished_at": {
+          "description": "When the scan finished",
+          "example": "2022-05-06T12:25:15-04:00",
+          "format": "date-time",
+          "nullable": true,
+          "type": "string"
+        },
+        "kind": {
+          "description": "Scan kind",
+          "enum": [
+            "scheduled",
+            "user_initiated",
+            "event_driven",
+            null
+          ],
+          "example": "user_initiated",
+          "nullable": true,
+          "type": "string"
+        },
+        "options": {
+          "example": {
+            "role_arn": "arn:aws:iam::123456789012:role/SnykCloud1234"
+          },
+          "nullable": true,
+          "type": "object"
+        },
+        "organization_id": {
+          "description": "Organization ID",
+          "example": "9a46d918-8764-458c-1234-0987abcd6543",
+          "format": "uuid",
+          "type": "string"
+        },
+        "partial_errors": {
+          "description": "Errors that didn't fail the scan",
+          "type": "string"
+        },
+        "revision": {
+          "description": "Increment for each change to a scan",
+          "example": 1,
+          "type": "number"
+        },
+        "status": {
+          "description": "Scan status",
+          "enum": [
+            "queued",
+            "in_progress",
+            "success",
+            "error",
+            null
+          ],
+          "example": "in_progress",
+          "nullable": true,
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When the scan was last updated",
+          "example": "2022-05-06T12:25:15-04:00",
+          "format": "date-time",
+          "nullable": true,
+          "type": "string"
+        }
+      },
+      "required": [
+        "created_at",
+        "revision",
+        "kind",
+        "status",
+        "error"
+      ],
+      "type": "object"
+    },
+    "AzureOptions__0": {
+      "additionalProperties": false,
+      "description": "Options for creating an Azure environment",
+      "example": {
+        "application_id": "1234d000-8dd4-11ed-a1eb-5678ac120002",
+        "subscription_id": "6884d000-8dd4-11ed-a1eb-0242ac120002",
+        "tenant_id": "51627f08-8dd4-11ed-a1eb-0242ac120002"
+      },
+      "properties": {
+        "application_id": {
+          "description": "ID of the Azure app registration with permissions to scan",
+          "example": "1234d000-8dd4-11ed-a1eb-5678ac120002",
+          "type": "string"
+        },
+        "subscription_id": {
+          "description": "ID of the Azure subscription to be scanned",
+          "example": "6884d000-8dd4-11ed-a1eb-0242ac120002",
+          "type": "string"
+        },
+        "tenant_id": {
+          "description": "Azure Tenant (directory) ID",
+          "example": "51627f08-8dd4-11ed-a1eb-0242ac120002",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "subscription_id"
+      ],
+      "type": "object"
+    },
+    "ScanCreateRelationships": {
+      "description": "Scan create relationships",
+      "properties": {
+        "environment": {
+          "properties": {
+            "data": {
+              "example": {
+                "id": "12000000-0000-0000-0000-000000000000",
+                "type": "environment"
+              },
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "id"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "CreatePermissionsAttributes": {
+      "example": {
+        "platform": "aws",
+        "type": "cf"
+      },
+      "properties": {
+        "options": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/AzureOptions"
+            }
+          ]
+        },
+        "platform": {
+          "$ref": "#/components/schemas/PlatformType"
+        },
+        "type": {
+          "$ref": "#/components/schemas/PermissionType"
+        }
+      },
+      "required": [
+        "type",
+        "platform"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "PaginatedLinks",
+    "LinkProperty",
+    "Meta",
+    "JsonApi"
+  ]
+}

@@ -1,0 +1,2806 @@
+{
+  "tag": "BrokerConnections",
+  "endpoint_count": 1,
+  "schema_count": 47,
+  "endpoints_summary": [
+    {
+      "method": "PATCH",
+      "path": "/tenants/{tenant_id}/brokers/installs/{install_id}/deployments/{deployment_id}/connections/{connection_id}",
+      "operation_id": "updateBrokerConnection",
+      "summary": "Updates Broker connection"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/tenants/{tenant_id}/brokers/installs/{install_id}/deployments/{deployment_id}/connections/{connection_id}",
+      "method": "PATCH",
+      "operation_id": "updateBrokerConnection",
+      "summary": "Updates Broker connection",
+      "details": {
+        "description": "Updates a Broker connection for an deployment\n\n#### Required permissions\n\n- `View Tenant Details (tenant.read)`\n\n- `Edit Tenant Details (tenant.edit)`",
+        "operationId": "updateBrokerConnection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TenantId"
+          },
+          {
+            "$ref": "#/components/parameters/InstallId"
+          },
+          {
+            "$ref": "#/components/parameters/DeploymentId"
+          },
+          {
+            "$ref": "#/components/parameters/ConnectionId"
+          },
+          {
+            "description": "The requested version of the endpoint to process the request",
+            "example": "2021-06-04",
+            "in": "query",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "description": "Requested API version",
+              "example": "2021-06-04",
+              "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBrokerConnectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBrokerConnectionResponse"
+                }
+              }
+            },
+            "description": "Updates an existing Broker connection for an deployment",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "schema": {
+                  "example": "2021-07-01T00:00:00Z",
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "schema": {
+                  "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees Snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "schema": {
+                  "description": "Requested API version",
+                  "example": "2021-06-04",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "schema": {
+                  "description": "Resolved API version",
+                  "example": "2021-06-04",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "example": "2021-08-02",
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "links": {
+                            "additionalProperties": false,
+                            "description": "A link that leads to further details about this particular occurrance of the problem.",
+                            "example": {
+                              "about": "https://example.com/about_this_error"
+                            },
+                            "properties": {
+                              "about": {
+                                "example": "https://example.com/api/resource",
+                                "oneOf": [
+                                  {
+                                    "description": "A string containing the link\u2019s URL.",
+                                    "example": "https://example.com/api/resource",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "additionalProperties": false,
+                                    "example": {
+                                      "href": "https://example.com/api/resource"
+                                    },
+                                    "properties": {
+                                      "href": {
+                                        "description": "A string containing the link\u2019s URL.",
+                                        "example": "https://example.com/api/resource",
+                                        "type": "string"
+                                      },
+                                      "meta": {
+                                        "additionalProperties": true,
+                                        "description": "Free-form object that may contain non-standard information.",
+                                        "example": {
+                                          "key1": "value1",
+                                          "key2": {
+                                            "sub_key": "sub_value"
+                                          },
+                                          "key3": [
+                                            "array_value1",
+                                            "array_value2"
+                                          ]
+                                        },
+                                        "type": "object"
+                                      }
+                                    },
+                                    "required": [
+                                      "href"
+                                    ],
+                                    "type": "object"
+                                  }
+                                ]
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Bad Request: one or more parameters are invalid. Check the input to match the expected format.  See [Snyk API](https://docs.snyk.io/snyk-api)",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "schema": {
+                  "example": "2021-07-01T00:00:00Z",
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "schema": {
+                  "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees Snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "schema": {
+                  "description": "Requested API version",
+                  "example": "2021-06-04",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "schema": {
+                  "description": "Resolved API version",
+                  "example": "2021-06-04",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "example": "2021-08-02",
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "links": {
+                            "additionalProperties": false,
+                            "description": "A link that leads to further details about this particular occurrance of the problem.",
+                            "example": {
+                              "about": "https://example.com/about_this_error"
+                            },
+                            "properties": {
+                              "about": {
+                                "example": "https://example.com/api/resource",
+                                "oneOf": [
+                                  {
+                                    "description": "A string containing the link\u2019s URL.",
+                                    "example": "https://example.com/api/resource",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "additionalProperties": false,
+                                    "example": {
+                                      "href": "https://example.com/api/resource"
+                                    },
+                                    "properties": {
+                                      "href": {
+                                        "description": "A string containing the link\u2019s URL.",
+                                        "example": "https://example.com/api/resource",
+                                        "type": "string"
+                                      },
+                                      "meta": {
+                                        "additionalProperties": true,
+                                        "description": "Free-form object that may contain non-standard information.",
+                                        "example": {
+                                          "key1": "value1",
+                                          "key2": {
+                                            "sub_key": "sub_value"
+                                          },
+                                          "key3": [
+                                            "array_value1",
+                                            "array_value2"
+                                          ]
+                                        },
+                                        "type": "object"
+                                      }
+                                    },
+                                    "required": [
+                                      "href"
+                                    ],
+                                    "type": "object"
+                                  }
+                                ]
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Unauthorized: the request requires an authentication token.  See [Revoke and regenerate a Snyk API token](https://docs.snyk.io/snyk-api/rest-api/authentication-for-api/revoke-and-regenerate-a-snyk-api-token).",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "schema": {
+                  "example": "2021-07-01T00:00:00Z",
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "schema": {
+                  "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees Snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "schema": {
+                  "description": "Requested API version",
+                  "example": "2021-06-04",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "schema": {
+                  "description": "Resolved API version",
+                  "example": "2021-06-04",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "example": "2021-08-02",
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "links": {
+                            "additionalProperties": false,
+                            "description": "A link that leads to further details about this particular occurrance of the problem.",
+                            "example": {
+                              "about": "https://example.com/about_this_error"
+                            },
+                            "properties": {
+                              "about": {
+                                "example": "https://example.com/api/resource",
+                                "oneOf": [
+                                  {
+                                    "description": "A string containing the link\u2019s URL.",
+                                    "example": "https://example.com/api/resource",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "additionalProperties": false,
+                                    "example": {
+                                      "href": "https://example.com/api/resource"
+                                    },
+                                    "properties": {
+                                      "href": {
+                                        "description": "A string containing the link\u2019s URL.",
+                                        "example": "https://example.com/api/resource",
+                                        "type": "string"
+                                      },
+                                      "meta": {
+                                        "additionalProperties": true,
+                                        "description": "Free-form object that may contain non-standard information.",
+                                        "example": {
+                                          "key1": "value1",
+                                          "key2": {
+                                            "sub_key": "sub_value"
+                                          },
+                                          "key3": [
+                                            "array_value1",
+                                            "array_value2"
+                                          ]
+                                        },
+                                        "type": "object"
+                                      }
+                                    },
+                                    "required": [
+                                      "href"
+                                    ],
+                                    "type": "object"
+                                  }
+                                ]
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Not Found: The resource you are trying to access could not be found. Review the request and try again.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "schema": {
+                  "example": "2021-07-01T00:00:00Z",
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "schema": {
+                  "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees Snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "schema": {
+                  "description": "Requested API version",
+                  "example": "2021-06-04",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "schema": {
+                  "description": "Resolved API version",
+                  "example": "2021-06-04",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "example": "2021-08-02",
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "example": {
+                    "errors": [
+                      {
+                        "detail": "Permission denied for this resource",
+                        "status": "403"
+                      }
+                    ],
+                    "jsonapi": {
+                      "version": "1.0"
+                    }
+                  },
+                  "properties": {
+                    "errors": {
+                      "example": [
+                        {
+                          "detail": "Permission denied for this resource",
+                          "status": "403"
+                        }
+                      ],
+                      "items": {
+                        "additionalProperties": false,
+                        "example": {
+                          "detail": "Not Found",
+                          "status": "404"
+                        },
+                        "properties": {
+                          "code": {
+                            "description": "An application-specific error code, expressed as a string value.",
+                            "example": "entity-not-found",
+                            "type": "string"
+                          },
+                          "detail": {
+                            "description": "A human-readable explanation specific to this occurrence of the problem.",
+                            "example": "The request was missing these required fields: ...",
+                            "type": "string"
+                          },
+                          "id": {
+                            "description": "A unique identifier for this particular occurrence of the problem.",
+                            "example": "f16c31b5-6129-4571-add8-d589da9be524",
+                            "format": "uuid",
+                            "type": "string"
+                          },
+                          "links": {
+                            "additionalProperties": false,
+                            "description": "A link that leads to further details about this particular occurrance of the problem.",
+                            "example": {
+                              "about": "https://example.com/about_this_error"
+                            },
+                            "properties": {
+                              "about": {
+                                "example": "https://example.com/api/resource",
+                                "oneOf": [
+                                  {
+                                    "description": "A string containing the link\u2019s URL.",
+                                    "example": "https://example.com/api/resource",
+                                    "type": "string"
+                                  },
+                                  {
+                                    "additionalProperties": false,
+                                    "example": {
+                                      "href": "https://example.com/api/resource"
+                                    },
+                                    "properties": {
+                                      "href": {
+                                        "description": "A string containing the link\u2019s URL.",
+                                        "example": "https://example.com/api/resource",
+                                        "type": "string"
+                                      },
+                                      "meta": {
+                                        "additionalProperties": true,
+                                        "description": "Free-form object that may contain non-standard information.",
+                                        "example": {
+                                          "key1": "value1",
+                                          "key2": {
+                                            "sub_key": "sub_value"
+                                          },
+                                          "key3": [
+                                            "array_value1",
+                                            "array_value2"
+                                          ]
+                                        },
+                                        "type": "object"
+                                      }
+                                    },
+                                    "required": [
+                                      "href"
+                                    ],
+                                    "type": "object"
+                                  }
+                                ]
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "meta": {
+                            "additionalProperties": true,
+                            "example": {
+                              "key": "value"
+                            },
+                            "type": "object"
+                          },
+                          "source": {
+                            "additionalProperties": false,
+                            "example": {
+                              "pointer": "/data/attributes"
+                            },
+                            "properties": {
+                              "parameter": {
+                                "description": "A string indicating which URI query parameter caused the error.",
+                                "example": "param1",
+                                "type": "string"
+                              },
+                              "pointer": {
+                                "description": "A JSON Pointer [RFC6901] to the associated entity in the request document.",
+                                "example": "/data/attributes",
+                                "type": "string"
+                              }
+                            },
+                            "type": "object"
+                          },
+                          "status": {
+                            "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+                            "example": "400",
+                            "pattern": "^[45]\\d\\d$",
+                            "type": "string"
+                          },
+                          "title": {
+                            "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+                            "example": "Bad request",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "detail"
+                        ],
+                        "type": "object"
+                      },
+                      "minItems": 1,
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "example": {
+                        "version": "1.0"
+                      },
+                      "properties": {
+                        "version": {
+                          "description": "Version of the JSON API specification this server supports.",
+                          "example": "1.0",
+                          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)$",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "version"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "errors"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Internal Server Error: An unexpected error was encountered while attempting to process the request.  Try again. If the error still occurs, contact support.",
+            "headers": {
+              "deprecation": {
+                "description": "The deprecation date of the underlying endpoint. For more information, please refer to the deprecation header RFC:\nhttps://tools.ietf.org/id/draft-dalal-deprecation-header-01.html\n",
+                "schema": {
+                  "example": "2021-07-01T00:00:00Z",
+                  "format": "date-time",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "description": "A unique id used for tracking this request. If you are reporting an issue to Snyk it's very helpful to provide this ID.\n",
+                "schema": {
+                  "example": "4b58e274-ec62-4fab-917b-1d2c48d6bdef",
+                  "format": "uuid",
+                  "type": "string"
+                }
+              },
+              "snyk-version-lifecycle-stage": {
+                "description": "The version stage of the endpoint. This stage describes the guarantees Snyk provides surrounding stability of the endpoint.\n",
+                "schema": {
+                  "enum": [
+                    "wip",
+                    "experimental",
+                    "beta",
+                    "ga",
+                    "deprecated",
+                    "sunset"
+                  ],
+                  "example": "ga",
+                  "type": "string"
+                }
+              },
+              "snyk-version-requested": {
+                "description": "The version of the endpoint requested by the caller.",
+                "schema": {
+                  "description": "Requested API version",
+                  "example": "2021-06-04",
+                  "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+                  "type": "string"
+                }
+              },
+              "snyk-version-served": {
+                "description": "The version of the endpoint that was served by the API.",
+                "schema": {
+                  "description": "Resolved API version",
+                  "example": "2021-06-04",
+                  "pattern": "^((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?)$",
+                  "type": "string"
+                }
+              },
+              "sunset": {
+                "description": "A header containing the date of when the underlying endpoint will be removed. This header is only present if the endpoint has been deprecated. For information purposes only. Returned as a date in the format: YYYY-MM-DD",
+                "example": "2021-08-02",
+                "schema": {
+                  "example": "2021-08-02",
+                  "format": "date",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Updates Broker connection",
+        "tags": [
+          "BrokerConnections"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-02-08~experimental",
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "connections",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-snyk-documentation": {
+          "category": "Universal Broker"
+        },
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "GoogleArtifactCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "google-artifact-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "ConfigurationAttributes": {
+      "properties": {
+        "configuration": {
+          "discriminator": {
+            "mapping": {
+              "acr": "#/components/schemas/AcrAttributes",
+              "apprisk": "#/components/schemas/AppRiskAttributes",
+              "artifactory": "#/components/schemas/ArtifactoryAttributes",
+              "artifactory-cr": "#/components/schemas/ArtifactoryCrAttributes",
+              "azure-repos": "#/components/schemas/AzureReposAttributes",
+              "bitbucket-server": "#/components/schemas/BitbucketServerAttributes",
+              "digitalocean-cr": "#/components/schemas/DigitalOceanCrAttributes",
+              "docker-hub": "#/components/schemas/DockerHubAttributes",
+              "ecr": "#/components/schemas/EcrAttributes",
+              "gcr": "#/components/schemas/GcrAttributes",
+              "github": "#/components/schemas/GitHubAttributes",
+              "github-cloud-app": "#/components/schemas/GitHubCloudAppAttributes",
+              "github-cr": "#/components/schemas/GithubCrAttributes",
+              "github-enterprise": "#/components/schemas/GitHubEnterpriseAttributes",
+              "github-server-app": "#/components/schemas/GitHubServerAppAttributes",
+              "gitlab": "#/components/schemas/GitLabAttributes",
+              "gitlab-cr": "#/components/schemas/GitlabCrAttributes",
+              "google-artifact-cr": "#/components/schemas/GoogleArtifactCrAttributes",
+              "harbor-cr": "#/components/schemas/HarborCrAttributes",
+              "jira": "#/components/schemas/JiraAttributes",
+              "nexus": "#/components/schemas/NexusAttributes",
+              "nexus-cr": "#/components/schemas/NexusCrAttributes",
+              "quay-cr": "#/components/schemas/QuayCrAttributes",
+              "workload": "#/components/schemas/WorkloadAttributes"
+            },
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/AppRiskAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/ArtifactoryAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/AzureReposAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/BitbucketServerAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/GitHubAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/GitHubEnterpriseAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/GitHubServerAppAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/GitHubCloudAppAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/GitLabAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/JiraAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/NexusAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/AcrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/ArtifactoryCrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/DigitalOceanCrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/DockerHubAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/EcrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/GcrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/GithubCrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/GitlabCrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/GoogleArtifactCrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/HarborCrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/NexusCrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/QuayCrAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/WorkloadAttributes"
+            }
+          ]
+        }
+      },
+      "required": [
+        "configuration"
+      ],
+      "type": "object"
+    },
+    "GithubCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "github-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "ArtifactoryCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "artifactory-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "GcrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "gcr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "CheckmarxAttributes": {
+      "properties": {
+        "checkmarx": {
+          "example": "checkmarx.customer.com",
+          "type": "string"
+        },
+        "checkmarx_password": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "checkmarx_username": {
+          "example": "<username>",
+          "type": "string"
+        }
+      },
+      "required": [
+        "checkmarx",
+        "checkmarx_password",
+        "checkmarx_username"
+      ],
+      "type": "object"
+    },
+    "ConnectionRelationships__0": {
+      "additionalProperties": true,
+      "properties": {
+        "broker_connections": {
+          "items": {
+            "$ref": "#/components/schemas/ConnectionRelationship"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "broker_connections"
+      ],
+      "type": "object"
+    },
+    "GitHubAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "github_token": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "github_token"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "github"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "DockerHubAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "docker-hub"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "HarborCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "harbor-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "CommonConnectionResponseAttributes": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/ConnectionAttributes"
+        },
+        {
+          "$ref": "#/components/schemas/ConfigurationResponseAttributes"
+        }
+      ]
+    },
+    "DigitalOceanCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_token": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "cr_agent_url",
+            "cr_base",
+            "cr_token"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "digitalocean-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "WorkloadAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "workload_internal_uri": {
+              "type": "string"
+            },
+            "workload_type_id": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "workload_type_id",
+            "workload_internal_uri"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "workload"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "ConnectionAttributes": {
+      "properties": {
+        "deployment_id": {
+          "description": "Associated Deployment ID",
+          "format": "uuid",
+          "type": "string"
+        },
+        "identifier": {
+          "description": "Broker identifier",
+          "format": "uuid",
+          "type": "string"
+        },
+        "name": {
+          "description": "Associated name",
+          "type": "string"
+        },
+        "secrets": {
+          "properties": {
+            "primary": {
+              "$ref": "#/components/schemas/SecretAttributes"
+            },
+            "secondary": {
+              "$ref": "#/components/schemas/SecretAttributes"
+            }
+          },
+          "required": [
+            "primary",
+            "secondary"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "deployment_id",
+        "name"
+      ],
+      "type": "object"
+    },
+    "SecretAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "encrypted": {
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "nonce": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "nonce",
+        "encrypted",
+        "expires_at"
+      ],
+      "type": "object"
+    },
+    "AllAppRiskAttributes": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/CheckmarxAttributes"
+        },
+        {
+          "$ref": "#/components/schemas/SonarqubeAttributes"
+        }
+      ]
+    },
+    "GitHubCloudAppAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "github": {
+              "example": "ghe.yourdomain.com",
+              "type": "string"
+            },
+            "github_api": {
+              "example": "api.ghe.yourdomain.com",
+              "type": "string"
+            },
+            "github_app_client_id": {
+              "example": "<app-client-id>",
+              "type": "string"
+            },
+            "github_app_id": {
+              "example": "<app-id>",
+              "type": "string"
+            },
+            "github_app_installation_id": {
+              "example": "<app-installation-id>",
+              "type": "string"
+            },
+            "github_app_private_pem_path": {
+              "example": "<path-to-private-pem-file>",
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "github",
+            "github_api",
+            "github_app_client_id",
+            "github_app_id",
+            "github_app_installation_id",
+            "github_app_private_pem_path"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "github-cloud-app"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "BitbucketServerAttributes": {
+      "properties": {
+        "required": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/BitbucketServer"
+            },
+            {
+              "$ref": "#/components/schemas/BitbucketServerBearerAuth"
+            }
+          ]
+        },
+        "type": {
+          "enum": [
+            "bitbucket-server"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "QuayCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "quay-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "GitlabCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "gitlab-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "NexusCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "nexus-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "NexusAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "base_nexus_url": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "base_nexus_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "nexus"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "AcrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "acr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "GetBrokerConnectionResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/BrokerConnectionResponseResource"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "JiraAttributes": {
+      "properties": {
+        "required": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/Jira"
+            },
+            {
+              "$ref": "#/components/schemas/JiraBearerAuth"
+            }
+          ]
+        },
+        "type": {
+          "enum": [
+            "jira"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "AppliedIntegrationRelationship": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "properties": {
+            "id": {
+              "description": "Associated item id",
+              "type": "string"
+            },
+            "org_id": {
+              "description": "Associated org id",
+              "type": "string"
+            },
+            "type": {
+              "description": "Associated item type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "org_id",
+            "type"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "GitHubServerAppAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "github": {
+              "example": "ghe.yourdomain.com",
+              "type": "string"
+            },
+            "github_api": {
+              "example": "api.ghe.yourdomain.com",
+              "type": "string"
+            },
+            "github_app_client_id": {
+              "example": "<app-client-id>",
+              "type": "string"
+            },
+            "github_app_id": {
+              "example": "<app-id>",
+              "type": "string"
+            },
+            "github_app_installation_id": {
+              "example": "<app-installation-id>",
+              "type": "string"
+            },
+            "github_app_private_pem_path": {
+              "example": "<path-to-private-pem-file>",
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "github",
+            "github_api",
+            "github_app_client_id",
+            "github_app_id",
+            "github_app_installation_id",
+            "github_app_private_pem_path"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "github-server-app"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "GenericConfigurationAttributes": {
+      "properties": {
+        "configuration": {
+          "properties": {
+            "required": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": {
+              "type": "string"
+            },
+            "validations": {
+              "items": {
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "type",
+            "required"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "configuration"
+      ],
+      "type": "object"
+    },
+    "CommonConnectionAttributes": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/ConnectionAttributes"
+        },
+        {
+          "$ref": "#/components/schemas/ConfigurationAttributes"
+        }
+      ]
+    },
+    "BitbucketServer": {
+      "properties": {
+        "bitbucket": {
+          "example": "bitbucket.yourdomain.com",
+          "type": "string"
+        },
+        "bitbucket_password": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "bitbucket_username": {
+          "example": "<username>",
+          "type": "string"
+        },
+        "broker_client_url": {
+          "example": "https://<broker.client.hostname>:<port>",
+          "type": "string"
+        }
+      },
+      "required": [
+        "bitbucket",
+        "bitbucket_password",
+        "bitbucket_username",
+        "broker_client_url"
+      ],
+      "type": "object"
+    },
+    "BrokerContextResource": {
+      "additionalProperties": true,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/BrokerContextAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "readOnly": true,
+          "type": "string"
+        },
+        "relationships": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ConnectionRelationships__0"
+            },
+            {
+              "$ref": "#/components/schemas/AppliedIntegrationsRelationships"
+            }
+          ]
+        },
+        "type": {
+          "enum": [
+            "broker_context"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "attributes",
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "BitbucketServerBearerAuth": {
+      "properties": {
+        "bitbucket": {
+          "example": "bitbucket.yourdomain.com",
+          "type": "string"
+        },
+        "bitbucket_pat": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "broker_client_url": {
+          "example": "https://<broker.client.hostname>:<port>",
+          "type": "string"
+        }
+      },
+      "required": [
+        "bitbucket",
+        "bitbucket_pat",
+        "broker_client_url"
+      ],
+      "type": "object"
+    },
+    "Jira": {
+      "properties": {
+        "jira_hostname": {
+          "example": "jira.yourdomain.com",
+          "type": "string"
+        },
+        "jira_password": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "jira_username": {
+          "example": "<jira-username>",
+          "type": "string"
+        }
+      },
+      "required": [
+        "jira_hostname",
+        "jira_password",
+        "jira_username"
+      ],
+      "type": "object"
+    },
+    "ConfigurationResponseAttributes": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/GenericConfigurationAttributes"
+        }
+      ]
+    },
+    "BrokerContextAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "context": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "context"
+      ],
+      "type": "object"
+    },
+    "UpdateBrokerConnectionRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/CommonConnectionAttributes"
+            },
+            "id": {
+              "format": "uuid",
+              "readOnly": true,
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "broker_connection"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "attributes",
+            "id",
+            "type"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "BrokerConnectionResponseResource": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/CommonConnectionResponseAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "readOnly": true,
+          "type": "string"
+        },
+        "relationships": {
+          "items": {
+            "$ref": "#/components/schemas/BrokerContextResource"
+          },
+          "type": "array"
+        },
+        "type": {
+          "enum": [
+            "broker_connection"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "attributes",
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "ArtifactoryAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "artifactory_url": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "artifactory_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "artifactory"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "ConnectionRelationship": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "properties": {
+            "id": {
+              "description": "Associated item id",
+              "type": "string"
+            },
+            "type": {
+              "description": "Associated item type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "JiraBearerAuth": {
+      "properties": {
+        "jira_hostname": {
+          "example": "jira.yourdomain.com",
+          "type": "string"
+        },
+        "jira_pat": {
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "required": [
+        "jira_hostname",
+        "jira_pat"
+      ],
+      "type": "object"
+    },
+    "AppliedIntegrationsRelationships": {
+      "additionalProperties": true,
+      "properties": {
+        "applied_integrations": {
+          "items": {
+            "$ref": "#/components/schemas/AppliedIntegrationRelationship"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "applied_integrations"
+      ],
+      "type": "object"
+    },
+    "SonarqubeAttributes": {
+      "properties": {
+        "sonarqube_api_token": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "sonarqube_host_url": {
+          "example": "sonarqube.customer.com",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sonarqube_host_url",
+        "sonarqube_api_token"
+      ],
+      "type": "object"
+    },
+    "GitLabAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "gitlab": {
+              "example": "gitlab.yourdomain.com",
+              "type": "string"
+            },
+            "gitlab_token": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "gitlab",
+            "gitlab_token"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "gitlab"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "AppRiskAttributes": {
+      "properties": {
+        "required": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/CheckmarxAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/SonarqubeAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/AllAppRiskAttributes"
+            }
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "apprisk"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "GitHubEnterpriseAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "github": {
+              "example": "ghe.yourdomain.com",
+              "type": "string"
+            },
+            "github_token": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "github",
+            "github_token"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "github-enterprise"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "EcrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_external_id": {
+              "type": "string"
+            },
+            "cr_region": {
+              "type": "string"
+            },
+            "cr_role_arn": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "cr_agent_url",
+            "cr_base",
+            "cr_role_arn",
+            "cr_region",
+            "cr_external_id"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "ecr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "AzureReposAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "azure_repos_host": {
+              "example": "my-azure-repos-host/tfs",
+              "type": "string"
+            },
+            "azure_repos_org": {
+              "example": "<username>:<password>@<yourdomain.artifactory.com>/artifactory",
+              "type": "string"
+            },
+            "azure_repos_token": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            }
+          },
+          "required": [
+            "azure_repos_host",
+            "azure_repos_org",
+            "azure_repos_token",
+            "broker_client_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "azure-repos"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "PaginatedLinks",
+    "LinkProperty",
+    "Meta",
+    "JsonApi"
+  ]
+}

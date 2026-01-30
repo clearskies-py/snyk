@@ -1,0 +1,798 @@
+{
+  "tag": "Users",
+  "endpoint_count": 6,
+  "schema_count": 9,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/user/{userId}",
+      "operation_id": "GetUserDetails",
+      "summary": "Get User Details"
+    },
+    {
+      "method": "GET",
+      "path": "/user/me",
+      "operation_id": "GetMyDetails",
+      "summary": "Get My Details"
+    },
+    {
+      "method": "GET",
+      "path": "/user/me/notification-settings/org/{orgId}",
+      "operation_id": "Getorganizationnotificationsettings",
+      "summary": "Get organization notification settings"
+    },
+    {
+      "method": "PUT",
+      "path": "/user/me/notification-settings/org/{orgId}",
+      "operation_id": "Modifyorganizationnotificationsettings",
+      "summary": "Modify organization notification settings"
+    },
+    {
+      "method": "GET",
+      "path": "/user/me/notification-settings/org/{orgId}/project/{projectId}",
+      "operation_id": "Getprojectnotificationsettings",
+      "summary": "Get project notification settings"
+    },
+    {
+      "method": "PUT",
+      "path": "/user/me/notification-settings/org/{orgId}/project/{projectId}",
+      "operation_id": "Modifyprojectnotificationsettings",
+      "summary": "Modify project notification settings"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/user/{userId}",
+      "method": "GET",
+      "operation_id": "GetUserDetails",
+      "summary": "Get User Details",
+      "details": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get User Details",
+        "description": "Retrieves information about a user.",
+        "operationId": "GetUserDetails",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The users ID. The `API_KEY` must have admin access to at least one group or organization where the requested user is a member and must have the `api` entitlement on their preferred organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/GetUserDetailsresponse"
+                    },
+                    {
+                      "example": {
+                        "id": "",
+                        "name": "",
+                        "username": "",
+                        "email": ""
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The provided `id` is not in a valid format.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "The provided `id` is not in a valid format.",
+                  "example": {}
+                },
+                "example": {}
+              }
+            }
+          },
+          "401": {
+            "description": "`API_KEY` is invalid.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "`API_KEY` is invalid.",
+                  "example": {}
+                },
+                "example": {}
+              }
+            }
+          },
+          "404": {
+            "description": "The requested user could not be found or caller does not have sufficient permissions.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "The requested user could not be found or caller does not have sufficient permissions.",
+                  "example": {}
+                },
+                "example": {}
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/user/me",
+      "method": "GET",
+      "operation_id": "GetMyDetails",
+      "summary": "Get My Details",
+      "details": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get My Details",
+        "description": "Retrieves information about the the user making the request.",
+        "operationId": "GetMyDetails",
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/GetMyDetailsresponse"
+                    },
+                    {
+                      "example": {
+                        "id": "",
+                        "username": "",
+                        "email": "",
+                        "orgs": []
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "`API_KEY` is invalid.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "`API_KEY` is invalid.",
+                  "example": {}
+                },
+                "example": {}
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/user/me/notification-settings/org/{orgId}",
+      "method": "GET",
+      "operation_id": "Getorganizationnotificationsettings",
+      "summary": "Get organization notification settings",
+      "details": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get organization notification settings",
+        "description": "The organization notification settings for the user that will determine which emails are sent.",
+        "operationId": "Getorganizationnotificationsettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Notificationsettingsresponse"
+                    },
+                    {
+                      "example": {
+                        "new-issues-remediations": {
+                          "enabled": true,
+                          "issueSeverity": "high",
+                          "issueType": "vuln",
+                          "inherited": false
+                        },
+                        "project-imported": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "test-limit": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "weekly-report": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "request-updates": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "pending-requests": {
+                          "enabled": true,
+                          "inherited": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "new-issues-remediations": {
+                    "enabled": true,
+                    "issueSeverity": "high",
+                    "issueType": "vuln",
+                    "inherited": false
+                  },
+                  "project-imported": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "test-limit": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "weekly-report": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "request-updates": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "pending-requests": {
+                    "enabled": true,
+                    "inherited": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/user/me/notification-settings/org/{orgId}",
+      "method": "PUT",
+      "operation_id": "Modifyorganizationnotificationsettings",
+      "summary": "Modify organization notification settings",
+      "details": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Modify organization notification settings",
+        "description": "The organization notification settings for the user that will determine which emails are sent.",
+        "operationId": "Modifyorganizationnotificationsettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Notificationsettingsrequest"
+                  },
+                  {
+                    "example": {
+                      "new-issues-remediations": {
+                        "enabled": true,
+                        "issueSeverity": "high",
+                        "issueType": "vuln"
+                      },
+                      "project-imported": {
+                        "enabled": true
+                      },
+                      "test-limit": {
+                        "enabled": true
+                      },
+                      "weekly-report": {
+                        "enabled": true
+                      },
+                      "request-updates": {
+                        "enabled": true
+                      },
+                      "pending-requests": {
+                        "enabled": true
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "new-issues-remediations": {
+                  "enabled": true,
+                  "issueSeverity": "high",
+                  "issueType": "vuln"
+                },
+                "project-imported": {
+                  "enabled": true
+                },
+                "test-limit": {
+                  "enabled": true
+                },
+                "weekly-report": {
+                  "enabled": true
+                },
+                "request-updates": {
+                  "enabled": true
+                },
+                "pending-requests": {
+                  "enabled": true
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Notificationsettingsresponse"
+                    },
+                    {
+                      "example": {
+                        "new-issues-remediations": {
+                          "enabled": true,
+                          "issueSeverity": "high",
+                          "issueType": "vuln",
+                          "inherited": false
+                        },
+                        "project-imported": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "test-limit": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "weekly-report": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "request-updates": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "pending-requests": {
+                          "enabled": true,
+                          "inherited": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "new-issues-remediations": {
+                    "enabled": true,
+                    "issueSeverity": "high",
+                    "issueType": "vuln",
+                    "inherited": false
+                  },
+                  "project-imported": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "test-limit": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "weekly-report": {
+                    "enabled": true,
+                    "inherited": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/user/me/notification-settings/org/{orgId}/project/{projectId}",
+      "method": "GET",
+      "operation_id": "Getprojectnotificationsettings",
+      "summary": "Get project notification settings",
+      "details": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get project notification settings",
+        "description": "The project notification settings for the user that will determine which emails are sent.",
+        "operationId": "Getprojectnotificationsettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to return notification settings for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Notificationsettingsresponse"
+                    },
+                    {
+                      "example": {
+                        "new-issues-remediations": {
+                          "enabled": true,
+                          "issueSeverity": "high",
+                          "issueType": "vuln",
+                          "inherited": false
+                        },
+                        "project-imported": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "test-limit": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "weekly-report": {
+                          "enabled": true,
+                          "inherited": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "new-issues-remediations": {
+                    "enabled": true,
+                    "issueSeverity": "high",
+                    "issueType": "vuln",
+                    "inherited": false
+                  },
+                  "project-imported": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "test-limit": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "weekly-report": {
+                    "enabled": true,
+                    "inherited": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/user/me/notification-settings/org/{orgId}/project/{projectId}",
+      "method": "PUT",
+      "operation_id": "Modifyprojectnotificationsettings",
+      "summary": "Modify project notification settings",
+      "details": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Modify project notification settings",
+        "description": "The project notification settings for the user that will determine which emails are sent.",
+        "operationId": "Modifyprojectnotificationsettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to return notification settings for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Modifyprojectnotificationsettingsrequest"
+                  },
+                  {
+                    "example": {
+                      "new-issues-remediations": {
+                        "enabled": true,
+                        "issueSeverity": "high",
+                        "issueType": "vuln"
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "new-issues-remediations": {
+                  "enabled": true,
+                  "issueSeverity": "high",
+                  "issueType": "vuln"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "Simplenotificationsettingresponse": {
+      "title": "Simplenotificationsettingresponse",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/Simplenotificationsettingrequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "inherited": {
+              "type": "boolean",
+              "description": "Whether the setting was found on the requested context directly or inherited from a parent"
+            }
+          }
+        }
+      ]
+    },
+    "Modifyprojectnotificationsettingsrequest": {
+      "title": "Modifyprojectnotificationsettingsrequest",
+      "type": "object",
+      "properties": {
+        "new-issues-remediations": {
+          "$ref": "#/components/schemas/Newissuesnotificationsettingrequest"
+        }
+      }
+    },
+    "Notificationsettingresponse": {
+      "title": "Notificationsettingresponse",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/Newissuesnotificationsettingrequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "inherited": {
+              "type": "boolean",
+              "description": "Whether the setting was found on the requested context directly or inherited from a parent"
+            }
+          }
+        }
+      ]
+    },
+    "GetMyDetailsresponse": {
+      "title": "GetMyDetailsresponse",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id of the user."
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the user."
+        },
+        "orgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The organizations that the user belongs to."
+        }
+      }
+    },
+    "Simplenotificationsettingrequest": {
+      "title": "Simplenotificationsettingrequest",
+      "required": [
+        "enabled"
+      ],
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether notifications should be sent",
+          "example": true
+        }
+      }
+    },
+    "GetUserDetailsresponse": {
+      "title": "GetUserDetailsresponse",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id of the user."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the user."
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the user."
+        }
+      }
+    },
+    "issueSeverity": {
+      "title": "issueSeverity",
+      "enum": [
+        "all",
+        "high"
+      ],
+      "type": "string",
+      "description": "The severity levels of issues to send notifications for (only applicable for `new-remediations-vulnerabilities` notificationType)",
+      "example": "high"
+    },
+    "issueType": {
+      "title": "issueType",
+      "enum": [
+        "all",
+        "vuln",
+        "license",
+        "none"
+      ],
+      "type": "string",
+      "description": "Filter the types of issue to include in notifications (only applicable for `new-remediations-vulnerabilities` notificationType)",
+      "example": "vuln"
+    },
+    "Newissuesnotificationsettingrequest": {
+      "title": "Newissuesnotificationsettingrequest",
+      "required": [
+        "enabled",
+        "issueSeverity",
+        "issueType"
+      ],
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether notifications should be sent",
+          "example": true
+        },
+        "issueSeverity": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/issueSeverity"
+            },
+            {
+              "description": "The severity levels of issues to send notifications for (only applicable for `new-remediations-vulnerabilities` notificationType)",
+              "example": "high"
+            }
+          ]
+        },
+        "issueType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/issueType"
+            },
+            {
+              "description": "Filter the types of issue to include in notifications (only applicable for `new-remediations-vulnerabilities` notificationType)",
+              "example": "vuln"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "referenced_common_schemas": [
+    "Notificationsettingsrequest",
+    "Notificationsettingsresponse"
+  ]
+}

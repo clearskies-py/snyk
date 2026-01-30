@@ -1,0 +1,466 @@
+{
+  "tag": "Webhooks",
+  "endpoint_count": 5,
+  "schema_count": 5,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/webhooks",
+      "operation_id": "Createawebhook",
+      "summary": "Create a webhook"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/webhooks",
+      "operation_id": "Listwebhooks",
+      "summary": "List webhooks"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/webhooks/{webhookId}",
+      "operation_id": "Retrieveawebhook",
+      "summary": "Retrieve a webhook"
+    },
+    {
+      "method": "DELETE",
+      "path": "/org/{orgId}/webhooks/{webhookId}",
+      "operation_id": "Deleteawebhook",
+      "summary": "Delete a webhook"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/webhooks/{webhookId}/ping",
+      "operation_id": "Pingawebhook",
+      "summary": "Ping a webhook"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/org/{orgId}/webhooks",
+      "method": "POST",
+      "operation_id": "Createawebhook",
+      "summary": "Create a webhook",
+      "details": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Create a webhook",
+        "description": "Snyk sends a `ping` event to the newly configured webhook so you can check you're able to receive the transports.### Required permissions\n\n- `View Organization`\n\n- `View Outbound Webhooks`\n\n- `Create Outbound Webhooks`",
+        "operationId": "Createawebhook",
+        "security": [
+          {
+            "APIToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to list projects for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/request"
+                  },
+                  {
+                    "example": {
+                      "url": "https://my.app.com/webhook-handler/snyk123",
+                      "secret": "a8be22bb7bed43a3ac24de3580093560"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "url": "https://my.app.com/webhook-handler/snyk123",
+                "secret": "a8be22bb7bed43a3ac24de3580093560"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Createawebhookresponse"
+                    },
+                    {
+                      "example": {
+                        "id": "d3cf26b3-2d77-497b-bce2-23b33cc15362",
+                        "url": "https://my.app.com/webhook-handler/snyk123"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/webhooks",
+      "method": "GET",
+      "operation_id": "Listwebhooks",
+      "summary": "List webhooks",
+      "details": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "List webhooks",
+        "description": "Snyk sends a `ping` event to the newly configured webhook so you can check you're able to receive the transports\n#### Required permissions\n\n- `View Organization`\n\n- `View Outbound Webhooks`",
+        "operationId": "Listwebhooks",
+        "security": [
+          {
+            "APIToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to list projects for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Listwebhooksresponse"
+                    },
+                    {
+                      "example": {
+                        "results": [
+                          {
+                            "id": "d3cf26b3-2d77-497b-bce2-23b33cc15362",
+                            "url": "https://my.app.com/webhook-handler/snyk123"
+                          }
+                        ],
+                        "total": 1
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "results": [
+                    {
+                      "id": "d3cf26b3-2d77-497b-bce2-23b33cc15362",
+                      "url": "https://my.app.com/webhook-handler/snyk123"
+                    }
+                  ],
+                  "total": 1
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/webhooks/{webhookId}",
+      "method": "GET",
+      "operation_id": "Retrieveawebhook",
+      "summary": "Retrieve a webhook",
+      "details": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Retrieve a webhook",
+        "description": "#### Required permissions\n\n- `View Organization`\n\n- `View Outbound Webhooks`",
+        "operationId": "Retrieveawebhook",
+        "security": [
+          {
+            "APIToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID the project belongs to. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "webhookId",
+            "in": "path",
+            "description": "The webhook ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Retrieveawebhookresponse"
+                    },
+                    {
+                      "example": {
+                        "id": "d3cf26b3-2d77-497b-bce2-23b33cc15362",
+                        "url": "https://my.app.com/webhook-handler/snyk123"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/webhooks/{webhookId}",
+      "method": "DELETE",
+      "operation_id": "Deleteawebhook",
+      "summary": "Delete a webhook",
+      "details": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Delete a webhook",
+        "description": "#### Required permissions\n\n- `View Organization`\n\n- `View Outbound Webhooks`\n\n- `Remove Outbound Webhooks`",
+        "operationId": "Deleteawebhook",
+        "security": [
+          {
+            "APIToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID the project belongs to. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "webhookId",
+            "in": "path",
+            "description": "The webhook ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/webhooks/{webhookId}/ping",
+      "method": "POST",
+      "operation_id": "Pingawebhook",
+      "summary": "Ping a webhook",
+      "details": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Ping a webhook",
+        "description": "#### Required permissions\n\n- `View Organization`\n\n- `View Outbound Webhooks`",
+        "operationId": "Pingawebhook",
+        "security": [
+          {
+            "APIToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID the project belongs to. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "webhookId",
+            "in": "path",
+            "description": "The webhook ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "Createawebhookresponse": {
+      "title": "Createawebhookresponse",
+      "required": [
+        "id",
+        "url"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "id": "d3cf26b3-2d77-497b-bce2-23b33cc15362",
+        "url": "https://my.app.com/webhook-handler/snyk123"
+      }
+    },
+    "Results6": {
+      "title": "Results6",
+      "required": [
+        "id",
+        "url"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "id": "d3cf26b3-2d77-497b-bce2-23b33cc15362",
+        "url": "https://my.app.com/webhook-handler/snyk123"
+      }
+    },
+    "request": {
+      "title": "request",
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Webhooks can only be configured for URLs using the `https` protocol. `http` is not allowed."
+        },
+        "secret": {
+          "type": "string",
+          "description": "This is a password you create, that Snyk uses to sign our transports to you, so you be sure the notification is authentic. Your `secret` should: Be a random string with high entropy; Not be used for anything else; Only known to Snyk and your webhook transport consuming code;"
+        }
+      }
+    },
+    "Retrieveawebhookresponse": {
+      "title": "Retrieveawebhookresponse",
+      "required": [
+        "id",
+        "url"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "id": "d3cf26b3-2d77-497b-bce2-23b33cc15362",
+        "url": "https://my.app.com/webhook-handler/snyk123"
+      }
+    },
+    "Listwebhooksresponse": {
+      "title": "Listwebhooksresponse",
+      "required": [
+        "results",
+        "total"
+      ],
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Results6"
+          },
+          "description": ""
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "example": {
+        "results": [
+          {
+            "id": "d3cf26b3-2d77-497b-bce2-23b33cc15362",
+            "url": "https://my.app.com/webhook-handler/snyk123"
+          }
+        ],
+        "total": 1
+      }
+    }
+  },
+  "referenced_common_schemas": []
+}

@@ -1,0 +1,1254 @@
+{
+  "tag": "Projects",
+  "endpoint_count": 11,
+  "schema_count": 21,
+  "endpoints_summary": [
+    {
+      "method": "PUT",
+      "path": "/org/{orgId}/project/{projectId}/ignore/{issueId}",
+      "operation_id": "Replaceignores",
+      "summary": "Replace ignores"
+    },
+    {
+      "method": "DELETE",
+      "path": "/org/{orgId}/project/{projectId}/ignore/{issueId}",
+      "operation_id": "Deleteignores",
+      "summary": "Delete ignores"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/project/{projectId}/jira-issues",
+      "operation_id": "Listalljiraissues",
+      "summary": "List all jira issues"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/project/{projectId}/issue/{issueId}/jira-issue",
+      "operation_id": "Createjiraissue",
+      "summary": "Create jira issue"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/project/{projectId}/settings",
+      "operation_id": "Listprojectsettings",
+      "summary": "List project settings"
+    },
+    {
+      "method": "PUT",
+      "path": "/org/{orgId}/project/{projectId}/settings",
+      "operation_id": "Updateprojectsettings",
+      "summary": "Update project settings"
+    },
+    {
+      "method": "DELETE",
+      "path": "/org/{orgId}/project/{projectId}/settings",
+      "operation_id": "Deleteprojectsettings",
+      "summary": "Delete project settings"
+    },
+    {
+      "method": "PUT",
+      "path": "/org/{orgId}/project/{projectId}/move",
+      "operation_id": "Moveprojecttoadifferentorganization",
+      "summary": "Move project to a different organization"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/project/{projectId}/tags",
+      "operation_id": "Addatagtoaproject",
+      "summary": "Add a tag to a project"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/project/{projectId}/tags/remove",
+      "operation_id": "Removeatagfromaproject",
+      "summary": "Remove a tag from a project"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/project/{projectId}/attributes",
+      "operation_id": "Applyingattributes",
+      "summary": "Applying attributes"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/org/{orgId}/project/{projectId}/ignore/{issueId}",
+      "method": "PUT",
+      "operation_id": "Replaceignores",
+      "summary": "Replace ignores",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-documentation": {
+          "category": "Ignores"
+        },
+        "summary": "Replace ignores",
+        "description": "It is possible to modify/retrieve ignored vulnerability or license issues for a given organization and project.\nIgnores from `.snyk` files are not included here\n#### Required permissions\n- `View Organization`\n- `View Project Ignores`\n- `Edit Project Ignores`",
+        "operationId": "Replaceignores",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to modify ignores for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to modify ignores for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "description": "The issue ID to modify ignores for. Can be a vulnerability or a license Issue.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "SNYK-JS-QS-10019"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Ignorerules"
+                }
+              },
+              "example": [
+                {
+                  "ignorePath": "",
+                  "reason": "",
+                  "reasonType": "not-vulnerable",
+                  "disregardIfFixable": false,
+                  "expires": ""
+                }
+              ]
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Ignore"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/ignore/{issueId}",
+      "method": "DELETE",
+      "operation_id": "Deleteignores",
+      "summary": "Delete ignores",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-documentation": {
+          "category": "Ignores"
+        },
+        "summary": "Delete ignores",
+        "description": "It is possible to modify/retrieve ignored vulnerability or license issues for a given organization and project.\nIgnores from `.snyk` files are not included here\n#### Required permissions\n- `View Organization`\n- `View Project Ignores`\n- `Remove Project Ignores`",
+        "operationId": "Deleteignores",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to modify ignores for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to modify ignores for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "description": "The issue ID to modify ignores for. Can be a vulnerability or a license Issue.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "SNYK-JS-QS-10019"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/jira-issues",
+      "method": "GET",
+      "operation_id": "Listalljiraissues",
+      "summary": "List all jira issues",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-documentation": {
+          "category": "Jira"
+        },
+        "summary": "List all jira issues",
+        "description": "If you have configured an integration with Jira, it is possible to create Jira issues for project vulnerabilities or license issues directly from the Snyk API.\nThe Jira integration is available to customers on the pro or enterprise plan.\nAt the moment, the usage of the Jira integration via the API is not supported for Snyk Infrastructure as Code\n#### Required permissions\n- `View Jira issues`",
+        "operationId": "Listalljiraissues",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to list Jira issues for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to list Jira issues for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alljiraissues"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/issue/{issueId}/jira-issue",
+      "method": "POST",
+      "operation_id": "Createjiraissue",
+      "summary": "Create jira issue",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "x-snyk-documentation": {
+          "category": "Jira"
+        },
+        "summary": "Create jira issue",
+        "description": "If you have configured an integration with Jira, it is possible to create Jira issues for project vulnerabilities or license issues directly from the Snyk API.\nThe Jira integration is available to customers on the pro or enterprise plan.\nAt the moment, the usage of the Jira integration via the API is not supported for Snyk Infrastructure as Code\n#### Required permissions\n- `Create Jira issues`",
+        "operationId": "Createjiraissue",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to list Jira issues for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to list Jira issues for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          },
+          {
+            "name": "issueId",
+            "in": "path",
+            "description": "The issue ID to create Jira issue for.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "npm:qs:20140806-1"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Jiraissuerequest"
+              },
+              "example": {
+                "fields": {
+                  "project": {},
+                  "issuetype": {},
+                  "summary": ""
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Jiraissue"
+                },
+                "example": {
+                  "jiraIssue": {
+                    "id": "10001",
+                    "key": "EX-1"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/settings",
+      "method": "GET",
+      "operation_id": "Listprojectsettings",
+      "summary": "List project settings",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "List project settings",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Project`",
+        "operationId": "Listprojectsettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to which the project belongs. The API_KEY must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The response will contain only attributes that can be updated (see `ATTRIBUTES` section in `Update project settings`) and that have been previously set.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Projectsettings"
+                },
+                "example": {
+                  "autoDepUpgradeLimit": 2,
+                  "autoDepUpgradeIgnoredDependencies": [
+                    "tap",
+                    "ava"
+                  ],
+                  "autoDepUpgradeEnabled": false,
+                  "autoDepUpgradeMinAge": 21,
+                  "pullRequestFailOnAnyVulns": false,
+                  "pullRequestFailOnlyForHighSeverity": true,
+                  "pullRequestTestEnabled": true,
+                  "pullRequestAssignment": "{\"enabled\":true,\"type\":\"manual\",\"assignees\":[\"username\"]}",
+                  "autoRemediationPrs": "{\"freshPrsEnabled\":true,\"backlogPrsEnabled\":false,\"usePatchRemediation\":true}"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/settings",
+      "method": "PUT",
+      "operation_id": "Updateprojectsettings",
+      "summary": "Update project settings",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Update project settings",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Project`\n- `Edit Project`",
+        "operationId": "Updateprojectsettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to which the project belongs. The API_KEY must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Projectsettings"
+              },
+              "example": {
+                "autoDepUpgradeLimit": 2,
+                "autoDepUpgradeIgnoredDependencies": [
+                  "tap",
+                  "ava"
+                ],
+                "autoDepUpgradeEnabled": false,
+                "autoDepUpgradeMinAge": 21,
+                "pullRequestFailOnAnyVulns": false,
+                "pullRequestFailOnlyForHighSeverity": true,
+                "pullRequestTestEnabled": true,
+                "pullRequestAssignment": "{\"enabled\":true,\"type\":\"manual\",\"assignees\":[\"username\"]}",
+                "autoRemediationPrs": "{\"freshPrsEnabled\":true,\"backlogPrsEnabled\":false,\"usePatchRemediation\":false}"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The response will contain the attributes and values that have been sent in the request and successfully updated.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Projectsettings"
+                },
+                "example": {
+                  "autoDepUpgradeLimit": 2,
+                  "autoDepUpgradeIgnoredDependencies": [
+                    "tap",
+                    "ava"
+                  ],
+                  "autoDepUpgradeEnabled": false,
+                  "autoDepUpgradeMinAge": 21,
+                  "pullRequestTestEnabled": true,
+                  "pullRequestFailOnAnyVulns": false,
+                  "pullRequestFailOnlyForHighSeverity": true,
+                  "pullRequestAssignment": "{\"enabled\":true,\"type\":\"manual\",\"assignees\":[\"username\"]}",
+                  "autoRemediationPrs": "{\"freshPrsEnabled\":true,\"backlogPrsEnabled\":false,\"usePatchRemediation\":false}"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/settings",
+      "method": "DELETE",
+      "operation_id": "Deleteprojectsettings",
+      "summary": "Delete project settings",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Delete project settings",
+        "description": "Deleting project settings will set the project to inherit default settings from its integration.\n#### Required permissions\n- `View Organization`\n- `View Project`\n- `Edit Project`",
+        "operationId": "Deleteprojectsettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to which the project belongs. The API_KEY must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/move",
+      "method": "PUT",
+      "operation_id": "Moveprojecttoadifferentorganization",
+      "summary": "Move project to a different organization",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Move project to a different organization",
+        "description": "Note: when moving a project to a new organization, the historical data used for reporting does not move with it.\n#### Required permissions\n- `View Organization`\n- `View Project`\n- `Move Project`",
+        "operationId": "Moveprojecttoadifferentorganization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to which the project belongs. The API_KEY must have group admin permissions. If the project is moved to a new group, a personal level API key is needed.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "463c1ee5-31bc-428c-b451-b79a3270db08"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Projectmove"
+              },
+              "example": {
+                "targetOrgId": "4a18d42f-0706-4ad0-b127-24078731fbed"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Moveprojecttoadifferentorganizationresponse"
+                },
+                "example": {
+                  "originOrg": "4a18d42f-0706-4ad0-b127-24078731fbed",
+                  "destinationOrg": "4a18d42f-0706-4ad0-b127-24078731fbed",
+                  "movedProject": "463c1ee5-31bc-428c-b451-b79a3270db08"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/tags",
+      "method": "POST",
+      "operation_id": "Addatagtoaproject",
+      "summary": "Add a tag to a project",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Add a tag to a project",
+        "description": "#### Required permissions\n- Group Admin",
+        "operationId": "Addatagtoaproject",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to apply the tag to",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tag"
+              },
+              "example": {
+                "key": "example-tag-key",
+                "value": "example-tag-value"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Addatagtoaprojectresponse"
+                },
+                "example": {
+                  "tags": [
+                    {
+                      "key": "example-tag-key",
+                      "value": "example-tag-value"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/tags/remove",
+      "method": "POST",
+      "operation_id": "Removeatagfromaproject",
+      "summary": "Remove a tag from a project",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Remove a tag from a project",
+        "description": "#### Required permissions\n- Group Admin",
+        "operationId": "Removeatagfromaproject",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to remove a tag from",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tag"
+              },
+              "example": {
+                "key": "example-tag-key",
+                "value": "example-tag-value"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Removeatagfromaprojectresponse"
+                },
+                "example": {
+                  "tags": [
+                    {
+                      "key": "example-tag-key",
+                      "value": "example-tag-value"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/project/{projectId}/attributes",
+      "method": "POST",
+      "operation_id": "Applyingattributes",
+      "summary": "Applying attributes",
+      "details": {
+        "tags": [
+          "Projects"
+        ],
+        "summary": "Applying attributes",
+        "description": "Attributes are static and non-configurable fields which allow to add additional metadata to a project.\nAttributes have a pre-defined list of values that a user can select from.\n\n| Business criticality | Environment | Lifecycle stage |\n|:--------------------:|:-----------:|:---------------:|\n|       critical       |   frontend  |    production   |\n|         high         |   backend   |   development   |\n|        medium        |   internal  |     sandbox     |\n|          low         |   external  |                 |\n|                      |    mobile   |                 |\n|                      |     saas    |                 |\n|                      |    onprem   |                 |\n|                      |    hosted   |                 |\n|                      | distributed |                 |\nApplies an attribute to the provided project.\nIt is possible to assign multiple values to each attribute, but you can only assign values to one of the predefined attribute categories, using the predefined options for this category.\nAssigning an attribute requires the caller to be either an Organization Administrator or a Group Administrator.\nAssigning an attribute will override any existing values that the specific attribute already has set.\nIn order to clear out an attribute value, an empty array can be set.\n\n> **Note:** Organization admins can add an attribute to a Project. However, only Group admins can modify Project attributes in cases where attributes match a policy, because policies can only be managed by Group admins.\n\n#### Required permissions\n- `View Organization`\n- `View Project`\n- `Edit Project Attributes`",
+        "operationId": "Applyingattributes",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "path",
+            "description": "The project ID to remove a tag from",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "6d5813be-7e6d-4ab8-80c2-1e3e2a454545"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Projectattributes"
+              },
+              "example": {
+                "criticality": [
+                  "high"
+                ],
+                "environment": [
+                  "backend"
+                ],
+                "lifecycle": [
+                  "development"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Applyingattributesresponse"
+                },
+                "example": {
+                  "attributes": {
+                    "criticality": [
+                      "high"
+                    ],
+                    "environment": [
+                      "backend"
+                    ],
+                    "lifecycle": [
+                      "development"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "Ignorerules": {
+      "title": "Ignorerules",
+      "required": [
+        "disregardIfFixable"
+      ],
+      "type": "object",
+      "properties": {
+        "ignorePath": {
+          "type": "string",
+          "description": "The path to ignore (default is `*` which represents all paths)."
+        },
+        "reason": {
+          "type": "string",
+          "description": "The reason that the issue was ignored."
+        },
+        "reasonType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/reasonType"
+            },
+            {
+              "description": "The classification of the ignore."
+            }
+          ]
+        },
+        "disregardIfFixable": {
+          "type": "boolean",
+          "description": "Only ignore the issue if no upgrade or patch is available."
+        },
+        "expires": {
+          "type": "string",
+          "description": "The timestamp that the issue will no longer be ignored."
+        }
+      }
+    },
+    "Projectmove": {
+      "title": "Projectmove",
+      "type": "object",
+      "properties": {
+        "targetOrgId": {
+          "type": "string",
+          "description": "The ID of the organization that the project should be moved to. The API_KEY must have group admin permissions. If the project is moved to a new group, a personal level API key is needed."
+        }
+      }
+    },
+    "criticality": {
+      "title": "criticality",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "type": "string"
+    },
+    "reasonType": {
+      "title": "reasonType",
+      "enum": [
+        "not-vulnerable",
+        "wont-fix",
+        "temporary-ignore"
+      ],
+      "type": "string",
+      "description": "The classification of the ignore."
+    },
+    "fields": {
+      "title": "fields",
+      "type": "object",
+      "properties": {
+        "project": {
+          "type": "object",
+          "description": "See https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-post for details of what to send as fields."
+        },
+        "issuetype": {
+          "type": "object",
+          "description": "See https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-post for details of what to send as fields."
+        },
+        "summary": {
+          "type": "string",
+          "description": "See https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-post for details of what to send as fields."
+        }
+      }
+    },
+    "jiraIssue1": {
+      "title": "jiraIssue1",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id of the issue in Jira."
+        },
+        "key": {
+          "type": "string",
+          "description": "The key of the issue in Jira."
+        }
+      },
+      "description": "The details about the jira issue."
+    },
+    "ignoredBy": {
+      "title": "ignoredBy",
+      "required": [
+        "name",
+        "email"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the person who ignored the issue."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the person who ignored the issue."
+        },
+        "id": {
+          "type": "string",
+          "description": "The user ID of the person who ignored the issue."
+        }
+      },
+      "description": "The person who ignored the issue."
+    },
+    "Projectsettings": {
+      "title": "Projectsettings",
+      "type": "object",
+      "properties": {
+        "autoDepUpgradeEnabled": {
+          "type": "boolean",
+          "description": "If set to `true`, Snyk will raise dependency upgrade PRs automatically."
+        },
+        "autoDepUpgradeIgnoredDependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "An array of comma-separated strings with names of dependencies you wish Snyk to ignore to upgrade."
+        },
+        "autoDepUpgradeMinAge": {
+          "type": "number",
+          "description": "The age (in days) that an automatic dependency check is valid for"
+        },
+        "autoDepUpgradeLimit": {
+          "type": "number",
+          "description": "The limit on auto dependency upgrade PRs."
+        },
+        "pullRequestFailOnAnyVulns": {
+          "type": "boolean",
+          "description": "If set to `true`, fail Snyk Test if the repo has any vulnerabilities. Otherwise, fail only when the PR is adding a vulnerable dependency."
+        },
+        "pullRequestFailOnlyForHighSeverity": {
+          "type": "boolean",
+          "description": "If set to `true`, fail Snyk Test only for high and critical severity vulnerabilities"
+        },
+        "pullRequestTestEnabled": {
+          "type": "boolean",
+          "description": "If set to `true`, Snyk Test checks PRs for vulnerabilities.:cq"
+        },
+        "pullRequestAssignment": {
+          "type": "string",
+          "description": "assign Snyk pull requests"
+        },
+        "autoRemediationPrs": {
+          "type": "string",
+          "description": "Defines automatic remediation policies"
+        }
+      }
+    },
+    "Removeatagfromaprojectresponse": {
+      "title": "Removeatagfromaprojectresponse",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Tag"
+          },
+          "description": "Tags now applied to the project"
+        }
+      }
+    },
+    "Moveprojecttoadifferentorganizationresponse": {
+      "title": "Moveprojecttoadifferentorganizationresponse",
+      "required": [
+        "originOrg",
+        "destinationOrg",
+        "movedProject"
+      ],
+      "type": "object",
+      "properties": {
+        "originOrg": {
+          "type": "string"
+        },
+        "destinationOrg": {
+          "type": "string"
+        },
+        "movedProject": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "originOrg": "4a18d42f-0706-4ad0-b127-24078731fbed",
+        "destinationOrg": "4a18d42f-0706-4ad0-b127-24078731fbed",
+        "movedProject": "463c1ee5-31bc-428c-b451-b79a3270db08"
+      }
+    },
+    "Ignore": {
+      "title": "Ignore",
+      "required": [
+        "ignorePath"
+      ],
+      "type": "object",
+      "properties": {
+        "ignorePath": {
+          "$ref": "#/components/schemas/ignorePath"
+        }
+      }
+    },
+    "Alljiraissues": {
+      "title": "Alljiraissues",
+      "required": [
+        "issueId"
+      ],
+      "type": "object",
+      "properties": {
+        "issueId": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Jiraissue"
+          },
+          "description": "The issue ID and relating jira issue."
+        }
+      }
+    },
+    "Jiraissue": {
+      "title": "Jiraissue",
+      "type": "object",
+      "properties": {
+        "jiraIssue": {
+          "$ref": "#/components/schemas/jiraIssue1"
+        }
+      }
+    },
+    "ignorePath": {
+      "title": "ignorePath",
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": "string",
+          "description": "The reason that the issue was ignored."
+        },
+        "reasonType": {
+          "$ref": "#/components/schemas/reasonType"
+        },
+        "ignoredBy": {
+          "$ref": "#/components/schemas/ignoredBy"
+        },
+        "disregardIfFixable": {
+          "type": "boolean",
+          "description": "Only ignore the issue if no upgrade or patch is available."
+        },
+        "expires": {
+          "type": "string",
+          "description": "The timestamp that the issue will no longer be ignored."
+        },
+        "created": {
+          "type": "string",
+          "description": "The timestamp that the issue was ignored."
+        }
+      },
+      "description": "The path that should be ignored. Wildcards can be specified with a `*`."
+    },
+    "environment": {
+      "title": "environment",
+      "enum": [
+        "frontend",
+        "backend",
+        "internal",
+        "external",
+        "mobile",
+        "saas",
+        "onprem",
+        "hosted",
+        "distributed"
+      ],
+      "type": "string"
+    },
+    "Tag": {
+      "title": "Tag",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Alphanumeric including - and _ with a limit of 30 characters",
+          "example": "example-tag-key"
+        },
+        "value": {
+          "type": "string",
+          "description": "Alphanumeric including - and _ with a limit of 50 characters",
+          "example": "example-tag-value"
+        }
+      }
+    },
+    "Jiraissuerequest": {
+      "title": "Jiraissuerequest",
+      "type": "object",
+      "properties": {
+        "fields": {
+          "$ref": "#/components/schemas/fields"
+        }
+      }
+    },
+    "Projectattributes": {
+      "title": "Projectattributes",
+      "type": "object",
+      "properties": {
+        "criticality": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/criticality"
+          },
+          "description": ""
+        },
+        "environment": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/environment"
+          },
+          "description": ""
+        },
+        "lifecycle": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/lifecycle"
+          },
+          "description": ""
+        }
+      }
+    },
+    "Addatagtoaprojectresponse": {
+      "title": "Addatagtoaprojectresponse",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Tag"
+          },
+          "description": "Tags now applied to the project"
+        }
+      }
+    },
+    "Applyingattributesresponse": {
+      "title": "Applyingattributesresponse",
+      "type": "object",
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/Projectattributes"
+        }
+      }
+    },
+    "lifecycle": {
+      "title": "lifecycle",
+      "enum": [
+        "production",
+        "development",
+        "sandbox"
+      ],
+      "type": "string"
+    }
+  },
+  "referenced_common_schemas": []
+}

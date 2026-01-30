@@ -1,0 +1,387 @@
+{
+  "tag": "Monitor",
+  "endpoint_count": 1,
+  "schema_count": 11,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/monitor/dep-graph",
+      "operation_id": "MonitorDepGraph",
+      "summary": "Monitor Dep Graph"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/monitor/dep-graph",
+      "method": "POST",
+      "operation_id": "MonitorDepGraph",
+      "summary": "Monitor Dep Graph",
+      "details": {
+        "tags": [
+          "Monitor"
+        ],
+        "summary": "Monitor Dep Graph",
+        "description": "Experimental! Note these endpoints are subject to change and only available to selected users. Please\ncontact [support@snyk.io](mailto:support@snyk.io) to request access.\n\nThe following package managers are supported:\n\n* deb\n\n* gomodules\n\n* gradle\n\n* maven\n\n* nuget\n\n* paket\n\n* pip\n\n* rpm\n\n* rubygems\n\n* cocoapods\n\n* npm\n\n* yarn\n\nThe name of the root node in the dep-graph is used as the project name when creating a project. This should\nbe unique for your organization. In the example given below 'my-maven-app' will be the project name.\n\nTo inform Snyk that some dependencies in your project have changed ensure subsequent requests use the same root node\nname.Use this endpoint to monitor a [DepGraph data object](https://github.com/snyk/dep-graph#depgraphdata).\n\n#### Required permissions\n\n- `View Organization`\n\n- `Add Project`\n\n- `Test Project`",
+        "operationId": "MonitorDepGraph",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          },
+          {
+            "name": "prune-dep-graph",
+            "in": "query",
+            "description": "Will prune large dep-graphs by removing identical sub-graphs under a top level dependency. If you receive a 422 error, it's likely that your dep-graph is too large to monitor. Pruning can help reduce the number of repetative paths but still retain at least one fully resolved path to ensure vulnerablities are not missed.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/monitorgraphpayload"
+                  },
+                  {
+                    "example": {
+                      "depGraph": {
+                        "schemaVersion": "1.2.0",
+                        "pkgManager": {
+                          "name": "maven"
+                        },
+                        "pkgs": [
+                          {
+                            "id": "my-maven-app@1.0.0",
+                            "info": {
+                              "name": "my-maven-app",
+                              "version": "1.0.0"
+                            }
+                          },
+                          {
+                            "id": "ch.qos.logback:logback-core@1.0.13",
+                            "info": {
+                              "name": "ch.qos.logback:logback-core",
+                              "version": "1.0.13"
+                            }
+                          }
+                        ],
+                        "graph": {
+                          "rootNodeId": "root-node",
+                          "nodes": [
+                            {
+                              "nodeId": "root-node",
+                              "pkgId": "my-maven-app@1.0.0",
+                              "deps": [
+                                {
+                                  "nodeId": "ch.qos.logback:logback-core@1.0.13"
+                                }
+                              ]
+                            },
+                            {
+                              "nodeId": "ch.qos.logback:logback-core@1.0.13",
+                              "pkgId": "ch.qos.logback:logback-core@1.0.13",
+                              "deps": []
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "depGraph": {
+                  "schemaVersion": "1.2.0",
+                  "pkgManager": {
+                    "name": "maven"
+                  },
+                  "pkgs": [
+                    {
+                      "id": "my-maven-app@1.0.0",
+                      "info": {
+                        "name": "my-maven-app",
+                        "version": "1.0.0"
+                      }
+                    },
+                    {
+                      "id": "ch.qos.logback:logback-core@1.0.13",
+                      "info": {
+                        "name": "ch.qos.logback:logback-core",
+                        "version": "1.0.13"
+                      }
+                    }
+                  ],
+                  "graph": {
+                    "rootNodeId": "root-node",
+                    "nodes": [
+                      {
+                        "nodeId": "root-node",
+                        "pkgId": "my-maven-app@1.0.0",
+                        "deps": [
+                          {
+                            "nodeId": "ch.qos.logback:logback-core@1.0.13"
+                          }
+                        ]
+                      },
+                      {
+                        "nodeId": "ch.qos.logback:logback-core@1.0.13",
+                        "pkgId": "ch.qos.logback:logback-core@1.0.13",
+                        "deps": []
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/MonitorDepGraphresponse"
+                    },
+                    {
+                      "example": {
+                        "ok": true,
+                        "id": "f7c065cd-5850-462d-a0ca-9719d07e3e38",
+                        "uri": "https://app.snyk.io/org/my-org/project/f7c065cd-5850-462d-a0ca-9719d07e3e38/history/39d14036-31f3-4f22-8037-1d979e0516ef"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "MonitorDepGraphData": {
+      "title": "MonitorDepGraphData",
+      "required": [
+        "schemaVersion",
+        "pkgManager",
+        "pkgs",
+        "graph"
+      ],
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "string",
+          "description": "Snyk DepGraph library schema version."
+        },
+        "pkgManager": {
+          "$ref": "#/components/schemas/MonitorPkgManager"
+        },
+        "pkgs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MonitorPackage"
+          },
+          "description": "Array of package dependencies."
+        },
+        "graph": {
+          "$ref": "#/components/schemas/MonitorGraph"
+        }
+      }
+    },
+    "MonitorPackageInfo": {
+      "title": "MonitorPackageInfo",
+      "required": [
+        "name",
+        "version"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Package name."
+        },
+        "version": {
+          "type": "string",
+          "description": "Package version."
+        }
+      }
+    },
+    "MonitorGraph": {
+      "title": "MonitorGraph",
+      "required": [
+        "rootNodeId",
+        "nodes"
+      ],
+      "type": "object",
+      "properties": {
+        "rootNodeId": {
+          "type": "string",
+          "description": "Root node id. Note the root node name is used as your project name."
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MonitorNode"
+          },
+          "description": "Array of node objects."
+        }
+      }
+    },
+    "MonitorGraphDependency": {
+      "title": "MonitorGraphDependency",
+      "required": [
+        "nodeId"
+      ],
+      "type": "object",
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "description": "Node id unique across the graph."
+        }
+      }
+    },
+    "MonitorMetaData": {
+      "title": "MonitorMetaData",
+      "type": "object",
+      "properties": {
+        "targetFramework": {
+          "type": "string",
+          "description": "Required for a NuGet or Paket DepGraph only. Specify the target framework in your project file using Target Framework Monikers (TFMs). For example, netstandard1.0, netcoreapp1.0 or net452. Test each framework separately if you have multiple defined."
+        }
+      }
+    },
+    "MonitorPkgManager": {
+      "title": "MonitorPkgManager",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Package manager name."
+        },
+        "repositories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MonitorRepository"
+          },
+          "description": "A list of package repositories (i.e. maven-central, or npm) that defaults to the canonical package registry for the given package manager."
+        }
+      }
+    },
+    "MonitorDepGraphresponse": {
+      "title": "MonitorDepGraphresponse",
+      "required": [
+        "ok",
+        "id",
+        "uri"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "ok": true,
+        "id": "f7c065cd-5850-462d-a0ca-9719d07e3e38",
+        "uri": "https://app.snyk.io/org/my-org/project/f7c065cd-5850-462d-a0ca-9719d07e3e38/history/39d14036-31f3-4f22-8037-1d979e0516ef"
+      }
+    },
+    "monitorgraphpayload": {
+      "title": "monitorgraphpayload",
+      "required": [
+        "depGraph"
+      ],
+      "type": "object",
+      "properties": {
+        "depGraph": {
+          "$ref": "#/components/schemas/MonitorDepGraphData"
+        },
+        "meta": {
+          "$ref": "#/components/schemas/MonitorMetaData"
+        }
+      }
+    },
+    "MonitorPackage": {
+      "title": "MonitorPackage",
+      "required": [
+        "id",
+        "info"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique package identifier, should take the format name@version."
+        },
+        "info": {
+          "$ref": "#/components/schemas/MonitorPackageInfo"
+        }
+      }
+    },
+    "MonitorRepository": {
+      "title": "MonitorRepository",
+      "type": "object",
+      "properties": {
+        "alias": {
+          "type": "string",
+          "description": "deb, apk and rpm package managers should use an alias to indicate the target Operating System, for example 'debian:10'."
+        }
+      }
+    },
+    "MonitorNode": {
+      "title": "MonitorNode",
+      "required": [
+        "nodeId",
+        "pkgId"
+      ],
+      "type": "object",
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "description": "Node id unique across the graph."
+        },
+        "pkgId": {
+          "type": "string",
+          "description": "Package id reference should match id in pkg array and take the format name@version."
+        },
+        "deps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MonitorGraphDependency"
+          },
+          "description": "An array of package ids this package depends on."
+        }
+      }
+    }
+  },
+  "referenced_common_schemas": []
+}

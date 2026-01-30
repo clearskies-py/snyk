@@ -1,0 +1,608 @@
+{
+  "tag": "Issues",
+  "endpoint_count": 1,
+  "schema_count": 16,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/packages/{purl}/issues",
+      "operation_id": "getIssuesPerPurl",
+      "summary": "List issues for a package"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/packages/{purl}/issues",
+      "method": "GET",
+      "operation_id": "getIssuesPerPurl",
+      "summary": "List issues for a package",
+      "details": {
+        "description": "Query issues for a specific package version identified by Package URL (purl). Snyk returns only direct vulnerabilities. Transitive vulnerabilities (from dependencies) are not returned because they can vary depending on context. For Maven packages, you can optionally include a checksum qualifier in the PURL to request checksum validation. The response will include metadata indicating whether the provided checksum matches Snyk's records. Vulnerabilities are always returned regardless of checksum match status; the validation metadata allows clients to interpret results appropriately.\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "operationId": "getIssuesPerPurl",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/PackageUrl"
+          },
+          {
+            "description": "Unique identifier for an organization",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Specify the number of results to skip before returning results. Must be greater than or equal to 0. Default is 0.",
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Specify the number of results to return. Must be greater than 0 and less than 1000. Default is 1000.",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "maximum": 1000,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssuesResponse"
+                }
+              }
+            },
+            "description": "Returns an array of issues",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List issues for a package",
+        "tags": [
+          "Issues"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-06-29~beta",
+          "2022-09-15",
+          "2024-06-26",
+          "2025-11-05"
+        ],
+        "x-snyk-api-resource": "issues",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2025-11-05",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "Coordinate": {
+      "properties": {
+        "remedies": {
+          "items": {
+            "$ref": "#/components/schemas/Remedy3"
+          },
+          "type": "array"
+        },
+        "representations": {
+          "description": "The affected versions of this vulnerability.",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResourcePathRepresentation"
+              },
+              {
+                "$ref": "#/components/schemas/PackageRepresentation"
+              }
+            ]
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "representations"
+      ],
+      "type": "object"
+    },
+    "Problem3": {
+      "properties": {
+        "disclosed_at": {
+          "description": "When this problem was disclosed to the public.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "discovered_at": {
+          "description": "When this problem was first discovered.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "id": {
+          "example": "CWE-61",
+          "maxLength": 1024,
+          "minLength": 1,
+          "type": "string"
+        },
+        "source": {
+          "example": "CVE",
+          "maxLength": 64,
+          "minLength": 1,
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "When this problem was last updated.",
+          "format": "date-time",
+          "type": "string"
+        },
+        "url": {
+          "description": "An optional URL for this problem.",
+          "format": "uri",
+          "maxLength": 4096,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "source"
+      ],
+      "type": "object"
+    },
+    "PackageRepresentation": {
+      "properties": {
+        "package": {
+          "$ref": "#/components/schemas/PackageMeta"
+        }
+      },
+      "type": "object"
+    },
+    "ResourcePathRepresentation": {
+      "description": "An object that contains an opaque identifying string.",
+      "properties": {
+        "resource_path": {
+          "$ref": "#/components/schemas/ResourcePath"
+        }
+      },
+      "required": [
+        "resource_path"
+      ],
+      "type": "object"
+    },
+    "ChecksumValidationMeta": {
+      "description": "Metadata about checksum validation when a checksum qualifier is provided in the PURL",
+      "properties": {
+        "description": {
+          "description": "Human-readable explanation of the validation result",
+          "example": "Package and checksum both match",
+          "type": "string"
+        },
+        "details": {
+          "properties": {
+            "checksum": {
+              "description": "Whether the checksum matched (null if no checksum validation was requested)",
+              "example": true,
+              "nullable": true,
+              "type": "boolean"
+            },
+            "name_version": {
+              "description": "Whether the package name and version were found",
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "name_version",
+            "checksum"
+          ],
+          "type": "object"
+        },
+        "input": {
+          "properties": {
+            "checksum": {
+              "description": "The checksum value provided (null if none)",
+              "example": "sha1:abc123",
+              "nullable": true,
+              "type": "string"
+            },
+            "purl": {
+              "description": "The original PURL provided",
+              "example": "pkg:maven/com.example/my-package@1.0.0?checksum=sha1:abc123",
+              "type": "string"
+            }
+          },
+          "required": [
+            "purl",
+            "checksum"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "description": "The type of match found: - `full`: Both package ID and checksum match - `partial`: Only one of package ID or checksum matches - `none`: Neither package ID nor checksum found",
+          "enum": [
+            "none",
+            "partial",
+            "full"
+          ],
+          "example": "full",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "details",
+        "description",
+        "input"
+      ],
+      "type": "object"
+    },
+    "PackageMeta__0": {
+      "properties": {
+        "name": {
+          "description": "The package\u2019s name",
+          "example": "spring-core",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "A name prefix, such as a maven group id or docker image owner",
+          "example": "org.springframework",
+          "type": "string"
+        },
+        "type": {
+          "description": "The package type or protocol",
+          "example": "maven",
+          "type": "string"
+        },
+        "url": {
+          "description": "The purl of the package",
+          "example": "pkg:maven/com.fasterxml.woodstox/woodstox-core@5.0.0",
+          "type": "string"
+        },
+        "version": {
+          "description": "The version of the package",
+          "example": "1.0.0",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "IssuesMeta": {
+      "properties": {
+        "match": {
+          "$ref": "#/components/schemas/ChecksumValidationMeta"
+        },
+        "package": {
+          "$ref": "#/components/schemas/PackageMeta__0"
+        }
+      },
+      "type": "object"
+    },
+    "Remedy3": {
+      "properties": {
+        "description": {
+          "description": "A markdown-formatted optional description of this remedy.",
+          "example": "Upgrade the package version to 5.4.0,6.4.0 to fix this vulnerability",
+          "type": "string"
+        },
+        "details": {
+          "properties": {
+            "upgrade_package": {
+              "description": "A minimum version to upgrade to in order to remedy the issue.",
+              "example": "5.4.0,6.4.0",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "description": "The type of the remedy. Always \u2018indeterminate\u2019.",
+          "example": "indeterminate",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ResourcePath": {
+      "example": ",5.4.0),[6.0.0.pr1,6.4.0)",
+      "maxLength": 2024,
+      "minLength": 1,
+      "type": "string"
+    },
+    "ExploitDetails": {
+      "description": "Details about the exploits",
+      "properties": {
+        "maturity_levels": {
+          "description": "List of maturity levels",
+          "items": {
+            "$ref": "#/components/schemas/MaturityLevel"
+          },
+          "type": "array"
+        },
+        "sources": {
+          "description": "Sources for determining exploit maturity level, e.g., CISA, ExploitDB, Snyk.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "CommonIssueModelVThree": {
+      "properties": {
+        "attributes": {
+          "properties": {
+            "coordinates": {
+              "items": {
+                "$ref": "#/components/schemas/Coordinate"
+              },
+              "type": "array"
+            },
+            "created_at": {
+              "example": "2022-06-16T13:51:13Z",
+              "format": "date-time",
+              "type": "string"
+            },
+            "description": {
+              "description": "A description of the issue in Markdown format",
+              "example": "## Overview\\n\\n\\nAffected versions of this package are vulnerable to XML External Entity (XXE) Injection.",
+              "type": "string"
+            },
+            "effective_severity_level": {
+              "description": "The type from enumeration of the issue\u2019s severity level. This is usually set from the issue\u2019s producer, but can be overridden by policies.",
+              "enum": [
+                "info",
+                "low",
+                "medium",
+                "high",
+                "critical"
+              ],
+              "type": "string"
+            },
+            "problems": {
+              "items": {
+                "$ref": "#/components/schemas/Problem3"
+              },
+              "type": "array"
+            },
+            "severities": {
+              "description": "An array of dictionaries containing all known data related to the vulnerability",
+              "items": {
+                "$ref": "#/components/schemas/Severity3"
+              },
+              "type": "array"
+            },
+            "slots": {
+              "$ref": "#/components/schemas/Slots"
+            },
+            "title": {
+              "description": "A human-readable title for this issue.",
+              "example": "XML External Entity (XXE) Injection",
+              "type": "string"
+            },
+            "type": {
+              "description": "The issue type",
+              "example": "package_vulnerability",
+              "type": "string"
+            },
+            "updated_at": {
+              "description": "When the vulnerability information was last modified.",
+              "example": "2022-06-16T14:00:24.315507Z",
+              "format": "date-time",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "description": "The Snyk ID of the vulnerability.",
+          "example": "SNYK-JAVA-COMFASTERXMLWOODSTOX-2928754",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the REST resource. Always \u2018issue\u2019.",
+          "example": "issue",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Severity3": {
+      "properties": {
+        "level": {
+          "description": "Level of severity calculated via vector",
+          "example": "medium",
+          "type": "string"
+        },
+        "score": {
+          "description": "The CVSS score calculated from the vector, representing the severity of the vulnerability on a scale from 0 to 10.",
+          "example": 5.3,
+          "nullable": true,
+          "type": "number"
+        },
+        "source": {
+          "description": "The source of this severity. The value must be the id of a referenced problem or class, in which case that problem or class is the source of this issue. If source is omitted, this severity is sourced internally in the Snyk application.",
+          "example": "Snyk",
+          "type": "string"
+        },
+        "type": {
+          "description": "Indicates if the CVSS item is primary or secondary. Clients should prefer the primary CVSS vector.",
+          "example": "primary",
+          "type": "string"
+        },
+        "vector": {
+          "description": "CVSS vector string detailing the metrics of a vulnerability.",
+          "example": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+          "nullable": true,
+          "type": "string"
+        },
+        "version": {
+          "description": "CVSS version being described.",
+          "example": "4.0",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "MaturityLevel": {
+      "description": "Details about the maturity level",
+      "properties": {
+        "format": {
+          "description": "The standard by which the \u201cmaturity\u201d value is shown.",
+          "example": "CVSSv4",
+          "type": "string"
+        },
+        "level": {
+          "description": "Exploit maturity of the vulnerability. For CVSSv3: Proof of Concept, Functional, High. For CVSSv4: Unreported, Proof of Concept, Attacked.",
+          "example": "Attacked",
+          "type": "string"
+        },
+        "type": {
+          "description": "Indicates if the CVSS item is primary or secondary. Clients should prefer the primary CVSS vector.",
+          "example": "primary",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PackageMeta": {
+      "properties": {
+        "name": {
+          "description": "The package\u2019s name",
+          "example": "woodstox-core",
+          "type": "string"
+        },
+        "namespace": {
+          "description": "A name prefix, such as a maven group id or docker image owner",
+          "example": "com.fasterxml.woodstox",
+          "type": "string"
+        },
+        "type": {
+          "description": "The package type or protocol",
+          "example": "maven",
+          "type": "string"
+        },
+        "url": {
+          "description": "The purl of the package",
+          "example": "pkg:maven/com.fasterxml.woodstox/woodstox-core@5.0.0",
+          "type": "string"
+        },
+        "version": {
+          "description": "The version of the package",
+          "example": "5.0.0",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Slots": {
+      "properties": {
+        "disclosure_time": {
+          "description": "The time at which this vulnerability was disclosed.",
+          "example": "2022-06-16T13:51:13Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "exploit_details": {
+          "$ref": "#/components/schemas/ExploitDetails"
+        },
+        "publication_time": {
+          "description": "The time at which this vulnerability was published.",
+          "example": "2022-06-16T14:00:24.315507Z",
+          "type": "string"
+        },
+        "references": {
+          "items": {
+            "properties": {
+              "title": {
+                "description": "Descriptor for an external reference to the issue",
+                "type": "string"
+              },
+              "url": {
+                "description": "URL for an external reference to the issue",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "IssuesResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/CommonIssueModelVThree"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        },
+        "meta": {
+          "$ref": "#/components/schemas/IssuesMeta"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "PaginatedLinks",
+    "LinkProperty",
+    "Meta",
+    "JsonApi"
+  ]
+}

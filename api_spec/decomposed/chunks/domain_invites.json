@@ -1,0 +1,552 @@
+{
+  "tag": "Invites",
+  "endpoint_count": 3,
+  "schema_count": 8,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/invites",
+      "operation_id": "listOrgInvitation",
+      "summary": "List pending user invitations to an organization."
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/invites",
+      "operation_id": "createOrgInvitation",
+      "summary": "Invite a user to an organization"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/invites/{invite_id}",
+      "operation_id": "deleteOrgInvitation",
+      "summary": "Cancel a pending user invitations to an organization."
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/invites",
+      "method": "GET",
+      "operation_id": "listOrgInvitation",
+      "summary": "List pending user invitations to an organization.",
+      "details": {
+        "description": "List pending user invitations to an organization.\n\n#### Required permissions\n\n- `View Organization (org.read)`\n\n- `View users (org.user.read)`",
+        "operationId": "listOrgInvitation",
+        "parameters": [
+          {
+            "description": "The id of the org the user is being invited to",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/OrgInvitation"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "List of pending invitations to an organization.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List pending user invitations to an organization.",
+        "tags": [
+          "Invites"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-14"
+        ],
+        "x-snyk-api-resource": "org_invitations",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-11-14",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/invites",
+      "method": "POST",
+      "operation_id": "createOrgInvitation",
+      "summary": "Invite a user to an organization",
+      "details": {
+        "description": "Invite a user to an organization with a role.\n\n#### Required permissions\n\n- `Invite users (org.user.invite)`",
+        "operationId": "createOrgInvitation",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "The id of the org the user is being invited to",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/OrgInvitationPostData"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/OrgInvitation20240621"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A new organization invitation has been created",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Invite a user to an organization",
+        "tags": [
+          "Invites"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-06-01",
+          "2023-04-28",
+          "2024-06-21"
+        ],
+        "x-snyk-api-resource": "org_invitations",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-06-21",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/invites/{invite_id}",
+      "method": "DELETE",
+      "operation_id": "deleteOrgInvitation",
+      "summary": "Cancel a pending user invitations to an organization.",
+      "details": {
+        "description": "Cancel a pending user invitations to an organization.\n\n#### Required permissions\n\n- `Invite users (org.user.invite)`",
+        "operationId": "deleteOrgInvitation",
+        "parameters": [
+          {
+            "description": "The id of the org the user is being invited to",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The id of the pending invite to cancel",
+            "in": "path",
+            "name": "invite_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Cancel a pending user invitations to an organization.",
+        "tags": [
+          "Invites"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-11-14"
+        ],
+        "x-snyk-api-resource": "org_invitations",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-11-14",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "OrgInvitationAttributes20230828": {
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "description": "The email address of the invitee.",
+          "example": "example@email.com",
+          "type": "string"
+        },
+        "is_active": {
+          "description": "The active status of the invitation. is_active of true indicates that the invitation is still waiting to be accepted. Invitations are considered inactive when accepted or revoked.\n",
+          "example": true,
+          "type": "boolean"
+        },
+        "role": {
+          "description": "The role public ID that will be granted to to invitee on acceptance.",
+          "example": "f1968726-1dca-42d4-a4dc-80cab99e2b6c",
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "is_active",
+        "role"
+      ],
+      "type": "object"
+    },
+    "OrgInvitation": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/OrgInvitationAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "properties": {
+            "org": {
+              "$ref": "#/components/schemas/Relationship"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "OrgInvitationPostData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/OrgInvitationPostAttributes"
+        },
+        "type": {
+          "enum": [
+            "org_invitation"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "OrgInvitationAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "description": "The email address of the invitee.",
+          "example": "example@email.com",
+          "type": "string"
+        },
+        "is_active": {
+          "description": "The active status of the invitation. is_active of true indicates that the invitation is still waiting to be accepted. Invitations are considered inactive when accepted or revoked.\n",
+          "example": true,
+          "type": "boolean"
+        },
+        "role": {
+          "description": "The role assigned to the invitee on acceptance.",
+          "example": "Developer",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "is_active",
+        "role"
+      ],
+      "type": "object"
+    },
+    "Relationship": {
+      "example": {
+        "data": {
+          "id": "4a72d1db-b465-4764-99e1-ecedad03b06a",
+          "type": "resource"
+        },
+        "links": {
+          "related": {
+            "href": "https://example.com/api/resource/4a72d1db-b465-4764-99e1-ecedad03b06a"
+          }
+        }
+      },
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "example": "4a72d1db-b465-4764-99e1-ecedad03b06a",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "description": "Type of the related resource",
+              "example": "resource",
+              "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "type": "object"
+        },
+        "links": {
+          "$ref": "#/components/schemas/RelatedLink"
+        },
+        "meta": {
+          "$ref": "#/components/schemas/Meta"
+        }
+      },
+      "required": [
+        "data",
+        "links"
+      ],
+      "type": "object"
+    },
+    "OrgInvitationPostAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "description": "The email address of the invitee.",
+          "example": "example@email.com",
+          "type": "string"
+        },
+        "role": {
+          "description": "The role public ID that will be granted to to invitee on acceptance.",
+          "example": "f1968726-1dca-42d4-a4dc-80cab99e2b6c",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "email",
+        "role"
+      ],
+      "type": "object"
+    },
+    "RelatedLink": {
+      "additionalProperties": false,
+      "example": {
+        "related": "https://example.com/api/other_resource"
+      },
+      "properties": {
+        "related": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "OrgInvitation20240621": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/OrgInvitationAttributes20230828"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "properties": {
+            "org": {
+              "$ref": "#/components/schemas/Relationship"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "org_invitation"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

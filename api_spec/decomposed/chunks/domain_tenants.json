@@ -1,0 +1,1186 @@
+{
+  "tag": "Tenants",
+  "endpoint_count": 6,
+  "schema_count": 32,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/tenants",
+      "operation_id": "listTenants",
+      "summary": "Get a list of all accessible Tenants"
+    },
+    {
+      "method": "GET",
+      "path": "/tenants/{tenant_id}",
+      "operation_id": "getTenant",
+      "summary": "Get a single Tenant by ID"
+    },
+    {
+      "method": "PATCH",
+      "path": "/tenants/{tenant_id}",
+      "operation_id": "updateTenant",
+      "summary": "Update tenant"
+    },
+    {
+      "method": "GET",
+      "path": "/tenants/{tenant_id}/memberships",
+      "operation_id": "getTenantMemberships",
+      "summary": "Get all memberships of the tenant (Early Access)"
+    },
+    {
+      "method": "DELETE",
+      "path": "/tenants/{tenant_id}/memberships/{membership_id}",
+      "operation_id": "deleteTenantMembership",
+      "summary": "Delete an individual tenant membership for a single user. (Early Access)"
+    },
+    {
+      "method": "PATCH",
+      "path": "/tenants/{tenant_id}/memberships/{membership_id}",
+      "operation_id": "updateTenantMembership",
+      "summary": "Update tenant membership (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/tenants",
+      "method": "GET",
+      "operation_id": "listTenants",
+      "summary": "Get a list of all accessible Tenants",
+      "details": {
+        "description": "Get a list of all Tenants which the calling user is a member of",
+        "operationId": "listTenants",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/TenantResponseData"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of tenants.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get a list of all accessible Tenants",
+        "tags": [
+          "Tenants"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-04-11~experimental",
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "tenants",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/tenants/{tenant_id}",
+      "method": "GET",
+      "operation_id": "getTenant",
+      "summary": "Get a single Tenant by ID",
+      "details": {
+        "description": "Get the full details of a Tenant.\n\n#### Required permissions\n\n- `View Tenant Details (tenant.read)`",
+        "operationId": "getTenant",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/TenantId20240411"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TenantResponseData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns an instance of a tenant.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get a single Tenant by ID",
+        "tags": [
+          "Tenants"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-04-11~experimental",
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "tenants",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/tenants/{tenant_id}",
+      "method": "PATCH",
+      "operation_id": "updateTenant",
+      "summary": "Update tenant",
+      "details": {
+        "description": "Update the details of a tenant\n\n#### Required permissions\n\n- `Edit Tenant Details (tenant.edit)`",
+        "operationId": "updateTenant",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/TenantId20240411"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "$ref": "#/components/schemas/TenantUpdateAttributes"
+                      },
+                      "id": {
+                        "format": "uuid",
+                        "type": "string"
+                      },
+                      "type": {
+                        "$ref": "#/components/schemas/Types"
+                      }
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "tenant resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/TenantAttributes"
+                        },
+                        "id": {
+                          "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/Types"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Instance of tenant is updated",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update tenant",
+        "tags": [
+          "Tenants"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-04-11~experimental",
+          "2024-10-15"
+        ],
+        "x-snyk-api-resource": "tenants",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-10-15",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/tenants/{tenant_id}/memberships",
+      "method": "GET",
+      "operation_id": "getTenantMemberships",
+      "summary": "Get all memberships of the tenant (Early Access)",
+      "details": {
+        "description": "Returns all memberships of the tenant\n\n#### Required permissions\n\n- `View Tenant Memberships (tenant.membership.read)`",
+        "operationId": "getTenantMemberships",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/TenantId__0"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/SortBy"
+          },
+          {
+            "description": "Order in which results are returned.",
+            "example": "ASC",
+            "in": "query",
+            "name": "sort_order",
+            "schema": {
+              "default": "ASC",
+              "enum": [
+                "ASC",
+                "DESC"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/EmailFilter"
+          },
+          {
+            "$ref": "#/components/parameters/UserIdSearchFilter"
+          },
+          {
+            "$ref": "#/components/parameters/NameFilter"
+          },
+          {
+            "$ref": "#/components/parameters/UsernameFilter"
+          },
+          {
+            "$ref": "#/components/parameters/ConnectionTypeFilter"
+          },
+          {
+            "$ref": "#/components/parameters/RoleFilter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ListTenantMembershipResponseData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "List of tenant memberships is returned",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get all memberships of the tenant (Early Access)",
+        "tags": [
+          "Tenants"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-05-09~experimental",
+          "2024-09-03~beta"
+        ],
+        "x-snyk-api-resource": "memberships",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-09-03~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/tenants/{tenant_id}/memberships/{membership_id}",
+      "method": "DELETE",
+      "operation_id": "deleteTenantMembership",
+      "summary": "Delete an individual tenant membership for a single user. (Early Access)",
+      "details": {
+        "description": "Delete an individual tenant membership for a single user.\n\n#### Required permissions\n\n- `View Tenant Memberships (tenant.membership.read)`\n\n- `Delete Tenant Memberships (tenant.membership.delete)`",
+        "operationId": "deleteTenantMembership",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/MembershipId"
+          },
+          {
+            "$ref": "#/components/parameters/TenantId__0"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "successfully deleting an individual membership for a single user",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete an individual tenant membership for a single user. (Early Access)",
+        "tags": [
+          "Tenants"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-06-04~experimental",
+          "2024-09-03~beta"
+        ],
+        "x-snyk-api-resource": "memberships",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-09-03~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/tenants/{tenant_id}/memberships/{membership_id}",
+      "method": "PATCH",
+      "operation_id": "updateTenantMembership",
+      "summary": "Update tenant membership (Early Access)",
+      "details": {
+        "description": "Update the tenant membership with the new role\n\n#### Required permissions\n\n- `View Tenant Details (tenant.read)`\n\n- `View Tenant Memberships (tenant.membership.read)`\n\n- `Edit Tenant Memberships (tenant.membership.edit)`",
+        "operationId": "updateTenantMembership",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/TenantId__0"
+          },
+          {
+            "$ref": "#/components/parameters/MembershipId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/UpdateTenantMembershipRequestData"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "successfully updated the tenant membership",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update tenant membership (Early Access)",
+        "tags": [
+          "Tenants"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-06-09~experimental",
+          "2024-09-03~beta"
+        ],
+        "x-snyk-api-resource": "memberships",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-09-03~beta",
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "TenantMembershipTenantRoleRelationshipFull": {
+      "additionalProperties": false,
+      "description": "The role held by the user in the tenant.",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRoleRelationshipDataFull"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "TenantMembershipTenantRoleRelationshipDataBasic": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/TenantRoleId"
+        },
+        "type": {
+          "$ref": "#/components/schemas/TenantRoleType"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "TenantId__0": {
+      "description": "Unique identifier for a tenant.",
+      "example": "00000000-0000-0000-0000-000000000000",
+      "format": "uuid",
+      "type": "string"
+    },
+    "ListTenantMembershipResponseData": {
+      "additionalProperties": false,
+      "items": {
+        "$ref": "#/components/schemas/TenantMembershipResponseDataObject"
+      },
+      "type": "array"
+    },
+    "TenantMembershipType": {
+      "description": "Resource type for tenant memberships.",
+      "enum": [
+        "tenant_membership"
+      ],
+      "type": "string"
+    },
+    "TenantAttributes": {
+      "properties": {
+        "created_at": {
+          "description": "The time the tenant was created.",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "name": {
+          "description": "The display name of the tenant.",
+          "example": "My Tenant",
+          "type": "string"
+        },
+        "slug": {
+          "description": "The canonical (unique and URL-friendly) name of the tenant.",
+          "example": "my-tenant",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "The time the tenant was last modified.",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "slug",
+        "created_at",
+        "updated_at"
+      ],
+      "type": "object"
+    },
+    "TenantType": {
+      "description": "Resource type for tenants.",
+      "enum": [
+        "tenant"
+      ],
+      "type": "string"
+    },
+    "UpdateTenantMembershipRequestData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/TenantMembershipId"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/UpdateTenantMembershipRequestRelationships"
+        },
+        "type": {
+          "$ref": "#/components/schemas/TenantMembershipType"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "UserType": {
+      "description": "Resource type for users.",
+      "enum": [
+        "user"
+      ],
+      "type": "string"
+    },
+    "TenantUpdateAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "The display name of the tenant.",
+          "example": "My Tenant",
+          "maxLength": 60,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "TenantMembershipUserRelationshipDataAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "account_type": {
+          "$ref": "#/components/schemas/UserAccountType"
+        },
+        "active": {
+          "$ref": "#/components/schemas/UserIsActive"
+        },
+        "email": {
+          "$ref": "#/components/schemas/UserEmail"
+        },
+        "login_method": {
+          "$ref": "#/components/schemas/UserLoginMethod"
+        },
+        "name": {
+          "$ref": "#/components/schemas/UserName"
+        },
+        "username": {
+          "$ref": "#/components/schemas/UserUsername"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "login_method"
+      ],
+      "type": "object"
+    },
+    "TenantRoleId": {
+      "description": "Unique identifier for a tenant role.",
+      "example": "00000000-0000-0000-0000-000000000000",
+      "format": "uuid",
+      "type": "string"
+    },
+    "TenantMembershipId": {
+      "description": "Unique identifier for a tenant membership.",
+      "example": "00000000-0000-0000-0000-000000000000",
+      "format": "uuid",
+      "type": "string"
+    },
+    "TenantMembershipResponseAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "$ref": "#/components/schemas/CreatedAt"
+        }
+      },
+      "required": [
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "TenantMembershipTenantRelationshipFull": {
+      "additionalProperties": false,
+      "description": "The tenant to which the membership applies.",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRelationshipDataFull"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "CreatedAt": {
+      "description": "The time at which the resource was created.",
+      "example": "2022-03-16T00:00:00Z",
+      "format": "date-time",
+      "type": "string"
+    },
+    "UpdateTenantMembershipRequestRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRoleRelationshipBasic"
+        }
+      },
+      "required": [
+        "role"
+      ],
+      "type": "object"
+    },
+    "TenantRoleName": {
+      "description": "The display name of the role.",
+      "example": "Role name",
+      "type": "string"
+    },
+    "TenantMembershipTenantRelationshipDataFull": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "$ref": "#/components/schemas/TenantName"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/TenantId__0"
+        },
+        "type": {
+          "$ref": "#/components/schemas/TenantType"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "ReadTenantMembershipResponseRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRoleRelationshipFull"
+        },
+        "tenant": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRelationshipFull"
+        },
+        "user": {
+          "$ref": "#/components/schemas/TenantMembershipUserRelationshipFullWithMeta"
+        }
+      },
+      "required": [
+        "role",
+        "tenant",
+        "user"
+      ],
+      "type": "object"
+    },
+    "TenantName": {
+      "description": "The display name of the tenant.",
+      "example": "My Tenant",
+      "type": "string"
+    },
+    "UserId": {
+      "description": "Unique identifier for a user.",
+      "example": "00000000-0000-0000-0000-000000000000",
+      "format": "uuid",
+      "type": "string"
+    },
+    "TenantRoleType": {
+      "description": "Resource type for tenant roles.",
+      "enum": [
+        "tenant_role"
+      ],
+      "type": "string"
+    },
+    "TenantMembershipTenantRoleRelationshipDataFull": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "$ref": "#/components/schemas/TenantRoleName"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/TenantRoleId"
+        },
+        "type": {
+          "$ref": "#/components/schemas/TenantRoleType"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "TenantRelationships": {
+      "properties": {
+        "owner": {
+          "properties": {
+            "data": {
+              "properties": {
+                "id": {
+                  "example": "b667f176-df52-4b0a-9954-117af6b05ab7",
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "type": {
+                  "description": "The type of the resource. Always 'user'.",
+                  "example": "user",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "type"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "TenantMembershipTenantRoleRelationshipBasic": {
+      "additionalProperties": false,
+      "description": "The role held by the user in the tenant.",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRoleRelationshipDataBasic"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "TenantResponseData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/TenantAttributes"
+        },
+        "id": {
+          "description": "The Snyk ID of the tenant.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/TenantRelationships"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Types"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "Types": {
+      "example": "resource",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+      "type": "string"
+    },
+    "TenantMembershipUserRelationshipDataFullWithMeta": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/TenantMembershipUserRelationshipDataAttributes"
+        },
+        "id": {
+          "$ref": "#/components/schemas/UserId"
+        },
+        "meta": {
+          "additionalProperties": false,
+          "properties": {
+            "tenant_owner": {
+              "description": "Whether the user is the owner of the tenant.",
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/UserType"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "TenantMembershipResponseDataObject": {
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/TenantMembershipResponseAttributes"
+        },
+        "id": {
+          "$ref": "#/components/schemas/TenantMembershipId"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/ReadTenantMembershipResponseRelationships"
+        },
+        "type": {
+          "$ref": "#/components/schemas/TenantMembershipType"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "TenantMembershipUserRelationshipFullWithMeta": {
+      "additionalProperties": false,
+      "description": "The user to which the membership belongs.",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/TenantMembershipUserRelationshipDataFullWithMeta"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Meta",
+    "LinkProperty",
+    "PaginatedLinks",
+    "Links"
+  ]
+}

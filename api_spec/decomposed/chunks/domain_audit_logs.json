@@ -1,0 +1,325 @@
+{
+  "tag": "Audit Logs",
+  "endpoint_count": 2,
+  "schema_count": 1,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/audit_logs/search",
+      "operation_id": "listGroupAuditLogs",
+      "summary": "Search Group audit logs."
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/audit_logs/search",
+      "operation_id": "listOrgAuditLogs",
+      "summary": "Search Organization audit logs."
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/groups/{group_id}/audit_logs/search",
+      "method": "GET",
+      "operation_id": "listGroupAuditLogs",
+      "summary": "Search Group audit logs.",
+      "details": {
+        "description": "Search audit logs for a Group. \"api.access\" events are omitted from results unless explicitly requested using the events parameter. Some Organization level events are supported as well as the following\nGroup level events:\n  - api.access\n  - group.cloud_config.settings.edit\n  - group.create\n  - group.delete\n  - group.edit\n  - group.notification_settings.edit\n  - group.org.add\n  - group.org.remove\n  - group.policy.create\n  - group.policy.delete\n  - group.policy.edit\n  - group.request_access_settings.edit\n  - group.role.create\n  - group.role.delete\n  - group.role.edit\n  - group.service_account.create\n  - group.service_account.delete\n  - group.service_account.edit\n  - group.settings.edit\n  - group.settings.feature_flag.edit\n  - group.sso.add\n  - group.sso.auth0_connection.create\n  - group.sso.auth0_connection.edit\n  - group.sso.create\n  - group.sso.delete\n  - group.sso.edit\n  - group.sso.membership.sync\n  - group.sso.remove\n  - group.tag.create\n  - group.tag.delete\n  - group.user.add\n  - group.user.remove\n  - group.user.role.edit\n\n#### Required permissions\n\n- `View Audit Logs (group.audit.read)`",
+        "operationId": "listGroupAuditLogs",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/GroupId"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          },
+          {
+            "$ref": "#/components/parameters/From"
+          },
+          {
+            "$ref": "#/components/parameters/To"
+          },
+          {
+            "$ref": "#/components/parameters/Size"
+          },
+          {
+            "$ref": "#/components/parameters/SortOrder"
+          },
+          {
+            "$ref": "#/components/parameters/UserId"
+          },
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/components/parameters/Events"
+          },
+          {
+            "$ref": "#/components/parameters/ExcludeEvents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AuditLogSearch"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Group Audit Logs.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Search Group audit logs.",
+        "tags": [
+          "Audit Logs"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-09-11",
+          "2024-04-29"
+        ],
+        "x-snyk-api-resource": "audit-logs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-04-29",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/audit_logs/search",
+      "method": "GET",
+      "operation_id": "listOrgAuditLogs",
+      "summary": "Search Organization audit logs.",
+      "details": {
+        "description": "Search audit logs for an Organization. \"api.access\" events are omitted from results unless explicitly requested using the events parameter. Supported event types:\n  - api.access\n  - org.app_bot.create\n  - org.app.create\n  - org.app.delete\n  - org.app.edit\n  - org.cloud_config.settings.edit\n  - org.collection.create\n  - org.collection.delete\n  - org.collection.edit\n  - org.create\n  - org.delete\n  - org.edit\n  - org.ignore_policy.edit\n  - org.integration.create\n  - org.integration.delete\n  - org.integration.edit\n  - org.integration.settings.edit\n  - org.language_settings.edit\n  - org.notification_settings.edit\n  - org.org_source.create\n  - org.org_source.delete\n  - org.org_source.edit\n  - org.policy.create\n  - org.policy.edit\n  - org.policy.delete\n  - org.project_filter.create\n  - org.project_filter.delete\n  - org.project.add\n  - org.project.attributes.edit\n  - org.project.delete\n  - org.project.edit\n  - org.project.fix_pr.auto_open\n  - org.project.fix_pr.manual_open\n  - org.project.ignore.create\n  - org.project.ignore.delete\n  - org.project.ignore.edit\n  - org.project.monitor\n  - org.project.pr_check.edit\n  - org.project.remove\n  - org.project.settings.delete\n  - org.project.settings.edit\n  - org.project.stop_monitor\n  - org.project.tag.add\n  - org.project.tag.remove\n  - org.project.test\n  - org.request_access_settings.edit\n  - org.sast_settings.edit\n  - org.service_account.create\n  - org.service_account.delete\n  - org.service_account.edit\n  - org.settings.feature_flag.edit\n  - org.target.create\n  - org.target.delete\n  - org.user.add\n  - org.user.invite\n  - org.user.invite.accept\n  - org.user.invite.revoke\n  - org.user.invite_link.accept\n  - org.user.invite_link.create\n  - org.user.invite_link.revoke\n  - org.user.leave\n  - org.user.provision.accept\n  - org.user.provision.create\n  - org.user.provision.delete\n  - org.user.remove\n  - org.user.role.create\n  - org.user.role.delete\n  - org.user.role.details.edit\n  - org.user.role.edit\n  - org.user.role.permissions.edit\n  - org.webhook.add\n  - org.webhook.delete\n  - user.org.notification_settings.edit\n\n#### Required permissions\n\n- `View audit logs (org.audit_log.read)`",
+        "operationId": "listOrgAuditLogs",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/OrgId"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          },
+          {
+            "$ref": "#/components/parameters/From"
+          },
+          {
+            "$ref": "#/components/parameters/To"
+          },
+          {
+            "$ref": "#/components/parameters/Size"
+          },
+          {
+            "$ref": "#/components/parameters/SortOrder"
+          },
+          {
+            "$ref": "#/components/parameters/UserId"
+          },
+          {
+            "$ref": "#/components/parameters/ProjectId"
+          },
+          {
+            "$ref": "#/components/parameters/Events"
+          },
+          {
+            "$ref": "#/components/parameters/ExcludeEvents"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AuditLogSearch"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Organization Audit Logs.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Search Organization audit logs.",
+        "tags": [
+          "Audit Logs"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-09-11",
+          "2024-04-29"
+        ],
+        "x-snyk-api-resource": "audit-logs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-04-29",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "AuditLogSearch": {
+      "properties": {
+        "items": {
+          "items": {
+            "properties": {
+              "content": {
+                "type": "object"
+              },
+              "created": {
+                "example": "2021-07-01T00:00:00Z",
+                "format": "date-time",
+                "type": "string"
+              },
+              "event": {
+                "example": "org.create",
+                "type": "string"
+              },
+              "group_id": {
+                "example": "0d3728ec-eebf-484d-9907-ba238019f10b",
+                "type": "string"
+              },
+              "org_id": {
+                "example": "0d3728ec-eebf-484d-9907-ba238019f10b",
+                "type": "string"
+              },
+              "project_id": {
+                "example": "0d3728ec-eebf-484d-9907-ba238019f10b",
+                "type": "string"
+              }
+            },
+            "required": [
+              "created",
+              "event"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

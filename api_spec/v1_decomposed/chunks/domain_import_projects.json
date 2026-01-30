@@ -1,0 +1,702 @@
+{
+  "tag": "Import Projects",
+  "endpoint_count": 2,
+  "schema_count": 26,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/integrations/{integrationId}/import",
+      "operation_id": "Importtargets",
+      "summary": "Import targets"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/integrations/{integrationId}/import/{jobId}",
+      "operation_id": "Getimportjobdetails",
+      "summary": "Get import job details"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/org/{orgId}/integrations/{integrationId}/import",
+      "method": "POST",
+      "operation_id": "Importtargets",
+      "summary": "Import targets",
+      "details": {
+        "tags": [
+          "Import Projects"
+        ],
+        "summary": "Import targets",
+        "description": "Request a [target](https://docs.snyk.io/getting-started/introduction-to-snyk-projects#targets) to be analyzed for supported Snyk projects via a configured [integration](https://docs.snyk.io/integrations). See the [Integrations API](https://docs.snyk.io/snyk-api/reference/integrations-v1) to configure a new integration.",
+        "operationId": "Importtargets",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "integrationId",
+            "in": "path",
+            "description": "The unique identifier for the configured integration. This can be found on the [Integration page in the Settings area](https://app.snyk.io/manage/integrations) for all integrations that have been configured.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "9a3e5d90-b782-468a-a042-9a2073736f0b"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Note: Importing targets through a Github (Cloud) integration requires the use of a [Snyk personal access/api token](https://app.snyk.io/account).",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/GithubAndGithubEnterpriseImportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AzureReposImportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/GitLabImportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/BitbucketCloudImportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/BitbucketServerImportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/HerokoImportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AWSLambdaImportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CloudFoundryPivotalIBMCloudImportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/DockerHubImportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AzureCRElasticCRArtifactoryCRNexusImportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/GoogleCRGoogleARHarborDigitalOceanCRQuayGitlabCRGithubCRImportRequest"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "example": "URL for the status API call of the import"
+              }
+            },
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/integrations/{integrationId}/import/{jobId}",
+      "method": "GET",
+      "operation_id": "Getimportjobdetails",
+      "summary": "Get import job details",
+      "details": {
+        "tags": [
+          "Import Projects"
+        ],
+        "summary": "Get import job details",
+        "description": "Get import job details",
+        "operationId": "Getimportjobdetails",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "integrationId",
+            "in": "path",
+            "description": "The unique identifier for the configured integration. This can be found on the [Integration page in the Settings area](https://app.snyk.io/manage/integrations) for all integrations that have been configured.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "9a3e5d90-b782-468a-a042-9a2073736f0b"
+            }
+          },
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "The ID of the job. This can be found in the Location response header from the corresponding POST request that triggered the import job.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "1a325d9d-b782-468a-a242-9a2073734f0b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Getimportjobdetailsresponse"
+                },
+                "example": {
+                  "id": "dce061f7-ce0f-4ccf-b49b-4335d1205bd9",
+                  "status": "pending",
+                  "created": "2018-07-23T15:21:10.611000+00:00",
+                  "logs": [
+                    {
+                      "name": "org1/repo1",
+                      "created": "2018-07-23T15:21:10.643000+00:00",
+                      "status": "failed",
+                      "projects": []
+                    },
+                    {
+                      "name": "org2/repo2",
+                      "created": "2018-07-23T15:21:10.644000+00:00",
+                      "status": "complete",
+                      "projects": [
+                        {
+                          "targetFile": "package.json",
+                          "success": true,
+                          "projectUrl": "https://api.snyk.io/v1/org/org-name/project/7eeaee25-5f9b-4d05-8818-4cca2c9d9adc"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "org3/repo3",
+                      "created": "2018-07-23T15:21:10.643000+00:00",
+                      "status": "pending",
+                      "projects": [
+                        {
+                          "targetFile": "package.json",
+                          "success": true,
+                          "projectUrl": "https://api.snyk.io/v1/org/org-name/project/0382897c-0617-4429-86df-51187dfd42f6"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "DockerHubTarget": {
+      "title": "DockerHubTarget",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "image name including tag prefixed by organization name",
+          "example": "organization/repository:tag"
+        }
+      }
+    },
+    "HerokoImportRequest": {
+      "title": "Heroku Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/HerokuTarget"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ImportFiles"
+          },
+          "description": "an array of file objects"
+        }
+      }
+    },
+    "BitbucketCloudTarget": {
+      "title": "BitbucketCloudTarget",
+      "required": [
+        "owner",
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "this is the `Workspace ID`",
+          "example": "org-security"
+        },
+        "name": {
+          "type": "string",
+          "description": "name of the repo",
+          "example": "goof"
+        }
+      }
+    },
+    "GithubAndGithubEnterpriseImportRequest": {
+      "title": "Github and Github Enterprise Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/GithubAndGithubEnterpriseRepoTarget"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ImportFiles"
+          },
+          "description": "an array of file objects"
+        },
+        "exclusionGlobs": {
+          "type": "string",
+          "description": "a comma-separated list of up to 10 folder names to exclude from scanning (each folder name must not exceed 100 characters). If not specified, it will default to \"fixtures, tests, \\_\\_tests\\_\\_, node_modules\". If an empty string is provided - no folders will be excluded. This attribute is only respected with Open Source and Container scan targets."
+        }
+      },
+      "example": {
+        "target": {
+          "owner": "org-security",
+          "name": "goof",
+          "branch": "main"
+        },
+        "files": [
+          {
+            "path": "example/package.json"
+          }
+        ]
+      }
+    },
+    "CloudFoundryPivotalIBMCloudTarget": {
+      "title": "CloudFoundryPivotalIBMCloudTarget",
+      "required": [
+        "appId"
+      ],
+      "type": "object",
+      "properties": {
+        "appId": {
+          "type": "string",
+          "description": "ID of the app"
+        }
+      }
+    },
+    "ImportFiles": {
+      "title": "ImportFiles",
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "relative path to the file",
+          "example": "example/package.json"
+        }
+      }
+    },
+    "AWSLambdaImportRequest": {
+      "title": "AWS Lambda Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/AWSLambdaTarget"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ImportFiles"
+          },
+          "description": "an array of file objects"
+        }
+      }
+    },
+    "AzureCRElasticCRArtifactoryCRNexusImportRequest": {
+      "title": "Azure Container Registry, Elastic Container Registry, Artifactory Container Registry, Nexus Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/AzureContainerRegistryElasticContainerRegistryArifactoryContainerRegistryNexusTarget"
+        }
+      }
+    },
+    "GitLabRepoTarget": {
+      "title": "GitLabRepoTarget",
+      "required": [
+        "id",
+        "branch"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "id of the repo",
+          "example": 11
+        },
+        "branch": {
+          "type": "string",
+          "description": "repo branch",
+          "example": "develop"
+        }
+      }
+    },
+    "GoogleCRGoogleARHarborDigitalOceanCRQuayGitlabCRGithubCRImportRequest": {
+      "title": "Google Container Registry, Google Artifact Registry, Harbor, DigitalOcean Container Registry, Quay, GitLab Container Registry, GitHub Container Registry Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/GoogleCRGoogleARHarborDigitalOceanCRQuayGitlabCRGithubCR"
+        }
+      }
+    },
+    "AzureReposImportRequest": {
+      "title": "Azure Repos Target Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/AzureReposTarget"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ImportFiles"
+          },
+          "description": "an array of file objects"
+        },
+        "exclusionGlobs": {
+          "type": "string",
+          "description": "a comma-separated list of up to 10 folder names to exclude from scanning (each folder name must not exceed 100 characters). If not specified, it will default to \"fixtures, tests, \\_\\_tests\\_\\_, node_modules\". If an empty string is provided - no folders will be excluded. This attribute is only respected with Open Source and Container scan targets."
+        }
+      }
+    },
+    "BitbucketServerImportRequest": {
+      "title": "Bitbucket Server Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/BitbucketServerTarget"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ImportFiles"
+          },
+          "description": "an array of file objects"
+        },
+        "exclusionGlobs": {
+          "type": "string",
+          "description": "a comma-separated list of up to 10 folder names to exclude from scanning. If not specified, it will default to \"fixtures, tests, \\_\\_tests\\_\\_, node_modules\". If an empty string is provided - no folders will be excluded. This attribute is only respected with Open Source and Container scan targets."
+        }
+      }
+    },
+    "BitbucketServerTarget": {
+      "title": "BitbucketServerTarget",
+      "required": [
+        "projectKey",
+        "repoSlug"
+      ],
+      "type": "object",
+      "properties": {
+        "projectKey": {
+          "type": "string",
+          "description": "project key",
+          "example": "SNYK_REPOS"
+        },
+        "repoSlug": {
+          "type": "string",
+          "description": "slug of the repo",
+          "example": "test"
+        },
+        "name": {
+          "type": "string",
+          "description": "custom name for the project"
+        },
+        "branch": {
+          "type": "string",
+          "description": "target branch name"
+        }
+      }
+    },
+    "DockerHubImportRequest": {
+      "title": "DockerHub Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/DockerHubTarget"
+        }
+      }
+    },
+    "HerokuTarget": {
+      "title": "HerokuTarget",
+      "required": [
+        "appId",
+        "slugId"
+      ],
+      "type": "object",
+      "properties": {
+        "appId": {
+          "type": "string",
+          "description": "ID of the app"
+        },
+        "slugId": {
+          "type": "string",
+          "description": "ID of the slug"
+        }
+      }
+    },
+    "GithubAndGithubEnterpriseRepoTarget": {
+      "title": "GithubAndGithubEnterpriseRepoTarget",
+      "required": [
+        "owner",
+        "name",
+        "branch"
+      ],
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "account owner of the repository",
+          "example": "org-security"
+        },
+        "name": {
+          "type": "string",
+          "description": "name of the repo",
+          "example": "goof"
+        },
+        "branch": {
+          "type": "string",
+          "description": "default branch of the repo (Please contact support if you want to import a non default repo branch)",
+          "example": "main"
+        }
+      }
+    },
+    "BitbucketCloudImportRequest": {
+      "title": "Bitbucket Cloud and Bitbucket Cloud App Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/BitbucketCloudTarget"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ImportFiles"
+          },
+          "description": "an array of file objects"
+        },
+        "exclusionGlobs": {
+          "type": "string",
+          "description": "a comma-separated list of up to 10 folder names to exclude from scanning (each folder name must not exceed 100 characters). If not specified, it will default to \"fixtures, tests, \\_\\_tests\\_\\_, node_modules\". If an empty string is provided - no folders will be excluded. This attribute is only respected with Open Source and Container scan targets."
+        }
+      }
+    },
+    "logs": {
+      "title": "logs",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "the name of an organization"
+        },
+        "created": {
+          "type": "string",
+          "description": "the time when the importing the organization was attempted represented as a [UTC (ISO-8601)](https://tools.ietf.org/html/rfc3339) string"
+        },
+        "status": {
+          "type": "string",
+          "description": "a string representing the status of the attempted import\n\nOne of: pending, failed, aborted or complete."
+        },
+        "truncated": {
+          "type": "boolean",
+          "description": "a flag indicating if the import was truncated"
+        },
+        "projects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/projects3"
+          },
+          "description": "projects assigned to the imported organization"
+        }
+      }
+    },
+    "CloudFoundryPivotalIBMCloudImportRequest": {
+      "title": "CloudFoundry, Pivotal & IBM Cloud Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/CloudFoundryPivotalIBMCloudTarget"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ImportFiles"
+          },
+          "description": "an array of file objects"
+        }
+      }
+    },
+    "GoogleCRGoogleARHarborDigitalOceanCRQuayGitlabCRGithubCR": {
+      "title": "GoogleCRGoogleARHarborDigitalOceanCRQuayGitlabCRGithubCR",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "image name including tag prefixed by project id or project name",
+          "example": "project/repository:tag"
+        }
+      }
+    },
+    "AzureContainerRegistryElasticContainerRegistryArifactoryContainerRegistryNexusTarget": {
+      "title": "AzureContainerRegistryElasticContainerRegistryArifactoryContainerRegistryNexusTarget",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "image name including tag",
+          "example": "repository:tag"
+        }
+      }
+    },
+    "AzureReposTarget": {
+      "title": "AzureReposTarget",
+      "required": [
+        "owner",
+        "name",
+        "branch"
+      ],
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string",
+          "description": "name of the project containing the repo",
+          "example": "my-project"
+        },
+        "name": {
+          "type": "string",
+          "description": "name of the repo",
+          "example": "goof"
+        },
+        "branch": {
+          "type": "string",
+          "description": "default branch of the repo (Please contact support if you want to import a non default repo branch)",
+          "example": "main"
+        }
+      }
+    },
+    "AWSLambdaTarget": {
+      "title": "AWSLambdaTarget",
+      "required": [
+        "functionId"
+      ],
+      "type": "object",
+      "properties": {
+        "functionId": {
+          "type": "string",
+          "description": "ID of the app"
+        }
+      }
+    },
+    "Getimportjobdetailsresponse": {
+      "title": "Getimportjobdetailsresponse",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A uuid representing the job's id"
+        },
+        "status": {
+          "type": "string",
+          "description": "a string representing the status of a job.\n\nOne of: pending, failed, aborted or complete."
+        },
+        "created": {
+          "type": "string",
+          "description": "the time when an import job was created represented as a [UTC (ISO-8601)](https://tools.ietf.org/html/rfc3339) string"
+        },
+        "logs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/logs"
+          },
+          "description": "all organizations imported by the job"
+        }
+      }
+    },
+    "GitLabImportRequest": {
+      "title": "GitLab Import Request",
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/GitLabRepoTarget"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ImportFiles"
+          },
+          "description": "an array of file objects"
+        },
+        "exclusionGlobs": {
+          "type": "string",
+          "description": "a comma-separated list of up to 10 folder names to exclude from scanning. If not specified, it will default to \"fixtures, tests, \\_\\_tests\\_\\_, node_modules\". If an empty string is provided - no folders will be excluded. This attribute is only respected with Open Source and Container scan targets."
+        }
+      }
+    },
+    "projects3": {
+      "title": "projects3",
+      "type": "object",
+      "properties": {
+        "targetFile": {
+          "type": "string",
+          "description": "the project's package manifest file"
+        },
+        "success": {
+          "type": "boolean",
+          "description": "specifies if the project was successfully imported"
+        },
+        "projectUrl": {
+          "type": "string",
+          "description": "the URL to the project"
+        },
+        "projectId": {
+          "type": "string",
+          "description": "the Snyk project publicId"
+        }
+      }
+    }
+  },
+  "referenced_common_schemas": []
+}

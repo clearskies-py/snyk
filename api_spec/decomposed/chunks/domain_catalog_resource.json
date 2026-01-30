@@ -1,0 +1,225 @@
+{
+  "tag": "Catalog Resource",
+  "endpoint_count": 1,
+  "schema_count": 2,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/learn/catalog",
+      "operation_id": "listLearnCatalog",
+      "summary": "List Snyk Learn's resources (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/learn/catalog",
+      "method": "GET",
+      "operation_id": "listLearnCatalog",
+      "summary": "List Snyk Learn's resources (Early Access)",
+      "details": {
+        "description": "List Snyk Learn's catalog resources",
+        "operationId": "listLearnCatalog",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApiVersion"
+          },
+          {
+            "$ref": "#/components/parameters/ContentSource"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/EducationResourceExtended"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "links",
+                    "jsonapi"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of catalog resources",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List Snyk Learn's resources (Early Access)",
+        "tags": [
+          "Catalog Resource"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-05-13~experimental",
+          "2024-10-13~beta",
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "catalog",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-snyk-documentation": {
+          "category": "learn"
+        },
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "Tag": {
+      "properties": {
+        "tag_type": {
+          "type": "string"
+        },
+        "tag_values": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "tag_type",
+        "tag_values"
+      ],
+      "type": "object"
+    },
+    "EducationResourceExtended": {
+      "properties": {
+        "attributes": {
+          "properties": {
+            "author": {
+              "type": "string"
+            },
+            "date_published": {
+              "format": "date",
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "education_content_category": {
+              "enum": [
+                "security education",
+                "product training"
+              ],
+              "type": "string"
+            },
+            "estimated_duration": {
+              "nullable": true,
+              "type": "number"
+            },
+            "image": {
+              "type": "string"
+            },
+            "lesson_ids": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "name": {
+              "type": "string"
+            },
+            "seo_title": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "tags": {
+              "items": {
+                "$ref": "#/components/schemas/Tag"
+              },
+              "type": "array"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "description",
+            "url",
+            "slug",
+            "image",
+            "education_content_category",
+            "tags"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "lesson",
+            "learning_path"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "PaginatedLinks",
+    "Meta",
+    "LinkProperty"
+  ]
+}

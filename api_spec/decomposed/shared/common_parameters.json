@@ -1,0 +1,1402 @@
+{
+  "description": "Common parameters shared across endpoints",
+  "parameters": {
+    "Accept": {
+      "in": "header",
+      "name": "Accept",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "AiBomIdParam": {
+      "description": "The ai_bom id",
+      "in": "path",
+      "name": "ai_bom_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "ApiVersion": {
+      "description": "The requested version of the endpoint to process the request",
+      "example": "2025-11-05",
+      "in": "query",
+      "name": "version",
+      "required": true,
+      "schema": {
+        "default": "2025-11-05",
+        "description": "Requested API version",
+        "pattern": "^(wip|work-in-progress|experimental|beta|((([0-9]{4})-([0-1][0-9]))-((3[01])|(0[1-9])|([12][0-9]))(~(wip|work-in-progress|experimental|beta))?))$",
+        "type": "string"
+      }
+    },
+    "AppId": {
+      "description": "App ID",
+      "in": "path",
+      "name": "app_id",
+      "required": true,
+      "schema": {
+        "$ref": "#/components/schemas/Uuid"
+      }
+    },
+    "AssetId": {
+      "description": "Unique identifier for the Asset",
+      "in": "path",
+      "name": "asset_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "AssetTypeFilter": {
+      "description": "Filter by asset type",
+      "in": "query",
+      "name": "type",
+      "schema": {
+        "enum": [
+          "repository",
+          "package",
+          "image"
+        ],
+        "type": "string"
+      }
+    },
+    "AssignableByMe": {
+      "description": "When true, only return roles that the current user can assign to others in the tenant.",
+      "in": "query",
+      "name": "assignable_by_me",
+      "schema": {
+        "$ref": "#/components/schemas/AssignableByMe"
+      }
+    },
+    "BotId": {
+      "description": "Bot ID",
+      "in": "path",
+      "name": "bot_id",
+      "required": true,
+      "schema": {
+        "$ref": "#/components/schemas/Uuid"
+      }
+    },
+    "Cascade": {
+      "description": "indicates whether to delete the child org memberships of the group membership.",
+      "in": "query",
+      "name": "cascade",
+      "schema": {
+        "type": "boolean"
+      }
+    },
+    "ChannelId": {
+      "description": "Slack Channel ID",
+      "in": "path",
+      "name": "channel_id",
+      "required": true,
+      "schema": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "ChannelLimit": {
+      "description": "Number of results to return per page",
+      "example": 100,
+      "in": "query",
+      "name": "limit",
+      "schema": {
+        "default": 1000,
+        "format": "int32",
+        "maximum": 1000,
+        "minimum": 10,
+        "multipleOf": 10,
+        "type": "integer"
+      }
+    },
+    "ClientId": {
+      "description": "Client ID",
+      "in": "path",
+      "name": "client_id",
+      "required": true,
+      "schema": {
+        "$ref": "#/components/schemas/Uuid"
+      }
+    },
+    "CollectionId": {
+      "description": "Unique identifier for a collection",
+      "in": "path",
+      "name": "collection_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "CompletionInterval": {
+      "description": "Filter by date interval in ISO 8601 format (e.g. 2024-01-01/2024-02-01)",
+      "in": "query",
+      "name": "completion_interval",
+      "schema": {
+        "$ref": "#/components/schemas/DateInterval"
+      }
+    },
+    "ConnectionId": {
+      "description": "Connection ID",
+      "in": "path",
+      "name": "connection_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "ConnectionTypeFilter": {
+      "description": "Filter the response by Users that match the provided connection type",
+      "in": "query",
+      "name": "connection_type",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "ContentSource": {
+      "description": "The source of educational resources",
+      "in": "query",
+      "name": "content_source",
+      "schema": {
+        "enum": [
+          "source-preview",
+          "cache"
+        ],
+        "type": "string"
+      }
+    },
+    "CreatedAfter": {
+      "description": "Return environments created after this date",
+      "example": "2022-05-06T12:25:15-04:00",
+      "in": "query",
+      "name": "created_after",
+      "schema": {
+        "format": "date-time",
+        "type": "string"
+      }
+    },
+    "CreatedBefore": {
+      "description": "Return environments created before this date",
+      "example": "2022-05-06T12:25:15-04:00",
+      "in": "query",
+      "name": "created_before",
+      "schema": {
+        "format": "date-time",
+        "type": "string"
+      }
+    },
+    "CredentialId": {
+      "description": "Credential ID",
+      "in": "path",
+      "name": "credential_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "Cursor": {
+      "description": "The ID for the next page of results.",
+      "in": "query",
+      "name": "cursor",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "Custom": {
+      "description": "Whether role is custom or not.",
+      "in": "query",
+      "name": "custom",
+      "schema": {
+        "$ref": "#/components/schemas/Custom"
+      }
+    },
+    "CustomBaseImageId": {
+      "description": "Unique identifier for custom base image",
+      "in": "path",
+      "name": "custombaseimage_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "Cves": {
+      "description": "Filter by CVE rules",
+      "in": "query",
+      "name": "cves",
+      "schema": {
+        "$ref": "#/components/schemas/Cves"
+      }
+    },
+    "Cwes": {
+      "description": "Filter by CWE rules",
+      "in": "query",
+      "name": "cwes",
+      "schema": {
+        "$ref": "#/components/schemas/Cwes"
+      }
+    },
+    "DeploymentId": {
+      "description": "Deployment ID",
+      "in": "path",
+      "name": "deployment_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "Ecosystem": {
+      "description": "Ecosystem name (e.g., npm, maven, pypi)",
+      "in": "path",
+      "name": "ecosystem",
+      "required": true,
+      "schema": {
+        "example": "npm",
+        "type": "string"
+      }
+    },
+    "EffectiveSeverityLevel": {
+      "description": "One or more effective severity levels to filter issues.",
+      "explode": false,
+      "in": "query",
+      "name": "effective_severity_level",
+      "schema": {
+        "items": {
+          "enum": [
+            "info",
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ],
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "style": "form"
+    },
+    "EmailFilter": {
+      "description": "Filter the response by Users that match the provided email",
+      "in": "query",
+      "name": "email",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "Emails": {
+      "description": "Filter by user email addresses",
+      "example": [
+        "john.doe@example.com",
+        "jane.smith@example.com"
+      ],
+      "explode": false,
+      "in": "query",
+      "name": "emails",
+      "schema": {
+        "$ref": "#/components/schemas/Emails"
+      },
+      "style": "form"
+    },
+    "EndingBefore": {
+      "description": "Return the page of results immediately before this cursor",
+      "example": "v1.eyJpZCI6IjExMDAifQo=",
+      "in": "query",
+      "name": "ending_before",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "EndingBeforeCursor": {
+      "description": "Return records before the record identified by cursor position ending_before",
+      "in": "query",
+      "name": "ending_before",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "EnvironmentId": {
+      "description": "Unique identifier for an environment",
+      "example": "052781a7-17f6-494d-0000-25c8b509abcd",
+      "in": "path",
+      "name": "environment_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "EnvironmentIdQuery": {
+      "description": "Filter resources by environment ID (multi-value, comma-separated)",
+      "example": "052781a7-17f6-494d-0000-25c8b509abcd",
+      "explode": false,
+      "in": "query",
+      "name": "environment_id",
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      },
+      "style": "form"
+    },
+    "Events": {
+      "description": "Filter logs by event types, cannot be used in conjunction with exclude_events parameter.",
+      "in": "query",
+      "name": "events",
+      "schema": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      }
+    },
+    "Exclude": {
+      "description": "An array of features to be excluded from the generated SBOM.",
+      "in": "query",
+      "name": "exclude",
+      "schema": {
+        "items": {
+          "enum": [
+            "licenses"
+          ],
+          "type": "string"
+        },
+        "type": "array"
+      }
+    },
+    "ExcludeEvents": {
+      "description": "Exclude event types from results, cannot be used in conjunctions with events parameter.",
+      "in": "query",
+      "name": "exclude_events",
+      "schema": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      }
+    },
+    "ExpandPermissions": {
+      "description": "option to show all permission types",
+      "in": "query",
+      "name": "expand_permissions",
+      "schema": {
+        "default": false,
+        "type": "boolean"
+      }
+    },
+    "ForceUpdate": {
+      "description": "flag to force the update of a role, required if users are assigned to the role",
+      "in": "query",
+      "name": "force",
+      "schema": {
+        "$ref": "#/components/schemas/ForceUpdate"
+      }
+    },
+    "Format": {
+      "description": "The desired SBOM format of the response.",
+      "in": "query",
+      "name": "format",
+      "schema": {
+        "enum": [
+          "cyclonedx1.6+json",
+          "cyclonedx1.6+xml",
+          "cyclonedx1.5+json",
+          "cyclonedx1.5+xml",
+          "cyclonedx1.4+json",
+          "cyclonedx1.4+xml",
+          "spdx2.3+json"
+        ],
+        "example": "cyclonedx1.6+json",
+        "type": "string"
+      }
+    },
+    "From": {
+      "description": "The start date (inclusive) of the audit logs search. If not specified, the start of yesterday is used. Dates should be formatted as RFC3339, e.g. 2024-01-02T16:30:00Z.\n",
+      "in": "query",
+      "name": "from",
+      "schema": {
+        "format": "date-time",
+        "type": "string"
+      }
+    },
+    "GoModuleLevel": {
+      "description": "When true, consolidate Go package-level dependencies into module-level components in the SBOM. Only applies to gomodules graphs; default is false.",
+      "in": "query",
+      "name": "go-module-level",
+      "schema": {
+        "default": false,
+        "type": "boolean"
+      }
+    },
+    "GroupId": {
+      "description": "The ID of the Group.",
+      "example": "0d3728ec-eebf-484d-9907-ba238019f10b",
+      "in": "path",
+      "name": "group_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "HasUsersAssigned": {
+      "description": "returns current memberships of the role in the meta relationships section",
+      "in": "query",
+      "name": "has_users_assigned",
+      "schema": {
+        "default": false,
+        "type": "boolean"
+      }
+    },
+    "Id": {
+      "description": "Filter resources by resource UUID (multi-value, comma-separated)",
+      "example": "4a662442-7445-55c3-adcc-cbbbdd99999",
+      "explode": false,
+      "in": "query",
+      "name": "id",
+      "schema": {
+        "type": "string"
+      },
+      "style": "form"
+    },
+    "IdInQuery": {
+      "description": "Filter environments by environment ID (multi-value, comma-separated)",
+      "example": "052781a7-17f6-494d-0000-25c8b509abcd",
+      "in": "query",
+      "name": "id",
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "Ignored": {
+      "description": "Whether an issue is ignored or not.",
+      "in": "query",
+      "name": "ignored",
+      "schema": {
+        "type": "boolean"
+      },
+      "style": "form"
+    },
+    "ImageId20231102": {
+      "description": "Image ID",
+      "in": "path",
+      "name": "image_id",
+      "required": true,
+      "schema": {
+        "example": "sha256:2bd864580926b790a22c8b96fd74496fe87b3c59c0774fe144bab2788e78e676",
+        "format": "uri",
+        "pattern": "^sha256(:|%3A)[a-f0-9]{64}$",
+        "type": "string"
+      }
+    },
+    "ImageIds": {
+      "description": "A comma-separated list of Image IDs",
+      "example": [
+        "sha256:b26f21f90920dba8401e30b89ad803587f81cce9bd1f92750f963556da2f930f",
+        "sha256:28984a62eb713aa5fff922ba06e8689f20e4b2f07de30f3d753b868389c0904f"
+      ],
+      "explode": false,
+      "in": "query",
+      "name": "image_ids",
+      "schema": {
+        "items": {
+          "format": "uri",
+          "pattern": "^sha256(:|%3A)[a-f0-9]{64}$",
+          "type": "string"
+        },
+        "maxItems": 100,
+        "type": "array"
+      },
+      "style": "form"
+    },
+    "IncludeGroupMembershipCount": {
+      "description": "indicates whether the count of group memberships is included",
+      "in": "query",
+      "name": "include_group_membership_count",
+      "schema": {
+        "type": "boolean"
+      }
+    },
+    "IncludeInRecommendations": {
+      "description": "Whether this image should be recommended as a base image upgrade",
+      "in": "query",
+      "name": "include_in_recommendations",
+      "schema": {
+        "type": "boolean"
+      }
+    },
+    "InstallId": {
+      "description": "Install ID",
+      "in": "path",
+      "name": "install_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "IntegrationId": {
+      "description": "Integration ID",
+      "in": "path",
+      "name": "integration_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "JobId": {
+      "description": "Job ID",
+      "in": "path",
+      "name": "job_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "JobIdParam": {
+      "description": "The job id",
+      "in": "path",
+      "name": "job_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "Kind": {
+      "description": "Filter resources by kind (multi-value, comma-separated): cloud",
+      "example": "cloud",
+      "explode": false,
+      "in": "query",
+      "name": "kind",
+      "schema": {
+        "$ref": "#/components/schemas/ResourceKind"
+      },
+      "style": "form"
+    },
+    "KindInQuery": {
+      "description": "Filter environments by kind (multi-value, comma-separated): aws",
+      "example": "aws",
+      "in": "query",
+      "name": "kind",
+      "schema": {
+        "$ref": "#/components/schemas/EnvironmentKind"
+      }
+    },
+    "Limit": {
+      "description": "Number of results to return per page",
+      "example": 10,
+      "in": "query",
+      "name": "limit",
+      "schema": {
+        "default": 10,
+        "format": "int32",
+        "maximum": 100,
+        "minimum": 10,
+        "multipleOf": 10,
+        "type": "integer"
+      }
+    },
+    "Location": {
+      "description": "Filter resources by location (multi-value, comma-separated) (AWS region)",
+      "example": "us-west-2",
+      "explode": false,
+      "in": "query",
+      "name": "location",
+      "schema": {
+        "type": "string"
+      },
+      "style": "form"
+    },
+    "MembershipId": {
+      "description": "Unique identifier of the tenant membership.",
+      "in": "path",
+      "name": "membership_id",
+      "required": true,
+      "schema": {
+        "$ref": "#/components/schemas/TenantMembershipId"
+      }
+    },
+    "Name": {
+      "description": "Filter resources by name (multi-value, comma-separated)",
+      "example": "example-bucket",
+      "explode": false,
+      "in": "query",
+      "name": "name",
+      "schema": {
+        "type": "string"
+      },
+      "style": "form"
+    },
+    "NameFilter": {
+      "description": "Filter the response by Users that match the provided name",
+      "in": "query",
+      "name": "name",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "NameInQuery": {
+      "description": "Filter environments by name (multi-value, comma-separated)",
+      "example": "Demo AWS Environment",
+      "in": "query",
+      "name": "name",
+      "schema": {
+        "$ref": "#/components/schemas/EnvironmentName"
+      }
+    },
+    "Names": {
+      "description": "The container registry names",
+      "example": [
+        "gcr.io/snyk/redis:5"
+      ],
+      "explode": false,
+      "in": "query",
+      "name": "names",
+      "schema": {
+        "items": {
+          "$ref": "#/components/schemas/ImageName"
+        },
+        "maxItems": 1,
+        "type": "array"
+      },
+      "style": "form"
+    },
+    "NativeId": {
+      "description": "Filter resources by native ID (multi-value, comma-separated) (AWS ARN)",
+      "example": "arn:aws:s3:::example-bucket",
+      "explode": false,
+      "in": "query",
+      "name": "native_id",
+      "schema": {
+        "type": "string"
+      },
+      "style": "form"
+    },
+    "OrderBy": {
+      "description": "The column name to sort on",
+      "in": "query",
+      "name": "order_by",
+      "schema": {
+        "enum": [
+          "created",
+          "expires",
+          "ignore-type",
+          "requested-by"
+        ],
+        "type": "string"
+      }
+    },
+    "OrderDirection": {
+      "description": "Sorting direction ASC/DESC",
+      "in": "query",
+      "name": "order_direction",
+      "schema": {
+        "enum": [
+          "asc",
+          "desc"
+        ],
+        "type": "string"
+      }
+    },
+    "OrgId": {
+      "description": "The ID of the organization.",
+      "example": "0d3728ec-eebf-484d-9907-ba238019f10b",
+      "in": "path",
+      "name": "org_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "OrgIdFilter": {
+      "description": "The IDs of the org to filter by",
+      "explode": false,
+      "in": "query",
+      "name": "org_id",
+      "schema": {
+        "items": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "style": "form"
+    },
+    "OrgIdParam": {
+      "description": "Org ID",
+      "in": "path",
+      "name": "org_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "OrgId__0": {
+      "description": "Org ID",
+      "in": "path",
+      "name": "org_id",
+      "required": true,
+      "schema": {
+        "$ref": "#/components/schemas/Uuid"
+      }
+    },
+    "OrgMembershipId": {
+      "description": "The id of the org membership",
+      "in": "path",
+      "name": "membership_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "OrgName": {
+      "description": "The Name of the org",
+      "in": "query",
+      "name": "org_name",
+      "schema": {
+        "description": "Organization name",
+        "example": "Org name",
+        "type": "string"
+      }
+    },
+    "PackageName": {
+      "description": "Package name (URL encoded if needed)",
+      "in": "path",
+      "name": "package_name",
+      "required": true,
+      "schema": {
+        "example": "express",
+        "type": "string"
+      }
+    },
+    "PackageUrl": {
+      "description": "A URI-encoded Package URL (purl). Supported purl types are apk, cargo, cocoapods, composer, conan, deb, gem, generic, golang, hex, maven, npm, nuget, pub, pypi, rpm, and swift. A version for the package is also required. Maven packages support an optional checksum qualifier to request checksum validation. When provided, the response will include checksum validation metadata indicating whether the package and checksum match records in Snyk's database. Checksum format: `algorithm:hex_value` (lowercase), for example `sha1:ad9503c3e994a4f611a4892f2e67ac82df727086`. Only one checksum is supported per request. Supported algorithms: md5, sha1, sha256, sha512.",
+      "example": "pkg:maven/com.fasterxml.woodstox/woodstox-core@5.0.0?checksum=sha1:ad9503c3e994a4f611a4892f2e67ac82df727086",
+      "in": "path",
+      "name": "purl",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    "PackageVersion": {
+      "description": "Package version (URL encoded if needed)",
+      "in": "path",
+      "name": "package_version",
+      "required": true,
+      "schema": {
+        "example": "4.19.2",
+        "type": "string"
+      }
+    },
+    "PathGroupId": {
+      "description": "Unique identifier for group",
+      "in": "path",
+      "name": "group_id",
+      "required": true,
+      "schema": {
+        "example": "b667f176-df52-4b0a-9954-117af6b05ab7",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "PathIssueId20240123": {
+      "description": "Issue ID",
+      "in": "path",
+      "name": "issue_id",
+      "required": true,
+      "schema": {
+        "example": "4a18d42f-0706-4ad0-b127-24078731fbed",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "PathOrgId": {
+      "description": "Unique identifier for org",
+      "in": "path",
+      "name": "org_id",
+      "required": true,
+      "schema": {
+        "example": "b667f176-df52-4b0a-9954-117af6b05ab7",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "Platform": {
+      "description": "Filter resources by platform (multi-value, comma-separated): aws",
+      "example": "aws",
+      "explode": false,
+      "in": "query",
+      "name": "platform",
+      "schema": {
+        "type": "string"
+      },
+      "style": "form"
+    },
+    "PolicyId": {
+      "description": "Policy ID",
+      "in": "path",
+      "name": "policy_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "ProjectId": {
+      "description": "Filter logs by project ID.",
+      "example": "0d3728ec-eebf-484d-9907-ba238019f10b",
+      "in": "query",
+      "name": "project_id",
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "QueryNameFilter": {
+      "description": "Only return organizations whose name contains this value. Case insensitive.",
+      "in": "query",
+      "name": "name",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "QuerySlugFilter": {
+      "description": "Only return organizations whose slug exactly matches this value. Case sensitive.",
+      "in": "query",
+      "name": "slug",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "Removed": {
+      "description": "Filter resources by whether they have been removed or not.",
+      "example": true,
+      "explode": false,
+      "in": "query",
+      "name": "removed",
+      "schema": {
+        "type": "boolean"
+      },
+      "style": "form"
+    },
+    "Repository": {
+      "description": "The image repository",
+      "in": "query",
+      "name": "repository",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "ResourceId": {
+      "description": "Filter resources by resource ID (multi-value, comma-separated)",
+      "example": "example-bucket",
+      "explode": false,
+      "in": "query",
+      "name": "resource_id",
+      "schema": {
+        "type": "string"
+      },
+      "style": "form"
+    },
+    "ResourceType": {
+      "description": "Filter resources by resource type (multi-value, comma-separated)",
+      "example": "aws_s3_bucket",
+      "explode": false,
+      "in": "query",
+      "name": "resource_type",
+      "schema": {
+        "type": "string"
+      },
+      "style": "form"
+    },
+    "Review": {
+      "description": "Policy rule review state e.g. approved",
+      "explode": false,
+      "in": "query",
+      "name": "review",
+      "schema": {
+        "items": {
+          "$ref": "#/components/schemas/PolicyReview"
+        },
+        "type": "array"
+      },
+      "style": "form"
+    },
+    "RoleFilter": {
+      "description": "Filter the response for results only with the specified role.",
+      "in": "query",
+      "name": "role_name",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "RoleId": {
+      "description": "Unique identifier of the role.",
+      "in": "path",
+      "name": "role_id",
+      "required": true,
+      "schema": {
+        "$ref": "#/components/schemas/RoleId"
+      }
+    },
+    "ScanId": {
+      "description": "Scan ID",
+      "example": "56465b1d-8764-458c-1234-0987abcd6543",
+      "in": "path",
+      "name": "scan_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "ScanItemId": {
+      "description": "A scan item id to filter issues through their scan item relationship.",
+      "in": "query",
+      "name": "scan_item.id",
+      "schema": {
+        "example": "4a18d42f-0706-4ad0-b127-24078731fbee",
+        "format": "uuid",
+        "type": "string"
+      },
+      "style": "form"
+    },
+    "ScanItemType": {
+      "description": "A scan item types to filter issues through their scan item relationship.",
+      "in": "query",
+      "name": "scan_item.type",
+      "schema": {
+        "$ref": "#/components/schemas/ScanItemType"
+      },
+      "style": "form"
+    },
+    "Search": {
+      "description": "Search keyword for searching fields ignored_by.name, ignored_by.email, ignore_type in policy_rules",
+      "in": "query",
+      "name": "search",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "Size": {
+      "description": "Number of results to return per page.",
+      "example": 10,
+      "in": "query",
+      "name": "size",
+      "schema": {
+        "default": 100,
+        "format": "int32",
+        "maximum": 100,
+        "minimum": 1,
+        "multipleOf": 1,
+        "type": "integer"
+      }
+    },
+    "SortBy": {
+      "description": "Which column to sort by.",
+      "in": "query",
+      "name": "sort_by",
+      "schema": {
+        "enum": [
+          "username",
+          "user_display_name",
+          "email",
+          "login_method",
+          "role_name"
+        ],
+        "type": "string"
+      }
+    },
+    "SortBy__0": {
+      "description": "Which column to sort by.",
+      "in": "query",
+      "name": "sort_by",
+      "schema": {
+        "enum": [
+          "username",
+          "user_display_name",
+          "email",
+          "login_method",
+          "role_name"
+        ],
+        "type": "string"
+      }
+    },
+    "SortDirection": {
+      "description": "Which direction to sort",
+      "in": "query",
+      "name": "sort_direction",
+      "schema": {
+        "default": "ASC",
+        "enum": [
+          "ASC",
+          "DESC"
+        ],
+        "type": "string"
+      }
+    },
+    "SortOrder": {
+      "description": "Order in which results are returned.",
+      "example": "ASC",
+      "in": "query",
+      "name": "sort_order",
+      "schema": {
+        "default": "DESC",
+        "enum": [
+          "ASC",
+          "DESC"
+        ],
+        "type": "string"
+      }
+    },
+    "SortOrder__0": {
+      "description": "Order in which results are returned.",
+      "example": "ASC",
+      "in": "query",
+      "name": "sort_order",
+      "schema": {
+        "default": "DESC",
+        "enum": [
+          "ASC",
+          "DESC"
+        ],
+        "type": "string"
+      }
+    },
+    "SsoId": {
+      "description": "The ID of the SSO",
+      "in": "path",
+      "name": "sso_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "StartingAfter": {
+      "description": "Return the page of results immediately after this cursor",
+      "example": "v1.eyJpZCI6IjEwMDAifQo=",
+      "in": "query",
+      "name": "starting_after",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "StartingAfterCursor": {
+      "description": "Return records after the record identified by cursor position starting_after",
+      "in": "query",
+      "name": "starting_after",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "Status": {
+      "description": "An issue's status",
+      "explode": false,
+      "in": "query",
+      "name": "status",
+      "schema": {
+        "items": {
+          "enum": [
+            "open",
+            "resolved"
+          ],
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "style": "form"
+    },
+    "StatusInQuery": {
+      "description": "Filter environments by latest scan status (multi-value, comma-separated)",
+      "example": "error",
+      "in": "query",
+      "name": "status",
+      "schema": {
+        "enum": [
+          "queued",
+          "in_progress",
+          "success",
+          "error",
+          "null"
+        ],
+        "type": "string"
+      }
+    },
+    "Tag": {
+      "description": "The image tag",
+      "in": "query",
+      "name": "tag",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "TenantId": {
+      "description": "Tenant ID",
+      "in": "path",
+      "name": "tenant_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "TenantId20240411": {
+      "description": "Unique identifier for tenant",
+      "in": "path",
+      "name": "tenant_id",
+      "required": true,
+      "schema": {
+        "example": "b667f176-df52-4b0a-9954-117af6b05ab7",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "TenantId__0": {
+      "description": "Unique identifier of the tenant.",
+      "in": "path",
+      "name": "tenant_id",
+      "required": true,
+      "schema": {
+        "$ref": "#/components/schemas/TenantId__0"
+      }
+    },
+    "TestIdParam": {
+      "description": "Test ID returned from the Test API to query.",
+      "in": "path",
+      "name": "test_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "Title": {
+      "deprecated": true,
+      "description": "This is deprecated, use Titles instead",
+      "in": "query",
+      "name": "title",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "Titles": {
+      "description": "Filter by the title of the learning path or lesson resource",
+      "in": "query",
+      "name": "titles",
+      "schema": {
+        "$ref": "#/components/schemas/Titles"
+      }
+    },
+    "To": {
+      "description": "The end date (exclusive) of the audit logs search. Dates should be formatted as RFC3339, e.g. 2024-01-02T16:30:00Z.\n",
+      "in": "query",
+      "name": "to",
+      "schema": {
+        "format": "date-time",
+        "type": "string"
+      }
+    },
+    "Type": {
+      "description": "An issue type to filter issues.",
+      "in": "query",
+      "name": "type",
+      "schema": {
+        "$ref": "#/components/schemas/TypeDef"
+      },
+      "style": "form"
+    },
+    "UpdatedAfter": {
+      "description": "Return environments updated after this date",
+      "example": "2022-05-06T12:25:15-04:00",
+      "in": "query",
+      "name": "updated_after",
+      "schema": {
+        "format": "date-time",
+        "type": "string"
+      }
+    },
+    "UpdatedBefore": {
+      "description": "Return environments updated before this date",
+      "example": "2022-05-06T12:25:15-04:00",
+      "in": "query",
+      "name": "updated_before",
+      "schema": {
+        "format": "date-time",
+        "type": "string"
+      }
+    },
+    "UserId": {
+      "description": "Filter logs by user ID.",
+      "example": "0d3728ec-eebf-484d-9907-ba238019f10b",
+      "in": "query",
+      "name": "user_id",
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "UserId20230130": {
+      "description": "The ID of the User",
+      "in": "path",
+      "name": "user_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "UserIdFilter": {
+      "description": "Filter the response by Users that match the provided user ID",
+      "in": "query",
+      "name": "user_id",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "UserIdSearchFilter": {
+      "description": "Filter the response by Users that match the provided user ID",
+      "in": "query",
+      "name": "user_id",
+      "schema": {
+        "$ref": "#/components/schemas/UserId"
+      }
+    },
+    "UsernameFilter": {
+      "description": "Filter the response by Users that match the provided username",
+      "in": "query",
+      "name": "username",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "Version": {
+      "description": "The requested version of the endpoint to process the request",
+      "example": "2025-11-05",
+      "in": "query",
+      "name": "version",
+      "required": true,
+      "schema": {
+        "$ref": "#/components/schemas/QueryVersion"
+      }
+    },
+    "exportId": {
+      "description": "Unique export identifier",
+      "in": "path",
+      "name": "export_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "groupId": {
+      "description": "Group ID",
+      "in": "path",
+      "name": "group_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "include_deactivated": {
+      "description": "Optional parameter to include disabled issues in results",
+      "in": "query",
+      "name": "include_deactivated",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "include_deleted": {
+      "description": "Optional parameter to include deleted issues in results",
+      "in": "query",
+      "name": "include_deleted",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "io.snyk.api.request.PaginatedRequest.ending_before": {
+      "description": "Opaque pagination cursor for reverse traversal.",
+      "explode": false,
+      "in": "query",
+      "name": "ending_before",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "io.snyk.api.request.PaginatedRequest.limit": {
+      "description": "The number of items to return.",
+      "explode": false,
+      "in": "query",
+      "name": "limit",
+      "schema": {
+        "default": 10,
+        "format": "int8",
+        "maximum": 100,
+        "minimum": 1,
+        "type": "integer"
+      }
+    },
+    "io.snyk.api.request.PaginatedRequest.starting_after": {
+      "description": "Opaque pagination cursor for forward traversal.",
+      "explode": false,
+      "in": "query",
+      "name": "starting_after",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "io.snyk.api.request.SnykApiRequest.interaction_id": {
+      "description": "Identifies the Snyk client interaction in which this API request occurs.\n\nThe identifier is an opaque string. though at the time of writing it may either be a\nuuid or a urn containing a uuid and some metadata.",
+      "in": "header",
+      "name": "snyk-interaction-id",
+      "schema": {
+        "maxLength": 128,
+        "minLength": 36,
+        "type": "string"
+      }
+    },
+    "io.snyk.api.request.SnykApiRequest.request_id": {
+      "description": "A unique ID assigned to each API request, for tracing and troubleshooting.\n\nSnyk clients can optionally provide this ID.",
+      "in": "header",
+      "name": "snyk-request-id",
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "io.snyk.api.request.SnykApiRequest.version": {
+      "description": "The API version requested.",
+      "explode": false,
+      "in": "query",
+      "name": "version",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    "orgId": {
+      "description": "Org ID",
+      "in": "path",
+      "name": "org_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
+        "type": "string"
+      }
+    }
+  }
+}

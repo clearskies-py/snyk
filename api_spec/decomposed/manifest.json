@@ -1,0 +1,558 @@
+{
+  "spec_info": {
+    "title": "Snyk API",
+    "version": "REST"
+  },
+  "total_endpoints": 204,
+  "total_tags": 42,
+  "shared_files": [
+    "shared/common_schemas.json",
+    "shared/common_parameters.json"
+  ],
+  "chunks": [
+    {
+      "tag": "Apps",
+      "slug": "apps_part1",
+      "path": "chunks/domain_apps_part1.json",
+      "endpoint_count": 17,
+      "schema_count": 42,
+      "estimated_tokens": 14454,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 2
+    },
+    {
+      "tag": "Apps",
+      "slug": "apps_part2",
+      "path": "chunks/domain_apps_part2.json",
+      "endpoint_count": 11,
+      "schema_count": 31,
+      "estimated_tokens": 8805,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 2
+    },
+    {
+      "tag": "ServiceAccounts",
+      "slug": "serviceaccounts",
+      "path": "chunks/domain_serviceaccounts.json",
+      "endpoint_count": 12,
+      "schema_count": 1,
+      "estimated_tokens": 9947,
+      "needs_splitting": false
+    },
+    {
+      "tag": "BrokerConnections",
+      "slug": "brokerconnections_part1",
+      "path": "chunks/domain_brokerconnections_part1.json",
+      "endpoint_count": 2,
+      "schema_count": 5,
+      "estimated_tokens": 11713,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 7
+    },
+    {
+      "tag": "BrokerConnections",
+      "slug": "brokerconnections_part2",
+      "path": "chunks/domain_brokerconnections_part2.json",
+      "endpoint_count": 2,
+      "schema_count": 4,
+      "estimated_tokens": 12901,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 7
+    },
+    {
+      "tag": "BrokerConnections",
+      "slug": "brokerconnections_part3",
+      "path": "chunks/domain_brokerconnections_part3.json",
+      "endpoint_count": 2,
+      "schema_count": 13,
+      "estimated_tokens": 13623,
+      "is_partial": true,
+      "part": 3,
+      "total_parts": 7
+    },
+    {
+      "tag": "BrokerConnections",
+      "slug": "brokerconnections_part4",
+      "path": "chunks/domain_brokerconnections_part4.json",
+      "endpoint_count": 1,
+      "schema_count": 47,
+      "estimated_tokens": 12259,
+      "is_partial": true,
+      "part": 4,
+      "total_parts": 7
+    },
+    {
+      "tag": "BrokerConnections",
+      "slug": "brokerconnections_part5",
+      "path": "chunks/domain_brokerconnections_part5.json",
+      "endpoint_count": 2,
+      "schema_count": 13,
+      "estimated_tokens": 13642,
+      "is_partial": true,
+      "part": 5,
+      "total_parts": 7
+    },
+    {
+      "tag": "BrokerConnections",
+      "slug": "brokerconnections_part6",
+      "path": "chunks/domain_brokerconnections_part6.json",
+      "endpoint_count": 1,
+      "schema_count": 47,
+      "estimated_tokens": 12293,
+      "is_partial": true,
+      "part": 6,
+      "total_parts": 7
+    },
+    {
+      "tag": "BrokerConnections",
+      "slug": "brokerconnections_part7",
+      "path": "chunks/domain_brokerconnections_part7.json",
+      "endpoint_count": 2,
+      "schema_count": 4,
+      "estimated_tokens": 10367,
+      "is_partial": true,
+      "part": 7,
+      "total_parts": 7
+    },
+    {
+      "tag": "Policies",
+      "slug": "policies",
+      "path": "chunks/domain_policies.json",
+      "endpoint_count": 10,
+      "schema_count": 49,
+      "estimated_tokens": 11366,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Groups",
+      "slug": "groups",
+      "path": "chunks/domain_groups.json",
+      "endpoint_count": 9,
+      "schema_count": 19,
+      "estimated_tokens": 7808,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Cloud",
+      "slug": "cloud",
+      "path": "chunks/domain_cloud.json",
+      "endpoint_count": 9,
+      "schema_count": 24,
+      "estimated_tokens": 9649,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Orgs",
+      "slug": "orgs",
+      "path": "chunks/domain_orgs.json",
+      "endpoint_count": 8,
+      "schema_count": 20,
+      "estimated_tokens": 7689,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Collection",
+      "slug": "collection",
+      "path": "chunks/domain_collection.json",
+      "endpoint_count": 8,
+      "schema_count": 14,
+      "estimated_tokens": 6808,
+      "needs_splitting": false
+    },
+    {
+      "tag": "SlackSettings",
+      "slug": "slacksettings",
+      "path": "chunks/domain_slacksettings.json",
+      "endpoint_count": 7,
+      "schema_count": 11,
+      "estimated_tokens": 5133,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Export",
+      "slug": "export",
+      "path": "chunks/domain_export.json",
+      "endpoint_count": 6,
+      "schema_count": 0,
+      "estimated_tokens": 1968,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Issues",
+      "slug": "issues_part1",
+      "path": "chunks/domain_issues_part1.json",
+      "endpoint_count": 2,
+      "schema_count": 0,
+      "estimated_tokens": 11463,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 3
+    },
+    {
+      "tag": "Issues",
+      "slug": "issues_part2",
+      "path": "chunks/domain_issues_part2.json",
+      "endpoint_count": 3,
+      "schema_count": 18,
+      "estimated_tokens": 14917,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 3
+    },
+    {
+      "tag": "Issues",
+      "slug": "issues_part3",
+      "path": "chunks/domain_issues_part3.json",
+      "endpoint_count": 1,
+      "schema_count": 16,
+      "estimated_tokens": 3252,
+      "is_partial": true,
+      "part": 3,
+      "total_parts": 3
+    },
+    {
+      "tag": "Tenants",
+      "slug": "tenants",
+      "path": "chunks/domain_tenants.json",
+      "endpoint_count": 6,
+      "schema_count": 32,
+      "estimated_tokens": 5631,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Custom Base Images",
+      "slug": "custom_base_images",
+      "path": "chunks/domain_custom_base_images.json",
+      "endpoint_count": 5,
+      "schema_count": 12,
+      "estimated_tokens": 4496,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Asset",
+      "slug": "asset",
+      "path": "chunks/domain_asset.json",
+      "endpoint_count": 5,
+      "schema_count": 17,
+      "estimated_tokens": 6640,
+      "needs_splitting": false
+    },
+    {
+      "tag": "BrokerDeployments",
+      "slug": "brokerdeployments_part1",
+      "path": "chunks/domain_brokerdeployments_part1.json",
+      "endpoint_count": 2,
+      "schema_count": 3,
+      "estimated_tokens": 12712,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 3
+    },
+    {
+      "tag": "BrokerDeployments",
+      "slug": "brokerdeployments_part2",
+      "path": "chunks/domain_brokerdeployments_part2.json",
+      "endpoint_count": 2,
+      "schema_count": 4,
+      "estimated_tokens": 12710,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 3
+    },
+    {
+      "tag": "BrokerDeployments",
+      "slug": "brokerdeployments_part3",
+      "path": "chunks/domain_brokerdeployments_part3.json",
+      "endpoint_count": 1,
+      "schema_count": 6,
+      "estimated_tokens": 6774,
+      "is_partial": true,
+      "part": 3,
+      "total_parts": 3
+    },
+    {
+      "tag": "DeploymentCredentials",
+      "slug": "deploymentcredentials_part1",
+      "path": "chunks/domain_deploymentcredentials_part1.json",
+      "endpoint_count": 2,
+      "schema_count": 7,
+      "estimated_tokens": 13084,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 3
+    },
+    {
+      "tag": "DeploymentCredentials",
+      "slug": "deploymentcredentials_part2",
+      "path": "chunks/domain_deploymentcredentials_part2.json",
+      "endpoint_count": 2,
+      "schema_count": 5,
+      "estimated_tokens": 12912,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 3
+    },
+    {
+      "tag": "DeploymentCredentials",
+      "slug": "deploymentcredentials_part3",
+      "path": "chunks/domain_deploymentcredentials_part3.json",
+      "endpoint_count": 1,
+      "schema_count": 6,
+      "estimated_tokens": 6790,
+      "is_partial": true,
+      "part": 3,
+      "total_parts": 3
+    },
+    {
+      "tag": "TenantRole",
+      "slug": "tenantrole",
+      "path": "chunks/domain_tenantrole.json",
+      "endpoint_count": 5,
+      "schema_count": 10,
+      "estimated_tokens": 4103,
+      "needs_splitting": false
+    },
+    {
+      "tag": "IacSettings",
+      "slug": "iacsettings",
+      "path": "chunks/domain_iacsettings.json",
+      "endpoint_count": 4,
+      "schema_count": 9,
+      "estimated_tokens": 3454,
+      "needs_splitting": false
+    },
+    {
+      "tag": "AiBom",
+      "slug": "aibom_part1",
+      "path": "chunks/domain_aibom_part1.json",
+      "endpoint_count": 3,
+      "schema_count": 17,
+      "estimated_tokens": 14593,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 2
+    },
+    {
+      "tag": "AiBom",
+      "slug": "aibom_part2",
+      "path": "chunks/domain_aibom_part2.json",
+      "endpoint_count": 1,
+      "schema_count": 3,
+      "estimated_tokens": 3556,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 2
+    },
+    {
+      "tag": "Learn assignment",
+      "slug": "learn_assignment",
+      "path": "chunks/domain_learn_assignment.json",
+      "endpoint_count": 4,
+      "schema_count": 10,
+      "estimated_tokens": 4011,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Projects",
+      "slug": "projects",
+      "path": "chunks/domain_projects.json",
+      "endpoint_count": 4,
+      "schema_count": 18,
+      "estimated_tokens": 7545,
+      "needs_splitting": false
+    },
+    {
+      "tag": "SBOM",
+      "slug": "sbom",
+      "path": "chunks/domain_sbom.json",
+      "endpoint_count": 4,
+      "schema_count": 7,
+      "estimated_tokens": 3306,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Pull Request Templates",
+      "slug": "pull_request_templates",
+      "path": "chunks/domain_pull_request_templates.json",
+      "endpoint_count": 3,
+      "schema_count": 3,
+      "estimated_tokens": 2165,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Users",
+      "slug": "users",
+      "path": "chunks/domain_users.json",
+      "endpoint_count": 3,
+      "schema_count": 6,
+      "estimated_tokens": 2439,
+      "needs_splitting": false
+    },
+    {
+      "tag": "ContainerImage",
+      "slug": "containerimage",
+      "path": "chunks/domain_containerimage.json",
+      "endpoint_count": 3,
+      "schema_count": 8,
+      "estimated_tokens": 3042,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Invites",
+      "slug": "invites",
+      "path": "chunks/domain_invites.json",
+      "endpoint_count": 3,
+      "schema_count": 8,
+      "estimated_tokens": 2540,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Targets",
+      "slug": "targets",
+      "path": "chunks/domain_targets.json",
+      "endpoint_count": 3,
+      "schema_count": 1,
+      "estimated_tokens": 2710,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Tests",
+      "slug": "tests",
+      "path": "chunks/domain_tests.json",
+      "endpoint_count": 3,
+      "schema_count": 64,
+      "estimated_tokens": 15224,
+      "needs_splitting": true
+    },
+    {
+      "tag": "Audit Logs",
+      "slug": "audit_logs",
+      "path": "chunks/domain_audit_logs.json",
+      "endpoint_count": 2,
+      "schema_count": 1,
+      "estimated_tokens": 2188,
+      "needs_splitting": false
+    },
+    {
+      "tag": "OpenAPI",
+      "slug": "openapi",
+      "path": "chunks/domain_openapi.json",
+      "endpoint_count": 2,
+      "schema_count": 0,
+      "estimated_tokens": 501,
+      "needs_splitting": false
+    },
+    {
+      "tag": "ContainerRegistryImportPolicy",
+      "slug": "containerregistryimportpolicy",
+      "path": "chunks/domain_containerregistryimportpolicy.json",
+      "endpoint_count": 2,
+      "schema_count": 9,
+      "estimated_tokens": 2575,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Learn progress",
+      "slug": "learn_progress",
+      "path": "chunks/domain_learn_progress.json",
+      "endpoint_count": 2,
+      "schema_count": 9,
+      "estimated_tokens": 2493,
+      "needs_splitting": false
+    },
+    {
+      "tag": "SastSettings",
+      "slug": "sastsettings",
+      "path": "chunks/domain_sastsettings.json",
+      "endpoint_count": 2,
+      "schema_count": 1,
+      "estimated_tokens": 1387,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Slack",
+      "slug": "slack",
+      "path": "chunks/domain_slack.json",
+      "endpoint_count": 2,
+      "schema_count": 2,
+      "estimated_tokens": 1443,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Group",
+      "slug": "group",
+      "path": "chunks/domain_group.json",
+      "endpoint_count": 1,
+      "schema_count": 6,
+      "estimated_tokens": 1040,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Catalog Resource",
+      "slug": "catalog_resource",
+      "path": "chunks/domain_catalog_resource.json",
+      "endpoint_count": 1,
+      "schema_count": 2,
+      "estimated_tokens": 833,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Package",
+      "slug": "package",
+      "path": "chunks/domain_package.json",
+      "endpoint_count": 1,
+      "schema_count": 10,
+      "estimated_tokens": 1990,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Package Version",
+      "slug": "package_version",
+      "path": "chunks/domain_package_version.json",
+      "endpoint_count": 1,
+      "schema_count": 11,
+      "estimated_tokens": 2301,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Fix Pull Requests",
+      "slug": "fix_pull_requests",
+      "path": "chunks/domain_fix_pull_requests.json",
+      "endpoint_count": 1,
+      "schema_count": 2,
+      "estimated_tokens": 1077,
+      "needs_splitting": false
+    },
+    {
+      "tag": "OpenSourceSettings",
+      "slug": "opensourcesettings",
+      "path": "chunks/domain_opensourcesettings.json",
+      "endpoint_count": 1,
+      "schema_count": 0,
+      "estimated_tokens": 744,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Findings",
+      "slug": "findings",
+      "path": "chunks/domain_findings.json",
+      "endpoint_count": 1,
+      "schema_count": 40,
+      "estimated_tokens": 15414,
+      "needs_splitting": true
+    },
+    {
+      "tag": "AccessRequests",
+      "slug": "accessrequests",
+      "path": "chunks/domain_accessrequests.json",
+      "endpoint_count": 1,
+      "schema_count": 3,
+      "estimated_tokens": 741,
+      "needs_splitting": false
+    }
+  ]
+}

@@ -1,0 +1,1518 @@
+{
+  "tag": "Asset",
+  "endpoint_count": 5,
+  "schema_count": 17,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/groups/{group_id}/assets/search",
+      "operation_id": "listAssets",
+      "summary": "List Assets with filters (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/assets/{asset_id}",
+      "operation_id": "getAsset",
+      "summary": "Get an Asset by its ID (Early Access)"
+    },
+    {
+      "method": "PATCH",
+      "path": "/groups/{group_id}/assets/{asset_id}",
+      "operation_id": "updateAsset",
+      "summary": "Update asset attributes (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/assets/{asset_id}/relationships/assets",
+      "operation_id": "listRelatedAssets",
+      "summary": "List related assets with pagination (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/assets/{asset_id}/relationships/projects",
+      "operation_id": "listAssetProjects",
+      "summary": "List asset projects with pagination (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/groups/{group_id}/assets/search",
+      "method": "POST",
+      "operation_id": "listAssets",
+      "summary": "List Assets with filters (Early Access)",
+      "details": {
+        "description": "List Assets with filters\n\n#### Required permissions\n\n- `View Groups (group.read)`",
+        "operationId": "listAssets",
+        "parameters": [
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "example1": {
+                  "summary": "One filter, one attribute",
+                  "value": {
+                    "query": {
+                      "attributes": {
+                        "attribute": "type",
+                        "operator": "equal",
+                        "values": [
+                          "repository"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "example2": {
+                  "summary": "Two filters",
+                  "value": {
+                    "query": {
+                      "attributes": {
+                        "operator": "and",
+                        "values": [
+                          {
+                            "attribute": "type",
+                            "operator": "equal",
+                            "values": [
+                              "repository"
+                            ]
+                          },
+                          {
+                            "attribute": "sources",
+                            "operator": "equal",
+                            "values": [
+                              "snyk",
+                              "github"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "example3": {
+                  "summary": "Nested filters - X and (Y or Z)",
+                  "value": {
+                    "query": {
+                      "attributes": {
+                        "operator": "and",
+                        "values": [
+                          {
+                            "attribute": "type",
+                            "operator": "equal",
+                            "values": [
+                              "repository"
+                            ]
+                          },
+                          {
+                            "operator": "or",
+                            "values": [
+                              {
+                                "attribute": "class",
+                                "operator": "in",
+                                "values": [
+                                  "A",
+                                  "B"
+                                ]
+                              },
+                              {
+                                "attribute": "risk_factors",
+                                "operator": "in",
+                                "values": [
+                                  "Deployed"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "example4": {
+                  "summary": "Tags filtering",
+                  "value": {
+                    "query": {
+                      "attributes": {
+                        "operator": "and",
+                        "values": [
+                          {
+                            "attribute": "type",
+                            "operator": "equal",
+                            "values": [
+                              "repository"
+                            ]
+                          },
+                          {
+                            "attribute": "tags.environment",
+                            "operator": "equal",
+                            "values": [
+                              "production"
+                            ]
+                          },
+                          {
+                            "attribute": "tags.team",
+                            "operator": "equal",
+                            "values": [
+                              "backend"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "schema": {
+                "oneOf": [
+                  {
+                    "additionalProperties": false,
+                    "description": "Empty body",
+                    "type": "object"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SearchObject"
+                  }
+                ]
+              }
+            }
+          },
+          "description": "Filter criteria for listing assets. Can be empty or contain query filters.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/AssetResponseData"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Assets found",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List Assets with filters (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta",
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "assets",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/assets/{asset_id}",
+      "method": "GET",
+      "operation_id": "getAsset",
+      "summary": "Get an Asset by its ID (Early Access)",
+      "details": {
+        "description": "Get an Asset by its ID\n\n#### Required permissions\n\n- `View Groups (group.read)`",
+        "operationId": "getAsset",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AssetId"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssetResponseData"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Asset found",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get an Asset by its ID (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta",
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "assets",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/assets/{asset_id}",
+      "method": "PATCH",
+      "operation_id": "updateAsset",
+      "summary": "Update asset attributes (Early Access)",
+      "details": {
+        "description": "The endpoint allows for partial updates to an asset's attributes.\n\n#### Required permissions\n\n- `Edit Group Details (group.edit)`",
+        "operationId": "updateAsset",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/AssetId"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/UpdateAssetRequestData"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssetResponseData"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Asset updated successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update asset attributes (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "assets",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/assets/{asset_id}/relationships/assets",
+      "method": "GET",
+      "operation_id": "listRelatedAssets",
+      "summary": "List related assets with pagination (Early Access)",
+      "details": {
+        "description": "List related assets with pagination\n\n#### Required permissions\n\n- `View Groups (group.read)`",
+        "operationId": "listRelatedAssets",
+        "parameters": [
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/AssetId"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfterCursor"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBeforeCursor"
+          },
+          {
+            "description": "Number of records to return",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 10,
+              "type": "number"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/AssetTypeFilter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/AssetResponseData"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Related assets found",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List related assets with pagination (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta",
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "assets",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/assets/{asset_id}/relationships/projects",
+      "method": "GET",
+      "operation_id": "listAssetProjects",
+      "summary": "List asset projects with pagination (Early Access)",
+      "details": {
+        "description": "List asset projects with pagination\n\n#### Required permissions\n\n- `View Groups (group.read)`",
+        "operationId": "listAssetProjects",
+        "parameters": [
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/AssetId"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfterCursor"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBeforeCursor"
+          },
+          {
+            "description": "Number of records to return",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 10,
+              "type": "number"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/AssetProjectResponseData"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Assets found",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List asset projects with pagination (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta",
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "assets",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "SearchAttributesObject": {
+      "properties": {
+        "attribute": {
+          "description": "Name of the Asset attribute to filter on, not required if a logical operator is used.\n\n**Tags Filtering:**\n\nThe API supports filtering on tags using dot notation:\n\n- **Tags**: `tags.{tagName}` - Filter by tag keys (e.g., `tags.environment`, `tags.team`, `tags.owner`)\n",
+          "oneOf": [
+            {
+              "enum": [
+                "id",
+                "type",
+                "removed",
+                "name",
+                "repository_url",
+                "file_path",
+                "sources",
+                "risk_factors",
+                "repository_freshness",
+                "browse_url",
+                "image_id",
+                "image_digests",
+                "image_tags",
+                "image_repositories",
+                "image_registries",
+                "labels",
+                "class",
+                "organizations",
+                "created_at",
+                "updated_at"
+              ],
+              "type": "string"
+            },
+            {
+              "description": "Tag attribute in the format `tags.{tagName}`",
+              "pattern": "^tags\\.[a-zA-Z0-9_-]{1,30}$",
+              "type": "string"
+            }
+          ]
+        },
+        "operator": {
+          "description": "Required, name of the Operator for the query",
+          "enum": [
+            "and",
+            "or",
+            "equal",
+            "not_equal",
+            "contains",
+            "not_contains",
+            "starts_with",
+            "ends_with",
+            "in",
+            "not_in",
+            "greater_than",
+            "lower_than",
+            "equal_or_greater_than",
+            "equal_or_lower_than"
+          ],
+          "type": "string"
+        },
+        "values": {
+          "description": "Required values, which can be strings, dates, integers, booleans, or nested attributes",
+          "items": {
+            "oneOf": [
+              {
+                "description": "A string value",
+                "type": "string"
+              },
+              {
+                "description": "A date value in ISO 8601 format",
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "description": "An integer value",
+                "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/SearchAttributesObject"
+              },
+              {
+                "description": "A boolean value",
+                "type": "boolean"
+              }
+            ]
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "operator",
+        "values"
+      ],
+      "type": "object"
+    },
+    "AssetClassAttributes": {
+      "additionalProperties": false,
+      "description": "Mandated, hierarchical attribute that provides a standardized measure of an asset's importance to the business. It can be a number from 1-4 or a display name (e.g \"A\", \"B\", \"C\" or \"D\").\nThe locked status is a boolean flag that, when true, prevents automated policy-driven actions from overriding the manually set Business Criticality (Class) value.\n",
+      "example": {
+        "display_name": "A",
+        "locked": true,
+        "rank": 1
+      },
+      "properties": {
+        "display_name": {
+          "description": "class name of the asset",
+          "type": "string"
+        },
+        "locked": {
+          "description": "Whether the asset class is locked",
+          "type": "boolean"
+        },
+        "rank": {
+          "description": "Rank associated with the asset class",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "AssetProjectAttributes": {
+      "properties": {
+        "issues_counts": {
+          "properties": {
+            "critical": {
+              "type": "number"
+            },
+            "high": {
+              "type": "number"
+            },
+            "low": {
+              "type": "number"
+            },
+            "medium": {
+              "type": "number"
+            }
+          },
+          "type": "object"
+        },
+        "last_scan": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "organization_id": {
+          "type": "string"
+        },
+        "organization_name": {
+          "type": "string"
+        },
+        "project_type": {
+          "type": "string"
+        },
+        "target_file": {
+          "type": "string"
+        },
+        "target_id": {
+          "type": "string"
+        },
+        "target_reference": {
+          "type": "string"
+        },
+        "test_surface": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "AssetLabelsUpdate": {
+      "additionalProperties": false,
+      "description": "Updates the asset's labels by adding or removing label values.\n",
+      "properties": {
+        "add": {
+          "description": "Labels to add to the asset",
+          "items": {
+            "maxLength": 40,
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "remove": {
+          "description": "Labels to remove from the asset",
+          "items": {
+            "maxLength": 40,
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "AssetAttributes": {
+      "properties": {
+        "app_context": {
+          "description": "asset metadata from App Context integrations",
+          "nullable": true,
+          "type": "object"
+        },
+        "archived": {
+          "description": "Indicates if the asset is archived",
+          "type": "boolean"
+        },
+        "base_image": {
+          "description": "Base image of the container image",
+          "nullable": true,
+          "type": "string"
+        },
+        "browse_url": {
+          "description": "URL to browse the asset",
+          "format": "uri",
+          "nullable": true,
+          "type": "string"
+        },
+        "class": {
+          "$ref": "#/components/schemas/AssetClassAttributes"
+        },
+        "coverage_controls": {
+          "items": {
+            "$ref": "#/components/schemas/CoverageControlAttributes"
+          },
+          "type": "array"
+        },
+        "created_at": {
+          "description": "Creation timestamp",
+          "format": "date-time",
+          "type": "string"
+        },
+        "default_branch_name": {
+          "description": "Default branch name of the repository",
+          "example": "main",
+          "nullable": true,
+          "type": "string"
+        },
+        "developers": {
+          "description": "List of developers associated with the asset",
+          "items": {
+            "$ref": "#/components/schemas/DeveloperAttributes"
+          },
+          "type": "array"
+        },
+        "file_path": {
+          "description": "File path of the asset",
+          "nullable": true,
+          "type": "string"
+        },
+        "image_digests": {
+          "description": "List of digests for the container image",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true,
+          "type": "array"
+        },
+        "image_id": {
+          "description": "ID of the container image",
+          "nullable": true,
+          "type": "string"
+        },
+        "image_registries": {
+          "description": "List of registries containing the container image",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true,
+          "type": "array"
+        },
+        "image_repositories": {
+          "description": "List of repositories containing the container image",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true,
+          "type": "array"
+        },
+        "image_tags": {
+          "description": "List of tags for the container image",
+          "items": {
+            "type": "string"
+          },
+          "nullable": true,
+          "type": "array"
+        },
+        "labels": {
+          "description": "Unstructured, simple text strings that can be applied to an asset",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "languages": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "description": "Languages used in the asset with usage counts",
+          "nullable": true,
+          "type": "object"
+        },
+        "name": {
+          "description": "Name of the asset of the file path",
+          "nullable": true,
+          "type": "string"
+        },
+        "removed_reasons": {
+          "description": "List of reasons for removal",
+          "items": {
+            "properties": {
+              "reason": {
+                "description": "Reason for removal:\n- repo-archived - The asset was archived on the SCM.\n- repo-deleted - The asset was deleted on the SCM.\n- org-level-inactive - The Org-Level integration/profile is inactive.\n- snyk-project-deleted - The associated Snyk Project was deleted and Snyk was the only source.\n- deleted-profile - The integration profile was deleted.\n",
+                "enum": [
+                  "deleted-profile",
+                  "org-level-inactive",
+                  "repo-archived",
+                  "repo-deleted",
+                  "snyk-project-deleted"
+                ]
+              },
+              "removed_at": {
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "repository_freshness": {
+          "description": "Indicating the activity level of the repository",
+          "format": "byte",
+          "nullable": true,
+          "type": "string"
+        },
+        "repository_url": {
+          "description": "URL to the asset's repository",
+          "nullable": true,
+          "type": "string"
+        },
+        "risk_factors": {
+          "description": "Runtime context that indicates increased asset risk",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "sources": {
+          "description": "List of source identifiers for the asset",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "tags": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Explicitly defined, key:value pairs that are associated with an asset",
+          "type": "object"
+        },
+        "updated_at": {
+          "description": "Last update timestamp",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "AssetClass": {
+      "additionalProperties": false,
+      "anyOf": [
+        {
+          "required": [
+            "display_name"
+          ]
+        },
+        {
+          "required": [
+            "rank"
+          ]
+        }
+      ],
+      "description": "Sets the asset's class using either a rank (a number between 1 and 4) or a display name (e.g., \"A,\" \"B,\" \"C,\" or \"D\"). If both rank and name are provided, rank takes precedence.\n* This attribute accepts a single value. It can be locked: When a class attribute is \"locked\", this attribute will not be affected by any policy.\n  * UI: When the user changes the asset class, by default is \"locked\".\n  * API: The user will need to indicate wether they want to \"lock\" the class attribute.\n",
+      "properties": {
+        "display_name": {
+          "description": "Asset class display name",
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ],
+          "type": "string"
+        },
+        "locked": {
+          "description": "Whether the asset class is locked",
+          "type": "boolean"
+        },
+        "rank": {
+          "description": "Asset class rank (1-4)",
+          "enum": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "AssetRelationships": {
+      "properties": {
+        "assets": {
+          "properties": {
+            "links": {
+              "properties": {
+                "related": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "organizations": {
+          "description": "Snyk Organizations with Projects that map to this asset",
+          "nullable": true,
+          "properties": {
+            "data": {
+              "items": {
+                "properties": {
+                  "attributes": {
+                    "properties": {
+                      "name": {
+                        "nullable": true,
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        },
+        "projects": {
+          "properties": {
+            "links": {
+              "properties": {
+                "related": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "UpdateAssetRequestData": {
+      "description": "Asset update request data",
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/UpdateAssetAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "repository",
+            "image",
+            "package"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "AssetProjectResponseData": {
+      "description": "asset project resource object",
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AssetProjectAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "project"
+          ],
+          "example": "project",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IssuesCountAttributes": {
+      "example": {
+        "critical": 5,
+        "high": 12,
+        "low": 3,
+        "medium": 7
+      },
+      "properties": {
+        "critical": {
+          "description": "Number of critical issues",
+          "type": "integer"
+        },
+        "high": {
+          "description": "Number of high-severity issues",
+          "type": "integer"
+        },
+        "low": {
+          "description": "Number of low-severity issues",
+          "type": "integer"
+        },
+        "medium": {
+          "description": "Number of medium-severity issues",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "UpdateAssetAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "$ref": "#/components/schemas/AssetClass"
+        },
+        "labels": {
+          "$ref": "#/components/schemas/AssetLabelsUpdate"
+        },
+        "tags": {
+          "$ref": "#/components/schemas/AssetTagsUpdate"
+        }
+      },
+      "type": "object"
+    },
+    "CoverageControlAttributes": {
+      "example": {
+        "category": "security",
+        "gap": true,
+        "issues_count": {
+          "critical": 1,
+          "high": 2,
+          "low": 0,
+          "medium": 0
+        },
+        "last_scan": "2023-10-10T08:00:00Z",
+        "name": "control1"
+      },
+      "properties": {
+        "category": {
+          "description": "Category of the control",
+          "type": "string"
+        },
+        "gap": {
+          "description": "indicates if there is a coverage gap",
+          "type": "boolean"
+        },
+        "issues_count": {
+          "$ref": "#/components/schemas/IssuesCountAttributes"
+        },
+        "last_scan": {
+          "description": "Last scan date for this control",
+          "format": "date-time",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name of the control",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "AssetTagsUpdate": {
+      "additionalProperties": false,
+      "description": "Updates the asset's custom tags by adding or removing tag key-value pairs.\n",
+      "properties": {
+        "add": {
+          "additionalProperties": {
+            "maxLength": 40,
+            "pattern": "^[a-zA-Z0-9_/:?#@&=+%~-]+$",
+            "type": "string"
+          },
+          "description": "Tags to add to the asset (key-value pairs). Tag keys must be 1-30 characters long and contain only alphanumeric characters, underscores, and hyphens.\n",
+          "type": "object"
+        },
+        "remove": {
+          "description": "Tag keys to remove from the asset",
+          "items": {
+            "maxLength": 30,
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "AssetResponseData": {
+      "description": "asset resource object",
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AssetAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/AssetRelationships"
+        },
+        "removed": {
+          "type": "boolean"
+        },
+        "type": {
+          "enum": [
+            "repository",
+            "image",
+            "package"
+          ],
+          "example": "repository",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "DeveloperAttributes": {
+      "example": {
+        "discovered_by": "github",
+        "email": "john.doe@example.com",
+        "url": "https://github.com/johndoe",
+        "username": "johndoe"
+      },
+      "properties": {
+        "discovered_by": {
+          "description": "The SCM integration that was discovered by the developer",
+          "nullable": true,
+          "type": "string"
+        },
+        "email": {
+          "description": "Email address of the developer",
+          "format": "email",
+          "nullable": true,
+          "type": "string"
+        },
+        "url": {
+          "description": "URL of the developer's profile",
+          "format": "uri",
+          "nullable": true,
+          "type": "string"
+        },
+        "username": {
+          "description": "Username of the developer",
+          "nullable": true,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SearchObject": {
+      "description": "The request body can be empty or include query parameters.",
+      "properties": {
+        "query": {
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/SearchAttributesObject"
+            }
+          },
+          "required": [
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "tag": "OpenAPI",
+  "endpoint_count": 2,
+  "schema_count": 0,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/openapi",
+      "operation_id": "listAPIVersions",
+      "summary": ""
+    },
+    {
+      "method": "GET",
+      "path": "/openapi/{version}",
+      "operation_id": "getAPIVersion",
+      "summary": ""
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/openapi",
+      "method": "GET",
+      "operation_id": "listAPIVersions",
+      "summary": "",
+      "details": {
+        "description": "List available versions of OpenAPI specification",
+        "operationId": "listAPIVersions",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "List of available versions is returned",
+            "headers": {
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "tags": [
+          "OpenAPI"
+        ]
+      }
+    },
+    {
+      "path": "/openapi/{version}",
+      "method": "GET",
+      "operation_id": "getAPIVersion",
+      "summary": "",
+      "details": {
+        "description": "Get OpenAPI specification effective at version.",
+        "operationId": "getAPIVersion",
+        "parameters": [
+          {
+            "description": "The requested version of the API",
+            "in": "path",
+            "name": "version",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OpenAPI specification matching requested version is returned",
+            "headers": {
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "tags": [
+          "OpenAPI"
+        ]
+      }
+    }
+  ],
+  "schemas": {},
+  "referenced_common_schemas": []
+}

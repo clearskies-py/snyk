@@ -1,0 +1,1517 @@
+{
+  "tag": "Test",
+  "endpoint_count": 1,
+  "schema_count": 10,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/test/rubygems",
+      "operation_id": "Testgemfile.lockfile",
+      "summary": "Test gemfile.lock file"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/test/rubygems",
+      "method": "POST",
+      "operation_id": "Testgemfile.lockfile",
+      "summary": "Test gemfile.lock file",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Test gemfile.lock file",
+        "description": "Test for issues in rubygems packages and applications.You can test your rubygems applications for issues according to their lockfile using this action. It takes a JSON object containing a the \"target\" `Gemfile.lock`.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "Testgemfile.lockfile",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/rubygemsrequestpayload"
+                  },
+                  {
+                    "example": {
+                      "encoding": "plain",
+                      "files": {
+                        "target": {
+                          "contents": "GEM\\n remote: http://rubygems.org/\\n specs:\\n actionpack (4.2.5)\\n actionview (= 4.2.5)\\n activesupport (= 4.2.5)\\n rack (~> 1.6)\\n rack-test (~> 0.6.2)\\n rails-dom-testing (~> 1.0, >= 1.0.5)\\n rails-html-sanitizer (~> 1.0, >= 1.0.2)\\n actionview (4.2.5)\\n activesupport (= 4.2.5)\\n builder (~> 3.1)\\n erubis (~> 2.7.0)\\n rails-dom-testing (~> 1.0, >= 1.0.5)\\n rails-html-sanitizer (~> 1.0, >= 1.0.2)\\n activesupport (4.2.5)\\n i18n (~> 0.7)\\n json (~> 1.7, >= 1.7.7)\\n minitest (~> 5.1)\\n thread_safe (~> 0.3, >= 0.3.4)\\n tzinfo (~> 1.1)\\n builder (3.2.2)\\n erubis (2.7.0)\\n haml (3.1.4)\\n httparty (0.8.1)\\n multi_json\\n multi_xml\\n i18n (0.7.0)\\n json (1.8.3)\\n loofah (2.0.3)\\n nokogiri (>= 1.5.9)\\n mini_portile2 (2.1.0)\\n minitest (5.9.1)\\n multi_json (1.12.1)\\n multi_xml (0.5.5)\\n nokogiri (1.6.8.1)\\n mini_portile2 (~> 2.1.0)\\n rack (1.6.4)\\n rack-protection (1.5.3)\\n rack\\n rack-test (0.6.3)\\n rack (>= 1.0)\\n rails-deprecated_sanitizer (1.0.3)\\n activesupport (>= 4.2.0.alpha)\\n rails-dom-testing (1.0.7)\\n activesupport (>= 4.2.0.beta, < 5.0)\\n nokogiri (~> 1.6.0)\\n rails-deprecated_sanitizer (>= 1.0.1)\\n rails-html-sanitizer (1.0.3)\\n loofah (~> 2.0)\\n sinatra (1.3.2)\\n rack (~> 1.3, >= 1.3.6)\\n rack-protection (~> 1.2)\\n tilt (~> 1.3, >= 1.3.3)\\n thread_safe (0.3.5)\\n tilt (1.4.1)\\n tzinfo (1.2.2)\\n thread_safe (~> 0.1)\\n \\n PLATFORMS\\n ruby\\n \\n DEPENDENCIES\\n actionpack\\n haml\\n httparty\\n sinatra\\n \\n BUNDLED WITH\\n 1.13.2"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "encoding": "plain",
+                "files": {
+                  "target": {
+                    "contents": "GEM\\n remote: http://rubygems.org/\\n specs:\\n actionpack (4.2.5)\\n actionview (= 4.2.5)\\n activesupport (= 4.2.5)\\n rack (~> 1.6)\\n rack-test (~> 0.6.2)\\n rails-dom-testing (~> 1.0, >= 1.0.5)\\n rails-html-sanitizer (~> 1.0, >= 1.0.2)\\n actionview (4.2.5)\\n activesupport (= 4.2.5)\\n builder (~> 3.1)\\n erubis (~> 2.7.0)\\n rails-dom-testing (~> 1.0, >= 1.0.5)\\n rails-html-sanitizer (~> 1.0, >= 1.0.2)\\n activesupport (4.2.5)\\n i18n (~> 0.7)\\n json (~> 1.7, >= 1.7.7)\\n minitest (~> 5.1)\\n thread_safe (~> 0.3, >= 0.3.4)\\n tzinfo (~> 1.1)\\n builder (3.2.2)\\n erubis (2.7.0)\\n haml (3.1.4)\\n httparty (0.8.1)\\n multi_json\\n multi_xml\\n i18n (0.7.0)\\n json (1.8.3)\\n loofah (2.0.3)\\n nokogiri (>= 1.5.9)\\n mini_portile2 (2.1.0)\\n minitest (5.9.1)\\n multi_json (1.12.1)\\n multi_xml (0.5.5)\\n nokogiri (1.6.8.1)\\n mini_portile2 (~> 2.1.0)\\n rack (1.6.4)\\n rack-protection (1.5.3)\\n rack\\n rack-test (0.6.3)\\n rack (>= 1.0)\\n rails-deprecated_sanitizer (1.0.3)\\n activesupport (>= 4.2.0.alpha)\\n rails-dom-testing (1.0.7)\\n activesupport (>= 4.2.0.beta, < 5.0)\\n nokogiri (~> 1.6.0)\\n rails-deprecated_sanitizer (>= 1.0.1)\\n rails-html-sanitizer (1.0.3)\\n loofah (~> 2.0)\\n sinatra (1.3.2)\\n rack (~> 1.3, >= 1.3.6)\\n rack-protection (~> 1.2)\\n tilt (~> 1.3, >= 1.3.3)\\n thread_safe (0.3.5)\\n tilt (1.4.1)\\n tzinfo (1.2.2)\\n thread_safe (~> 0.1)\\n \\n PLATFORMS\\n ruby\\n \\n DEPENDENCIES\\n actionpack\\n haml\\n httparty\\n sinatra\\n \\n BUNDLED WITH\\n 1.13.2"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Testgemfile.lockfileresponse"
+                    },
+                    {
+                      "example": {
+                        "ok": false,
+                        "issues": {
+                          "vulnerabilities": [
+                            {
+                              "id": "SNYK-RUBY-JSON-20000",
+                              "url": "https://snyk.io/vuln/SNYK-RUBY-JSON-20000",
+                              "title": "Denial of Service (DoS)",
+                              "type": "vuln",
+                              "description": "## Overview\n\nThe [`json`](https://rubygems.org/gems/json) gem is a JSON implementation as a Ruby extension in C.\nAffected versions of this Gem contain an overflow condition. This is triggered when user-supplied input is not properly validated while handling specially crafted data. This can allow a remote attacker to cause a stack-based buffer overflow, resulting in a denial of service, or potentially allowing the [execution of arbitrary code](https://snyk.io/vuln/SNYK-RUBY-JSON-20209).\n\n## Details\nDenial of Service (DoS) describes a family of attacks, all aimed at making a system inaccessible to its intended and legitimate users.\n\n\nUnlike other vulnerabilities, DoS attacks usually do not aim at breaching security. Rather, they are focused on making websites and services unavailable to genuine users resulting in downtime.\n\n\nOne popular Denial of Service vulnerability is DDoS (a Distributed Denial of Service), an attack that attempts to clog network pipes to the system by generating a large volume of traffic from many machines.\n\n\nWhen it comes to open source libraries, DoS vulnerabilities allow attackers to trigger such a crash or crippling of the service by using a flaw either in the application code or from the use of open source libraries.\n\n\nTwo common types of DoS vulnerabilities:\n\n\n* High CPU/Memory Consumption- An attacker sending crafted requests that could cause the system to take a disproportionate amount of time to process. For example, [commons-fileupload:commons-fileupload](SNYK-JAVA-COMMONSFILEUPLOAD-30082).\n\n\n* Crash - An attacker sending crafted requests that could cause the system to crash. For Example,  [npm `ws` package](npm:ws:20171108)\n\n## References\n- http://rubysec.com/advisories/OSVDB-101157\n",
+                              "functions": [],
+                              "from": [
+                                "json@1.0.0"
+                              ],
+                              "package": "json",
+                              "version": "1.0.0",
+                              "severity": "high",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "ruby",
+                              "packageManager": "rubygems",
+                              "semver": {
+                                "vulnerable": [
+                                  "< 1.1.0"
+                                ]
+                              },
+                              "publicationTime": "2007-05-20T21:00:00+00:00",
+                              "disclosureTime": "2007-05-20T21:00:00+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [],
+                                "CWE": [
+                                  "CWE-400"
+                                ],
+                                "OSVDB": [
+                                  "OSVDB-101157"
+                                ]
+                              },
+                              "credit": [
+                                "Unknown"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+                              "cvssScore": 7.5,
+                              "patches": [],
+                              "upgradePath": [
+                                "json@1.1.0"
+                              ]
+                            },
+                            {
+                              "id": "SNYK-RUBY-JSON-20060",
+                              "url": "https://snyk.io/vuln/SNYK-RUBY-JSON-20060",
+                              "title": "Denial of Service (DoS)",
+                              "type": "vuln",
+                              "description": "## Overview\nThe [`json`](https://rubygems.org/gems/json) gem is a JSON implementation as a Ruby extension in C.\nAffected versions of this Gem are vulnerable to Denial of Service (DoS) attacks and unsafe object creation vulnerabilities. When parsing certain JSON documents, the JSON gem tricked into creating Ruby symbols in a target system.\n\n## Details\n\nWhen parsing certain JSON documents, the JSON gem can be coerced in to creating Ruby symbols in a target system.  Since Ruby symbols are not garbage collected, this can result in a denial of service attack.\n\nThe same technique can be used to create objects in a target system that act like internal objects.  These \"act alike\" objects can be used to bypass certain security mechanisms and can be used as a spring board for SQL injection attacks in Ruby on Rails.\n\nImpacted code looks like this:\n```js\nJSON.parse(user_input)\n```\nWhere the `user_input` variable will have a JSON document like this:\n```json\n{\"json_class\":\"foo\"}\n```\nThe JSON gem will attempt to look up the constant \"foo\".  Looking up this constant will create a symbol.\n\nIn JSON version 1.7.x, objects with arbitrary attributes can be created using JSON documents like this:\n```json\n{\"json_class\":\"JSON::GenericObject\",\"foo\":\"bar\"}\n```\nThis document will result in an instance of `JSON::GenericObject`, with the attribute \"foo\" that has the value \"bar\".  Instantiating these objects will result in arbitrary symbol creation and in some cases can be used to bypass security measures.\n\nPLEASE NOTE: this behavior *does not change* when using `JSON.load`.  `JSON.load` should *never* be given input from unknown sources.  If you are processing JSON from an unknown source, *always* use `JSON.parse`.\n\n## References\n- https://www.ruby-lang.org/en/news/2013/02/22/json-dos-cve-2013-0269/\n- https://gist.github.com/rsierra/4943505\n",
+                              "functions": [],
+                              "from": [
+                                "json@1.0.0"
+                              ],
+                              "package": "json",
+                              "version": "1.0.0",
+                              "severity": "high",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "ruby",
+                              "packageManager": "rubygems",
+                              "semver": {
+                                "vulnerable": [
+                                  "< 1.7.7, >= 1.7",
+                                  "< 1.6.8, >= 1.6",
+                                  "< 1.5.5"
+                                ]
+                              },
+                              "publicationTime": "2013-02-10T22:00:00+00:00",
+                              "disclosureTime": "2013-02-10T22:00:00+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2013-0269"
+                                ],
+                                "CWE": [
+                                  "CWE-400"
+                                ],
+                                "OSVDB": [
+                                  "OSVDB-90074"
+                                ]
+                              },
+                              "credit": [
+                                "Thomas Hollstegge",
+                                "Ben Murphy"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+                              "cvssScore": 7.3,
+                              "patches": [],
+                              "upgradePath": [
+                                "json@1.5.5"
+                              ]
+                            },
+                            {
+                              "id": "SNYK-RUBY-JSON-20209",
+                              "url": "https://snyk.io/vuln/SNYK-RUBY-JSON-20209",
+                              "title": "Arbitrary Code Execution",
+                              "type": "vuln",
+                              "description": "## Overview\n\nThe [`json`](https://rubygems.org/gems/json) gem is a JSON implementation as a Ruby extension in C.\n\nAffected versions of this Gem contain an overflow condition. This is triggered when user-supplied input is not properly validated while handling specially crafted data. This can allow a remote attacker to cause a stack-based buffer overflow, resulting in a [denial of service](https://snyk.io/vuln/SNYK-RUBY-JSON-20000), or potentially allowing the execution of arbitrary code.\n\n## References\n\n- http://rubysec.com/advisories/OSVDB-101157\n",
+                              "functions": [],
+                              "from": [
+                                "json@1.0.0"
+                              ],
+                              "package": "json",
+                              "version": "1.0.0",
+                              "severity": "high",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "ruby",
+                              "packageManager": "rubygems",
+                              "semver": {
+                                "vulnerable": [
+                                  "< 1.1.0"
+                                ]
+                              },
+                              "publicationTime": "2007-05-20T21:00:00+00:00",
+                              "disclosureTime": "2007-05-20T21:00:00+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [],
+                                "CWE": [
+                                  "CWE-94"
+                                ],
+                                "OSVDB": [
+                                  "OSVDB-101157-1"
+                                ]
+                              },
+                              "credit": [
+                                "Unknown"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+                              "cvssScore": 7.5,
+                              "patches": [],
+                              "upgradePath": [
+                                "json@1.1.0"
+                              ]
+                            },
+                            {
+                              "id": "SNYK-RUBY-RACK-538324",
+                              "url": "https://snyk.io/vuln/SNYK-RUBY-RACK-538324",
+                              "title": "Information Exposure",
+                              "type": "vuln",
+                              "description": "## Overview\n\n[rack](https://rack.github.io/) is a minimal, modular and adaptable interface for developing web applications in Ruby. By wrapping HTTP requests and responses in the simplest way possible, it unifies and distills the API for web servers, web frameworks, and software in between (the so-called middleware) into a single method call.\n\n\nAffected versions of this package are vulnerable to Information Exposure.\nAttackers may be able to find and hijack sessions by using timing attacks targeting the session id. Session ids are usually stored and indexed in a database that uses some kind of scheme for speeding up lookups of that session id. By carefully measuring the amount of time it takes to look up a session, an attacker may be able to find a valid session id and hijack the session.\n\n## Remediation\n\nUpgrade `rack` to version 1.6.12, 2.0.8 or higher.\n\n\n## References\n\n- [GitHub Fix Commit](https://github.com/rack/rack/commit/7fecaee81f59926b6e1913511c90650e76673b38)\n\n- [GitHub Security Advisory](https://github.com/rack/rack/security/advisories/GHSA-hrqr-hxpp-chr3)\n",
+                              "functions": [],
+                              "from": [
+                                "redis-rack-cache@1.1",
+                                "rack-cache@1.1",
+                                "rack@2.0.1"
+                              ],
+                              "package": "rack",
+                              "version": "2.0.1",
+                              "severity": "medium",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "ruby",
+                              "packageManager": "rubygems",
+                              "semver": {
+                                "vulnerable": [
+                                  "<1.6.12",
+                                  ">=2.0.0.alpha, <2.0.8"
+                                ]
+                              },
+                              "publicationTime": "2019-12-19T20:24:49+00:00",
+                              "disclosureTime": "2019-12-18T20:24:49+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2019-16782"
+                                ],
+                                "CWE": [
+                                  "CWE-200"
+                                ]
+                              },
+                              "credit": [
+                                "Will Leinweber"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+                              "cvssScore": 5.3,
+                              "patches": [],
+                              "upgradePath": [
+                                "redis-rack-cache@1.1",
+                                "rack-cache@1.1",
+                                "rack@2.0.8"
+                              ]
+                            },
+                            {
+                              "id": "SNYK-RUBY-RACK-72567",
+                              "url": "https://snyk.io/vuln/SNYK-RUBY-RACK-72567",
+                              "title": "Cross-site Scripting (XSS)",
+                              "type": "vuln",
+                              "description": "## Overview\n\n[rack](https://rack.github.io/) is a minimal, modular and adaptable interface for developing web applications in Ruby. By wrapping HTTP requests and responses in the simplest way possible, it unifies and distills the API for web servers, web frameworks, and software in between (the so-called middleware) into a single method call.\n\n\nAffected versions of this package are vulnerable to Cross-site Scripting (XSS)\nvia the `scheme` method on `Rack::Request`.\n\n## Remediation\n\nUpgrade `rack` to version 1.6.11, 2.0.6 or higher.\n\n\n## References\n\n- [GitHub Commit](https://github.com/rack/rack/commit/313dd6a05a5924ed6c82072299c53fed09e39ae7)\n\n- [Google Security Forum](https://groups.google.com/forum/#!msg/rubyonrails-security/GKsAFT924Ag/DYtk-Xl6AAAJ)\n\n- [RedHat Bugzilla Bug](https://bugzilla.redhat.com/show_bug.cgi?id=1646818)\n",
+                              "functions": [],
+                              "from": [
+                                "redis-rack-cache@1.1",
+                                "rack-cache@1.1",
+                                "rack@2.0.1"
+                              ],
+                              "package": "rack",
+                              "version": "2.0.1",
+                              "severity": "medium",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "ruby",
+                              "packageManager": "rubygems",
+                              "semver": {
+                                "vulnerable": [
+                                  "<1.6.11",
+                                  ">=2.0.0, <2.0.6"
+                                ]
+                              },
+                              "publicationTime": "2018-11-06T16:08:37+00:00",
+                              "disclosureTime": "2018-08-22T15:56:49+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2018-16470"
+                                ],
+                                "CWE": [
+                                  "CWE-79"
+                                ]
+                              },
+                              "credit": [
+                                "Aaron Patterson"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+                              "cvssScore": 6.1,
+                              "patches": [],
+                              "upgradePath": [
+                                "redis-rack-cache@1.1",
+                                "rack-cache@1.1",
+                                "rack@2.0.6"
+                              ]
+                            },
+                            {
+                              "id": "SNYK-RUBY-RACKCACHE-20031",
+                              "url": "https://snyk.io/vuln/SNYK-RUBY-RACKCACHE-20031",
+                              "title": "HTTP Header Caching Weakness",
+                              "type": "vuln",
+                              "description": "## Overview\n[rack-cache](https://rubygems.org/gems/rack-cache) enables HTTP caching for Rack-based applications.\nAffected versions of this gem contain a flaw related to the rubygem caching sensitive HTTP headers. This will result in a weakness that may make it easier for an attacker to gain access to a user's session via a specially crafted header.\n\n## References\n- http://rubysec.com/advisories/CVE-2012-2671\n",
+                              "functions": [],
+                              "from": [
+                                "redis-rack-cache@1.1",
+                                "rack-cache@1.1"
+                              ],
+                              "package": "rack-cache",
+                              "version": "1.1",
+                              "severity": "high",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "ruby",
+                              "packageManager": "rubygems",
+                              "semver": {
+                                "vulnerable": [
+                                  "< 1.2"
+                                ]
+                              },
+                              "publicationTime": "2012-06-05T21:00:00+00:00",
+                              "disclosureTime": "2012-06-05T21:00:00+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2012-2671"
+                                ],
+                                "CWE": [
+                                  "CWE-444"
+                                ],
+                                "OSVDB": [
+                                  "OSVDB-83077"
+                                ]
+                              },
+                              "credit": [
+                                "Unknown"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+                              "cvssScore": 7.3,
+                              "patches": [],
+                              "upgradePath": [
+                                "redis-rack-cache@1.2",
+                                "rack-cache@1.2"
+                              ]
+                            },
+                            {
+                              "id": "SNYK-RUBY-REDISSTORE-20452",
+                              "url": "https://snyk.io/vuln/SNYK-RUBY-REDISSTORE-20452",
+                              "title": "Deserialization of Untrusted Data",
+                              "type": "vuln",
+                              "description": "## Overview\n[`redis-store`](https://rubygems.org/gems/redis-store) is a namespaced Rack::Session, Rack::Cache, I18n and cache Redis stores for Ruby web frameworks.\n\nAffected versions of the package are vulnerable to Deserialization of Untrusted Data.\n\n# Details\nSerialization is a process of converting an object into a sequence of bytes which can be persisted to a disk or database or can be sent through streams. The reverse process of creating object from sequence of bytes is called deserialization. Serialization is commonly used for communication (sharing objects between multiple hosts) and persistence (store the object state in a file or a database). It is an integral part of popular protocols like _Remote Method Invocation (RMI)_, _Java Management Extension (JMX)_, _Java Messaging System (JMS)_, _Action Message Format (AMF)_, _Java Server Faces (JSF) ViewState_, etc.\n\n_Deserialization of untrusted data_ ([CWE-502](https://cwe.mitre.org/data/definitions/502.html)), is when the application deserializes untrusted data without sufficiently verifying that the resulting data will be valid, letting the attacker to control the state or the flow of the execution.\n\nAn attacker just needs to identify a piece of software that has both a vulnerable class on its path, and performs deserialization on untrusted data. Then all they need to do is send the payload into the deserializer, getting the command executed.\n\n## Remediation\nUpgrade `redis-store` to version 1.4.0 or higher.\n\n## References\n- [NVD](https://nvd.nist.gov/vuln/detail/CVE-2017-1000248)\n- [GitHub PR](https://github.com/redis-store/redis-store/pull/290)\n- [GitHub Issue](https://github.com/redis-store/redis-store/issues/289)\n- [GitHub Commit](https://github.com/redis-store/redis-store/commit/e0c1398d54a9661c8c70267c3a925ba6b192142e)\n",
+                              "functions": [],
+                              "from": [
+                                "redis-rack-cache@1.1",
+                                "redis-store@1.1.0"
+                              ],
+                              "package": "redis-store",
+                              "version": "1.1.0",
+                              "severity": "critical",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "ruby",
+                              "packageManager": "rubygems",
+                              "semver": {
+                                "vulnerable": [
+                                  "<1.4.0"
+                                ]
+                              },
+                              "publicationTime": "2017-12-07T09:52:33.659000+00:00",
+                              "disclosureTime": "2017-08-10T21:00:00+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2017-1000248"
+                                ],
+                                "CWE": [
+                                  "CWE-502"
+                                ]
+                              },
+                              "credit": [
+                                "Dylan Katz"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                              "cvssScore": 9.8,
+                              "patches": [],
+                              "upgradePath": [
+                                "redis-rack-cache@2.0.2",
+                                "redis-store@1.4.0"
+                              ]
+                            }
+                          ],
+                          "licenses": []
+                        },
+                        "dependencyCount": 6,
+                        "org": {
+                          "name": "atokeneduser",
+                          "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+                        },
+                        "licensesPolicy": null,
+                        "packageManager": "rubygems"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "Testgemfile.lockfileresponse": {
+      "title": "Testgemfile.lockfileresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues10"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "ok": false,
+        "issues": {
+          "vulnerabilities": [
+            {
+              "id": "SNYK-RUBY-JSON-20000",
+              "url": "https://snyk.io/vuln/SNYK-RUBY-JSON-20000",
+              "title": "Denial of Service (DoS)",
+              "type": "vuln",
+              "description": "## Overview\n\nThe [`json`](https://rubygems.org/gems/json) gem is a JSON implementation as a Ruby extension in C.\nAffected versions of this Gem contain an overflow condition. This is triggered when user-supplied input is not properly validated while handling specially crafted data. This can allow a remote attacker to cause a stack-based buffer overflow, resulting in a denial of service, or potentially allowing the [execution of arbitrary code](https://snyk.io/vuln/SNYK-RUBY-JSON-20209).\n\n## Details\nDenial of Service (DoS) describes a family of attacks, all aimed at making a system inaccessible to its intended and legitimate users.\n\n\nUnlike other vulnerabilities, DoS attacks usually do not aim at breaching security. Rather, they are focused on making websites and services unavailable to genuine users resulting in downtime.\n\n\nOne popular Denial of Service vulnerability is DDoS (a Distributed Denial of Service), an attack that attempts to clog network pipes to the system by generating a large volume of traffic from many machines.\n\n\nWhen it comes to open source libraries, DoS vulnerabilities allow attackers to trigger such a crash or crippling of the service by using a flaw either in the application code or from the use of open source libraries.\n\n\nTwo common types of DoS vulnerabilities:\n\n\n* High CPU/Memory Consumption- An attacker sending crafted requests that could cause the system to take a disproportionate amount of time to process. For example, [commons-fileupload:commons-fileupload](SNYK-JAVA-COMMONSFILEUPLOAD-30082).\n\n\n* Crash - An attacker sending crafted requests that could cause the system to crash. For Example,  [npm `ws` package](npm:ws:20171108)\n\n## References\n- http://rubysec.com/advisories/OSVDB-101157\n",
+              "functions": [],
+              "from": [
+                "json@1.0.0"
+              ],
+              "package": "json",
+              "version": "1.0.0",
+              "severity": "high",
+              "exploitMaturity": "no-known-exploit",
+              "language": "ruby",
+              "packageManager": "rubygems",
+              "semver": {
+                "vulnerable": [
+                  "< 1.1.0"
+                ]
+              },
+              "publicationTime": "2007-05-20T21:00:00+00:00",
+              "disclosureTime": "2007-05-20T21:00:00+00:00",
+              "isUpgradable": true,
+              "isPatchable": false,
+              "isPinnable": false,
+              "identifiers": {
+                "CVE": [],
+                "CWE": [
+                  "CWE-400"
+                ],
+                "OSVDB": [
+                  "OSVDB-101157"
+                ]
+              },
+              "credit": [
+                "Unknown"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "cvssScore": 7.5,
+              "patches": [],
+              "upgradePath": [
+                "json@1.1.0"
+              ]
+            },
+            {
+              "id": "SNYK-RUBY-JSON-20060",
+              "url": "https://snyk.io/vuln/SNYK-RUBY-JSON-20060",
+              "title": "Denial of Service (DoS)",
+              "type": "vuln",
+              "description": "## Overview\nThe [`json`](https://rubygems.org/gems/json) gem is a JSON implementation as a Ruby extension in C.\nAffected versions of this Gem are vulnerable to Denial of Service (DoS) attacks and unsafe object creation vulnerabilities. When parsing certain JSON documents, the JSON gem tricked into creating Ruby symbols in a target system.\n\n## Details\n\nWhen parsing certain JSON documents, the JSON gem can be coerced in to creating Ruby symbols in a target system.  Since Ruby symbols are not garbage collected, this can result in a denial of service attack.\n\nThe same technique can be used to create objects in a target system that act like internal objects.  These \"act alike\" objects can be used to bypass certain security mechanisms and can be used as a spring board for SQL injection attacks in Ruby on Rails.\n\nImpacted code looks like this:\n```js\nJSON.parse(user_input)\n```\nWhere the `user_input` variable will have a JSON document like this:\n```json\n{\"json_class\":\"foo\"}\n```\nThe JSON gem will attempt to look up the constant \"foo\".  Looking up this constant will create a symbol.\n\nIn JSON version 1.7.x, objects with arbitrary attributes can be created using JSON documents like this:\n```json\n{\"json_class\":\"JSON::GenericObject\",\"foo\":\"bar\"}\n```\nThis document will result in an instance of `JSON::GenericObject`, with the attribute \"foo\" that has the value \"bar\".  Instantiating these objects will result in arbitrary symbol creation and in some cases can be used to bypass security measures.\n\nPLEASE NOTE: this behavior *does not change* when using `JSON.load`.  `JSON.load` should *never* be given input from unknown sources.  If you are processing JSON from an unknown source, *always* use `JSON.parse`.\n\n## References\n- https://www.ruby-lang.org/en/news/2013/02/22/json-dos-cve-2013-0269/\n- https://gist.github.com/rsierra/4943505\n",
+              "functions": [],
+              "from": [
+                "json@1.0.0"
+              ],
+              "package": "json",
+              "version": "1.0.0",
+              "severity": "high",
+              "exploitMaturity": "no-known-exploit",
+              "language": "ruby",
+              "packageManager": "rubygems",
+              "semver": {
+                "vulnerable": [
+                  "< 1.7.7, >= 1.7",
+                  "< 1.6.8, >= 1.6",
+                  "< 1.5.5"
+                ]
+              },
+              "publicationTime": "2013-02-10T22:00:00+00:00",
+              "disclosureTime": "2013-02-10T22:00:00+00:00",
+              "isUpgradable": true,
+              "isPatchable": false,
+              "isPinnable": false,
+              "identifiers": {
+                "CVE": [
+                  "CVE-2013-0269"
+                ],
+                "CWE": [
+                  "CWE-400"
+                ],
+                "OSVDB": [
+                  "OSVDB-90074"
+                ]
+              },
+              "credit": [
+                "Thomas Hollstegge",
+                "Ben Murphy"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+              "cvssScore": 7.3,
+              "patches": [],
+              "upgradePath": [
+                "json@1.5.5"
+              ]
+            },
+            {
+              "id": "SNYK-RUBY-JSON-20209",
+              "url": "https://snyk.io/vuln/SNYK-RUBY-JSON-20209",
+              "title": "Arbitrary Code Execution",
+              "type": "vuln",
+              "description": "## Overview\n\nThe [`json`](https://rubygems.org/gems/json) gem is a JSON implementation as a Ruby extension in C.\n\nAffected versions of this Gem contain an overflow condition. This is triggered when user-supplied input is not properly validated while handling specially crafted data. This can allow a remote attacker to cause a stack-based buffer overflow, resulting in a [denial of service](https://snyk.io/vuln/SNYK-RUBY-JSON-20000), or potentially allowing the execution of arbitrary code.\n\n## References\n\n- http://rubysec.com/advisories/OSVDB-101157\n",
+              "functions": [],
+              "from": [
+                "json@1.0.0"
+              ],
+              "package": "json",
+              "version": "1.0.0",
+              "severity": "high",
+              "exploitMaturity": "no-known-exploit",
+              "language": "ruby",
+              "packageManager": "rubygems",
+              "semver": {
+                "vulnerable": [
+                  "< 1.1.0"
+                ]
+              },
+              "publicationTime": "2007-05-20T21:00:00+00:00",
+              "disclosureTime": "2007-05-20T21:00:00+00:00",
+              "isUpgradable": true,
+              "isPatchable": false,
+              "isPinnable": false,
+              "identifiers": {
+                "CVE": [],
+                "CWE": [
+                  "CWE-94"
+                ],
+                "OSVDB": [
+                  "OSVDB-101157-1"
+                ]
+              },
+              "credit": [
+                "Unknown"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "cvssScore": 7.5,
+              "patches": [],
+              "upgradePath": [
+                "json@1.1.0"
+              ]
+            },
+            {
+              "id": "SNYK-RUBY-RACK-538324",
+              "url": "https://snyk.io/vuln/SNYK-RUBY-RACK-538324",
+              "title": "Information Exposure",
+              "type": "vuln",
+              "description": "## Overview\n\n[rack](https://rack.github.io/) is a minimal, modular and adaptable interface for developing web applications in Ruby. By wrapping HTTP requests and responses in the simplest way possible, it unifies and distills the API for web servers, web frameworks, and software in between (the so-called middleware) into a single method call.\n\n\nAffected versions of this package are vulnerable to Information Exposure.\nAttackers may be able to find and hijack sessions by using timing attacks targeting the session id. Session ids are usually stored and indexed in a database that uses some kind of scheme for speeding up lookups of that session id. By carefully measuring the amount of time it takes to look up a session, an attacker may be able to find a valid session id and hijack the session.\n\n## Remediation\n\nUpgrade `rack` to version 1.6.12, 2.0.8 or higher.\n\n\n## References\n\n- [GitHub Fix Commit](https://github.com/rack/rack/commit/7fecaee81f59926b6e1913511c90650e76673b38)\n\n- [GitHub Security Advisory](https://github.com/rack/rack/security/advisories/GHSA-hrqr-hxpp-chr3)\n",
+              "functions": [],
+              "from": [
+                "redis-rack-cache@1.1",
+                "rack-cache@1.1",
+                "rack@2.0.1"
+              ],
+              "package": "rack",
+              "version": "2.0.1",
+              "severity": "medium",
+              "exploitMaturity": "no-known-exploit",
+              "language": "ruby",
+              "packageManager": "rubygems",
+              "semver": {
+                "vulnerable": [
+                  "<1.6.12",
+                  ">=2.0.0.alpha, <2.0.8"
+                ]
+              },
+              "publicationTime": "2019-12-19T20:24:49+00:00",
+              "disclosureTime": "2019-12-18T20:24:49+00:00",
+              "isUpgradable": true,
+              "isPatchable": false,
+              "isPinnable": false,
+              "identifiers": {
+                "CVE": [
+                  "CVE-2019-16782"
+                ],
+                "CWE": [
+                  "CWE-200"
+                ]
+              },
+              "credit": [
+                "Will Leinweber"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+              "cvssScore": 5.3,
+              "patches": [],
+              "upgradePath": [
+                "redis-rack-cache@1.1",
+                "rack-cache@1.1",
+                "rack@2.0.8"
+              ]
+            },
+            {
+              "id": "SNYK-RUBY-RACK-72567",
+              "url": "https://snyk.io/vuln/SNYK-RUBY-RACK-72567",
+              "title": "Cross-site Scripting (XSS)",
+              "type": "vuln",
+              "description": "## Overview\n\n[rack](https://rack.github.io/) is a minimal, modular and adaptable interface for developing web applications in Ruby. By wrapping HTTP requests and responses in the simplest way possible, it unifies and distills the API for web servers, web frameworks, and software in between (the so-called middleware) into a single method call.\n\n\nAffected versions of this package are vulnerable to Cross-site Scripting (XSS)\nvia the `scheme` method on `Rack::Request`.\n\n## Remediation\n\nUpgrade `rack` to version 1.6.11, 2.0.6 or higher.\n\n\n## References\n\n- [GitHub Commit](https://github.com/rack/rack/commit/313dd6a05a5924ed6c82072299c53fed09e39ae7)\n\n- [Google Security Forum](https://groups.google.com/forum/#!msg/rubyonrails-security/GKsAFT924Ag/DYtk-Xl6AAAJ)\n\n- [RedHat Bugzilla Bug](https://bugzilla.redhat.com/show_bug.cgi?id=1646818)\n",
+              "functions": [],
+              "from": [
+                "redis-rack-cache@1.1",
+                "rack-cache@1.1",
+                "rack@2.0.1"
+              ],
+              "package": "rack",
+              "version": "2.0.1",
+              "severity": "medium",
+              "exploitMaturity": "no-known-exploit",
+              "language": "ruby",
+              "packageManager": "rubygems",
+              "semver": {
+                "vulnerable": [
+                  "<1.6.11",
+                  ">=2.0.0, <2.0.6"
+                ]
+              },
+              "publicationTime": "2018-11-06T16:08:37+00:00",
+              "disclosureTime": "2018-08-22T15:56:49+00:00",
+              "isUpgradable": true,
+              "isPatchable": false,
+              "isPinnable": false,
+              "identifiers": {
+                "CVE": [
+                  "CVE-2018-16470"
+                ],
+                "CWE": [
+                  "CWE-79"
+                ]
+              },
+              "credit": [
+                "Aaron Patterson"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+              "cvssScore": 6.1,
+              "patches": [],
+              "upgradePath": [
+                "redis-rack-cache@1.1",
+                "rack-cache@1.1",
+                "rack@2.0.6"
+              ]
+            },
+            {
+              "id": "SNYK-RUBY-RACKCACHE-20031",
+              "url": "https://snyk.io/vuln/SNYK-RUBY-RACKCACHE-20031",
+              "title": "HTTP Header Caching Weakness",
+              "type": "vuln",
+              "description": "## Overview\n[rack-cache](https://rubygems.org/gems/rack-cache) enables HTTP caching for Rack-based applications.\nAffected versions of this gem contain a flaw related to the rubygem caching sensitive HTTP headers. This will result in a weakness that may make it easier for an attacker to gain access to a user's session via a specially crafted header.\n\n## References\n- http://rubysec.com/advisories/CVE-2012-2671\n",
+              "functions": [],
+              "from": [
+                "redis-rack-cache@1.1",
+                "rack-cache@1.1"
+              ],
+              "package": "rack-cache",
+              "version": "1.1",
+              "severity": "high",
+              "exploitMaturity": "no-known-exploit",
+              "language": "ruby",
+              "packageManager": "rubygems",
+              "semver": {
+                "vulnerable": [
+                  "< 1.2"
+                ]
+              },
+              "publicationTime": "2012-06-05T21:00:00+00:00",
+              "disclosureTime": "2012-06-05T21:00:00+00:00",
+              "isUpgradable": true,
+              "isPatchable": false,
+              "isPinnable": false,
+              "identifiers": {
+                "CVE": [
+                  "CVE-2012-2671"
+                ],
+                "CWE": [
+                  "CWE-444"
+                ],
+                "OSVDB": [
+                  "OSVDB-83077"
+                ]
+              },
+              "credit": [
+                "Unknown"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+              "cvssScore": 7.3,
+              "patches": [],
+              "upgradePath": [
+                "redis-rack-cache@1.2",
+                "rack-cache@1.2"
+              ]
+            },
+            {
+              "id": "SNYK-RUBY-REDISSTORE-20452",
+              "url": "https://snyk.io/vuln/SNYK-RUBY-REDISSTORE-20452",
+              "title": "Deserialization of Untrusted Data",
+              "type": "vuln",
+              "description": "## Overview\n[`redis-store`](https://rubygems.org/gems/redis-store) is a namespaced Rack::Session, Rack::Cache, I18n and cache Redis stores for Ruby web frameworks.\n\nAffected versions of the package are vulnerable to Deserialization of Untrusted Data.\n\n# Details\nSerialization is a process of converting an object into a sequence of bytes which can be persisted to a disk or database or can be sent through streams. The reverse process of creating object from sequence of bytes is called deserialization. Serialization is commonly used for communication (sharing objects between multiple hosts) and persistence (store the object state in a file or a database). It is an integral part of popular protocols like _Remote Method Invocation (RMI)_, _Java Management Extension (JMX)_, _Java Messaging System (JMS)_, _Action Message Format (AMF)_, _Java Server Faces (JSF) ViewState_, etc.\n\n_Deserialization of untrusted data_ ([CWE-502](https://cwe.mitre.org/data/definitions/502.html)), is when the application deserializes untrusted data without sufficiently verifying that the resulting data will be valid, letting the attacker to control the state or the flow of the execution.\n\nAn attacker just needs to identify a piece of software that has both a vulnerable class on its path, and performs deserialization on untrusted data. Then all they need to do is send the payload into the deserializer, getting the command executed.\n\n## Remediation\nUpgrade `redis-store` to version 1.4.0 or higher.\n\n## References\n- [NVD](https://nvd.nist.gov/vuln/detail/CVE-2017-1000248)\n- [GitHub PR](https://github.com/redis-store/redis-store/pull/290)\n- [GitHub Issue](https://github.com/redis-store/redis-store/issues/289)\n- [GitHub Commit](https://github.com/redis-store/redis-store/commit/e0c1398d54a9661c8c70267c3a925ba6b192142e)\n",
+              "functions": [],
+              "from": [
+                "redis-rack-cache@1.1",
+                "redis-store@1.1.0"
+              ],
+              "package": "redis-store",
+              "version": "1.1.0",
+              "severity": "critical",
+              "exploitMaturity": "no-known-exploit",
+              "language": "ruby",
+              "packageManager": "rubygems",
+              "semver": {
+                "vulnerable": [
+                  "<1.4.0"
+                ]
+              },
+              "publicationTime": "2017-12-07T09:52:33.659000+00:00",
+              "disclosureTime": "2017-08-10T21:00:00+00:00",
+              "isUpgradable": true,
+              "isPatchable": false,
+              "isPinnable": false,
+              "identifiers": {
+                "CVE": [
+                  "CVE-2017-1000248"
+                ],
+                "CWE": [
+                  "CWE-502"
+                ]
+              },
+              "credit": [
+                "Dylan Katz"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+              "cvssScore": 9.8,
+              "patches": [],
+              "upgradePath": [
+                "redis-rack-cache@2.0.2",
+                "redis-store@1.4.0"
+              ]
+            }
+          ],
+          "licenses": []
+        },
+        "dependencyCount": 6,
+        "org": {
+          "name": "atokeneduser",
+          "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+        },
+        "licensesPolicy": null,
+        "packageManager": "rubygems"
+      }
+    },
+    "files5": {
+      "title": "files5",
+      "required": [
+        "target"
+      ],
+      "type": "object",
+      "properties": {
+        "target": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/target4"
+            },
+            {
+              "description": "the `Gemfile.lock` file, encoded according the the \"encoding\" field."
+            }
+          ]
+        }
+      },
+      "description": "The manifest files:"
+    },
+    "Org1": {
+      "title": "Org1",
+      "required": [
+        "name",
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "name": "atokeneduser",
+        "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+      }
+    },
+    "target4": {
+      "title": "target4",
+      "required": [
+        "contents"
+      ],
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "string",
+          "description": "the contents of `Gemfile.lock` as a string.",
+          "example": "GEM\\n remote: http://rubygems.org/\\n specs:\\n actionpack (4.2.5)\\n actionview (= 4.2.5)\\n activesupport (= 4.2.5)\\n rack (~> 1.6)\\n rack-test (~> 0.6.2)\\n rails-dom-testing (~> 1.0, >= 1.0.5)\\n rails-html-sanitizer (~> 1.0, >= 1.0.2)\\n actionview (4.2.5)\\n activesupport (= 4.2.5)\\n builder (~> 3.1)\\n erubis (~> 2.7.0)\\n rails-dom-testing (~> 1.0, >= 1.0.5)\\n rails-html-sanitizer (~> 1.0, >= 1.0.2)\\n activesupport (4.2.5)\\n i18n (~> 0.7)\\n json (~> 1.7, >= 1.7.7)\\n minitest (~> 5.1)\\n thread_safe (~> 0.3, >= 0.3.4)\\n tzinfo (~> 1.1)\\n builder (3.2.2)\\n erubis (2.7.0)\\n haml (3.1.4)\\n httparty (0.8.1)\\n multi_json\\n multi_xml\\n i18n (0.7.0)\\n json (1.8.3)\\n loofah (2.0.3)\\n nokogiri (>= 1.5.9)\\n mini_portile2 (2.1.0)\\n minitest (5.9.1)\\n multi_json (1.12.1)\\n multi_xml (0.5.5)\\n nokogiri (1.6.8.1)\\n mini_portile2 (~> 2.1.0)\\n rack (1.6.4)\\n rack-protection (1.5.3)\\n rack\\n rack-test (0.6.3)\\n rack (>= 1.0)\\n rails-deprecated_sanitizer (1.0.3)\\n activesupport (>= 4.2.0.alpha)\\n rails-dom-testing (1.0.7)\\n activesupport (>= 4.2.0.beta, < 5.0)\\n nokogiri (~> 1.6.0)\\n rails-deprecated_sanitizer (>= 1.0.1)\\n rails-html-sanitizer (1.0.3)\\n loofah (~> 2.0)\\n sinatra (1.3.2)\\n rack (~> 1.3, >= 1.3.6)\\n rack-protection (~> 1.2)\\n tilt (~> 1.3, >= 1.3.3)\\n thread_safe (0.3.5)\\n tilt (1.4.1)\\n tzinfo (1.2.2)\\n thread_safe (~> 0.1)\\n \\n PLATFORMS\\n ruby\\n \\n DEPENDENCIES\\n actionpack\\n haml\\n httparty\\n sinatra\\n \\n BUNDLED WITH\\n 1.13.2"
+        }
+      },
+      "description": "the `Gemfile.lock` file, encoded according the the \"encoding\" field."
+    },
+    "Vulnerability9": {
+      "title": "Vulnerability9",
+      "required": [
+        "id",
+        "url",
+        "title",
+        "type",
+        "description",
+        "functions",
+        "from",
+        "package",
+        "version",
+        "severity",
+        "exploitMaturity",
+        "language",
+        "packageManager",
+        "semver",
+        "publicationTime",
+        "disclosureTime",
+        "isUpgradable",
+        "isPatchable",
+        "isPinnable",
+        "identifiers",
+        "credit",
+        "CVSSv3",
+        "cvssScore",
+        "patches",
+        "upgradePath"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "package": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "exploitMaturity": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "packageManager": {
+          "type": "string"
+        },
+        "semver": {
+          "$ref": "#/components/schemas/Semver2"
+        },
+        "publicationTime": {
+          "type": "string"
+        },
+        "disclosureTime": {
+          "type": "string"
+        },
+        "isUpgradable": {
+          "type": "boolean"
+        },
+        "isPatchable": {
+          "type": "boolean"
+        },
+        "isPinnable": {
+          "type": "boolean"
+        },
+        "identifiers": {
+          "$ref": "#/components/schemas/Identifiers10"
+        },
+        "credit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVSSv3": {
+          "type": "string"
+        },
+        "cvssScore": {
+          "type": "number"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "upgradePath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "id": "SNYK-RUBY-JSON-20000",
+        "url": "https://snyk.io/vuln/SNYK-RUBY-JSON-20000",
+        "title": "Denial of Service (DoS)",
+        "type": "vuln",
+        "description": "## Overview\n\nThe [`json`](https://rubygems.org/gems/json) gem is a JSON implementation as a Ruby extension in C.\nAffected versions of this Gem contain an overflow condition. This is triggered when user-supplied input is not properly validated while handling specially crafted data. This can allow a remote attacker to cause a stack-based buffer overflow, resulting in a denial of service, or potentially allowing the [execution of arbitrary code](https://snyk.io/vuln/SNYK-RUBY-JSON-20209).\n\n## Details\nDenial of Service (DoS) describes a family of attacks, all aimed at making a system inaccessible to its intended and legitimate users.\n\n\nUnlike other vulnerabilities, DoS attacks usually do not aim at breaching security. Rather, they are focused on making websites and services unavailable to genuine users resulting in downtime.\n\n\nOne popular Denial of Service vulnerability is DDoS (a Distributed Denial of Service), an attack that attempts to clog network pipes to the system by generating a large volume of traffic from many machines.\n\n\nWhen it comes to open source libraries, DoS vulnerabilities allow attackers to trigger such a crash or crippling of the service by using a flaw either in the application code or from the use of open source libraries.\n\n\nTwo common types of DoS vulnerabilities:\n\n\n* High CPU/Memory Consumption- An attacker sending crafted requests that could cause the system to take a disproportionate amount of time to process. For example, [commons-fileupload:commons-fileupload](SNYK-JAVA-COMMONSFILEUPLOAD-30082).\n\n\n* Crash - An attacker sending crafted requests that could cause the system to crash. For Example,  [npm `ws` package](npm:ws:20171108)\n\n## References\n- http://rubysec.com/advisories/OSVDB-101157\n",
+        "functions": [],
+        "from": [
+          "json@1.0.0"
+        ],
+        "package": "json",
+        "version": "1.0.0",
+        "severity": "high",
+        "exploitMaturity": "no-known-exploit",
+        "language": "ruby",
+        "packageManager": "rubygems",
+        "semver": {
+          "vulnerable": [
+            "< 1.1.0"
+          ]
+        },
+        "publicationTime": "2007-05-20T21:00:00+00:00",
+        "disclosureTime": "2007-05-20T21:00:00+00:00",
+        "isUpgradable": true,
+        "isPatchable": false,
+        "isPinnable": false,
+        "identifiers": {
+          "CVE": [],
+          "CWE": [
+            "CWE-400"
+          ],
+          "OSVDB": [
+            "OSVDB-101157"
+          ]
+        },
+        "credit": [
+          "Unknown"
+        ],
+        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+        "cvssScore": 7.5,
+        "patches": [],
+        "upgradePath": [
+          "json@1.1.0"
+        ]
+      }
+    },
+    "Issues10": {
+      "title": "Issues10",
+      "required": [
+        "vulnerabilities",
+        "licenses"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Vulnerability9"
+          },
+          "description": ""
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerabilities": [
+          {
+            "id": "SNYK-RUBY-JSON-20000",
+            "url": "https://snyk.io/vuln/SNYK-RUBY-JSON-20000",
+            "title": "Denial of Service (DoS)",
+            "type": "vuln",
+            "description": "## Overview\n\nThe [`json`](https://rubygems.org/gems/json) gem is a JSON implementation as a Ruby extension in C.\nAffected versions of this Gem contain an overflow condition. This is triggered when user-supplied input is not properly validated while handling specially crafted data. This can allow a remote attacker to cause a stack-based buffer overflow, resulting in a denial of service, or potentially allowing the [execution of arbitrary code](https://snyk.io/vuln/SNYK-RUBY-JSON-20209).\n\n## Details\nDenial of Service (DoS) describes a family of attacks, all aimed at making a system inaccessible to its intended and legitimate users.\n\n\nUnlike other vulnerabilities, DoS attacks usually do not aim at breaching security. Rather, they are focused on making websites and services unavailable to genuine users resulting in downtime.\n\n\nOne popular Denial of Service vulnerability is DDoS (a Distributed Denial of Service), an attack that attempts to clog network pipes to the system by generating a large volume of traffic from many machines.\n\n\nWhen it comes to open source libraries, DoS vulnerabilities allow attackers to trigger such a crash or crippling of the service by using a flaw either in the application code or from the use of open source libraries.\n\n\nTwo common types of DoS vulnerabilities:\n\n\n* High CPU/Memory Consumption- An attacker sending crafted requests that could cause the system to take a disproportionate amount of time to process. For example, [commons-fileupload:commons-fileupload](SNYK-JAVA-COMMONSFILEUPLOAD-30082).\n\n\n* Crash - An attacker sending crafted requests that could cause the system to crash. For Example,  [npm `ws` package](npm:ws:20171108)\n\n## References\n- http://rubysec.com/advisories/OSVDB-101157\n",
+            "functions": [],
+            "from": [
+              "json@1.0.0"
+            ],
+            "package": "json",
+            "version": "1.0.0",
+            "severity": "high",
+            "exploitMaturity": "no-known-exploit",
+            "language": "ruby",
+            "packageManager": "rubygems",
+            "semver": {
+              "vulnerable": [
+                "< 1.1.0"
+              ]
+            },
+            "publicationTime": "2007-05-20T21:00:00+00:00",
+            "disclosureTime": "2007-05-20T21:00:00+00:00",
+            "isUpgradable": true,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [],
+              "CWE": [
+                "CWE-400"
+              ],
+              "OSVDB": [
+                "OSVDB-101157"
+              ]
+            },
+            "credit": [
+              "Unknown"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+            "cvssScore": 7.5,
+            "patches": [],
+            "upgradePath": [
+              "json@1.1.0"
+            ]
+          },
+          {
+            "id": "SNYK-RUBY-JSON-20060",
+            "url": "https://snyk.io/vuln/SNYK-RUBY-JSON-20060",
+            "title": "Denial of Service (DoS)",
+            "type": "vuln",
+            "description": "## Overview\nThe [`json`](https://rubygems.org/gems/json) gem is a JSON implementation as a Ruby extension in C.\nAffected versions of this Gem are vulnerable to Denial of Service (DoS) attacks and unsafe object creation vulnerabilities. When parsing certain JSON documents, the JSON gem tricked into creating Ruby symbols in a target system.\n\n## Details\n\nWhen parsing certain JSON documents, the JSON gem can be coerced in to creating Ruby symbols in a target system.  Since Ruby symbols are not garbage collected, this can result in a denial of service attack.\n\nThe same technique can be used to create objects in a target system that act like internal objects.  These \"act alike\" objects can be used to bypass certain security mechanisms and can be used as a spring board for SQL injection attacks in Ruby on Rails.\n\nImpacted code looks like this:\n```js\nJSON.parse(user_input)\n```\nWhere the `user_input` variable will have a JSON document like this:\n```json\n{\"json_class\":\"foo\"}\n```\nThe JSON gem will attempt to look up the constant \"foo\".  Looking up this constant will create a symbol.\n\nIn JSON version 1.7.x, objects with arbitrary attributes can be created using JSON documents like this:\n```json\n{\"json_class\":\"JSON::GenericObject\",\"foo\":\"bar\"}\n```\nThis document will result in an instance of `JSON::GenericObject`, with the attribute \"foo\" that has the value \"bar\".  Instantiating these objects will result in arbitrary symbol creation and in some cases can be used to bypass security measures.\n\nPLEASE NOTE: this behavior *does not change* when using `JSON.load`.  `JSON.load` should *never* be given input from unknown sources.  If you are processing JSON from an unknown source, *always* use `JSON.parse`.\n\n## References\n- https://www.ruby-lang.org/en/news/2013/02/22/json-dos-cve-2013-0269/\n- https://gist.github.com/rsierra/4943505\n",
+            "functions": [],
+            "from": [
+              "json@1.0.0"
+            ],
+            "package": "json",
+            "version": "1.0.0",
+            "severity": "high",
+            "exploitMaturity": "no-known-exploit",
+            "language": "ruby",
+            "packageManager": "rubygems",
+            "semver": {
+              "vulnerable": [
+                "< 1.7.7, >= 1.7",
+                "< 1.6.8, >= 1.6",
+                "< 1.5.5"
+              ]
+            },
+            "publicationTime": "2013-02-10T22:00:00+00:00",
+            "disclosureTime": "2013-02-10T22:00:00+00:00",
+            "isUpgradable": true,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [
+                "CVE-2013-0269"
+              ],
+              "CWE": [
+                "CWE-400"
+              ],
+              "OSVDB": [
+                "OSVDB-90074"
+              ]
+            },
+            "credit": [
+              "Thomas Hollstegge",
+              "Ben Murphy"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+            "cvssScore": 7.3,
+            "patches": [],
+            "upgradePath": [
+              "json@1.5.5"
+            ]
+          },
+          {
+            "id": "SNYK-RUBY-JSON-20209",
+            "url": "https://snyk.io/vuln/SNYK-RUBY-JSON-20209",
+            "title": "Arbitrary Code Execution",
+            "type": "vuln",
+            "description": "## Overview\n\nThe [`json`](https://rubygems.org/gems/json) gem is a JSON implementation as a Ruby extension in C.\n\nAffected versions of this Gem contain an overflow condition. This is triggered when user-supplied input is not properly validated while handling specially crafted data. This can allow a remote attacker to cause a stack-based buffer overflow, resulting in a [denial of service](https://snyk.io/vuln/SNYK-RUBY-JSON-20000), or potentially allowing the execution of arbitrary code.\n\n## References\n\n- http://rubysec.com/advisories/OSVDB-101157\n",
+            "functions": [],
+            "from": [
+              "json@1.0.0"
+            ],
+            "package": "json",
+            "version": "1.0.0",
+            "severity": "high",
+            "exploitMaturity": "no-known-exploit",
+            "language": "ruby",
+            "packageManager": "rubygems",
+            "semver": {
+              "vulnerable": [
+                "< 1.1.0"
+              ]
+            },
+            "publicationTime": "2007-05-20T21:00:00+00:00",
+            "disclosureTime": "2007-05-20T21:00:00+00:00",
+            "isUpgradable": true,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [],
+              "CWE": [
+                "CWE-94"
+              ],
+              "OSVDB": [
+                "OSVDB-101157-1"
+              ]
+            },
+            "credit": [
+              "Unknown"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+            "cvssScore": 7.5,
+            "patches": [],
+            "upgradePath": [
+              "json@1.1.0"
+            ]
+          },
+          {
+            "id": "SNYK-RUBY-RACK-538324",
+            "url": "https://snyk.io/vuln/SNYK-RUBY-RACK-538324",
+            "title": "Information Exposure",
+            "type": "vuln",
+            "description": "## Overview\n\n[rack](https://rack.github.io/) is a minimal, modular and adaptable interface for developing web applications in Ruby. By wrapping HTTP requests and responses in the simplest way possible, it unifies and distills the API for web servers, web frameworks, and software in between (the so-called middleware) into a single method call.\n\n\nAffected versions of this package are vulnerable to Information Exposure.\nAttackers may be able to find and hijack sessions by using timing attacks targeting the session id. Session ids are usually stored and indexed in a database that uses some kind of scheme for speeding up lookups of that session id. By carefully measuring the amount of time it takes to look up a session, an attacker may be able to find a valid session id and hijack the session.\n\n## Remediation\n\nUpgrade `rack` to version 1.6.12, 2.0.8 or higher.\n\n\n## References\n\n- [GitHub Fix Commit](https://github.com/rack/rack/commit/7fecaee81f59926b6e1913511c90650e76673b38)\n\n- [GitHub Security Advisory](https://github.com/rack/rack/security/advisories/GHSA-hrqr-hxpp-chr3)\n",
+            "functions": [],
+            "from": [
+              "redis-rack-cache@1.1",
+              "rack-cache@1.1",
+              "rack@2.0.1"
+            ],
+            "package": "rack",
+            "version": "2.0.1",
+            "severity": "medium",
+            "exploitMaturity": "no-known-exploit",
+            "language": "ruby",
+            "packageManager": "rubygems",
+            "semver": {
+              "vulnerable": [
+                "<1.6.12",
+                ">=2.0.0.alpha, <2.0.8"
+              ]
+            },
+            "publicationTime": "2019-12-19T20:24:49+00:00",
+            "disclosureTime": "2019-12-18T20:24:49+00:00",
+            "isUpgradable": true,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [
+                "CVE-2019-16782"
+              ],
+              "CWE": [
+                "CWE-200"
+              ]
+            },
+            "credit": [
+              "Will Leinweber"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+            "cvssScore": 5.3,
+            "patches": [],
+            "upgradePath": [
+              "redis-rack-cache@1.1",
+              "rack-cache@1.1",
+              "rack@2.0.8"
+            ]
+          },
+          {
+            "id": "SNYK-RUBY-RACK-72567",
+            "url": "https://snyk.io/vuln/SNYK-RUBY-RACK-72567",
+            "title": "Cross-site Scripting (XSS)",
+            "type": "vuln",
+            "description": "## Overview\n\n[rack](https://rack.github.io/) is a minimal, modular and adaptable interface for developing web applications in Ruby. By wrapping HTTP requests and responses in the simplest way possible, it unifies and distills the API for web servers, web frameworks, and software in between (the so-called middleware) into a single method call.\n\n\nAffected versions of this package are vulnerable to Cross-site Scripting (XSS)\nvia the `scheme` method on `Rack::Request`.\n\n## Remediation\n\nUpgrade `rack` to version 1.6.11, 2.0.6 or higher.\n\n\n## References\n\n- [GitHub Commit](https://github.com/rack/rack/commit/313dd6a05a5924ed6c82072299c53fed09e39ae7)\n\n- [Google Security Forum](https://groups.google.com/forum/#!msg/rubyonrails-security/GKsAFT924Ag/DYtk-Xl6AAAJ)\n\n- [RedHat Bugzilla Bug](https://bugzilla.redhat.com/show_bug.cgi?id=1646818)\n",
+            "functions": [],
+            "from": [
+              "redis-rack-cache@1.1",
+              "rack-cache@1.1",
+              "rack@2.0.1"
+            ],
+            "package": "rack",
+            "version": "2.0.1",
+            "severity": "medium",
+            "exploitMaturity": "no-known-exploit",
+            "language": "ruby",
+            "packageManager": "rubygems",
+            "semver": {
+              "vulnerable": [
+                "<1.6.11",
+                ">=2.0.0, <2.0.6"
+              ]
+            },
+            "publicationTime": "2018-11-06T16:08:37+00:00",
+            "disclosureTime": "2018-08-22T15:56:49+00:00",
+            "isUpgradable": true,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [
+                "CVE-2018-16470"
+              ],
+              "CWE": [
+                "CWE-79"
+              ]
+            },
+            "credit": [
+              "Aaron Patterson"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+            "cvssScore": 6.1,
+            "patches": [],
+            "upgradePath": [
+              "redis-rack-cache@1.1",
+              "rack-cache@1.1",
+              "rack@2.0.6"
+            ]
+          },
+          {
+            "id": "SNYK-RUBY-RACKCACHE-20031",
+            "url": "https://snyk.io/vuln/SNYK-RUBY-RACKCACHE-20031",
+            "title": "HTTP Header Caching Weakness",
+            "type": "vuln",
+            "description": "## Overview\n[rack-cache](https://rubygems.org/gems/rack-cache) enables HTTP caching for Rack-based applications.\nAffected versions of this gem contain a flaw related to the rubygem caching sensitive HTTP headers. This will result in a weakness that may make it easier for an attacker to gain access to a user's session via a specially crafted header.\n\n## References\n- http://rubysec.com/advisories/CVE-2012-2671\n",
+            "functions": [],
+            "from": [
+              "redis-rack-cache@1.1",
+              "rack-cache@1.1"
+            ],
+            "package": "rack-cache",
+            "version": "1.1",
+            "severity": "high",
+            "exploitMaturity": "no-known-exploit",
+            "language": "ruby",
+            "packageManager": "rubygems",
+            "semver": {
+              "vulnerable": [
+                "< 1.2"
+              ]
+            },
+            "publicationTime": "2012-06-05T21:00:00+00:00",
+            "disclosureTime": "2012-06-05T21:00:00+00:00",
+            "isUpgradable": true,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [
+                "CVE-2012-2671"
+              ],
+              "CWE": [
+                "CWE-444"
+              ],
+              "OSVDB": [
+                "OSVDB-83077"
+              ]
+            },
+            "credit": [
+              "Unknown"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+            "cvssScore": 7.3,
+            "patches": [],
+            "upgradePath": [
+              "redis-rack-cache@1.2",
+              "rack-cache@1.2"
+            ]
+          },
+          {
+            "id": "SNYK-RUBY-REDISSTORE-20452",
+            "url": "https://snyk.io/vuln/SNYK-RUBY-REDISSTORE-20452",
+            "title": "Deserialization of Untrusted Data",
+            "type": "vuln",
+            "description": "## Overview\n[`redis-store`](https://rubygems.org/gems/redis-store) is a namespaced Rack::Session, Rack::Cache, I18n and cache Redis stores for Ruby web frameworks.\n\nAffected versions of the package are vulnerable to Deserialization of Untrusted Data.\n\n# Details\nSerialization is a process of converting an object into a sequence of bytes which can be persisted to a disk or database or can be sent through streams. The reverse process of creating object from sequence of bytes is called deserialization. Serialization is commonly used for communication (sharing objects between multiple hosts) and persistence (store the object state in a file or a database). It is an integral part of popular protocols like _Remote Method Invocation (RMI)_, _Java Management Extension (JMX)_, _Java Messaging System (JMS)_, _Action Message Format (AMF)_, _Java Server Faces (JSF) ViewState_, etc.\n\n_Deserialization of untrusted data_ ([CWE-502](https://cwe.mitre.org/data/definitions/502.html)), is when the application deserializes untrusted data without sufficiently verifying that the resulting data will be valid, letting the attacker to control the state or the flow of the execution.\n\nAn attacker just needs to identify a piece of software that has both a vulnerable class on its path, and performs deserialization on untrusted data. Then all they need to do is send the payload into the deserializer, getting the command executed.\n\n## Remediation\nUpgrade `redis-store` to version 1.4.0 or higher.\n\n## References\n- [NVD](https://nvd.nist.gov/vuln/detail/CVE-2017-1000248)\n- [GitHub PR](https://github.com/redis-store/redis-store/pull/290)\n- [GitHub Issue](https://github.com/redis-store/redis-store/issues/289)\n- [GitHub Commit](https://github.com/redis-store/redis-store/commit/e0c1398d54a9661c8c70267c3a925ba6b192142e)\n",
+            "functions": [],
+            "from": [
+              "redis-rack-cache@1.1",
+              "redis-store@1.1.0"
+            ],
+            "package": "redis-store",
+            "version": "1.1.0",
+            "severity": "critical",
+            "exploitMaturity": "no-known-exploit",
+            "language": "ruby",
+            "packageManager": "rubygems",
+            "semver": {
+              "vulnerable": [
+                "<1.4.0"
+              ]
+            },
+            "publicationTime": "2017-12-07T09:52:33.659000+00:00",
+            "disclosureTime": "2017-08-10T21:00:00+00:00",
+            "isUpgradable": true,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [
+                "CVE-2017-1000248"
+              ],
+              "CWE": [
+                "CWE-502"
+              ]
+            },
+            "credit": [
+              "Dylan Katz"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "cvssScore": 9.8,
+            "patches": [],
+            "upgradePath": [
+              "redis-rack-cache@2.0.2",
+              "redis-store@1.4.0"
+            ]
+          }
+        ],
+        "licenses": []
+      }
+    },
+    "Semver2": {
+      "title": "Semver2",
+      "required": [
+        "vulnerable"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerable": [
+          "[,4.7.3)"
+        ]
+      }
+    },
+    "Identifiers10": {
+      "title": "Identifiers10",
+      "required": [
+        "CVE",
+        "CWE"
+      ],
+      "type": "object",
+      "properties": {
+        "CVE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CWE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "OSVDB": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "CVE": [],
+        "CWE": [
+          "CWE-400"
+        ],
+        "OSVDB": [
+          "OSVDB-101157"
+        ]
+      }
+    },
+    "encoding": {
+      "title": "encoding",
+      "enum": [
+        "plain",
+        "base64"
+      ],
+      "type": "string",
+      "description": "the encoding for the manifest files sent."
+    },
+    "rubygemsrequestpayload": {
+      "title": "rubygemsrequestpayload",
+      "required": [
+        "files"
+      ],
+      "type": "object",
+      "properties": {
+        "encoding": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/encoding"
+            },
+            {
+              "description": "the encoding for the manifest files sent."
+            }
+          ]
+        },
+        "files": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/files5"
+            },
+            {
+              "description": "The manifest files:"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "referenced_common_schemas": []
+}

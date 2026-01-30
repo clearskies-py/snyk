@@ -1,0 +1,176 @@
+{
+  "tag": "Entitlements",
+  "endpoint_count": 2,
+  "schema_count": 2,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/entitlements",
+      "operation_id": "Listallentitlements",
+      "summary": "List all entitlements"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/entitlement/{entitlementKey}",
+      "operation_id": "Getanorganization'sentitlementvalue",
+      "summary": "Get an organization's entitlement value"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/org/{orgId}/entitlements",
+      "method": "GET",
+      "operation_id": "Listallentitlements",
+      "summary": "List all entitlements",
+      "details": {
+        "tags": [
+          "Entitlements"
+        ],
+        "summary": "List all entitlements",
+        "description": "#### Required permissions\n\n- `View Organization`\n\n- `View Entitlements`",
+        "operationId": "Listallentitlements",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to list entitlements for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Listallentitlementsresponse"
+                    },
+                    {
+                      "example": {
+                        "licenses": true,
+                        "reports": true,
+                        "fullVulnDB": false
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "licenses": true,
+                  "reports": true,
+                  "fullVulnDB": false
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/entitlement/{entitlementKey}",
+      "method": "GET",
+      "operation_id": "Getanorganization'sentitlementvalue",
+      "summary": "Get an organization's entitlement value",
+      "details": {
+        "tags": [
+          "Entitlements"
+        ],
+        "summary": "Get an organization's entitlement value",
+        "description": "It is possible to query an organization for a specific entitlement, getting its value\n#### Required permissions\n\n- `View Organization`\n\n- `View Entitlements`",
+        "operationId": "Getanorganization'sentitlementvalue",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID to query the entitlement for. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "entitlementKey",
+            "in": "path",
+            "description": "The entitlement to query.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/entitlementKey"
+                },
+                {
+                  "description": "The entitlement to query.",
+                  "example": "reports"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                },
+                "example": "true"
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "Listallentitlementsresponse": {
+      "title": "Listallentitlementsresponse",
+      "required": [
+        "licenses",
+        "reports",
+        "fullVulnDB"
+      ],
+      "type": "object",
+      "properties": {
+        "licenses": {
+          "type": "boolean"
+        },
+        "reports": {
+          "type": "boolean"
+        },
+        "fullVulnDB": {
+          "type": "boolean"
+        }
+      },
+      "example": {
+        "licenses": true,
+        "reports": true,
+        "fullVulnDB": false
+      }
+    },
+    "entitlementKey": {
+      "title": "entitlementKey",
+      "enum": [
+        "licenses",
+        "reports",
+        "fullVulnDB"
+      ],
+      "type": "string"
+    }
+  },
+  "referenced_common_schemas": []
+}

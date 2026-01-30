@@ -1,0 +1,1031 @@
+{
+  "tag": "Test",
+  "endpoint_count": 2,
+  "schema_count": 17,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/test/maven/{groupId}/{artifactId}/{version}",
+      "operation_id": "Testforissuesinapublicpackagebygroupid,artifactidandversion",
+      "summary": "Test for issues in a public package by group id, artifact id and version"
+    },
+    {
+      "method": "POST",
+      "path": "/test/maven",
+      "operation_id": "Testmavenfile",
+      "summary": "Test maven file"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/test/maven/{groupId}/{artifactId}/{version}",
+      "method": "GET",
+      "operation_id": "Testforissuesinapublicpackagebygroupid,artifactidandversion",
+      "summary": "Test for issues in a public package by group id, artifact id and version",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Test for issues in a public package by group id, artifact id and version",
+        "description": "Test for issues in Maven files.You can test `maven` packages for issues according to their [coordinates](https://maven.apache.org/pom.html#Maven_Coordinates): group ID, artifact ID and version. The repository hosting the package may also be customized (see the `repository` query parameter).\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "Testforissuesinapublicpackagebygroupid,artifactidandversion",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The package's group ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "org.apache.flex.blazeds"
+            }
+          },
+          {
+            "name": "artifactId",
+            "in": "path",
+            "description": "The package's artifact ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "blazeds"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "description": "The package version to test.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4.7.2"
+            }
+          },
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          },
+          {
+            "name": "repository",
+            "in": "query",
+            "description": "The Maven repository hosting this package. The default value is Maven Central. More than one value is supported, in order.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "https://repo1.maven.org/maven2"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Testforissuesinapublicpackagebygroupidartifactidandversionresponse"
+                    },
+                    {
+                      "example": {
+                        "ok": false,
+                        "issues": {
+                          "vulnerabilities": [
+                            {
+                              "id": "SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+                              "url": "https://snyk.io/vuln/SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+                              "title": "Arbitrary Code Execution",
+                              "type": "vuln",
+                              "description": "## Overview\n\n[org.apache.flex.blazeds:blazeds](https://github.com/apache/flex-blazeds) is an application development framework for easily building Flash-based applications for mobile devices, web browsers, and desktops.\n\n\nAffected versions of this package are vulnerable to Arbitrary Code Execution.\nThe AMF deserialization implementation of Flex BlazeDS is vulnerable to Deserialization of Untrusted Data. By sending a specially crafted AMF message, it is possible to make the server establish a connection to an endpoint specified in the message and request an RMI remote object from that endpoint. This can result in the execution of arbitrary code on the server via Java deserialization.\n\n\nStarting with BlazeDS version `4.7.3`, Deserialization of XML is disabled completely per default, while the `ClassDeserializationValidator` allows deserialization of whitelisted classes only. BlazeDS internally comes with the following whitelist:\n```\nflex.messaging.io.amf.ASObject\nflex.messaging.io.amf.SerializedObject\nflex.messaging.io.ArrayCollection\nflex.messaging.io.ArrayList\nflex.messaging.messages.AcknowledgeMessage\nflex.messaging.messages.AcknowledgeMessageExt\nflex.messaging.messages.AsyncMessage\nflex.messaging.messages.AsyncMessageExt\nflex.messaging.messages.CommandMessage\nflex.messaging.messages.CommandMessageExt\nflex.messaging.messages.ErrorMessage\nflex.messaging.messages.HTTPMessage\nflex.messaging.messages.RemotingMessage\nflex.messaging.messages.SOAPMessage\njava.lang.Boolean\njava.lang.Byte\njava.lang.Character\njava.lang.Double\njava.lang.Float\njava.lang.Integer\njava.lang.Long\njava.lang.Object\njava.lang.Short\njava.lang.String\njava.util.ArrayList\njava.util.Date\njava.util.HashMap\norg.w3c.dom.Document\n```\n\n## Remediation\n\nUpgrade `org.apache.flex.blazeds:blazeds` to version 4.7.3 or higher.\n\n\n## References\n\n- [CVE-2017-3066](https://nvd.nist.gov/vuln/detail/CVE-2017-5641)\n\n- [Github Commit](https://github.com/apache/flex-blazeds/commit/f861f0993c35e664906609cad275e45a71e2aaf1)\n\n- [Github Release Notes](https://github.com/apache/flex-blazeds/blob/master/RELEASE_NOTES)\n\n- [Securitytracker Issue](http://www.securitytracker.com/id/1038364)\n",
+                              "functions": [],
+                              "from": [
+                                "org.apache.flex.blazeds:blazeds@4.7.2"
+                              ],
+                              "package": "org.apache.flex.blazeds:blazeds",
+                              "version": "4.7.2",
+                              "severity": "critical",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "java",
+                              "packageManager": "maven",
+                              "semver": {
+                                "vulnerable": [
+                                  "[,4.7.3)"
+                                ]
+                              },
+                              "publicationTime": "2017-08-09T14:17:08+00:00",
+                              "disclosureTime": "2017-04-25T21:00:00+00:00",
+                              "isUpgradable": true,
+                              "isPatchable": false,
+                              "isPinnable": false,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2017-5641"
+                                ],
+                                "CWE": [
+                                  "CWE-502"
+                                ]
+                              },
+                              "credit": [
+                                "Markus Wulftange"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                              "cvssScore": 9.8,
+                              "patches": [],
+                              "upgradePath": [
+                                "org.apache.flex.blazeds:blazeds@4.7.3"
+                              ]
+                            }
+                          ],
+                          "licenses": []
+                        },
+                        "dependencyCount": 1,
+                        "org": {
+                          "name": "atokeneduser",
+                          "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+                        },
+                        "licensesPolicy": null,
+                        "packageManager": "maven"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/test/maven",
+      "method": "POST",
+      "operation_id": "Testmavenfile",
+      "summary": "Test maven file",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Test maven file",
+        "description": "Test for issues in Maven files.You can test your Maven packages for issues according to their manifest file using this action. It takes a JSON object containing a the \"target\" `pom.xml`.\n\nAdditional manifest files, if they are needed, like parent `pom.xml` files, child poms, etc., according the the definitions in the target `pom.xml` file, should be supplied in the `additional` body parameter.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "Testmavenfile",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          },
+          {
+            "name": "repository",
+            "in": "query",
+            "description": "The Maven repository hosting this package. The default value is Maven Central. More than one value is supported, in order.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "https://repo1.maven.org/maven2"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Mavenrequestpayload"
+                  },
+                  {
+                    "example": {
+                      "encoding": "plain",
+                      "files": {
+                        "target": {
+                          "contents": "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\"> <modelVersion>4.0.0</modelVersion> <parent> <artifactId>io.snyk.example</artifactId> <groupId>parent</groupId> <version>1.0-SNAPSHOT</version> </parent> <artifactId>my-project</artifactId> <dependencies> <dependency> <groupId>axis</groupId> <artifactId>axis</artifactId> <version>1.4</version> </dependency> </dependencies> </project>\\n"
+                        },
+                        "additional": [
+                          {
+                            "contents": "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\"> <modelVersion>4.0.0</modelVersion> <artifactId>io.snyk.example</artifactId> <groupId>parent</groupId> <version>1.0-SNAPSHOT</version> <dependencies> <dependency> <groupId>org.apache.zookeeper</groupId> <artifactId>zookeeper</artifactId> <version>3.5</version> </dependency> <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjweaver</artifactId> <version>1.8.2</version> </dependency> </dependencies> </project>\\n"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "encoding": "plain",
+                "files": {
+                  "target": {
+                    "contents": "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\"> <modelVersion>4.0.0</modelVersion> <parent> <artifactId>io.snyk.example</artifactId> <groupId>parent</groupId> <version>1.0-SNAPSHOT</version> </parent> <artifactId>my-project</artifactId> <dependencies> <dependency> <groupId>axis</groupId> <artifactId>axis</artifactId> <version>1.4</version> </dependency> </dependencies> </project>\\n"
+                  },
+                  "additional": [
+                    {
+                      "contents": "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\"> <modelVersion>4.0.0</modelVersion> <artifactId>io.snyk.example</artifactId> <groupId>parent</groupId> <version>1.0-SNAPSHOT</version> <dependencies> <dependency> <groupId>org.apache.zookeeper</groupId> <artifactId>zookeeper</artifactId> <version>3.5</version> </dependency> <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjweaver</artifactId> <version>1.8.2</version> </dependency> </dependencies> </project>\\n"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Testmavenfileresponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "Org1": {
+      "title": "Org1",
+      "required": [
+        "name",
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "name": "atokeneduser",
+        "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+      }
+    },
+    "files": {
+      "title": "files",
+      "required": [
+        "target"
+      ],
+      "type": "object",
+      "properties": {
+        "target": {
+          "$ref": "#/components/schemas/MavenFile"
+        },
+        "additional": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MavenAdditionalFile"
+          },
+          "description": "additional manifest files (if needed), encoded according the the \"encoding\" field."
+        }
+      },
+      "description": "The manifest files:"
+    },
+    "Identifiers2": {
+      "title": "Identifiers2",
+      "required": [
+        "CVE",
+        "CWE"
+      ],
+      "type": "object",
+      "properties": {
+        "CVE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CWE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "CVE": [
+          "CVE-2017-5641"
+        ],
+        "CWE": [
+          "CWE-502"
+        ]
+      }
+    },
+    "Testforissuesinapublicpackagebygroupidartifactidandversionresponse": {
+      "title": "Testforissuesinapublicpackagebygroupidartifactidandversionresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues1"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      }
+    },
+    "FunctionId1": {
+      "title": "FunctionId1",
+      "required": [
+        "className",
+        "functionName"
+      ],
+      "type": "object",
+      "properties": {
+        "className": {
+          "type": "string"
+        },
+        "functionName": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "className": "org.apache.zookeeper.server.NIOServerCnxn",
+        "functionName": "checkFourLetterWord"
+      }
+    },
+    "Issues1": {
+      "title": "Issues1",
+      "required": [
+        "vulnerabilities",
+        "licenses"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Vulnerability1"
+          },
+          "description": ""
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerabilities": [
+          {
+            "id": "SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+            "url": "https://snyk.io/vuln/SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+            "title": "Arbitrary Code Execution",
+            "type": "vuln",
+            "description": "## Overview\n\n[org.apache.flex.blazeds:blazeds](https://github.com/apache/flex-blazeds) is an application development framework for easily building Flash-based applications for mobile devices, web browsers, and desktops.\n\n\nAffected versions of this package are vulnerable to Arbitrary Code Execution.\nThe AMF deserialization implementation of Flex BlazeDS is vulnerable to Deserialization of Untrusted Data. By sending a specially crafted AMF message, it is possible to make the server establish a connection to an endpoint specified in the message and request an RMI remote object from that endpoint. This can result in the execution of arbitrary code on the server via Java deserialization.\n\n\nStarting with BlazeDS version `4.7.3`, Deserialization of XML is disabled completely per default, while the `ClassDeserializationValidator` allows deserialization of whitelisted classes only. BlazeDS internally comes with the following whitelist:\n```\nflex.messaging.io.amf.ASObject\nflex.messaging.io.amf.SerializedObject\nflex.messaging.io.ArrayCollection\nflex.messaging.io.ArrayList\nflex.messaging.messages.AcknowledgeMessage\nflex.messaging.messages.AcknowledgeMessageExt\nflex.messaging.messages.AsyncMessage\nflex.messaging.messages.AsyncMessageExt\nflex.messaging.messages.CommandMessage\nflex.messaging.messages.CommandMessageExt\nflex.messaging.messages.ErrorMessage\nflex.messaging.messages.HTTPMessage\nflex.messaging.messages.RemotingMessage\nflex.messaging.messages.SOAPMessage\njava.lang.Boolean\njava.lang.Byte\njava.lang.Character\njava.lang.Double\njava.lang.Float\njava.lang.Integer\njava.lang.Long\njava.lang.Object\njava.lang.Short\njava.lang.String\njava.util.ArrayList\njava.util.Date\njava.util.HashMap\norg.w3c.dom.Document\n```\n\n## Remediation\n\nUpgrade `org.apache.flex.blazeds:blazeds` to version 4.7.3 or higher.\n\n\n## References\n\n- [CVE-2017-3066](https://nvd.nist.gov/vuln/detail/CVE-2017-5641)\n\n- [Github Commit](https://github.com/apache/flex-blazeds/commit/f861f0993c35e664906609cad275e45a71e2aaf1)\n\n- [Github Release Notes](https://github.com/apache/flex-blazeds/blob/master/RELEASE_NOTES)\n\n- [Securitytracker Issue](http://www.securitytracker.com/id/1038364)\n",
+            "functions": [],
+            "from": [
+              "org.apache.flex.blazeds:blazeds@4.7.2"
+            ],
+            "package": "org.apache.flex.blazeds:blazeds",
+            "version": "4.7.2",
+            "severity": "critical",
+            "exploitMaturity": "no-known-exploit",
+            "language": "java",
+            "packageManager": "maven",
+            "semver": {
+              "vulnerable": [
+                "[,4.7.3)"
+              ]
+            },
+            "publicationTime": "2017-08-09T14:17:08+00:00",
+            "disclosureTime": "2017-04-25T21:00:00+00:00",
+            "isUpgradable": true,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [
+                "CVE-2017-5641"
+              ],
+              "CWE": [
+                "CWE-502"
+              ]
+            },
+            "credit": [
+              "Markus Wulftange"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "cvssScore": 9.8,
+            "patches": [],
+            "upgradePath": [
+              "org.apache.flex.blazeds:blazeds@4.7.3"
+            ]
+          }
+        ],
+        "licenses": []
+      }
+    },
+    "Vulnerability1": {
+      "title": "Vulnerability1",
+      "required": [
+        "id",
+        "url",
+        "title",
+        "type",
+        "description",
+        "functions",
+        "from",
+        "package",
+        "version",
+        "severity",
+        "exploitMaturity",
+        "language",
+        "packageManager",
+        "semver",
+        "publicationTime",
+        "disclosureTime",
+        "isUpgradable",
+        "isPatchable",
+        "isPinnable",
+        "identifiers",
+        "credit",
+        "CVSSv3",
+        "cvssScore",
+        "patches",
+        "upgradePath"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "package": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "exploitMaturity": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "packageManager": {
+          "type": "string"
+        },
+        "semver": {
+          "$ref": "#/components/schemas/Semver2"
+        },
+        "publicationTime": {
+          "type": "string"
+        },
+        "disclosureTime": {
+          "type": "string"
+        },
+        "isUpgradable": {
+          "type": "boolean"
+        },
+        "isPatchable": {
+          "type": "boolean"
+        },
+        "isPinnable": {
+          "type": "boolean"
+        },
+        "identifiers": {
+          "$ref": "#/components/schemas/Identifiers2"
+        },
+        "credit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVSSv3": {
+          "type": "string"
+        },
+        "cvssScore": {
+          "type": "number"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "upgradePath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "id": "SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+        "url": "https://snyk.io/vuln/SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+        "title": "Arbitrary Code Execution",
+        "type": "vuln",
+        "description": "## Overview\n\n[org.apache.flex.blazeds:blazeds](https://github.com/apache/flex-blazeds) is an application development framework for easily building Flash-based applications for mobile devices, web browsers, and desktops.\n\n\nAffected versions of this package are vulnerable to Arbitrary Code Execution.\nThe AMF deserialization implementation of Flex BlazeDS is vulnerable to Deserialization of Untrusted Data. By sending a specially crafted AMF message, it is possible to make the server establish a connection to an endpoint specified in the message and request an RMI remote object from that endpoint. This can result in the execution of arbitrary code on the server via Java deserialization.\n\n\nStarting with BlazeDS version `4.7.3`, Deserialization of XML is disabled completely per default, while the `ClassDeserializationValidator` allows deserialization of whitelisted classes only. BlazeDS internally comes with the following whitelist:\n```\nflex.messaging.io.amf.ASObject\nflex.messaging.io.amf.SerializedObject\nflex.messaging.io.ArrayCollection\nflex.messaging.io.ArrayList\nflex.messaging.messages.AcknowledgeMessage\nflex.messaging.messages.AcknowledgeMessageExt\nflex.messaging.messages.AsyncMessage\nflex.messaging.messages.AsyncMessageExt\nflex.messaging.messages.CommandMessage\nflex.messaging.messages.CommandMessageExt\nflex.messaging.messages.ErrorMessage\nflex.messaging.messages.HTTPMessage\nflex.messaging.messages.RemotingMessage\nflex.messaging.messages.SOAPMessage\njava.lang.Boolean\njava.lang.Byte\njava.lang.Character\njava.lang.Double\njava.lang.Float\njava.lang.Integer\njava.lang.Long\njava.lang.Object\njava.lang.Short\njava.lang.String\njava.util.ArrayList\njava.util.Date\njava.util.HashMap\norg.w3c.dom.Document\n```\n\n## Remediation\n\nUpgrade `org.apache.flex.blazeds:blazeds` to version 4.7.3 or higher.\n\n\n## References\n\n- [CVE-2017-3066](https://nvd.nist.gov/vuln/detail/CVE-2017-5641)\n\n- [Github Commit](https://github.com/apache/flex-blazeds/commit/f861f0993c35e664906609cad275e45a71e2aaf1)\n\n- [Github Release Notes](https://github.com/apache/flex-blazeds/blob/master/RELEASE_NOTES)\n\n- [Securitytracker Issue](http://www.securitytracker.com/id/1038364)\n",
+        "functions": [],
+        "from": [
+          "org.apache.flex.blazeds:blazeds@4.7.2"
+        ],
+        "package": "org.apache.flex.blazeds:blazeds",
+        "version": "4.7.2",
+        "severity": "critical",
+        "exploitMaturity": "no-known-exploit",
+        "language": "java",
+        "packageManager": "maven",
+        "semver": {
+          "vulnerable": [
+            "[,4.7.3)"
+          ]
+        },
+        "publicationTime": "2017-08-09T14:17:08+00:00",
+        "disclosureTime": "2017-04-25T21:00:00+00:00",
+        "isUpgradable": true,
+        "isPatchable": false,
+        "isPinnable": false,
+        "identifiers": {
+          "CVE": [
+            "CVE-2017-5641"
+          ],
+          "CWE": [
+            "CWE-502"
+          ]
+        },
+        "credit": [
+          "Markus Wulftange"
+        ],
+        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "cvssScore": 9.8,
+        "patches": [],
+        "upgradePath": [
+          "org.apache.flex.blazeds:blazeds@4.7.3"
+        ]
+      }
+    },
+    "MavenAdditionalFile": {
+      "title": "MavenAdditionalFile",
+      "required": [
+        "contents"
+      ],
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "string",
+          "description": "The contents of the file, encoded according to the `encoding` field.",
+          "example": "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\"> <modelVersion>4.0.0</modelVersion> <artifactId>io.snyk.example</artifactId> <groupId>parent</groupId> <version>1.0-SNAPSHOT</version> <dependencies> <dependency> <groupId>org.apache.zookeeper</groupId> <artifactId>zookeeper</artifactId> <version>3.5</version> </dependency> <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjweaver</artifactId> <version>1.8.2</version> </dependency> </dependencies> </project>\\n"
+        }
+      }
+    },
+    "Semver2": {
+      "title": "Semver2",
+      "required": [
+        "vulnerable"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerable": [
+          "[,4.7.3)"
+        ]
+      }
+    },
+    "Function1": {
+      "title": "Function1",
+      "type": "object",
+      "properties": {
+        "functionId": {
+          "$ref": "#/components/schemas/FunctionId1"
+        },
+        "version": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      }
+    },
+    "Vulnerability2": {
+      "title": "Vulnerability2",
+      "required": [
+        "id",
+        "url",
+        "title",
+        "type",
+        "description",
+        "functions",
+        "from",
+        "package",
+        "version",
+        "severity",
+        "exploitMaturity",
+        "language",
+        "packageManager",
+        "semver",
+        "publicationTime",
+        "disclosureTime",
+        "isUpgradable",
+        "isPatchable",
+        "isPinnable",
+        "identifiers",
+        "credit",
+        "CVSSv3",
+        "cvssScore",
+        "patches",
+        "upgradePath"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Function1"
+              },
+              {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Function11"
+                  },
+                  {
+                    "example": {
+                      "functionId": {
+                        "className": "org.apache.zookeeper.server.NIOServerCnxn",
+                        "functionName": "checkFourLetterWord"
+                      },
+                      "version": [
+                        "[,3.3.7)"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "description": ""
+        },
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "package": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "exploitMaturity": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "packageManager": {
+          "type": "string"
+        },
+        "semver": {
+          "$ref": "#/components/schemas/Semver2"
+        },
+        "publicationTime": {
+          "type": "string"
+        },
+        "disclosureTime": {
+          "type": "string"
+        },
+        "isUpgradable": {
+          "type": "boolean"
+        },
+        "isPatchable": {
+          "type": "boolean"
+        },
+        "isPinnable": {
+          "type": "boolean"
+        },
+        "identifiers": {
+          "$ref": "#/components/schemas/Identifiers2"
+        },
+        "credit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVSSv3": {
+          "type": "string"
+        },
+        "cvssScore": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer",
+              "format": "int32"
+            }
+          ]
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "upgradePath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "id": "SNYK-JAVA-AXIS-30071",
+        "url": "https://snyk.io/vuln/SNYK-JAVA-AXIS-30071",
+        "title": "Man-in-the-Middle (MitM)",
+        "type": "vuln",
+        "description": "## Overview\n\n[axis:axis](https://search.maven.org/search?q=g:axis) is an implementation of the SOAP (\"Simple Object Access Protocol\") submission to W3C.\n\n\nAffected versions of this package are vulnerable to Man-in-the-Middle (MitM).\nIt does not verify the requesting server's hostname against existing domain names in the SSL Certificate. \r\n\r\n## Details\r\nThe `getCN` function in Apache Axis 1.4 and earlier does not properly verify that the server hostname matches a domain name in the subject's `Common Name (CN)` or `subjectAltName` field of the X.509 certificate, which allows man-in-the-middle attackers to spoof SSL servers via a certificate with a subject that specifies a common name in a field that is not the CN field.  \r\n\r\n**NOTE:** this issue exists because of an incomplete fix for [CVE-2012-5784](https://snyk.io/vuln/SNYK-JAVA-AXIS-30189).\n\n## Remediation\n\nThere is no fixed version for `axis:axis`.\n\n\n## References\n\n- [Axis Issue](https://issues.apache.org/jira/browse/AXIS-2905)\n\n- [NVD](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3596)\n\n- [Redhat Bugzilla](https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2014-3596)\n",
+        "functions": [],
+        "from": [
+          "axis:axis@1.4"
+        ],
+        "package": "axis:axis",
+        "version": "1.4",
+        "severity": "medium",
+        "exploitMaturity": "no-known-exploit",
+        "language": "java",
+        "packageManager": "maven",
+        "semver": {
+          "vulnerable": [
+            "[0,]"
+          ]
+        },
+        "publicationTime": "2014-08-18T16:51:53+00:00",
+        "disclosureTime": "2014-08-18T16:51:53+00:00",
+        "isUpgradable": false,
+        "isPatchable": false,
+        "isPinnable": false,
+        "identifiers": {
+          "CVE": [
+            "CVE-2014-3596"
+          ],
+          "CWE": [
+            "CWE-297"
+          ]
+        },
+        "credit": [
+          "David Jorm",
+          "Arun Neelicattu"
+        ],
+        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+        "cvssScore": 5.4,
+        "patches": [],
+        "upgradePath": []
+      }
+    },
+    "MavenFile": {
+      "title": "MavenFile",
+      "required": [
+        "contents"
+      ],
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "string",
+          "description": "The contents of the file, encoded according to the `encoding` field.",
+          "example": "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\"> <modelVersion>4.0.0</modelVersion> <parent> <artifactId>io.snyk.example</artifactId> <groupId>parent</groupId> <version>1.0-SNAPSHOT</version> </parent> <artifactId>my-project</artifactId> <dependencies> <dependency> <groupId>axis</groupId> <artifactId>axis</artifactId> <version>1.4</version> </dependency> </dependencies> </project>\\n"
+        }
+      }
+    },
+    "Testmavenfileresponse": {
+      "title": "Testmavenfileresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues3"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      }
+    },
+    "Issues3": {
+      "title": "Issues3",
+      "required": [
+        "vulnerabilities",
+        "licenses"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Vulnerability2"
+          },
+          "description": ""
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      }
+    },
+    "Function11": {
+      "title": "Function11",
+      "required": [
+        "functionId",
+        "version"
+      ],
+      "type": "object",
+      "properties": {
+        "functionId": {
+          "$ref": "#/components/schemas/FunctionId1"
+        },
+        "version": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "functionId": {
+          "className": "org.apache.zookeeper.server.NIOServerCnxn",
+          "functionName": "checkFourLetterWord"
+        },
+        "version": [
+          "[,3.3.7)"
+        ]
+      }
+    },
+    "Mavenrequestpayload": {
+      "title": "Mavenrequestpayload",
+      "required": [
+        "files"
+      ],
+      "type": "object",
+      "properties": {
+        "encoding": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/encoding"
+            },
+            {
+              "description": "the encoding for the manifest files sent."
+            }
+          ]
+        },
+        "files": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/files"
+            },
+            {
+              "description": "The manifest files:"
+            }
+          ]
+        }
+      }
+    },
+    "encoding": {
+      "title": "encoding",
+      "enum": [
+        "plain",
+        "base64"
+      ],
+      "type": "string",
+      "description": "the encoding for the manifest files sent."
+    }
+  },
+  "referenced_common_schemas": []
+}

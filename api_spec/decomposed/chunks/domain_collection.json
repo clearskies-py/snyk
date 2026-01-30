@@ -1,0 +1,1522 @@
+{
+  "tag": "Collection",
+  "endpoint_count": 8,
+  "schema_count": 14,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/collections",
+      "operation_id": "getCollections",
+      "summary": "Get collections"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/collections",
+      "operation_id": "createCollection",
+      "summary": "Create a collection"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/collections/{collection_id}",
+      "operation_id": "deleteCollection",
+      "summary": "Delete a collection"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/collections/{collection_id}",
+      "operation_id": "getCollection",
+      "summary": "Get a collection"
+    },
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}/collections/{collection_id}",
+      "operation_id": "updateCollection",
+      "summary": "Edit a collection"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/collections/{collection_id}/relationships/projects",
+      "operation_id": "deleteProjectsCollection",
+      "summary": "Remove projects from a collection"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/collections/{collection_id}/relationships/projects",
+      "operation_id": "getProjectsOfCollection",
+      "summary": "Get projects from the specified collection"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/collections/{collection_id}/relationships/projects",
+      "operation_id": "updateCollectionWithProjects",
+      "summary": "Add projects to a collection"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/collections",
+      "method": "GET",
+      "operation_id": "getCollections",
+      "summary": "Get collections",
+      "details": {
+        "description": "Return a list of organization's collections with issues counts  and projects count.\n\n#### Required permissions\n\n- `View Collections (org.collection.read)`\n\n- `View Project history (org.project.snapshot.read)`",
+        "operationId": "getCollections",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "Return collections sorted by the specified attributes",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "enum": [
+                "name",
+                "projectsCount",
+                "issues"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return collections sorted in the specified direction",
+            "in": "query",
+            "name": "direction",
+            "schema": {
+              "default": "DESC",
+              "enum": [
+                "ASC",
+                "DESC"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "allowEmptyValue": true,
+            "description": "Return collections which names include the provided string",
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "maxLength": 255,
+              "type": "string"
+            }
+          },
+          {
+            "allowEmptyValue": true,
+            "description": "Return collections where is_generated matches the provided boolean",
+            "in": "query",
+            "name": "is_generated",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/CollectionResponse"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of collections",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get collections",
+        "tags": [
+          "Collection"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-01~beta",
+          "2023-09-12"
+        ],
+        "x-snyk-api-resource": "collections",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-09-12",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/collections",
+      "method": "POST",
+      "operation_id": "createCollection",
+      "summary": "Create a collection",
+      "details": {
+        "description": "Create a collection\n\n#### Required permissions\n\n- `Create Collections (org.collection.create)`",
+        "operationId": "createCollection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCollectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "collection resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/CollectionAttributes"
+                        },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "relationships": {
+                          "$ref": "#/components/schemas/CollectionRelationships"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/Types"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "attributes",
+                        "relationships"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returned collection",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create a collection",
+        "tags": [
+          "Collection"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-01~beta",
+          "2023-09-12"
+        ],
+        "x-snyk-api-resource": "collections",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-09-12",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/collections/{collection_id}",
+      "method": "DELETE",
+      "operation_id": "deleteCollection",
+      "summary": "Delete a collection",
+      "details": {
+        "description": "Delete a collection\n\n#### Required permissions\n\n- `Delete Collections (org.collection.delete)`",
+        "operationId": "deleteCollection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CollectionId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Collection was deleted successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete a collection",
+        "tags": [
+          "Collection"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-01~beta",
+          "2023-09-12"
+        ],
+        "x-snyk-api-resource": "collections",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-09-12",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/collections/{collection_id}",
+      "method": "GET",
+      "operation_id": "getCollection",
+      "summary": "Get a collection",
+      "details": {
+        "description": "Get a collection\n\n#### Required permissions\n\n- `View Collections (org.collection.read)`",
+        "operationId": "getCollection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CollectionId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "collection resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/CollectionAttributes"
+                        },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "relationships": {
+                          "$ref": "#/components/schemas/CollectionRelationships"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/Types"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "attributes",
+                        "relationships"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returned collection",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get a collection",
+        "tags": [
+          "Collection"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-01~beta",
+          "2023-09-12"
+        ],
+        "x-snyk-api-resource": "collections",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-09-12",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/collections/{collection_id}",
+      "method": "PATCH",
+      "operation_id": "updateCollection",
+      "summary": "Edit a collection",
+      "details": {
+        "description": "Edit a collection\n\n#### Required permissions\n\n- `Edit Collections (org.collection.edit)`",
+        "operationId": "updateCollection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CollectionId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCollectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "collection resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/CollectionAttributes"
+                        },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "relationships": {
+                          "$ref": "#/components/schemas/CollectionRelationships"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/Types"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "attributes",
+                        "relationships"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returned collection",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Edit a collection",
+        "tags": [
+          "Collection"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-01~beta",
+          "2023-09-12"
+        ],
+        "x-snyk-api-resource": "collections",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-09-12",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/collections/{collection_id}/relationships/projects",
+      "method": "DELETE",
+      "operation_id": "deleteProjectsCollection",
+      "summary": "Remove projects from a collection",
+      "details": {
+        "description": "Remove projects from a collection by specifying an array of project ids\n\n#### Required permissions\n\n- `Edit Collections (org.collection.edit)`",
+        "operationId": "deleteProjectsCollection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CollectionId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteProjectsFromCollectionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "successfully removing projects from a collection",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Remove projects from a collection",
+        "tags": [
+          "Collection"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-01~beta",
+          "2023-09-12"
+        ],
+        "x-snyk-api-resource": "collections",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-09-12",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/collections/{collection_id}/relationships/projects",
+      "method": "GET",
+      "operation_id": "getProjectsOfCollection",
+      "summary": "Get projects from the specified collection",
+      "details": {
+        "description": "Return a list of organization's projects that are from the specified collection.\n\n#### Required permissions\n\n- `View Collections (org.collection.read)`\n\n- `View Projects (org.project.read)`\n\n- `View Project history (org.project.snapshot.read)`",
+        "operationId": "getProjectsOfCollection",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CollectionId"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "Return projects sorted by the specified attributes",
+            "in": "query",
+            "name": "sort",
+            "schema": {
+              "enum": [
+                "imported",
+                "last_tested_at",
+                "issues"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return projects sorted in the specified direction",
+            "in": "query",
+            "name": "direction",
+            "schema": {
+              "default": "DESC",
+              "enum": [
+                "ASC",
+                "DESC"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return projects that belong to the provided targets",
+            "in": "query",
+            "name": "target_id",
+            "schema": {
+              "items": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "maxItems": 25,
+              "type": "array"
+            }
+          },
+          {
+            "description": "Return projects that are with or without issues",
+            "in": "query",
+            "name": "show",
+            "schema": {
+              "items": {
+                "enum": [
+                  "vuln-groups",
+                  "clean-groups"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "description": "Return projects that match the provided integration types",
+            "in": "query",
+            "name": "integration",
+            "schema": {
+              "items": {
+                "enum": [
+                  "acr",
+                  "api",
+                  "artifactory-cr",
+                  "aws-lambda",
+                  "azure-functions",
+                  "azure-repos",
+                  "bitbucket-cloud",
+                  "bitbucket-connect-app",
+                  "bitbucket-server",
+                  "cli",
+                  "cloud-foundry",
+                  "digitalocean-cr",
+                  "docker-hub",
+                  "ecr",
+                  "gcr",
+                  "github-cr",
+                  "github-enterprise",
+                  "github",
+                  "gitlab-cr",
+                  "gitlab",
+                  "google-artifact-cr",
+                  "harbor-cr",
+                  "heroku",
+                  "ibm-cloud",
+                  "kubernetes",
+                  "nexus-cr",
+                  "pivotal",
+                  "quay-cr",
+                  "terraform-cloud"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProjectsOfCollectionResponse"
+                }
+              }
+            },
+            "description": "Returns a list of projects from the specified collection",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get projects from the specified collection",
+        "tags": [
+          "Collection"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-01~beta",
+          "2023-09-12"
+        ],
+        "x-snyk-api-resource": "collections",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-09-12",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/collections/{collection_id}/relationships/projects",
+      "method": "POST",
+      "operation_id": "updateCollectionWithProjects",
+      "summary": "Add projects to a collection",
+      "details": {
+        "description": "Add projects to a collection by specifying an array of project ids\n\n#### Required permissions\n\n- `Edit Collections (org.collection.edit)`",
+        "operationId": "updateCollectionWithProjects",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/CollectionId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCollectionWithProjectsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "successfully adding projects to a collection",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Add projects to a collection",
+        "tags": [
+          "Collection"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-01~beta",
+          "2023-09-12"
+        ],
+        "x-snyk-api-resource": "collections",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-09-12",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "Types": {
+      "example": "resource",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+      "type": "string"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "CollectionResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/CollectionAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "meta": {
+          "$ref": "#/components/schemas/CollectionMeta"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/CollectionRelationships"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Types"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "meta",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "UpdateCollectionWithProjectsRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "description": "IDs of items to add to a collection",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type of the item id",
+                "enum": [
+                  "project"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "type"
+            ],
+            "type": "object"
+          },
+          "maxItems": 100,
+          "type": "array"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "CollectionAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "is_generated": {
+          "type": "boolean"
+        },
+        "name": {
+          "description": "User-defined name of the collection",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "CreateCollectionRequest": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "$ref": "#/components/schemas/name"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "type": {
+              "$ref": "#/components/schemas/Types"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "CollectionRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "created_by_user": {
+          "properties": {
+            "data": {
+              "properties": {
+                "id": {
+                  "description": "ID of the user that created the collection. Null for auto-collections.",
+                  "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                  "format": "uuid",
+                  "nullable": true,
+                  "type": "string"
+                },
+                "type": {
+                  "enum": [
+                    "user"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "id"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "type": "object"
+        },
+        "org": {
+          "properties": {
+            "data": {
+              "properties": {
+                "id": {
+                  "description": "ID of the org that this collection belongs to",
+                  "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "type": {
+                  "enum": [
+                    "org"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "id"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "org",
+        "created_by_user"
+      ],
+      "type": "object"
+    },
+    "GetProjectsOfCollectionResponse": {
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/ProjectOfCollection"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "type": "object"
+    },
+    "name": {
+      "description": "User-defined name of the collection",
+      "maxLength": 255,
+      "minLength": 1,
+      "pattern": "^([a-zA-Z0-9 _\\-\\/:.])+$",
+      "type": "string"
+    },
+    "CollectionMeta": {
+      "additionalProperties": false,
+      "properties": {
+        "issues_critical_count": {
+          "description": "The sum of critical severity issues of the collection's projects",
+          "example": 10,
+          "type": "number"
+        },
+        "issues_high_count": {
+          "description": "The sum of high severity issues of the collection's projects",
+          "example": 10,
+          "type": "number"
+        },
+        "issues_low_count": {
+          "description": "The sum of low severity issues of the collection's projects",
+          "example": 10,
+          "type": "number"
+        },
+        "issues_medium_count": {
+          "description": "The sum of medium severity issues of the collection's projects",
+          "example": 10,
+          "type": "number"
+        },
+        "projects_count": {
+          "description": "The amount of projects belonging to this collection",
+          "example": 7,
+          "type": "number"
+        }
+      },
+      "required": [
+        "projects_count",
+        "issues_critical_count",
+        "issues_high_count",
+        "issues_medium_count",
+        "issues_low_count"
+      ],
+      "type": "object"
+    },
+    "ProjectOfCollection": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "meta": {
+          "$ref": "#/components/schemas/ProjectMeta"
+        },
+        "relationships": {
+          "additionalProperties": false,
+          "properties": {
+            "target": {
+              "properties": {
+                "data": {
+                  "properties": {
+                    "id": {
+                      "description": "ID of the target that owns the project",
+                      "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "enum": [
+                        "target"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "data"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "target"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Types"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "meta",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "DeleteProjectsFromCollectionRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "description": "IDs of items to remove from a collection",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type of the item id",
+                "enum": [
+                  "project"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "type"
+            ],
+            "type": "object"
+          },
+          "maxItems": 100,
+          "type": "array"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "ProjectMeta": {
+      "additionalProperties": false,
+      "properties": {
+        "imported": {
+          "description": "The time the project was imported",
+          "example": "2021-05-29T09:50:54.014Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "issues_critical_count": {
+          "description": "The sum of critical severity issues of the project",
+          "example": 10,
+          "type": "number"
+        },
+        "issues_high_count": {
+          "description": "The sum of high severity issues of the project",
+          "example": 10,
+          "type": "number"
+        },
+        "issues_low_count": {
+          "description": "The sum of low severity issues of the project",
+          "example": 10,
+          "type": "number"
+        },
+        "issues_medium_count": {
+          "description": "The sum of medium severity issues of the project",
+          "example": 10,
+          "type": "number"
+        },
+        "last_tested_at": {
+          "description": "The time the project was last tested",
+          "example": "2021-05-29T09:50:54.014Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "imported",
+        "last_tested_at",
+        "issues_critical_count",
+        "issues_high_count",
+        "issues_medium_count",
+        "issues_low_count"
+      ],
+      "type": "object"
+    },
+    "UpdateCollectionRequest": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "$ref": "#/components/schemas/name"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "$ref": "#/components/schemas/Types"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "PaginatedLinks",
+    "LinkProperty",
+    "Meta",
+    "JsonApi"
+  ]
+}

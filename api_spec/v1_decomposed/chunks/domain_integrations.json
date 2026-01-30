@@ -1,0 +1,1440 @@
+{
+  "tag": "Integrations",
+  "endpoint_count": 10,
+  "schema_count": 36,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/integrations",
+      "operation_id": "List",
+      "summary": "List"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/integrations",
+      "operation_id": "Addnewintegration",
+      "summary": "Add new integration"
+    },
+    {
+      "method": "PUT",
+      "path": "/org/{orgId}/integrations/{integrationId}",
+      "operation_id": "Updateexistingintegration",
+      "summary": "Update existing integration"
+    },
+    {
+      "method": "DELETE",
+      "path": "/org/{orgId}/integrations/{integrationId}/authentication",
+      "operation_id": "Deletecredentials",
+      "summary": "Delete credentials"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/integrations/{integrationId}/authentication/provision-token",
+      "operation_id": "Provisionnewbrokertoken",
+      "summary": "Provision new broker token"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/integrations/{integrationId}/authentication/switch-token",
+      "operation_id": "Switchbetweenbrokertokens",
+      "summary": "Switch between broker tokens"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/integrations/{integrationId}/clone",
+      "operation_id": "Cloneanintegration(withsettingsandcredentials)",
+      "summary": "Clone an integration (with settings and credentials)"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/integrations/{type}",
+      "operation_id": "Getexistingintegrationbytype",
+      "summary": "Get existing integration by type"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/integrations/{integrationId}/settings",
+      "operation_id": "Retrieve",
+      "summary": "Get Integration Settings"
+    },
+    {
+      "method": "PUT",
+      "path": "/org/{orgId}/integrations/{integrationId}/settings",
+      "operation_id": "Update",
+      "summary": "Update Integration Settings"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/org/{orgId}/integrations",
+      "method": "GET",
+      "operation_id": "List",
+      "summary": "List",
+      "details": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "List",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Integrations`",
+        "operationId": "List",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization public ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "github": {
+                      "type": "string"
+                    },
+                    "gitlab": {
+                      "type": "string"
+                    },
+                    "bitbucket-cloud": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "example": {
+                  "github": "9a3e5d90-b782-468a-a042-9a2073736f0b",
+                  "gitlab": "1b3e3d90-c678-347a-n232-6a3453738h1e",
+                  "bitbucket-cloud": "6jje4c92-e7rn-t59a-f456-8n5675432fe9"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/integrations",
+      "method": "POST",
+      "operation_id": "Addnewintegration",
+      "summary": "Add new integration",
+      "details": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Add new integration",
+        "description": "Add new integration for given organization.\n#### Required permissions\n- `View Organization`\n- `View Integrations`\n- `Edit Integrations`",
+        "operationId": "Addnewintegration",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/AddNewIntegrationWithCredentialsRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/AddNewIntegrationWithBrokerRequest"
+                  }
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Addnewintegrationresponse"
+                },
+                "example": {
+                  "id": "9a3e5d90-b782-468a-a042-9a2073736f0b"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/integrations/{integrationId}",
+      "method": "PUT",
+      "operation_id": "Updateexistingintegration",
+      "summary": "Update existing integration",
+      "details": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Update existing integration",
+        "description": "- Update integration\u2019s credentials for given organization. Integration must be **not brokered**\n- Enable or disable brokered integration for given organization. *Credentials required for disabling brokered integration*\nExamples:\n- [Set up a broker for an existing integration](https://docs.snyk.io/snyk-api/api-endpoints-index-and-tips/examples-for-the-update-existing-integration-endpoint#set-up-broker-for-an-existing-integration)\n- [Update credentials for an existing non-brokered integration](https://docs.snyk.io/snyk-api/api-endpoints-index-and-tips/examples-for-the-update-existing-integration-endpoint#update-credentials-for-an-existing-non-brokered-integration)\n- [Disable broker for an existing integration](https://docs.snyk.io/snyk-api/api-endpoints-index-and-tips/examples-for-the-update-existing-integration-endpoint#disable-broker-for-an-existing-integration)\n#### Required permissions\n- `View Organization`\n- `View Integrations`\n- `Edit Integrations`",
+        "operationId": "Updateexistingintegration",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "integrationId",
+            "in": "path",
+            "description": "The unique identifier for the configured integration. This can be found on the [Integration page in the Settings area](https://app.snyk.io/manage/integrations) for all integrations that have been configured.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "9a3e5d90-b782-468a-a042-9a2073736f0b"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/Updateexistingintegrationrequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Updateexistingintegrationrequest1"
+                  },
+                  {
+                    "$ref": "#/components/schemas/Updateexistingintegrationrequest2"
+                  }
+                ]
+              },
+              "examples": {
+                "setupExistingIntegration": {
+                  "summary": "Set up a broker for an existing integration",
+                  "value": {
+                    "type": "github",
+                    "broker": {
+                      "enabled": true
+                    }
+                  }
+                },
+                "updateCredentials": {
+                  "summary": "Update credentials for an existing non-brokered integration",
+                  "value": {
+                    "type": "gitlab",
+                    "credentials": {
+                      "token": "GITLAB_TOKEN"
+                    }
+                  }
+                },
+                "disableBroker": {
+                  "summary": "Disable broker for an existing integration",
+                  "value": {
+                    "type": "github",
+                    "broker": {
+                      "enabled": false
+                    },
+                    "credentials": {
+                      "token": "GITHUB_TOKEN"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Updateexistingintegrationresponse"
+                    },
+                    {
+                      "example": {
+                        "id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
+                        "brokerToken": "4a18d42f-0706-4ad0-b127-24078731fbed"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/integrations/{integrationId}/authentication",
+      "method": "DELETE",
+      "operation_id": "Deletecredentials",
+      "summary": "Delete credentials",
+      "details": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Delete credentials",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Integrations`\n- `Edit Integrations`\nRemoves any credentials set for this integration. If this is a brokered connection the operation will have no effect.",
+        "operationId": "Deletecredentials",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "integrationId",
+            "in": "path",
+            "description": "The integration ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/integrations/{integrationId}/authentication/provision-token",
+      "method": "POST",
+      "operation_id": "Provisionnewbrokertoken",
+      "summary": "Provision new broker token",
+      "details": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Provision new broker token",
+        "description": "Issue a new and unique provisional broker token for the brokered integration.\nUsed for zero down-time token rotation with the Snyk Broker. Once provisioned, the token can be used to initialize a new broker client before using the switch API to update the token in use by the integration.\nThe new provisional token will fail to be created if the integration, or any other integration in the same group, already has one provisioned.\n#### Required permissions\n- `View Organization`\n- `View Integrations`\n- `Edit Integrations`",
+        "operationId": "Provisionnewbrokertoken",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "integrationId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Provisionnewbrokertokenresponse"
+                },
+                "example": {
+                  "id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
+                  "provisionalBrokerToken": "4a18d42f-0706-4ad0-b127-24078731fbed"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/integrations/{integrationId}/authentication/switch-token",
+      "method": "POST",
+      "operation_id": "Switchbetweenbrokertokens",
+      "summary": "Switch between broker tokens",
+      "details": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Switch between broker tokens",
+        "description": "Switch the existing broker token with the provisioned token for this integration and any other in the same group.\nOnly perform this action when you have a Broker client running with the provisioned token.\nThis action will fail if there is no token provisioned for this integration or any integration in the same group.\n#### Required permissions\n- `View Organization`\n- `View Integrations`\n- `Edit Integrations`",
+        "operationId": "Switchbetweenbrokertokens",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "integrationId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/integrations/{integrationId}/clone",
+      "method": "POST",
+      "operation_id": "Cloneanintegration(withsettingsandcredentials)",
+      "summary": "Clone an integration (with settings and credentials)",
+      "details": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Clone an integration (with settings and credentials)",
+        "description": "Clone an integration, including all of its settings and credentials from one organization to another organization in the same group.\nThis API supports both brokered and non-brokered integrations.\nUse this API for when you want to share a Broker token between several Snyk organizations (integrations).\n#### Required permissions\n- `View Organization`\n- `View Integrations`\n- `Edit Integrations`",
+        "operationId": "Cloneanintegration(withsettingsandcredentials)",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "Source organization public ID to clone integration settings from. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "integrationId",
+            "in": "path",
+            "description": "Source integration public ID to clone.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cloneanintegrationwithsettingsandcredentialsrequest"
+              },
+              "example": {
+                "destinationOrgPublicId": "9a3e5d90-b782-468a-a042-9a2073736f0b1"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cloneanintegrationwithsettingsandcredentialsresponse"
+                },
+                "example": {
+                  "newIntegrationId": "9a3e5d90-b782-468a-a042-9a2073736f0b"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/integrations/{type}",
+      "method": "GET",
+      "operation_id": "Getexistingintegrationbytype",
+      "summary": "Get existing integration by type",
+      "details": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Get existing integration by type",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Integrations`",
+        "operationId": "Getexistingintegrationbytype",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "type",
+            "in": "path",
+            "description": "Integration type.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "$ref": "#/components/schemas/IntegrationType"
+            },
+            "example": "github"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Getexistingintegrationbytyperesponse"
+                },
+                "example": {
+                  "id": "9a3e5d90-b782-468a-a042-9a2073736f0b"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/integrations/{integrationId}/settings",
+      "method": "GET",
+      "operation_id": "Retrieve",
+      "summary": "Get Integration Settings",
+      "details": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Get Integration Settings",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Integrations`",
+        "operationId": "Retrieve",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "integrationId",
+            "in": "path",
+            "description": "The unique identifier for the configured integration. This can be found on the [Integration page in the Settings area](https://app.snyk.io/manage/integrations) for all integrations that have been configured.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "9a3e5d90-b782-468a-a042-9a2073736f0b"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Integrationsettings"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/integrations/{integrationId}/settings",
+      "method": "PUT",
+      "operation_id": "Update",
+      "summary": "Update Integration Settings",
+      "details": {
+        "tags": [
+          "Integrations"
+        ],
+        "summary": "Update Integration Settings",
+        "description": "#### Required permissions\n- `View Organization`\n- `View Integrations`\n- `Edit Integrations`",
+        "operationId": "Update",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "integrationId",
+            "in": "path",
+            "description": "The unique identifier for the configured integration. This can be found on the [Integration page in the Settings area](https://app.snyk.io/manage/integrations) for all integrations that have been configured.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "9a3e5d90-b782-468a-a042-9a2073736f0b"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Integrationsettings"
+              },
+              "example": {
+                "autoDepUpgradeLimit": 2,
+                "autoDepUpgradeIgnoredDependencies": [],
+                "autoDepUpgradeEnabled": false,
+                "autoDepUpgradeMinAge": 21,
+                "pullRequestTestEnabled": true,
+                "pullRequestFailOnAnyVulns": false,
+                "pullRequestFailOnlyForHighSeverity": true,
+                "pullRequestAssignment": "{\"enabled\":true,\"type\":\"manual\",\"assignees\":[\"username\"]}",
+                "autoRemediationPrs": {
+                  "backlogPrsEnabled": false,
+                  "backlogPrStrategy": "vuln",
+                  "freshPrsEnabled": true,
+                  "usePatchRemediation": false
+                },
+                "manualRemediationPrs": {
+                  "useManualPatchRemediation": false
+                },
+                "dockerfileSCMEnabled": true
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Integrationsettings"
+                },
+                "example": {
+                  "autoDepUpgradeLimit": 2,
+                  "autoDepUpgradeIgnoredDependencies": [],
+                  "autoDepUpgradeEnabled": false,
+                  "autoDepUpgradeMinAge": 21,
+                  "pullRequestTestEnabled": true,
+                  "pullRequestFailOnAnyVulns": false,
+                  "pullRequestFailOnlyForHighSeverity": true,
+                  "pullRequestAssignment": "{\"enabled\":true,\"type\":\"manual\",\"assignees\":[\"username\"]}",
+                  "autoRemediationPrs": {
+                    "backlogPrsEnabled": false,
+                    "backlogPrStrategy": "vuln",
+                    "freshPrsEnabled": true,
+                    "usePatchRemediation": false
+                  },
+                  "manualRemediationPrs": {
+                    "useManualPatchRemediation": false
+                  },
+                  "dockerfileSCMEnabled": true
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "HarborCrCredentials": {
+      "title": "HarborCrCredentials",
+      "required": [
+        "username",
+        "password",
+        "registryBase"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registryBase": {
+          "type": "string",
+          "description": "e.g.: `your.harbor.host`"
+        }
+      }
+    },
+    "GitLabCrCredentials": {
+      "title": "GitLabCrCredentials",
+      "required": [
+        "username",
+        "password",
+        "registryBase"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registryBase": {
+          "type": "string",
+          "description": "e.g.: `your.gitlab.host`"
+        }
+      }
+    },
+    "autoRemediationPrs2": {
+      "title": "autoRemediationPrs2",
+      "type": "object",
+      "properties": {
+        "backlogPrsEnabled": {
+          "type": "boolean",
+          "description": "If true, allows automatic remediation of prioritized backlog issues"
+        },
+        "backlogPrStrategy": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/backlogPrStrategy"
+            },
+            {
+              "description": "Determine which issues are fixed in a backlog PR"
+            }
+          ]
+        },
+        "freshPrsEnabled": {
+          "type": "boolean",
+          "description": "If true, allows automatic remediation of newly identified issues, or older issues where a fix has been identified"
+        },
+        "usePatchRemediation": {
+          "type": "boolean",
+          "description": "If true, allows using patched remediation"
+        }
+      },
+      "description": "Defines automatic remediation policies"
+    },
+    "DigitalOceanCrCredentials": {
+      "title": "DigitalOceanCrCredentials",
+      "required": [
+        "token"
+      ],
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Personal Access Token"
+        }
+      }
+    },
+    "Updateexistingintegrationrequest2": {
+      "title": "Disable broker for an existing integration",
+      "required": [
+        "type",
+        "broker",
+        "credentials"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/components/schemas/IntegrationType"
+        },
+        "broker": {
+          "$ref": "#/components/schemas/BrokerSettings"
+        },
+        "credentials": {
+          "$ref": "#/components/schemas/IntegrationCredentials"
+        }
+      }
+    },
+    "Cloneanintegrationwithsettingsandcredentialsresponse": {
+      "title": "Cloneanintegrationwithsettingsandcredentialsresponse",
+      "required": [
+        "newIntegrationId"
+      ],
+      "type": "object",
+      "properties": {
+        "newIntegrationId": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "newIntegrationId": "9a3e5d90-b782-468a-a042-9a2073736f0b"
+      }
+    },
+    "IntegrationType": {
+      "title": "IntegrationType",
+      "enum": [
+        "acr",
+        "artifactory-cr",
+        "azure-repos",
+        "bitbucket-cloud",
+        "bitbucket-server",
+        "digitalocean-cr",
+        "docker-hub",
+        "ecr",
+        "gcr",
+        "github",
+        "github-cr",
+        "github-enterprise",
+        "gitlab",
+        "gitlab-cr",
+        "google-artifact-cr",
+        "harbor-cr",
+        "nexus-cr",
+        "quay-cr"
+      ],
+      "type": "string"
+    },
+    "backlogPrStrategy": {
+      "title": "backlogPrStrategy",
+      "enum": [
+        "vuln",
+        "dependency"
+      ],
+      "type": "string",
+      "description": "Determine which issues are fixed in a backlog PR"
+    },
+    "Addnewintegrationresponse": {
+      "title": "Addnewintegrationresponse",
+      "required": [
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "id": "9a3e5d90-b782-468a-a042-9a2073736f0b"
+      }
+    },
+    "EcrCredentials": {
+      "title": "EcrCredentials",
+      "required": [
+        "region",
+        "roleArn"
+      ],
+      "type": "object",
+      "properties": {
+        "region": {
+          "type": "string",
+          "description": "e.g.: `eu-west-3`"
+        },
+        "roleArn": {
+          "type": "string",
+          "description": "e.g.: `arn:aws:iam::<account-id>:role/<newRole>`"
+        }
+      }
+    },
+    "QuayCrCredentials": {
+      "title": "QuayCrCredentials",
+      "required": [
+        "username",
+        "password",
+        "registryBase"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registryBase": {
+          "type": "string",
+          "description": "e.g.: `quay.io`, `your.quay.host`"
+        }
+      }
+    },
+    "Updateexistingintegrationrequest": {
+      "title": "Setup Broker for Existing Integration",
+      "required": [
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/components/schemas/IntegrationType"
+        },
+        "broker": {
+          "$ref": "#/components/schemas/BrokerSettings"
+        }
+      }
+    },
+    "Updateexistingintegrationresponse": {
+      "title": "Updateexistingintegrationresponse",
+      "required": [
+        "id",
+        "brokerToken"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "brokerToken": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
+        "brokerToken": "4a18d42f-0706-4ad0-b127-24078731fbed"
+      }
+    },
+    "NexusCrCredentials": {
+      "title": "NexusCrCredentials",
+      "required": [
+        "username",
+        "password",
+        "registryBase"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registryBase": {
+          "type": "string",
+          "description": "e.g.: `your.nexus.host`"
+        }
+      }
+    },
+    "Integrationsettings": {
+      "title": "Integrationsettings",
+      "type": "object",
+      "properties": {
+        "autoDepUpgradeLimit": {
+          "type": "number",
+          "description": "A limit on how many automatic dependency upgrade PRs can be opened simultaneously"
+        },
+        "autoDepUpgradeIgnoredDependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of strings defining what dependencies should be ignored"
+        },
+        "autoDepUpgradeEnabled": {
+          "type": "boolean",
+          "description": "Defines if the functionality is enabled"
+        },
+        "autoDepUpgradeMinAge": {
+          "type": "number",
+          "description": "The age (in days) that an automatic dependency check is valid for"
+        },
+        "pullRequestFailOnAnyVulns": {
+          "type": "boolean",
+          "description": "If an opened PR should fail to be validated if any vulnerable dependencies have been detected"
+        },
+        "pullRequestFailOnlyForHighSeverity": {
+          "type": "boolean",
+          "description": "If an opened PR only should fail its validation if any dependencies are marked as being of high severity"
+        },
+        "pullRequestTestEnabled": {
+          "type": "boolean",
+          "description": "If opened PRs should be tested"
+        },
+        "pullRequestAssignment": {
+          "type": "string",
+          "description": "assign Snyk pull requests"
+        },
+        "autoRemediationPrs": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/autoRemediationPrs2"
+            },
+            {
+              "description": "Defines automatic remediation policies"
+            }
+          ]
+        },
+        "manualRemediationPrs": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/manualRemediationPrs"
+            },
+            {
+              "description": "Defines manual remediation policies"
+            }
+          ]
+        },
+        "dockerfileSCMEnabled": {
+          "type": "boolean",
+          "description": "If true, will automatically detect and scan Dockerfiles in your Git repositories, surface base image vulnerabilities and recommend possible fixes"
+        }
+      }
+    },
+    "AcrCredentials": {
+      "title": "AcrCredentials",
+      "required": [
+        "username",
+        "password",
+        "registryBase"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registryBase": {
+          "type": "string",
+          "description": "e.g.: `name.azurecr.io`"
+        }
+      }
+    },
+    "BrokerSettings": {
+      "title": "BrokerSettings",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "BitbucketServerCredentials": {
+      "title": "BitbucketServerCredentials",
+      "required": [
+        "username",
+        "password",
+        "url"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "Cloneanintegrationwithsettingsandcredentialsrequest": {
+      "title": "Cloneanintegrationwithsettingsandcredentialsrequest",
+      "required": [
+        "destinationOrgPublicId"
+      ],
+      "type": "object",
+      "properties": {
+        "destinationOrgPublicId": {
+          "type": "string",
+          "description": "The organization public ID. The `API_KEY` must have access to this organization."
+        }
+      }
+    },
+    "DockerHubCredentials": {
+      "title": "DockerHubCredentials",
+      "required": [
+        "username",
+        "password"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "description": "Access Token"
+        }
+      }
+    },
+    "GitHubCredentials": {
+      "title": "GitHubCredentials",
+      "required": [
+        "token"
+      ],
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "IntegrationCredentials": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/AcrCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/ArtifactoryCrCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/AzureReposCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/BitbucketCloudCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/BitbucketServerCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/DigitalOceanCrCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/DockerHubCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/EcrCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/GcrCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/GitHubCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/GitHubCrCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/GitHubEnterpriseCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/GitLabCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/GitLabCrCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/GoogleArtifactCrCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/HarborCrCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/NexusCrCredentials"
+        },
+        {
+          "$ref": "#/components/schemas/QuayCrCredentials"
+        }
+      ]
+    },
+    "AzureReposCredentials": {
+      "title": "AzureReposCredentials",
+      "required": [
+        "token",
+        "url"
+      ],
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "GoogleArtifactCrCredentials": {
+      "title": "GoogleArtifactCrCredentials",
+      "required": [
+        "password",
+        "registryBase"
+      ],
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "JSON key file"
+        },
+        "registryBase": {
+          "type": "string",
+          "description": "e.g.: `us-east1-docker.pkg.dev`, `europe-west1-docker.pkg.dev`"
+        }
+      }
+    },
+    "Updateexistingintegrationrequest1": {
+      "title": "Update credentials for an existing non-brokered integration",
+      "required": [
+        "type",
+        "credentials"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/components/schemas/IntegrationType"
+        },
+        "credentials": {
+          "$ref": "#/components/schemas/IntegrationCredentials"
+        }
+      }
+    },
+    "AddNewIntegrationWithCredentialsRequest": {
+      "title": "Add New Integration With Credentials Request",
+      "required": [
+        "type",
+        "credentials"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/components/schemas/IntegrationType"
+        },
+        "credentials": {
+          "$ref": "#/components/schemas/IntegrationCredentials"
+        }
+      }
+    },
+    "GitHubEnterpriseCredentials": {
+      "title": "GitHubEnterpriseCredentials",
+      "required": [
+        "token",
+        "url"
+      ],
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "manualRemediationPrs": {
+      "title": "manualRemediationPrs",
+      "type": "object",
+      "properties": {
+        "usePatchRemediation": {
+          "type": "boolean",
+          "description": "If true, allows using patched remediation"
+        }
+      },
+      "description": "Defines manual remediation policies"
+    },
+    "ArtifactoryCrCredentials": {
+      "title": "ArtifactoryCrCredentials",
+      "required": [
+        "username",
+        "password",
+        "registryBase"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registryBase": {
+          "type": "string",
+          "description": "e.g.: `name.jfrog.io`"
+        }
+      }
+    },
+    "AddNewIntegrationWithBrokerRequest": {
+      "title": "Add New Integration With Broker Request",
+      "required": [
+        "type",
+        "broker"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/components/schemas/IntegrationType"
+        },
+        "broker": {
+          "$ref": "#/components/schemas/BrokerSettings"
+        }
+      }
+    },
+    "GitLabCredentials": {
+      "title": "GitLabCredentials",
+      "required": [
+        "token"
+      ],
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "description": "for self-hosted GitLab only"
+        }
+      }
+    },
+    "Provisionnewbrokertokenresponse": {
+      "title": "Provisionnewbrokertokenresponse",
+      "required": [
+        "id",
+        "provisionalBrokerToken"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "provisionalBrokerToken": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
+        "provisionalBrokerToken": "4a18d42f-0706-4ad0-b127-24078731fbed"
+      }
+    },
+    "Getexistingintegrationbytyperesponse": {
+      "title": "Getexistingintegrationbytyperesponse",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Alphanumeric UUID including - with a limit of 36 characters"
+        }
+      }
+    },
+    "GitHubCrCredentials": {
+      "title": "GitHubCrCredentials",
+      "required": [
+        "username",
+        "password",
+        "registryBase"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "registryBase": {
+          "type": "string",
+          "description": "e.g.: `ghcr.io`"
+        }
+      }
+    },
+    "BitbucketCloudCredentials": {
+      "title": "BitbucketCloudCredentials",
+      "required": [
+        "username",
+        "password"
+      ],
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "GcrCredentials": {
+      "title": "GcrCredentials",
+      "required": [
+        "password",
+        "registryBase"
+      ],
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "JSON key file"
+        },
+        "registryBase": {
+          "type": "string",
+          "description": "e.g.: `gcr.io`, `us.gcr.io`, `eu.gcr.io`, `asia.gcr.io`"
+        }
+      }
+    }
+  },
+  "referenced_common_schemas": []
+}

@@ -1,0 +1,683 @@
+{
+  "tag": "SBOM",
+  "endpoint_count": 4,
+  "schema_count": 7,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/projects/{project_id}/sbom",
+      "operation_id": "getSbom",
+      "summary": "Get a project\u2019s SBOM document"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/sbom_tests",
+      "operation_id": "createSbomTestRun",
+      "summary": "Create an SBOM test run (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/sbom_tests/{job_id}",
+      "operation_id": "getSbomTestStatus",
+      "summary": "Gets an SBOM test run status (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/sbom_tests/{job_id}/results",
+      "operation_id": "getSbomTestResult",
+      "summary": "Gets an SBOM test run result (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/projects/{project_id}/sbom",
+      "method": "GET",
+      "operation_id": "getSbom",
+      "summary": "Get a project\u2019s SBOM document",
+      "details": {
+        "description": "This endpoint lets you retrieve the SBOM document of a software project.\nIt supports the following formats:\n* CycloneDX version 1.6 in JSON (set `format` to `cyclonedx1.6+json`).\n* CycloneDX version 1.6 in XML (set `format` to `cyclonedx1.6+xml`).\n* CycloneDX version 1.5 in JSON (set `format` to `cyclonedx1.5+json`).\n* CycloneDX version 1.5 in XML (set `format` to `cyclonedx1.5+xml`).\n* CycloneDX version 1.4 in JSON (set `format` to `cyclonedx1.4+json`).\n* CycloneDX version 1.4 in XML (set `format` to `cyclonedx1.4+xml`).\n* SPDX version 2.3 in JSON (set `format` to `spdx2.3+json`).\n\nBy default it will respond with an empty JSON:API response.\n\n#### Required permissions\n\n- `View Project history (org.project.snapshot.read)`",
+        "operationId": "getSbom",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Unique identifier for an organization",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Unique identifier for a project",
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Format"
+          },
+          {
+            "$ref": "#/components/parameters/Exclude"
+          },
+          {
+            "$ref": "#/components/parameters/GoModuleLevel"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SbomDocument"
+                }
+              },
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SbomResponse"
+                }
+              },
+              "application/vnd.cyclonedx+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SbomDocument"
+                }
+              },
+              "application/vnd.cyclonedx+xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SbomDocument"
+                }
+              }
+            },
+            "description": "Returns the SBOM document of a project",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get a project\u2019s SBOM document",
+        "tags": [
+          "SBOM"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-03-31~experimental",
+          "2022-12-06~beta",
+          "2023-03-20",
+          "2024-03-12~experimental",
+          "2024-08-15~beta",
+          "2024-08-22"
+        ],
+        "x-snyk-api-resource": "sboms",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-08-22",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/sbom_tests",
+      "method": "POST",
+      "operation_id": "createSbomTestRun",
+      "summary": "Create an SBOM test run (Early Access)",
+      "details": {
+        "description": "Create an SBOM test run by supplying an SBOM document. The components contained in the given document will get analyzed for known vulnerabilities. In order for component identification to be successful, they must have a PackageURL (purl) of a supported purl type assigned. Analysis will be skipped for any component that does not fulfill this requirement.\nSupported SBOM formats: CycloneDX 1.4 JSON, CycloneDX 1.5 JSON, CycloneDX 1.6 JSON, SPDX 2.3 JSON\nSupported purl types: apk, cargo, cocoapods, composer, conan, deb, gem, generic, golang, hex, maven, npm, nuget, pub, pypi, rpm, swift\n\n#### Required permissions\n\n- `Test Projects (org.project.test)`",
+        "operationId": "createSbomTestRun",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "$ref": "#/components/schemas/SbomTestCreateAttributes"
+                      },
+                      "type": {
+                        "$ref": "#/components/schemas/Types"
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "SBOM test resource object",
+                      "properties": {
+                        "id": {
+                          "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/Types"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Created SBOM test successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create an SBOM test run (Early Access)",
+        "tags": [
+          "SBOM"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-02~experimental",
+          "2023-08-31~beta",
+          "2024-04-22~beta",
+          "2024-07-10~beta"
+        ],
+        "x-snyk-api-resource": "sbom_tests",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-07-10~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/sbom_tests/{job_id}",
+      "method": "GET",
+      "operation_id": "getSbomTestStatus",
+      "summary": "Gets an SBOM test run status (Early Access)",
+      "details": {
+        "description": "Get an SBOM test run status\n\n#### Required permissions\n\n- `Test Projects (org.project.test)`",
+        "operationId": "getSbomTestStatus",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/JobId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "description": "SBOM test resource object",
+                      "properties": {
+                        "attributes": {
+                          "properties": {
+                            "status": {
+                              "enum": [
+                                "processing",
+                                "error",
+                                "finished"
+                              ],
+                              "type": "string"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "id": {
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/Types"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "attributes"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "SBOM test run status",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Gets an SBOM test run status (Early Access)",
+        "tags": [
+          "SBOM"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-02~experimental",
+          "2023-08-31~beta",
+          "2024-04-22~beta",
+          "2024-07-10~beta"
+        ],
+        "x-snyk-api-resource": "sbom_tests",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-07-10~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/sbom_tests/{job_id}/results",
+      "method": "GET",
+      "operation_id": "getSbomTestResult",
+      "summary": "Gets an SBOM test run result (Early Access)",
+      "details": {
+        "description": "Get an SBOM test run result\n\n#### Required permissions\n\n- `Test Projects (org.project.test)`",
+        "operationId": "getSbomTestResult",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/JobId"
+          },
+          {
+            "$ref": "#/components/parameters/Accept"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              },
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "SBOM test resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/SbomTestResultsAttributes"
+                        },
+                        "id": {
+                          "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "relationships": {
+                          "properties": {
+                            "affected_packages": {
+                              "properties": {
+                                "data": {
+                                  "items": {
+                                    "$ref": "#/components/schemas/ResourceReference"
+                                  },
+                                  "type": "array"
+                                }
+                              },
+                              "type": "object"
+                            }
+                          },
+                          "type": "object"
+                        },
+                        "type": {
+                          "$ref": "#/components/schemas/Types"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "included": {
+                      "items": {
+                        "additionalProperties": true,
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "SBOM test results",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          }
+        },
+        "summary": "Gets an SBOM test run result (Early Access)",
+        "tags": [
+          "SBOM"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-02~experimental",
+          "2023-08-31~beta",
+          "2024-04-22~beta",
+          "2024-07-10~beta"
+        ],
+        "x-snyk-api-resource": "sbom_tests",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-07-10~beta",
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "SbomResource": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "example": "b68b0b85-d039-4c05-abc0-04eb50ca0fe9",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Types"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "SbomTestCreateAttributes": {
+      "properties": {
+        "format": {
+          "type": "string"
+        },
+        "sbom": {
+          "additionalProperties": true,
+          "type": "object"
+        }
+      },
+      "required": [
+        "sbom"
+      ],
+      "type": "object"
+    },
+    "Types": {
+      "example": "resource",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+      "type": "string"
+    },
+    "SbomTestResultsAttributes": {
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "SbomResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/SbomResource"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        }
+      },
+      "required": [
+        "jsonapi",
+        "data"
+      ],
+      "type": "object"
+    },
+    "SbomDocument": {
+      "additionalProperties": true,
+      "type": "object"
+    },
+    "ResourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "example": "4a72d1db-b465-4764-99e1-ecedad03b06a",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type of the related resource",
+          "example": "resource",
+          "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

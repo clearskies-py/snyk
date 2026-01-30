@@ -1,0 +1,1752 @@
+{
+  "tag": "Groups",
+  "endpoint_count": 9,
+  "schema_count": 19,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/groups",
+      "operation_id": "listGroups",
+      "summary": "Get all groups (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/memberships",
+      "operation_id": "listGroupMemberships",
+      "summary": "Get all memberships of the group"
+    },
+    {
+      "method": "POST",
+      "path": "/groups/{group_id}/memberships",
+      "operation_id": "createGroupMembership",
+      "summary": "Create a group membership for a user with role"
+    },
+    {
+      "method": "DELETE",
+      "path": "/groups/{group_id}/memberships/{membership_id}",
+      "operation_id": "deleteGroupMembership",
+      "summary": "Delete a membership from a group"
+    },
+    {
+      "method": "PATCH",
+      "path": "/groups/{group_id}/memberships/{membership_id}",
+      "operation_id": "updateGroupUserMembership",
+      "summary": "Update a role from a group membership"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/org_memberships",
+      "operation_id": "listGroupUserOrgMemberships",
+      "summary": "Get list of org memberships of a group user"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/sso_connections",
+      "operation_id": "listGroupSsoConnections",
+      "summary": "Get all SSO connections for a group (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/sso_connections/{sso_id}/users",
+      "operation_id": "listGroupSsoConnectionUsers",
+      "summary": "Get all users using a given SSO connection (Early Access)"
+    },
+    {
+      "method": "DELETE",
+      "path": "/groups/{group_id}/sso_connections/{sso_id}/users/{user_id}",
+      "operation_id": "deleteUser",
+      "summary": "Delete a user from a Group SSO connection (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/groups",
+      "method": "GET",
+      "operation_id": "listGroups",
+      "summary": "Get all groups (Early Access)",
+      "details": {
+        "description": "Returns a list of groups which a user is a member of",
+        "operationId": "listGroups",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Group"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of groups is returned",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get all groups (Early Access)",
+        "tags": [
+          "Groups"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-01-31~experimental",
+          "2023-01-30~beta"
+        ],
+        "x-snyk-api-resource": "groups",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-01-30~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/memberships",
+      "method": "GET",
+      "operation_id": "listGroupMemberships",
+      "summary": "Get all memberships of the group",
+      "details": {
+        "description": "Returns all memberships of the group\n\n#### Required permissions\n\n- `View Group Memberships (group.membership.read)`",
+        "operationId": "listGroupMemberships",
+        "parameters": [
+          {
+            "description": "The ID of the group",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/SortBy__0"
+          },
+          {
+            "$ref": "#/components/parameters/SortOrder__0"
+          },
+          {
+            "$ref": "#/components/parameters/EmailFilter"
+          },
+          {
+            "$ref": "#/components/parameters/UserIdFilter"
+          },
+          {
+            "$ref": "#/components/parameters/UsernameFilter"
+          },
+          {
+            "$ref": "#/components/parameters/RoleFilter"
+          },
+          {
+            "$ref": "#/components/parameters/IncludeGroupMembershipCount"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GroupMembershipResponseData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "List of group memberships is returned",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get all memberships of the group",
+        "tags": [
+          "Groups"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-05-09~experimental",
+          "2024-08-25"
+        ],
+        "x-snyk-api-resource": "groups",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-08-25",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/memberships",
+      "method": "POST",
+      "operation_id": "createGroupMembership",
+      "summary": "Create a group membership for a user with role",
+      "details": {
+        "description": "Create a group membership for a user with role\n\n#### Required permissions\n\n- `Add Group Memberships (group.membership.add)`",
+        "operationId": "createGroupMembership",
+        "parameters": [
+          {
+            "description": "The ID of the group",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGroupMembershipRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/GroupMembership"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Membership for the group was created",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create a group membership for a user with role",
+        "tags": [
+          "Groups"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-05-09~experimental",
+          "2024-08-25"
+        ],
+        "x-snyk-api-resource": "groups",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-08-25",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/memberships/{membership_id}",
+      "method": "DELETE",
+      "operation_id": "deleteGroupMembership",
+      "summary": "Delete a membership from a group",
+      "details": {
+        "description": "Deletes a membership from a group\n\n#### Required permissions\n\n- `Delete Group Memberships (group.membership.delete)`",
+        "operationId": "deleteGroupMembership",
+        "parameters": [
+          {
+            "description": "The ID of the group",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID of the Group Membership",
+            "in": "path",
+            "name": "membership_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Cascade"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "group membership is deleted from Group",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete a membership from a group",
+        "tags": [
+          "Groups"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-05-09~experimental",
+          "2024-08-25"
+        ],
+        "x-snyk-api-resource": "groups",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-08-25",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/memberships/{membership_id}",
+      "method": "PATCH",
+      "operation_id": "updateGroupUserMembership",
+      "summary": "Update a role from a group membership",
+      "details": {
+        "description": "Update a role from a group membership\n\n#### Required permissions\n\n- `Edit Group Memberships (group.membership.edit)`",
+        "operationId": "updateGroupUserMembership",
+        "parameters": [
+          {
+            "description": "The ID of the group",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID of the Group Membership",
+            "in": "path",
+            "name": "membership_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/MembershipPatchRequestBody"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update a role from a group membership",
+        "tags": [
+          "Groups"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-05-09~experimental",
+          "2024-08-25"
+        ],
+        "x-snyk-api-resource": "groups",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-08-25",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/org_memberships",
+      "method": "GET",
+      "operation_id": "listGroupUserOrgMemberships",
+      "summary": "Get list of org memberships of a group user",
+      "details": {
+        "description": "Get list of org memberships of a group user\n\n#### Required permissions\n\n- `View Group Memberships (group.membership.read)`\n\n- `View Organizations (group.org.list)`",
+        "operationId": "listGroupUserOrgMemberships",
+        "parameters": [
+          {
+            "description": "The ID of the group",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The ID of the User",
+            "in": "query",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/OrgName"
+          },
+          {
+            "$ref": "#/components/parameters/RoleFilter"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/GroupMembershipOrgMembership"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    },
+                    "meta": {
+                      "properties": {
+                        "org_membership_count": {
+                          "description": "Org memberships for this user within this group.",
+                          "type": "number"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of org memberships is returned",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get list of org memberships of a group user",
+        "tags": [
+          "Groups"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-08-25"
+        ],
+        "x-snyk-api-resource": "groups",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-08-25",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/sso_connections",
+      "method": "GET",
+      "operation_id": "listGroupSsoConnections",
+      "summary": "Get all SSO connections for a group (Early Access)",
+      "details": {
+        "description": "Returns a list of SSO connections for a group\n\n#### Required permissions\n\n- `View SSO settings (group.sso.read)`",
+        "operationId": "listGroupSsoConnections",
+        "parameters": [
+          {
+            "description": "The ID of the group",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/SSOConnection"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "List of SSO connections is returned",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get all SSO connections for a group (Early Access)",
+        "tags": [
+          "Groups"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-01-31~experimental",
+          "2023-01-30~beta"
+        ],
+        "x-snyk-api-resource": "groups",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-01-30~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/sso_connections/{sso_id}/users",
+      "method": "GET",
+      "operation_id": "listGroupSsoConnectionUsers",
+      "summary": "Get all users using a given SSO connection (Early Access)",
+      "details": {
+        "description": "Returns a list of users for a SSO connection\n\n#### Required permissions\n\n- `View SSO settings (group.sso.read)`\n\n- `View users (group.user.read)`",
+        "operationId": "listGroupSsoConnectionUsers",
+        "parameters": [
+          {
+            "description": "The ID of the group",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/SsoId"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/User"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "List of users is returned",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get all users using a given SSO connection (Early Access)",
+        "tags": [
+          "Groups"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-01-31~experimental",
+          "2023-01-30~beta"
+        ],
+        "x-snyk-api-resource": "groups",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-01-30~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/sso_connections/{sso_id}/users/{user_id}",
+      "method": "DELETE",
+      "operation_id": "deleteUser",
+      "summary": "Delete a user from a Group SSO connection (Early Access)",
+      "details": {
+        "description": "Deletes a user from a Group SSO connection\n\n#### Required permissions\n\n- `View SSO settings (group.sso.read)`\n\n- `Delete users (group.user.delete)`",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "description": "The ID of the group",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/SsoId"
+          },
+          {
+            "$ref": "#/components/parameters/UserId20230130"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User is deleted from Group SSO connection",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete a user from a Group SSO connection (Early Access)",
+        "tags": [
+          "Groups"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-01-31~experimental",
+          "2023-01-30~beta"
+        ],
+        "x-snyk-api-resource": "groups",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2023-01-30~beta",
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "CreateGroupMembershipRequestBody": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "relationships": {
+              "additionalProperties": false,
+              "properties": {
+                "group": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "id": {
+                          "example": "8aab168e-fb3b-47c0-9d87-442715788b31",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "Always \"group\"",
+                          "enum": [
+                            "group"
+                          ],
+                          "example": "group",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                },
+                "role": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "id": {
+                          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "Always \"group_role\"",
+                          "enum": [
+                            "group_role"
+                          ],
+                          "example": "group_role",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                },
+                "user": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "id": {
+                          "example": "677d5f47-a8bf-4090-ba52-680903e7c8b5",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "Always \"user\"",
+                          "enum": [
+                            "user"
+                          ],
+                          "example": "user",
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "role",
+                "user",
+                "group"
+              ],
+              "type": "object"
+            },
+            "type": {
+              "description": "type of membership according to its entity",
+              "enum": [
+                "group_membership"
+              ],
+              "example": "group_membership",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "GroupMembershipUserData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "email": {
+                  "description": "The email of the user",
+                  "example": "user@test.com",
+                  "type": "string"
+                },
+                "login_method": {
+                  "description": "The login method of the user",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The name of the user",
+                  "example": "User2",
+                  "type": "string"
+                },
+                "username": {
+                  "description": "The username of the user",
+                  "example": "User name 2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "username",
+                "email"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "user",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Group": {
+      "additionalProperties": true,
+      "properties": {
+        "attributes": {
+          "additionalProperties": true,
+          "properties": {
+            "name": {
+              "description": "The name of the group.",
+              "example": "My Group",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "group",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipResponseData": {
+      "additionalProperties": false,
+      "items": {
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/GroupMembershipAttributes"
+          },
+          "id": {
+            "example": "331ede0a-de94-456f-b788-166caeca58bf",
+            "format": "uuid",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/GroupMembershipMeta"
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/GroupMembershipRelationships"
+          },
+          "type": {
+            "description": "Content type",
+            "example": "group_membership",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "GroupMembershipMeta": {
+      "additionalProperties": false,
+      "properties": {
+        "group_membership_count": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "GroupMembershipOrgMembership": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "properties": {
+            "created_at": {
+              "description": "The date that the org membership was created on",
+              "example": "2021-05-29T09:50:54.014Z",
+              "format": "date-time"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "org_membership_count": {
+          "description": "Org memberships for this user within this group.",
+          "type": "number"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/GroupMembershipOrgMembershipRelationships"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "org_membership",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipRoleData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "name": {
+                  "description": "The name of the role",
+                  "example": "Admin role",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "group_role",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "GroupMembershipOrgMembershipRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "org": {
+          "$ref": "#/components/schemas/GroupMembershipOrgMembershipOrgData"
+        },
+        "role": {
+          "$ref": "#/components/schemas/GroupMembershipOrgMembershipRoleData"
+        },
+        "user": {
+          "$ref": "#/components/schemas/GroupMembershipOrgMembershipUserData"
+        }
+      },
+      "required": [
+        "role",
+        "org",
+        "user"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "group": {
+          "$ref": "#/components/schemas/GroupMembershipGroupData"
+        },
+        "role": {
+          "$ref": "#/components/schemas/GroupMembershipRoleData"
+        },
+        "user": {
+          "$ref": "#/components/schemas/GroupMembershipUserData"
+        }
+      },
+      "required": [
+        "role",
+        "group",
+        "user"
+      ],
+      "type": "object"
+    },
+    "MembershipPatchRequestBody": {
+      "properties": {
+        "attributes": {
+          "type": "object"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "additionalProperties": false,
+          "properties": {
+            "role": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "properties": {
+                    "id": {
+                      "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "Always \"group_role\"",
+                      "example": "Always \"group_role\"",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "required": [
+            "role"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "description": "type of membership according to its entity",
+          "example": "group_membership",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SSOConnection": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/SSOConnectionAttributes"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "sso_connection",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipGroupData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "name": {
+                  "description": "The name of the group",
+                  "example": "Example group",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "group",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "GroupMembershipOrgMembershipUserData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "email": {
+                  "description": "The eamil of the user",
+                  "example": "user@test.com",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The name of the user",
+                  "example": "User2",
+                  "type": "string"
+                },
+                "username": {
+                  "description": "The username of the user",
+                  "example": "User name 2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "username",
+                "email"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "user",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "SSOConnectionAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "The display name of the sso connection.",
+          "example": "My SSO",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipOrgMembershipRoleData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "name": {
+                  "description": "The name of the role",
+                  "example": "Admin role",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "org_role",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "User": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "properties": {
+            "active": {
+              "description": "Whether the user status is enabled or not",
+              "example": true,
+              "type": "boolean"
+            },
+            "email": {
+              "description": "The email of the user.",
+              "example": "user@someorg.com",
+              "type": "string"
+            },
+            "membership": {
+              "properties": {
+                "created_at": {
+                  "description": "The date the membership was established.",
+                  "example": "2022-09-14T09:19:29.206Z",
+                  "format": "date-time",
+                  "type": "string"
+                },
+                "strategy": {
+                  "description": "Whether the membership is a direct, or indirect membership.",
+                  "enum": [
+                    "direct",
+                    "indirect"
+                  ],
+                  "example": "direct",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "name": {
+              "description": "The name of the user.",
+              "example": "user",
+              "type": "string"
+            },
+            "username": {
+              "description": "The username of the user.",
+              "example": "username",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "description": "The Snyk ID corresponding to this user",
+          "example": "55a348e2-c3ad-4bbc-b40e-9b232d1f4121",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "user",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipOrgMembershipOrgData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "name": {
+                  "description": "The name of the prg",
+                  "example": "Example org",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "org",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "GroupMembership": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "properties": {
+            "created_at": {
+              "description": "The date that the group membership was created on",
+              "example": "2021-05-29T09:50:54.014Z",
+              "format": "date-time"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/GroupMembershipRelationships"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "group_membership",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "description": "The time when this group membership was created",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "created_at"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Links",
+    "Meta",
+    "LinkProperty"
+  ]
+}

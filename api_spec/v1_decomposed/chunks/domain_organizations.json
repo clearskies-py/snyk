@@ -1,0 +1,1686 @@
+{
+  "tag": "Organizations",
+  "endpoint_count": 15,
+  "schema_count": 21,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs",
+      "operation_id": "Listalltheorganizationsauserbelongsto",
+      "summary": "List all the organizations a user belongs to"
+    },
+    {
+      "method": "POST",
+      "path": "/org",
+      "operation_id": "Createaneworganization",
+      "summary": "Create a new organization"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/notification-settings",
+      "operation_id": "Getorganizationnotificationsettings1",
+      "summary": "Get organization notification settings"
+    },
+    {
+      "method": "PUT",
+      "path": "/org/{orgId}/notification-settings",
+      "operation_id": "Setnotificationsettings",
+      "summary": "Set notification settings"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/invite",
+      "operation_id": "Inviteusers",
+      "summary": "Invite users"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/members",
+      "operation_id": "ListMembers",
+      "summary": "List Members"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/settings",
+      "operation_id": "Vieworganizationsettings",
+      "summary": "View organization settings"
+    },
+    {
+      "method": "PUT",
+      "path": "/org/{orgId}/settings",
+      "operation_id": "Updateorganizationsettings",
+      "summary": "Update organization settings"
+    },
+    {
+      "method": "PUT",
+      "path": "/org/{orgId}/members/{userId}",
+      "operation_id": "Updateamemberintheorganization",
+      "summary": "Update a member in the organization"
+    },
+    {
+      "method": "DELETE",
+      "path": "/org/{orgId}/members/{userId}",
+      "operation_id": "Removeamemberfromtheorganization",
+      "summary": "Remove a member from the organization"
+    },
+    {
+      "method": "PUT",
+      "path": "/org/{orgId}/members/update/{userId}",
+      "operation_id": "Updateamember'sroleintheorganization",
+      "summary": "Update a member's role in the organization"
+    },
+    {
+      "method": "DELETE",
+      "path": "/org/{orgId}",
+      "operation_id": "Removeorganization",
+      "summary": "Remove organization"
+    },
+    {
+      "method": "POST",
+      "path": "/org/{orgId}/provision",
+      "operation_id": "Provisionausertotheorganization",
+      "summary": "Provision a user to the organization"
+    },
+    {
+      "method": "GET",
+      "path": "/org/{orgId}/provision",
+      "operation_id": "Listpendinguserprovisions",
+      "summary": "List pending user provisions"
+    },
+    {
+      "method": "DELETE",
+      "path": "/org/{orgId}/provision",
+      "operation_id": "Deletependinguserprovision",
+      "summary": "Delete pending user provision"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs",
+      "method": "GET",
+      "operation_id": "Listalltheorganizationsauserbelongsto",
+      "summary": "List all the organizations a user belongs to",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "List all the organizations a user belongs to",
+        "description": "Each request to Snyk has to be done in the context of a Snyk organization. If no organization is specified, the user's default organization (user is identified according to the `API_KEY`) will be used.\nThe organization determines the access rights, licenses policy and is the unit of billing for private projects.\nAn organization should be given as a query parameter named `org`, with the public identifier given to this org. The list of organizations and their corresponding public ids can be found with the organization resource\n#### Required permissions\n- `View Organization`",
+        "operationId": "Listalltheorganizationsauserbelongsto",
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Listalltheorganizationsauserbelongstoresponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org",
+      "method": "POST",
+      "operation_id": "Createaneworganization",
+      "summary": "Create a new organization",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Create a new organization",
+        "description": "An organization can be created as part of a group, or independently. If the **groupId** is not provided, a **Personal Org** will be created independent of a group.",
+        "operationId": "Createaneworganization",
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Createorganizationsbody"
+                  },
+                  {
+                    "example": {
+                      "name": "new-org",
+                      "groupId": "4a18d42f-0706-4ad0-b127-24078731fbed",
+                      "sourceOrgId": "6b4a3261-b68f-43a0-9218-1f082e77f879"
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "name": "new-org",
+                "groupId": "4a18d42f-0706-4ad0-b127-24078731fbed",
+                "sourceOrgId": "6b4a3261-b68f-43a0-9218-1f082e77f879"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Createaneworganizationresponse"
+                    },
+                    {
+                      "example": {
+                        "id": "0356f641-c55c-488f-af05-c2122590f369",
+                        "name": "new-org",
+                        "slug": "new-org",
+                        "url": "https://api.snyk.io/v1/org/new-org",
+                        "created": "2021-01-07T16:07:16.237000+00:00",
+                        "group": {
+                          "name": "test-group",
+                          "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization errors.",
+            "headers": {},
+            "content": {
+              "application/json, charset=utf-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Createaneworganizationresponse1"
+                    },
+                    {
+                      "description": "Authorization errors.",
+                      "example": {
+                        "message": "You must have the required permissions to add an org",
+                        "errorRef": "49f168a0-a084-4cd8-93ff-63f3a0f06bc6"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "You must have the required permissions to add an org",
+                  "errorRef": "49f168a0-a084-4cd8-93ff-63f3a0f06bc6"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "A group of errors that happened in the process of creating a new organization and were unexpected",
+            "headers": {},
+            "content": {
+              "application/json, charset=utf-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Createaneworganizationresponse1"
+                    },
+                    {
+                      "description": "A group of errors that happened in the process of creating a new organization and were unexpected",
+                      "example": {
+                        "message": "Unexpected error whilst deleting org",
+                        "errorRef": "49f168a0-a084-4cd8-93ff-63f3a0f06bc6"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "Unexpected error whilst deleting org",
+                  "errorRef": "49f168a0-a084-4cd8-93ff-63f3a0f06bc6"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "A group of errors that show input errors about the parameters provided in the request.",
+            "headers": {},
+            "content": {
+              "application/json, charset=utf-8": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Createaneworganizationresponse1"
+                    },
+                    {
+                      "description": "A group of errors that show input errors about the parameters provided in the request.",
+                      "example": {
+                        "message": "Please provide a new organization name in the body of the request",
+                        "errorRef": "49f168a0-a084-4cd8-93ff-63f3a0f06bc6"
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "message": "Please provide a new organization name in the body of the request",
+                  "errorRef": "49f168a0-a084-4cd8-93ff-63f3a0f06bc6"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/notification-settings",
+      "method": "GET",
+      "operation_id": "Getorganizationnotificationsettings1",
+      "summary": "Get organization notification settings",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Get organization notification settings",
+        "description": "Manage the default settings for organization notifications. These will be used as defaults, but can be re-defined by organization members\n#### Required permissions\n\n- `View Organization`",
+        "operationId": "Getorganizationnotificationsettings1",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Notificationsettingsresponse"
+                    },
+                    {
+                      "example": {
+                        "new-issues-remediations": {
+                          "enabled": true,
+                          "issueSeverity": "high",
+                          "issueType": "vuln",
+                          "inherited": false
+                        },
+                        "project-imported": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "test-limit": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "weekly-report": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "request-updates": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "pending-requests": {
+                          "enabled": true,
+                          "inherited": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "new-issues-remediations": {
+                    "enabled": true,
+                    "issueSeverity": "high",
+                    "issueType": "vuln",
+                    "inherited": false
+                  },
+                  "project-imported": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "test-limit": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "weekly-report": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "request-updates": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "pending-requests": {
+                    "enabled": true,
+                    "inherited": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/notification-settings",
+      "method": "PUT",
+      "operation_id": "Setnotificationsettings",
+      "summary": "Set notification settings",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Set notification settings",
+        "description": "Manage the default settings for organization notifications. These will be used as defaults, but can be re-defined by organization members\n#### Required permissions\n\n- `View Organization`\n\n- `Edit Organization`",
+        "operationId": "Setnotificationsettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Notificationsettingsrequest"
+                  },
+                  {
+                    "example": {
+                      "new-issues-remediations": {
+                        "enabled": true,
+                        "issueSeverity": "high",
+                        "issueType": "vuln"
+                      },
+                      "project-imported": {
+                        "enabled": true
+                      },
+                      "test-limit": {
+                        "enabled": true
+                      },
+                      "weekly-report": {
+                        "enabled": true
+                      },
+                      "request-updates": {
+                        "enabled": true
+                      },
+                      "pending-requests": {
+                        "enabled": true
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "new-issues-remediations": {
+                  "enabled": true,
+                  "issueSeverity": "high",
+                  "issueType": "vuln"
+                },
+                "project-imported": {
+                  "enabled": true
+                },
+                "test-limit": {
+                  "enabled": true
+                },
+                "weekly-report": {
+                  "enabled": true
+                },
+                "request-updates": {
+                  "enabled": true
+                },
+                "pending-requests": {
+                  "enabled": true
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Notificationsettingsresponse"
+                    },
+                    {
+                      "example": {
+                        "new-issues-remediations": {
+                          "enabled": true,
+                          "issueSeverity": "high",
+                          "issueType": "vuln",
+                          "inherited": false
+                        },
+                        "project-imported": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "test-limit": {
+                          "enabled": true,
+                          "inherited": false
+                        },
+                        "weekly-report": {
+                          "enabled": true,
+                          "inherited": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "new-issues-remediations": {
+                    "enabled": true,
+                    "issueSeverity": "high",
+                    "issueType": "vuln",
+                    "inherited": false
+                  },
+                  "project-imported": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "test-limit": {
+                    "enabled": true,
+                    "inherited": false
+                  },
+                  "weekly-report": {
+                    "enabled": true,
+                    "inherited": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/invite",
+      "method": "POST",
+      "operation_id": "Inviteusers",
+      "summary": "Invite users",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Invite users",
+        "description": "Invite users to the organization by email\n#### Required permissions\n\n- `View Organization`\n\n- `View Users`\n\n- `Invite Users`",
+        "operationId": "Inviteusers",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Inviteusersrequest"
+                  },
+                  {
+                    "example": {
+                      "email": ""
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "email": ""
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/members",
+      "method": "GET",
+      "operation_id": "ListMembers",
+      "summary": "List Members",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "List Members",
+        "description": "Manage members in your organization\n#### Required permissions\n\n- `View Organization`\n\n- `View Users`",
+        "operationId": "ListMembers",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "includeGroupAdmins",
+            "in": "query",
+            "description": "Include group administrators who also have access to this organization.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ListMembersresponse"
+                  },
+                  "description": "",
+                  "example": [
+                    {
+                      "id": "",
+                      "name": "",
+                      "username": "",
+                      "email": "",
+                      "role": ""
+                    }
+                  ]
+                },
+                "example": [
+                  {
+                    "id": "",
+                    "name": "",
+                    "username": "",
+                    "email": "",
+                    "role": ""
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/settings",
+      "method": "GET",
+      "operation_id": "Vieworganizationsettings",
+      "summary": "View organization settings",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "View organization settings",
+        "description": "#### Required permissions\n\n- `View Organization`",
+        "operationId": "Vieworganizationsettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "25065eb1-109c-4c3e-9503-68fc56ef6f44"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Orgsettingsresponse"
+                    },
+                    {
+                      "example": {
+                        "requestAccess": {
+                          "enabled": true
+                        },
+                        "ignores": {
+                          "reasonRequired": false,
+                          "autoApproveIgnores": false,
+                          "approvalWorkflowEnabled": false
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "requestAccess": {
+                    "enabled": true
+                  },
+                  "ignores": {
+                    "reasonRequired": false,
+                    "autoApproveIgnores": false,
+                    "approvalWorkflowEnabled": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/settings",
+      "method": "PUT",
+      "operation_id": "Updateorganizationsettings",
+      "summary": "Update organization settings",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Update organization settings",
+        "description": "Settings that are not provided will not be modified.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Edit Organization`",
+        "operationId": "Updateorganizationsettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "25065eb1-109c-4c3e-9503-68fc56ef6f44"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "example": "+ Attributes (Org settings request)"
+              },
+              "example": "+ Attributes (Org settings request)"
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Orgsettingsresponse"
+                    },
+                    {
+                      "example": {
+                        "requestAccess": {
+                          "enabled": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "requestAccess": {
+                    "enabled": true
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "If provided a setting that the `API_KEY` has no edit permission for.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "If provided a setting that the `API_KEY` has no edit permission for."
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/members/{userId}",
+      "method": "PUT",
+      "operation_id": "Updateamemberintheorganization",
+      "summary": "Update a member in the organization",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Update a member in the organization",
+        "description": "Manage member's roles in your organization\n#### Required permissions\n\n- `Manage Users`",
+        "operationId": "Updateamemberintheorganization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The user ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Updateamemberintheorganizationrequest"
+                  },
+                  {
+                    "example": {
+                      "role": ""
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "role": ""
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/members/{userId}",
+      "method": "DELETE",
+      "operation_id": "Removeamemberfromtheorganization",
+      "summary": "Remove a member from the organization",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Remove a member from the organization",
+        "description": "Manage member's roles in your organization\n#### Required permissions\n\n- `View Organization`\n\n- `View Users`\n\n- `User Remove`",
+        "operationId": "Removeamemberfromtheorganization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must admin have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The user ID we want to remove.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/members/update/{userId}",
+      "method": "PUT",
+      "operation_id": "Updateamember'sroleintheorganization",
+      "summary": "Update a member's role in the organization",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Update a member's role in the organization",
+        "description": "Update member's role in your organization by role publicId\n#### Required permissions\n\n- `Manage Users`",
+        "operationId": "Updateamember'sroleintheorganization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have admin access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The user ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Updateamembersroleintheorganizationrequest"
+                  },
+                  {
+                    "example": {
+                      "rolePublicId": ""
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "rolePublicId": ""
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}",
+      "method": "DELETE",
+      "operation_id": "Removeorganization",
+      "summary": "Remove organization",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Remove organization",
+        "description": "#### Required permissions\n\n- `View Organization`\n\n- `Remove Organization`",
+        "operationId": "Removeorganization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must have permission to delete the provided organization. Currently this operation is only supported for organizations without any projects.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/provision",
+      "method": "POST",
+      "operation_id": "Provisionausertotheorganization",
+      "summary": "Provision a user to the organization",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Provision a user to the organization",
+        "description": "This endpoint allows Snyk Admins to provision user access to Snyk Orgs prior to the user login to the Snyk platform, and does not send out invitation emails to the Snyk platform. When the provisioned user logs into Snyk for the first time, the user will automatically be granted the appropriate Snyk org access and role permissions specified in the API call. This endpoint can be called multiple times to provision a user to multiple Snyk orgs. The API token used requires Org Admin permisisons, and must be part of a Snyk group with a valid SSO connection.  Service accounts are restricted from invoking this API. As this endpoint can only be used to provision new users, if a user has already logged into Snyk, this endpoint will not work to provision user access\n#### Required permissions\n- `Provision User`",
+        "operationId": "Provisionausertotheorganization",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID. The `API_KEY` must not exceed the permissions being granted to the provisioned user.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "25065eb1-109c-4c3e-9503-68fc56ef6f44"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Details for user to be provisioned",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "The email of the user.",
+                    "example": "example@snyk.io"
+                  },
+                  "rolePublicId": {
+                    "type": "string",
+                    "description": "ID of the role to grant this user.",
+                    "example": ""
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "Deprecated. Name of the role to grant this user. Must be one of `ADMIN`, `COLLABORATOR`, or `RESTRICTED_COLLABORATOR`. This field is invalid if `rolePublicId` is supplied with the request.",
+                    "example": ""
+                  }
+                },
+                "required": [
+                  "email"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "description": "The email of the user.",
+                      "example": ""
+                    },
+                    "role": {
+                      "type": "string",
+                      "description": "Name of the role granted for this user.",
+                      "example": ""
+                    },
+                    "rolePublicId": {
+                      "type": "string",
+                      "description": "ID of the role to granted for this user.",
+                      "example": ""
+                    },
+                    "created": {
+                      "type": "string",
+                      "description": "Timestamp of when this provision record was created.",
+                      "example": ""
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Provided `API_KEY` has no user provision permission or does not have permissions in role being provisioned.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Provided `API_KEY` has no user provision permission or does not have permissions in role being provisioned."
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/provision",
+      "method": "GET",
+      "operation_id": "Listpendinguserprovisions",
+      "summary": "List pending user provisions",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "List pending user provisions",
+        "description": "This endpoint allows Snyk Admins to provision user access to Snyk Orgs prior to the user login to the Snyk platform, and does not send out invitation emails to the Snyk platform. When the provisioned user logs into Snyk for the first time, the user will automatically be granted the appropriate Snyk org access and role permissions specified in the API call. This endpoint can be called multiple times to provision a user to multiple Snyk orgs. The API token used requires Org Admin permisisons, and must be part of a Snyk group with a valid SSO connection.  Service accounts are restricted from invoking this API. As this endpoint can only be used to provision new users, if a user has already logged into Snyk, this endpoint will not work to provision user access\n#### Required permissions\n- `Provision User`",
+        "operationId": "Listpendinguserprovisions",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "25065eb1-109c-4c3e-9503-68fc56ef6f44"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listpendinguserprovisionsresponse"
+                  },
+                  "description": ""
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Provided `API_KEY` has no user provision permission or does not have permissions in role being provisioned.",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "Provided `API_KEY` has no user provision permission or does not have permissions in role being provisioned."
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/org/{orgId}/provision",
+      "method": "DELETE",
+      "operation_id": "Deletependinguserprovision",
+      "summary": "Delete pending user provision",
+      "details": {
+        "tags": [
+          "Organizations"
+        ],
+        "summary": "Delete pending user provision",
+        "description": "This endpoint allows Snyk Admins to provision user access to Snyk Orgs prior to the user login to the Snyk platform, and does not send out invitation emails to the Snyk platform. When the provisioned user logs into Snyk for the first time, the user will automatically be granted the appropriate Snyk org access and role permissions specified in the API call. This endpoint can be called multiple times to provision a user to multiple Snyk orgs. The API token used requires Org Admin permisisons, and must be part of a Snyk group with a valid SSO connection.  Service accounts are restricted from invoking this API. As this endpoint can only be used to provision new users, if a user has already logged into Snyk, this endpoint will not work to provision user access\n#### Required permissions\n- `Provision User`",
+        "operationId": "Deletependinguserprovision",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "25065eb1-109c-4c3e-9503-68fc56ef6f44"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean",
+                      "description": "Deletion succeeded.",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Provided `API_KEY` has no user provision permission or does not have permissions in role being provisioned.",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "Group1": {
+      "title": "Group1",
+      "required": [
+        "name",
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "name": "ACME Inc.",
+        "id": "a060a49f-636e-480f-9e14-38e773b2a97f"
+      }
+    },
+    "Simplenotificationsettingresponse": {
+      "title": "Simplenotificationsettingresponse",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/Simplenotificationsettingrequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "inherited": {
+              "type": "boolean",
+              "description": "Whether the setting was found on the requested context directly or inherited from a parent"
+            }
+          }
+        }
+      ]
+    },
+    "Createaneworganizationresponse": {
+      "title": "Createaneworganizationresponse",
+      "required": [
+        "id",
+        "name",
+        "slug",
+        "url",
+        "created",
+        "group"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "group": {
+          "$ref": "#/components/schemas/Group1"
+        }
+      },
+      "example": {
+        "id": "0356f641-c55c-488f-af05-c2122590f369",
+        "name": "new-org",
+        "slug": "new-org",
+        "url": "https://api.snyk.io/v1/org/new-org",
+        "created": "2021-01-07T16:07:16.237000+00:00",
+        "group": {
+          "name": "test-group",
+          "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+        }
+      }
+    },
+    "requestAccess1": {
+      "title": "requestAccess1",
+      "required": [
+        "enabled"
+      ],
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether requesting access to the organization is enabled.",
+          "example": true
+        }
+      },
+      "description": "Will only be returned if `API_KEY` has read access to request access settings."
+    },
+    "ListMembersresponse": {
+      "title": "ListMembersresponse",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id of the user."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the user."
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the user."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the user in the organization."
+        }
+      }
+    },
+    "Listpendinguserprovisionsresponse": {
+      "title": "Listpendinguserprovisionsresponse",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The email of the user."
+        },
+        "role": {
+          "type": "string",
+          "description": "Name of the role granted for this user."
+        },
+        "rolePublicId": {
+          "type": "string",
+          "description": "ID of the role to granted for this user."
+        },
+        "created": {
+          "type": "string",
+          "description": "Timestamp of when this provision record was created."
+        }
+      }
+    },
+    "Createorganizationsbody": {
+      "title": "Createorganizationsbody",
+      "required": [
+        "name"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the new organization",
+          "example": "new-org"
+        },
+        "groupId": {
+          "type": "string",
+          "description": "The group ID. The `API_KEY` must have access to this group.",
+          "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+        },
+        "sourceOrgId": {
+          "type": "string",
+          "description": "The id of an organization to copy settings from.\n\nIf provided, this organization must be associated with the same group.\n\nThe items that will be copied are:\nSource control integrations (GitHub, GitLab, BitBucket)\n\\+ Container registries integrations (ACR, Docker Hub, ECR, GCR)\n\\+ Container orchestrators integrations (Kubernetes)\n\\+ PaaS and Serverless Integrations (Heroku, AWS Lambda)\n\\+ Notification integrations (Slack, Jira)\n\\+ Policies\n\\+ Ignore settings\n\\+ Language settings\n\\+ Infrastructure as Code settings\n\\+ Snyk Code settings\n\nThe following will not be copied across:\nService accounts\n\\+ Members\n\\+ Projects\n\\+ Notification preferences",
+          "example": "6b4a3261-b68f-43a0-9218-1f082e77f879"
+        }
+      }
+    },
+    "orgIgnoreSettings": {
+      "title": "orgIgnoreSettings",
+      "type": "object",
+      "properties": {
+        "autoApproveIgnores": {
+          "type": "boolean",
+          "description": "Whether pending ignores can be auto-approved.",
+          "example": false
+        },
+        "reasonRequired": {
+          "type": "boolean",
+          "description": "Whether a reason is required for creating ignores.",
+          "example": false
+        },
+        "approvalWorkflowEnabled": {
+          "type": "boolean",
+          "description": "Whether Ignore Approval Workflow is enabled.",
+          "example": false
+        }
+      },
+      "description": "Will only be returned if `API_KEY` has read access to ignore settings."
+    },
+    "Updateamembersroleintheorganizationrequest": {
+      "title": "Updateamembersroleintheorganizationrequest",
+      "type": "object",
+      "properties": {
+        "rolePublicId": {
+          "type": "string",
+          "description": "The new role public ID to update the user to."
+        }
+      }
+    },
+    "issueSeverity": {
+      "title": "issueSeverity",
+      "enum": [
+        "all",
+        "high"
+      ],
+      "type": "string",
+      "description": "The severity levels of issues to send notifications for (only applicable for `new-remediations-vulnerabilities` notificationType)",
+      "example": "high"
+    },
+    "Newissuesnotificationsettingrequest": {
+      "title": "Newissuesnotificationsettingrequest",
+      "required": [
+        "enabled",
+        "issueSeverity",
+        "issueType"
+      ],
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether notifications should be sent",
+          "example": true
+        },
+        "issueSeverity": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/issueSeverity"
+            },
+            {
+              "description": "The severity levels of issues to send notifications for (only applicable for `new-remediations-vulnerabilities` notificationType)",
+              "example": "high"
+            }
+          ]
+        },
+        "issueType": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/issueType"
+            },
+            {
+              "description": "Filter the types of issue to include in notifications (only applicable for `new-remediations-vulnerabilities` notificationType)",
+              "example": "vuln"
+            }
+          ]
+        }
+      }
+    },
+    "Group": {
+      "title": "Group",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "Createaneworganizationresponse1": {
+      "title": "Createaneworganizationresponse1",
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "The error message"
+        },
+        "errorRef": {
+          "type": "string",
+          "description": "[UUID] An error ref to contact Snyk with"
+        }
+      }
+    },
+    "issueType": {
+      "title": "issueType",
+      "enum": [
+        "all",
+        "vuln",
+        "license",
+        "none"
+      ],
+      "type": "string",
+      "description": "Filter the types of issue to include in notifications (only applicable for `new-remediations-vulnerabilities` notificationType)",
+      "example": "vuln"
+    },
+    "Notificationsettingresponse": {
+      "title": "Notificationsettingresponse",
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/Newissuesnotificationsettingrequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "inherited": {
+              "type": "boolean",
+              "description": "Whether the setting was found on the requested context directly or inherited from a parent"
+            }
+          }
+        }
+      ]
+    },
+    "Simplenotificationsettingrequest": {
+      "title": "Simplenotificationsettingrequest",
+      "required": [
+        "enabled"
+      ],
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether notifications should be sent",
+          "example": true
+        }
+      }
+    },
+    "Listalltheorganizationsauserbelongstoresponse": {
+      "title": "Listalltheorganizationsauserbelongstoresponse",
+      "required": [
+        "orgs"
+      ],
+      "type": "object",
+      "properties": {
+        "orgs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Orgs2"
+          },
+          "description": ""
+        }
+      }
+    },
+    "Updateamemberintheorganizationrequest": {
+      "title": "Updateamemberintheorganizationrequest",
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "The new role of the user, \"admin\" or \"collaborator\"."
+        }
+      }
+    },
+    "Orgsettingsresponse": {
+      "title": "Orgsettingsresponse",
+      "type": "object",
+      "properties": {
+        "requestAccess": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/requestAccess1"
+            },
+            {
+              "$ref": "#/components/schemas/orgIgnoreSettings"
+            },
+            {
+              "description": "Will only be returned if `API_KEY` has read access to request access settings."
+            }
+          ]
+        }
+      }
+    },
+    "Orgs2": {
+      "title": "Orgs2",
+      "required": [
+        "name",
+        "id",
+        "slug",
+        "url",
+        "group"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "group": {
+          "oneOf": [
+            {
+              "allOf": [
+                {
+                  "oneOf": [
+                    {
+                      "nullable": true
+                    },
+                    {
+                      "$ref": "#/components/schemas/Group"
+                    }
+                  ]
+                },
+                {}
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Group1"
+                },
+                {
+                  "example": {
+                    "name": "ACME Inc.",
+                    "id": "a060a49f-636e-480f-9e14-38e773b2a97f"
+                  }
+                }
+              ]
+            },
+            {
+              "nullable": true
+            }
+          ]
+        }
+      }
+    },
+    "Inviteusersrequest": {
+      "title": "Inviteusersrequest",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "The email of the user."
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "description": "(optional) Set the role as admin."
+        }
+      }
+    }
+  },
+  "referenced_common_schemas": [
+    "Notificationsettingsrequest",
+    "Notificationsettingsresponse"
+  ]
+}

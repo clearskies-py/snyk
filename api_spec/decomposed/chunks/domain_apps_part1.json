@@ -1,0 +1,2999 @@
+{
+  "tag": "Apps",
+  "endpoint_count": 17,
+  "schema_count": 42,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/apps/installs",
+      "operation_id": "getAppInstallsForGroup",
+      "summary": "Get a list of Snyk Apps installed for a Group"
+    },
+    {
+      "method": "POST",
+      "path": "/groups/{group_id}/apps/installs",
+      "operation_id": "createGroupAppInstall",
+      "summary": "Install a Snyk App for a Group"
+    },
+    {
+      "method": "DELETE",
+      "path": "/groups/{group_id}/apps/installs/{install_id}",
+      "operation_id": "deleteGroupAppInstallById",
+      "summary": "Revoke app authorization for a Snyk group with install ID"
+    },
+    {
+      "method": "POST",
+      "path": "/groups/{group_id}/apps/installs/{install_id}/secrets",
+      "operation_id": "updateGroupAppInstallSecret",
+      "summary": "Manage client secret for non-interactive Snyk App installations"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/app_bots",
+      "operation_id": "getAppBots",
+      "summary": "Get a list of app bots authorized to an organization."
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/app_bots/{bot_id}",
+      "operation_id": "deleteAppBot",
+      "summary": "Revoke app bot authorization"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/apps",
+      "operation_id": "getApps",
+      "summary": "Get a list of Snyk Apps created by an Organization"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/apps",
+      "operation_id": "createApp",
+      "summary": "Create a new app for an organization."
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/apps/creations",
+      "operation_id": "getOrgApps",
+      "summary": "Get a list of Snyk Apps created by an Organization"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/apps/creations",
+      "operation_id": "createOrgApp",
+      "summary": "Create a new Snyk App for an organization"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/apps/creations/{app_id}",
+      "operation_id": "deleteAppByID",
+      "summary": "Delete a Snyk App by app ID"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/apps/creations/{app_id}",
+      "operation_id": "getAppByID",
+      "summary": "Get a Snyk App by app ID"
+    },
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}/apps/creations/{app_id}",
+      "operation_id": "updateAppCreationByID",
+      "summary": "Update app creation attributes such as name, redirect URIs, and access token time to live using the App ID"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/apps/creations/{app_id}/secrets",
+      "operation_id": "manageAppCreationSecret",
+      "summary": "Manage client secret for a Snyk App"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/apps/installs",
+      "operation_id": "getAppInstallsForOrg",
+      "summary": "Get a list of Snyk Apps installed for an Organization"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/apps/installs",
+      "operation_id": "createOrgAppInstall",
+      "summary": "Install a Snyk App for an Organization"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/apps/installs/{install_id}",
+      "operation_id": "deleteAppOrgInstallById",
+      "summary": "Revoke app authorization for a Snyk organization with install ID"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/groups/{group_id}/apps/installs",
+      "method": "GET",
+      "operation_id": "getAppInstallsForGroup",
+      "summary": "Get a list of Snyk Apps installed for a Group",
+      "details": {
+        "description": "Get a list of Snyk Apps installed for a Group\n\n#### Required permissions\n\n- `View Apps (group.app.read)`",
+        "operationId": "getAppInstallsForGroup",
+        "parameters": [
+          {
+            "description": "Expand relationships.",
+            "explode": false,
+            "in": "query",
+            "name": "expand",
+            "schema": {
+              "items": {
+                "enum": [
+                  "app"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/AppInstallData"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of apps installed for the specified group.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Get a list of Snyk Apps installed for a Group",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03",
+          "2024-05-23"
+        ],
+        "x-snyk-api-resource": "app_installs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-23",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/apps/installs",
+      "method": "POST",
+      "operation_id": "createGroupAppInstall",
+      "summary": "Install a Snyk App for a Group",
+      "details": {
+        "description": "Install a Snyk App to this group, the Snyk App must use unattended authentication e.g. client credentials\n\n#### Required permissions\n\n- `Install Apps (group.app.install)`",
+        "operationId": "createGroupAppInstall",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "properties": {
+                      "type": {
+                        "enum": [
+                          "app_install"
+                        ],
+                        "example": "app_install",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "relationships": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "app": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "data": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "$ref": "#/components/schemas/Uuid"
+                              },
+                              "type": {
+                                "enum": [
+                                  "app"
+                                ],
+                                "example": "app",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type"
+                            ],
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "data"
+                        ],
+                        "type": "object"
+                      }
+                    },
+                    "required": [
+                      "app"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data",
+                  "relationships"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "App Install to be created"
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AppInstallWithClient"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The newly created app install.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Install a Snyk App for a Group",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03",
+          "2024-05-23"
+        ],
+        "x-snyk-api-resource": "app_installs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-23",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/apps/installs/{install_id}",
+      "method": "DELETE",
+      "operation_id": "deleteGroupAppInstallById",
+      "summary": "Revoke app authorization for a Snyk group with install ID",
+      "details": {
+        "description": "Revoke app authorization for a Snyk group with install ID\n\n#### Required permissions\n\n- `Install Apps (group.app.install)`",
+        "operationId": "deleteGroupAppInstallById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/InstallId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The Snyk App install is revoked, with no content (no errors).",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Revoke app authorization for a Snyk group with install ID",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03",
+          "2024-05-23"
+        ],
+        "x-snyk-api-resource": "app_installs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-23",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/apps/installs/{install_id}/secrets",
+      "method": "POST",
+      "operation_id": "updateGroupAppInstallSecret",
+      "summary": "Manage client secret for non-interactive Snyk App installations",
+      "details": {
+        "description": "Manage client secret for non-interactive Snyk App installations\n\n#### Required permissions\n\n- `Edit Apps (group.app.edit)`",
+        "operationId": "updateGroupAppInstallSecret",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/InstallId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "mode": {
+                            "description": "Operation to perform:\n  * `replace` - Replace existing secrets with a new generated\nsecret\n  * `create` - Add a new secret, preserving existing secrets\n  * `delete` - Remove an existing secret by value\n",
+                            "enum": [
+                              "replace",
+                              "create",
+                              "delete"
+                            ],
+                            "type": "string"
+                          },
+                          "secret": {
+                            "description": "Secret to delete when using `delete` mode",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "mode"
+                        ],
+                        "type": "object"
+                      },
+                      "type": {
+                        "enum": [
+                          "app"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "attributes",
+                      "type"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AppInstallDataWithSecret"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Secret has been updated.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Manage client secret for non-interactive Snyk App installations",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03",
+          "2024-05-23"
+        ],
+        "x-snyk-api-resource": "app_installs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-23",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/app_bots",
+      "method": "GET",
+      "operation_id": "getAppBots",
+      "summary": "Get a list of app bots authorized to an organization.",
+      "details": {
+        "deprecated": true,
+        "description": "Get a list of app bots authorized to an organization. Deprecated, use /orgs/{org_id}/apps/installs instead.\n\n#### Required permissions\n\n- `View Apps (org.app.read)`",
+        "operationId": "getAppBots",
+        "parameters": [
+          {
+            "description": "Expand relationships.",
+            "explode": false,
+            "in": "query",
+            "name": "expand",
+            "schema": {
+              "items": {
+                "enum": [
+                  "app"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Organization ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/AppBot"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of app bots authorized to the specified organization",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Get a list of app bots authorized to an organization.",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-03-11"
+        ],
+        "x-snyk-api-resource": "app_bots",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-03-11",
+        "x-snyk-sunset-eligible": "2024-07-17",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/app_bots/{bot_id}",
+      "method": "DELETE",
+      "operation_id": "deleteAppBot",
+      "summary": "Revoke app bot authorization",
+      "details": {
+        "deprecated": true,
+        "description": "Revoke app bot authorization. Deprecated, use /orgs/{org_id}/apps/installs/{install_id} instead.\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "deleteAppBot",
+        "parameters": [
+          {
+            "description": "The ID of the app bot",
+            "in": "path",
+            "name": "bot_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Organization ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The app bot has been deauthorized",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Revoke app bot authorization",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-03-11"
+        ],
+        "x-snyk-api-resource": "app_bots",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-03-11",
+        "x-snyk-sunset-eligible": "2024-07-17",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps",
+      "method": "GET",
+      "operation_id": "getApps",
+      "summary": "Get a list of Snyk Apps created by an Organization",
+      "details": {
+        "deprecated": true,
+        "description": "Get a list of Snyk Apps created by an Organization Deprecated, use /orgs/{org_id}/apps/creations instead.\n\n#### Required permissions\n\n- `View Apps (org.app.read)`",
+        "operationId": "getApps",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgId__0"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/AppData20220311"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of apps created by the specified organization",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Get a list of Snyk Apps created by an Organization",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-03-11"
+        ],
+        "x-snyk-api-resource": "apps",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-03-11",
+        "x-snyk-sunset-eligible": "2024-07-17",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps",
+      "method": "POST",
+      "operation_id": "createApp",
+      "summary": "Create a new app for an organization.",
+      "details": {
+        "deprecated": true,
+        "description": "Create a new app for an organization. Deprecated, use /orgs/{org_id}/apps/creations instead.\n\n#### Required permissions\n\n- `Create Apps (org.app.create)`",
+        "operationId": "createApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/OrgId__0"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppPostRequest20220311"
+              }
+            }
+          },
+          "description": "app to be created"
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppPostResponse20220311"
+                }
+              }
+            },
+            "description": "Created Snyk App successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Create a new app for an organization.",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-03-11"
+        ],
+        "x-snyk-api-resource": "apps",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2022-03-11",
+        "x-snyk-sunset-eligible": "2024-07-17",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps/creations",
+      "method": "GET",
+      "operation_id": "getOrgApps",
+      "summary": "Get a list of Snyk Apps created by an Organization",
+      "details": {
+        "description": "Get a list of Snyk Apps created by an Organization\n\n#### Required permissions\n\n- `View Apps (org.app.read)`",
+        "operationId": "getOrgApps",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgId__0"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/AppData"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of apps created by the specified organization",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Get a list of Snyk Apps created by an Organization",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03"
+        ],
+        "x-snyk-api-resource": "apps",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-11-03",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps/creations",
+      "method": "POST",
+      "operation_id": "createOrgApp",
+      "summary": "Create a new Snyk App for an organization",
+      "details": {
+        "description": "Create a new Snyk App for an organization\n\n#### Required permissions\n\n- `Create Apps (org.app.create)`",
+        "operationId": "createOrgApp",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/OrgId__0"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppPostRequest"
+              }
+            }
+          },
+          "description": "Snyk App details for app to be created."
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppPostResponse"
+                }
+              }
+            },
+            "description": "Created Snyk App successfully.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Create a new Snyk App for an organization",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03"
+        ],
+        "x-snyk-api-resource": "apps",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-11-03",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps/creations/{app_id}",
+      "method": "DELETE",
+      "operation_id": "deleteAppByID",
+      "summary": "Delete a Snyk App by app ID",
+      "details": {
+        "description": "Delete a Snyk App by app ID\n\n#### Required permissions\n\n- `Delete Apps (org.app.delete)`",
+        "operationId": "deleteAppByID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgId__0"
+          },
+          {
+            "$ref": "#/components/parameters/AppId"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The app has been deleted",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Delete a Snyk App by app ID",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03"
+        ],
+        "x-snyk-api-resource": "apps",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-11-03",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps/creations/{app_id}",
+      "method": "GET",
+      "operation_id": "getAppByID",
+      "summary": "Get a Snyk App by app ID",
+      "details": {
+        "description": "Get a Snyk App by app ID\n\n#### Required permissions\n\n- `View Apps (org.app.read)`",
+        "operationId": "getAppByID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/OrgId__0"
+          },
+          {
+            "$ref": "#/components/parameters/AppId"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AppData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Attributes of the requested Snyk App.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Get a Snyk App by app ID",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03"
+        ],
+        "x-snyk-api-resource": "apps",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-11-03",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps/creations/{app_id}",
+      "method": "PATCH",
+      "operation_id": "updateAppCreationByID",
+      "summary": "Update app creation attributes such as name, redirect URIs, and access token time to live using the App ID",
+      "details": {
+        "description": "Update app creation attributes with App ID\n\n#### Required permissions\n\n- `Edit Apps (org.app.edit)`",
+        "operationId": "updateAppCreationByID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/OrgId__0"
+          },
+          {
+            "$ref": "#/components/parameters/AppId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppPatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AppData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Attributes of the updated Snyk App.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Update app creation attributes such as name, redirect URIs, and access token time to live using the App ID",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03"
+        ],
+        "x-snyk-api-resource": "apps",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-11-03",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps/creations/{app_id}/secrets",
+      "method": "POST",
+      "operation_id": "manageAppCreationSecret",
+      "summary": "Manage client secret for a Snyk App",
+      "details": {
+        "description": "Manage client secret for a Snyk App\n\n#### Required permissions\n\n- `Edit Apps (org.app.edit)`",
+        "operationId": "manageAppCreationSecret",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/OrgId__0"
+          },
+          {
+            "$ref": "#/components/parameters/AppId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "mode": {
+                            "description": "Operation to perform:\n  * `replace` - Replace existing secrets with a new generated\nsecret\n  * `create` - Add a new secret, preserving existing secrets\n  * `delete` - Remove an existing secret by value\n",
+                            "enum": [
+                              "replace",
+                              "create",
+                              "delete"
+                            ],
+                            "type": "string"
+                          },
+                          "secret": {
+                            "description": "Secret to delete when using `delete` mode",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "mode"
+                        ],
+                        "type": "object"
+                      },
+                      "type": {
+                        "enum": [
+                          "app"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "attributes",
+                      "type"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AppDataWithSecret"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Secret has been updated.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Manage client secret for a Snyk App",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03"
+        ],
+        "x-snyk-api-resource": "apps",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-11-03",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps/installs",
+      "method": "GET",
+      "operation_id": "getAppInstallsForOrg",
+      "summary": "Get a list of Snyk Apps installed for an Organization",
+      "details": {
+        "description": "Get a list of Snyk Apps installed for an Organization\n\n#### Required permissions\n\n- `View Apps (org.app.read)`",
+        "operationId": "getAppInstallsForOrg",
+        "parameters": [
+          {
+            "description": "Expand relationships.",
+            "explode": false,
+            "in": "query",
+            "name": "expand",
+            "schema": {
+              "items": {
+                "enum": [
+                  "app"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "style": "form"
+          },
+          {
+            "description": "Organization ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/AppInstallData"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of apps installed for the specified organization.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Get a list of Snyk Apps installed for an Organization",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03",
+          "2024-05-23"
+        ],
+        "x-snyk-api-resource": "app_installs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-23",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps/installs",
+      "method": "POST",
+      "operation_id": "createOrgAppInstall",
+      "summary": "Install a Snyk App for an Organization",
+      "details": {
+        "description": "Install a Snyk App to this organization, the Snyk App must use unattended authentication e.g. client credentials\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "createOrgAppInstall",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/OrgId__0"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "properties": {
+                      "type": {
+                        "enum": [
+                          "app_install"
+                        ],
+                        "example": "app_install",
+                        "type": "string"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "relationships": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "app": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "data": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "$ref": "#/components/schemas/Uuid"
+                              },
+                              "type": {
+                                "enum": [
+                                  "app"
+                                ],
+                                "example": "app",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "type"
+                            ],
+                            "type": "object"
+                          }
+                        },
+                        "required": [
+                          "data"
+                        ],
+                        "type": "object"
+                      }
+                    },
+                    "required": [
+                      "app"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data",
+                  "relationships"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "description": "App Install to be created"
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AppInstallWithClient"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "The newly created app install.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Install a Snyk App for an Organization",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03",
+          "2024-05-23"
+        ],
+        "x-snyk-api-resource": "app_installs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-23",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/apps/installs/{install_id}",
+      "method": "DELETE",
+      "operation_id": "deleteAppOrgInstallById",
+      "summary": "Revoke app authorization for a Snyk organization with install ID",
+      "details": {
+        "description": "Revoke app authorization for a Snyk organization with install ID\n\n#### Required permissions\n\n- `Install Apps (org.app.install)`",
+        "operationId": "deleteAppOrgInstallById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/OrgId__0"
+          },
+          {
+            "$ref": "#/components/parameters/InstallId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The Snyk App install is revoked, with no content (no errors).",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400__0"
+          },
+          "401": {
+            "$ref": "#/components/responses/401__0"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404__0"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500__0"
+          }
+        },
+        "summary": "Revoke app authorization for a Snyk organization with install ID",
+        "tags": [
+          "Apps"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-06-19~experimental",
+          "2023-11-03",
+          "2024-05-23"
+        ],
+        "x-snyk-api-resource": "app_installs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-05-23",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "ClientId": {
+      "description": "The OAuth2 client id for the app installation. Only provided for installations of non-interactive Snyk Apps.",
+      "example": "941b423a-e0a0-4a33-a7ca-dd9e9e6bd8cf",
+      "format": "uuid",
+      "type": "string"
+    },
+    "RedirectUris": {
+      "description": "List of allowed redirect URIs (OAuth callbacks) where Snyk will redirect users after authorization.\n\nThese are URLs controlled by your application that Snyk will send the user to after they authorize your app. \nThe redirect URI used in your authorization request must exactly match one of the URIs registered here.\n\n**Important:** The redirect URI in your OAuth authorization request must be an exact match (including protocol, domain, path, and query parameters) to one of the URIs specified in this list.\n\n**Example valid redirect URI:** `https://example.com/callback` or `https://myapp.example.com/auth/snyk/callback`\n\nFor more information on the complete OAuth workflow, see the [Snyk Apps API tutorial](https://docs.snyk.io/snyk-api/using-specific-snyk-apis/snyk-apps-apis/tutorial-create-a-snyk-app).\n",
+      "example": [
+        "https://example.com/callback",
+        "https://example.com/auth/snyk/callback"
+      ],
+      "items": {
+        "format": "uri",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "AppBot": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "links": {
+          "$ref": "#/components/schemas/Links"
+        },
+        "relationships": {
+          "properties": {
+            "app": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/PublicApp"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "required": [
+            "app"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "AppPatchRequest": {
+      "properties": {
+        "data": {
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "minProperties": 1,
+              "properties": {
+                "access_token_ttl_seconds": {
+                  "$ref": "#/components/schemas/AccessTokenTtlSeconds"
+                },
+                "name": {
+                  "$ref": "#/components/schemas/AppName"
+                },
+                "redirect_uris": {
+                  "$ref": "#/components/schemas/RedirectUris"
+                }
+              },
+              "type": "object"
+            },
+            "type": {
+              "enum": [
+                "app"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "ClientSecret": {
+      "description": "The oauth2 client secret for the app. This is the only time this secret will be returned, store it securely and don\u2019t lose it.",
+      "example": "snyk_cs_ctZW0JsWG^Bm`*oPo=mnV26qU_6pjxht<]S_v1",
+      "minLength": 1,
+      "type": "string"
+    },
+    "AppName": {
+      "description": "New name of the app to display to users during authorization flow.",
+      "example": "My App",
+      "minLength": 1,
+      "type": "string"
+    },
+    "PublicAppData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/PublicAppAttributes"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "links": {
+          "$ref": "#/components/schemas/Links"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "type": "object"
+    },
+    "AppDataWithSecret20220311": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AppResourceAttributesWithSecret20220311"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "ClientId__1": {
+      "description": "The OAuth2 client id for the app when available. If an app can have multiple OAuth2 clients then this field with return all zeros. This field is not present for such apps in future versions of this api.",
+      "example": "941b423a-e0a0-4a33-a7ca-dd9e9e6bd8cf",
+      "format": "uuid",
+      "type": "string"
+    },
+    "AppPostRequest20220311": {
+      "additionalProperties": false,
+      "properties": {
+        "access_token_ttl_seconds": {
+          "$ref": "#/components/schemas/AccessTokenTtlSeconds"
+        },
+        "context": {
+          "$ref": "#/components/schemas/Context"
+        },
+        "name": {
+          "$ref": "#/components/schemas/AppName"
+        },
+        "redirect_uris": {
+          "$ref": "#/components/schemas/RedirectUris"
+        },
+        "scopes": {
+          "$ref": "#/components/schemas/Scopes"
+        }
+      },
+      "required": [
+        "name",
+        "redirect_uris",
+        "scopes"
+      ],
+      "type": "object"
+    },
+    "IsConfidential20220311": {
+      "description": "A boolean to indicate if an app is confidential or not as per the OAuth2 RFC.",
+      "example": true,
+      "type": "boolean"
+    },
+    "GrantType20220311": {
+      "description": "An authorization grant is a credential representing the resource owner's authorization (to access its protected resources) used by the client to obtain an access token.",
+      "enum": [
+        "authorization_code",
+        "client_credentials"
+      ],
+      "type": "string"
+    },
+    "AppData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AppResourceAttributes"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "AppInstallDataWithSecret": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "properties": {
+            "client_id": {
+              "$ref": "#/components/schemas/ClientId"
+            },
+            "client_secret": {
+              "$ref": "#/components/schemas/ClientSecret20240523"
+            },
+            "installed_at": {
+              "$ref": "#/components/schemas/InstalledAt"
+            }
+          },
+          "required": [
+            "client_id",
+            "client_secret"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "links": {
+          "$ref": "#/components/schemas/Links"
+        },
+        "relationships": {
+          "properties": {
+            "app": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/PublicAppData"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "AppInstallData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "properties": {
+            "client_id": {
+              "$ref": "#/components/schemas/ClientId"
+            },
+            "installed_at": {
+              "$ref": "#/components/schemas/InstalledAt"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "links": {
+          "$ref": "#/components/schemas/Links"
+        },
+        "relationships": {
+          "properties": {
+            "app": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/PublicAppData"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "RedirectUrisNoMin": {
+      "description": "List of allowed redirect URIs (OAuth callbacks) where Snyk will redirect users after authorization.\n\nThese are URLs controlled by your application that Snyk will send the user to after they authorize your app. \nThe redirect URI used in your authorization request must exactly match one of the URIs registered here.\n\n**Important:** The redirect URI in your OAuth authorization request must be an exact match (including protocol, domain, path, and query parameters) to one of the URIs specified in this list.\n\n**Example valid redirect URI:** `https://example.com/callback` or `https://myapp.example.com/auth/snyk/callback`\n\nFor more information on the complete OAuth workflow, see the [Snyk Apps API tutorial](https://docs.snyk.io/snyk-api/using-specific-snyk-apis/snyk-apps-apis/tutorial-create-a-snyk-app).\n",
+      "example": [
+        "https://example.com/callback",
+        "https://example.com/auth/snyk/callback"
+      ],
+      "items": {
+        "format": "uri",
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "AppResourceAttributes20220311": {
+      "additionalProperties": false,
+      "properties": {
+        "access_token_ttl_seconds": {
+          "$ref": "#/components/schemas/AccessTokenTtlSeconds"
+        },
+        "client_id": {
+          "$ref": "#/components/schemas/ClientId__1"
+        },
+        "context": {
+          "$ref": "#/components/schemas/Context"
+        },
+        "grant_type": {
+          "$ref": "#/components/schemas/GrantType20220311"
+        },
+        "is_confidential": {
+          "$ref": "#/components/schemas/IsConfidential20220311"
+        },
+        "is_public": {
+          "$ref": "#/components/schemas/IsPublic"
+        },
+        "name": {
+          "$ref": "#/components/schemas/AppName"
+        },
+        "org_public_id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "redirect_uris": {
+          "$ref": "#/components/schemas/RedirectUrisNoMin"
+        },
+        "scopes": {
+          "$ref": "#/components/schemas/Scopes"
+        }
+      },
+      "required": [
+        "client_id",
+        "name",
+        "redirect_uris",
+        "scopes",
+        "access_token_ttl_seconds",
+        "is_public",
+        "is_confidential",
+        "context",
+        "grant_type"
+      ],
+      "type": "object"
+    },
+    "PublicApp": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/PublicAppAttributes__0"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "links": {
+          "$ref": "#/components/schemas/Links"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "type": "object"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "AppInstallWithClient": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "properties": {
+            "client_id": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "client_secret": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "client_id",
+            "client_secret"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "links": {
+          "$ref": "#/components/schemas/Links"
+        },
+        "relationships": {
+          "properties": {
+            "app": {
+              "properties": {
+                "data": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "$ref": "#/components/schemas/Uuid"
+                    },
+                    "type": {
+                      "$ref": "#/components/schemas/Type"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id"
+                  ],
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "AppResourceAttributesWithSecret20220311": {
+      "additionalProperties": false,
+      "properties": {
+        "access_token_ttl_seconds": {
+          "$ref": "#/components/schemas/AccessTokenTtlSeconds"
+        },
+        "client_id": {
+          "$ref": "#/components/schemas/ClientId__1"
+        },
+        "client_secret": {
+          "$ref": "#/components/schemas/ClientSecret"
+        },
+        "context": {
+          "$ref": "#/components/schemas/Context"
+        },
+        "grant_type": {
+          "$ref": "#/components/schemas/GrantType20220311"
+        },
+        "is_confidential": {
+          "$ref": "#/components/schemas/IsConfidential20220311"
+        },
+        "is_public": {
+          "$ref": "#/components/schemas/IsPublic"
+        },
+        "name": {
+          "$ref": "#/components/schemas/AppName"
+        },
+        "org_public_id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "redirect_uris": {
+          "$ref": "#/components/schemas/RedirectUris"
+        },
+        "scopes": {
+          "$ref": "#/components/schemas/Scopes"
+        }
+      },
+      "required": [
+        "client_id",
+        "name",
+        "redirect_uris",
+        "scopes",
+        "access_token_ttl_seconds",
+        "is_public",
+        "is_confidential",
+        "client_secret",
+        "context",
+        "grant_type"
+      ],
+      "type": "object"
+    },
+    "PublicAppAttributes__0": {
+      "properties": {
+        "client_id": {
+          "$ref": "#/components/schemas/ClientId__0"
+        },
+        "context": {
+          "$ref": "#/components/schemas/Context"
+        },
+        "name": {
+          "$ref": "#/components/schemas/AppName"
+        },
+        "scopes": {
+          "$ref": "#/components/schemas/Scopes"
+        }
+      },
+      "required": [
+        "name",
+        "client_id"
+      ],
+      "type": "object"
+    },
+    "Type": {
+      "type": "string"
+    },
+    "GrantType": {
+      "description": "An authorization grant is a credential representing the resource owner's authorization (to access its protected resources) used by the client to obtain an access token. The grant type represents the way your app will get the access token.",
+      "enum": [
+        "authorization_code",
+        "client_credentials"
+      ],
+      "type": "string"
+    },
+    "AppPostResponse20220311": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/AppDataWithSecret20220311"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/SelfLink"
+        }
+      },
+      "type": "object"
+    },
+    "Scopes": {
+      "description": "The scopes this app is allowed to request during authorization.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "AppDataWithSecret": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AppResourceAttributesWithSecret"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "Context": {
+      "description": "Allow installing the app to a org/group or to a user, default tenant.",
+      "enum": [
+        "tenant",
+        "user"
+      ],
+      "type": "string"
+    },
+    "AppPostResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/AppDataWithSecret"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/SelfLink"
+        }
+      },
+      "type": "object"
+    },
+    "InstalledAt": {
+      "description": "Timestamp at which this app was first installed at.",
+      "example": "2024-04-30T16:07:46.230044Z",
+      "format": "date-time",
+      "type": "string"
+    },
+    "AppData20220311": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AppResourceAttributes20220311"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "Id": {
+      "format": "uuid",
+      "type": "string"
+    },
+    "AppResourceAttributesWithSecret": {
+      "additionalProperties": false,
+      "properties": {
+        "access_token_ttl_seconds": {
+          "$ref": "#/components/schemas/AccessTokenTtlSeconds"
+        },
+        "client_id": {
+          "$ref": "#/components/schemas/ClientId__0"
+        },
+        "client_secret": {
+          "$ref": "#/components/schemas/ClientSecret"
+        },
+        "context": {
+          "$ref": "#/components/schemas/Context__0"
+        },
+        "grant_type": {
+          "$ref": "#/components/schemas/GrantType"
+        },
+        "is_confidential": {
+          "$ref": "#/components/schemas/IsConfidential"
+        },
+        "is_public": {
+          "$ref": "#/components/schemas/IsPublic"
+        },
+        "name": {
+          "$ref": "#/components/schemas/AppName"
+        },
+        "org_public_id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "redirect_uris": {
+          "$ref": "#/components/schemas/RedirectUris"
+        },
+        "scopes": {
+          "$ref": "#/components/schemas/Scopes"
+        }
+      },
+      "required": [
+        "client_id",
+        "name",
+        "redirect_uris",
+        "scopes",
+        "access_token_ttl_seconds",
+        "is_public",
+        "is_confidential",
+        "client_secret",
+        "context",
+        "grant_type"
+      ],
+      "type": "object"
+    },
+    "Context__0": {
+      "description": "Allow installing the app to at  org/group level or user level. Defaults to tenant.",
+      "enum": [
+        "tenant",
+        "user"
+      ],
+      "type": "string"
+    },
+    "AppResourceAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "access_token_ttl_seconds": {
+          "$ref": "#/components/schemas/AccessTokenTtlSeconds"
+        },
+        "client_id": {
+          "$ref": "#/components/schemas/ClientId__0"
+        },
+        "context": {
+          "$ref": "#/components/schemas/Context__0"
+        },
+        "grant_type": {
+          "$ref": "#/components/schemas/GrantType"
+        },
+        "is_confidential": {
+          "$ref": "#/components/schemas/IsConfidential"
+        },
+        "is_public": {
+          "$ref": "#/components/schemas/IsPublic"
+        },
+        "name": {
+          "$ref": "#/components/schemas/AppName"
+        },
+        "org_public_id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "redirect_uris": {
+          "$ref": "#/components/schemas/RedirectUris"
+        },
+        "scopes": {
+          "$ref": "#/components/schemas/Scopes"
+        }
+      },
+      "required": [
+        "name",
+        "scopes",
+        "access_token_ttl_seconds",
+        "is_public",
+        "is_confidential",
+        "context",
+        "grant_type"
+      ],
+      "type": "object"
+    },
+    "PublicAppAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "client_id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "context": {
+          "$ref": "#/components/schemas/Context"
+        },
+        "name": {
+          "$ref": "#/components/schemas/AppName"
+        },
+        "scopes": {
+          "$ref": "#/components/schemas/Scopes"
+        }
+      },
+      "required": [
+        "name",
+        "client_id"
+      ],
+      "type": "object"
+    },
+    "AccessTokenTtlSeconds": {
+      "description": "The access token time to live for your app, in seconds. It only affects the newly generated access tokens, existing access token will  continue to have their previous time to live as expiration.",
+      "example": 3600,
+      "maximum": 86400,
+      "minimum": 3600,
+      "type": "number"
+    },
+    "IsPublic": {
+      "description": "A boolean to indicate if an app is publicly available or not.",
+      "example": false,
+      "type": "boolean"
+    },
+    "AppPostRequest": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "properties": {
+                "access_token_ttl_seconds": {
+                  "$ref": "#/components/schemas/AccessTokenTtlSeconds"
+                },
+                "context": {
+                  "$ref": "#/components/schemas/Context__0"
+                },
+                "name": {
+                  "$ref": "#/components/schemas/AppName"
+                },
+                "redirect_uris": {
+                  "$ref": "#/components/schemas/RedirectUris"
+                },
+                "scopes": {
+                  "$ref": "#/components/schemas/Scopes"
+                }
+              },
+              "required": [
+                "name",
+                "redirect_uris",
+                "scopes",
+                "context"
+              ],
+              "type": "object"
+            },
+            "type": {
+              "enum": [
+                "app"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "attributes",
+            "type"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "ClientSecret20240523": {
+      "description": "The OAuth2 client secret for the app. This is the only time this secret will be returned, store it securely and don\u2019t lose it. Only provided for installations of non-interactive Snyk Apps.",
+      "example": "snyk_cs_ctZW0JsWG^Bm`*oPo=mnV26qU_6pjxht<]S_v1",
+      "minLength": 1,
+      "type": "string"
+    },
+    "ClientId__0": {
+      "description": "The oauth2 client id for the app.",
+      "example": "941b423a-e0a0-4a33-a7ca-dd9e9e6bd8cf",
+      "format": "uuid",
+      "type": "string"
+    },
+    "IsConfidential": {
+      "description": "A boolean to indicate if an app is confidential or not as per the OAuth2 RFC. Confidential apps can securely store secrets. Examples of non-confidential apps are full web-based or CLIs.",
+      "example": true,
+      "type": "boolean"
+    }
+  },
+  "referenced_common_schemas": [
+    "Uuid",
+    "JsonApi",
+    "Meta",
+    "LinkProperty",
+    "PaginatedLinks",
+    "Links"
+  ]
+}

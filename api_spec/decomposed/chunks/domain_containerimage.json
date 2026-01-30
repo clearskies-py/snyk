@@ -1,0 +1,657 @@
+{
+  "tag": "ContainerImage",
+  "endpoint_count": 3,
+  "schema_count": 8,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/container_images",
+      "operation_id": "listContainerImage",
+      "summary": "List instances of container image"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/container_images/{image_id}",
+      "operation_id": "getContainerImage",
+      "summary": "Get instance of container image"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/container_images/{image_id}/relationships/image_target_refs",
+      "operation_id": "listImageTargetRefs",
+      "summary": "List instances of image target references for a container image"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/container_images",
+      "method": "GET",
+      "operation_id": "listContainerImage",
+      "summary": "List instances of container image",
+      "details": {
+        "description": "List instances of container image\n\n#### Required permissions\n\n- `View container images (org.container_image.read)`",
+        "operationId": "listContainerImage",
+        "parameters": [
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "example": "f59045b3-f093-40c3-871d-a334ae30c568",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/ImageIds"
+          },
+          {
+            "description": "The image Operating System and processor architecture",
+            "example": "linux/amd64",
+            "in": "query",
+            "name": "platform",
+            "schema": {
+              "enum": [
+                "aix/ppc64",
+                "android/386",
+                "android/amd64",
+                "android/arm",
+                "android/arm/v5",
+                "android/arm/v6",
+                "android/arm/v7",
+                "android/arm64",
+                "android/arm64/v8",
+                "darwin/amd64",
+                "darwin/arm",
+                "darwin/arm/v5",
+                "darwin/arm/v6",
+                "darwin/arm/v7",
+                "darwin/arm64",
+                "darwin/arm64/v8",
+                "dragonfly/amd64",
+                "freebsd/386",
+                "freebsd/amd64",
+                "freebsd/arm",
+                "freebsd/arm/v5",
+                "freebsd/arm/v6",
+                "freebsd/arm/v7",
+                "illumos/amd64",
+                "ios/arm64",
+                "ios/arm64/v8",
+                "js/wasm",
+                "linux/386",
+                "linux/amd64",
+                "linux/arm",
+                "linux/arm/v5",
+                "linux/arm/v6",
+                "linux/arm/v7",
+                "linux/arm64",
+                "linux/arm64/v8",
+                "linux/loong64",
+                "linux/mips",
+                "linux/mipsle",
+                "linux/mips64",
+                "linux/mips64le",
+                "linux/ppc64",
+                "linux/ppc64le",
+                "linux/riscv64",
+                "linux/s390x",
+                "linux/x86_64",
+                "netbsd/386",
+                "netbsd/amd64",
+                "netbsd/arm",
+                "netbsd/arm/v5",
+                "netbsd/arm/v6",
+                "netbsd/arm/v7",
+                "openbsd/386",
+                "openbsd/amd64",
+                "openbsd/arm",
+                "openbsd/arm/v5",
+                "openbsd/arm/v6",
+                "openbsd/arm/v7",
+                "openbsd/arm64",
+                "openbsd/arm64/v8",
+                "plan9/386",
+                "plan9/amd64",
+                "plan9/arm",
+                "plan9/arm/v5",
+                "plan9/arm/v6",
+                "plan9/arm/v7",
+                "solaris/amd64",
+                "windows/386",
+                "windows/amd64",
+                "windows/arm",
+                "windows/arm/v5",
+                "windows/arm/v6",
+                "windows/arm/v7",
+                "windows/arm64",
+                "windows/arm64/v8"
+              ],
+              "example": "linux/amd64",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Names"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Image"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of container image instances",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List instances of container image",
+        "tags": [
+          "ContainerImage"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-03-08~beta",
+          "2023-08-18~beta",
+          "2023-11-02"
+        ],
+        "x-snyk-api-resource": "container_images",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-11-02",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/container_images/{image_id}",
+      "method": "GET",
+      "operation_id": "getContainerImage",
+      "summary": "Get instance of container image",
+      "details": {
+        "description": "Get instance of container image\n\n#### Required permissions\n\n- `View container images (org.container_image.read)`",
+        "operationId": "getContainerImage",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "example": "f59045b3-f093-40c3-871d-a334ae30c568",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/ImageId20231102"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Image"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns an instance of container image",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get instance of container image",
+        "tags": [
+          "ContainerImage"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-03-08~beta",
+          "2023-11-02"
+        ],
+        "x-snyk-api-resource": "container_images",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-11-02",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/container_images/{image_id}/relationships/image_target_refs",
+      "method": "GET",
+      "operation_id": "listImageTargetRefs",
+      "summary": "List instances of image target references for a container image",
+      "details": {
+        "description": "List instances of image target references for a container image\n\n#### Required permissions\n\n- `View container images (org.container_image.read)`",
+        "operationId": "listImageTargetRefs",
+        "parameters": [
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "example": "f59045b3-f093-40c3-871d-a334ae30c568",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/ImageId20231102"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/ImageTargetRef"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns a list of image target references for a container image",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List instances of image target references for a container image",
+        "tags": [
+          "ContainerImage"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-08-18~beta",
+          "2023-11-02"
+        ],
+        "x-snyk-api-resource": "container_images",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-11-02",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "ImageTargetRef": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/ImageTargetRefAttributes"
+        },
+        "id": {
+          "example": "3cd4af4c-fb15-45c4-9acd-8e8fcc6690af",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "image_target_reference"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "ImageName": {
+      "example": "gcr.io/snyk/redis:5",
+      "pattern": "^((?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])(?:(?:\\.(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]))+)?(?::[0-9]+)?\\/)?[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?(?:(?:\\/[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?)+)?)(?::([\\w][\\w.-]{0,127}))?(?:@([A-Za-z][A-Za-z0-9]*(?:[-_+.][A-Za-z][A-Za-z0-9]*)*[:][A-Fa-f0-9]{32,}))?$",
+      "type": "string"
+    },
+    "Image": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/ImageAttributes"
+        },
+        "id": {
+          "$ref": "#/components/schemas/ImageDigest"
+        },
+        "relationships": {
+          "properties": {
+            "image_target_refs": {
+              "properties": {
+                "links": {
+                  "$ref": "#/components/schemas/SelfLink"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "container_image"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "ImageDigest": {
+      "example": "sha256:2bd864580926b790a22c8b96fd74496fe87b3c59c0774fe144bab2788e78e676",
+      "format": "uri",
+      "pattern": "^sha256(:|%3A)[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "Platform": {
+      "enum": [
+        "aix/ppc64",
+        "android/386",
+        "android/amd64",
+        "android/arm",
+        "android/arm/v5",
+        "android/arm/v6",
+        "android/arm/v7",
+        "android/arm64",
+        "android/arm64/v8",
+        "darwin/amd64",
+        "darwin/arm",
+        "darwin/arm/v5",
+        "darwin/arm/v6",
+        "darwin/arm/v7",
+        "darwin/arm64",
+        "darwin/arm64/v8",
+        "dragonfly/amd64",
+        "freebsd/386",
+        "freebsd/amd64",
+        "freebsd/arm",
+        "freebsd/arm/v5",
+        "freebsd/arm/v6",
+        "freebsd/arm/v7",
+        "illumos/amd64",
+        "ios/arm64",
+        "ios/arm64/v8",
+        "js/wasm",
+        "linux/386",
+        "linux/amd64",
+        "linux/arm",
+        "linux/arm/v5",
+        "linux/arm/v6",
+        "linux/arm/v7",
+        "linux/arm64",
+        "linux/arm64/v8",
+        "linux/loong64",
+        "linux/mips",
+        "linux/mipsle",
+        "linux/mips64",
+        "linux/mips64le",
+        "linux/ppc64",
+        "linux/ppc64le",
+        "linux/riscv64",
+        "linux/s390x",
+        "linux/x86_64",
+        "netbsd/386",
+        "netbsd/amd64",
+        "netbsd/arm",
+        "netbsd/arm/v5",
+        "netbsd/arm/v6",
+        "netbsd/arm/v7",
+        "openbsd/386",
+        "openbsd/amd64",
+        "openbsd/arm",
+        "openbsd/arm/v5",
+        "openbsd/arm/v6",
+        "openbsd/arm/v7",
+        "openbsd/arm64",
+        "openbsd/arm64/v8",
+        "plan9/386",
+        "plan9/amd64",
+        "plan9/arm",
+        "plan9/arm/v5",
+        "plan9/arm/v6",
+        "plan9/arm/v7",
+        "solaris/amd64",
+        "windows/386",
+        "windows/amd64",
+        "windows/arm",
+        "windows/arm/v5",
+        "windows/arm/v6",
+        "windows/arm/v7",
+        "windows/arm64",
+        "windows/arm64/v8"
+      ],
+      "example": "linux/amd64",
+      "type": "string"
+    },
+    "ImageTargetRefAttributes": {
+      "properties": {
+        "platform": {
+          "$ref": "#/components/schemas/Platform"
+        },
+        "target_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "target_reference": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ImageAttributes": {
+      "properties": {
+        "layers": {
+          "items": {
+            "$ref": "#/components/schemas/ImageDigest"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "names": {
+          "items": {
+            "$ref": "#/components/schemas/ImageName"
+          },
+          "type": "array"
+        },
+        "platform": {
+          "$ref": "#/components/schemas/Platform"
+        }
+      },
+      "required": [
+        "platform",
+        "layers"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "PaginatedLinks",
+    "LinkProperty",
+    "Meta",
+    "JsonApi"
+  ]
+}

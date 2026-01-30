@@ -1,0 +1,1035 @@
+{
+  "tag": "Groups",
+  "endpoint_count": 8,
+  "schema_count": 11,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/group/{groupId}/settings",
+      "operation_id": "Viewgroupsettings",
+      "summary": "View group settings"
+    },
+    {
+      "method": "PUT",
+      "path": "/group/{groupId}/settings",
+      "operation_id": "Updategroupsettings",
+      "summary": "Update group settings"
+    },
+    {
+      "method": "GET",
+      "path": "/group/{groupId}/members",
+      "operation_id": "Listallmembersinagroup",
+      "summary": "List all members in a group"
+    },
+    {
+      "method": "POST",
+      "path": "/group/{groupId}/org/{orgId}/members",
+      "operation_id": "Addamembertoanorganizationwithinagroup",
+      "summary": "Add a member to an organization within a group"
+    },
+    {
+      "method": "GET",
+      "path": "/group/{groupId}/tags",
+      "operation_id": "Listalltagsinagroup",
+      "summary": "List all tags in a group"
+    },
+    {
+      "method": "POST",
+      "path": "/group/{groupId}/tags/delete",
+      "operation_id": "Deletetagfromgroup",
+      "summary": "Delete tag from group"
+    },
+    {
+      "method": "GET",
+      "path": "/group/{groupId}/orgs",
+      "operation_id": "Listallorganizationsinagroup",
+      "summary": "List all organizations in a group"
+    },
+    {
+      "method": "GET",
+      "path": "/group/{groupId}/roles",
+      "operation_id": "Listallrolesinagroup",
+      "summary": "List all roles in a group"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/group/{groupId}/settings",
+      "method": "GET",
+      "operation_id": "Viewgroupsettings",
+      "summary": "View group settings",
+      "details": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "View group settings",
+        "description": "",
+        "operationId": "Viewgroupsettings",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The group ID. The `API_KEY` must have admin access to this group.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "b61bc07c-27c6-42b3-8b04-0f228ed31a67"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Groupsettings"
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/group/{groupId}/settings",
+      "method": "PUT",
+      "operation_id": "Updategroupsettings",
+      "summary": "Update group settings",
+      "details": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Update group settings",
+        "description": "",
+        "operationId": "Updategroupsettings",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The group ID. The `API_KEY` must have admin access to this group.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "b61bc07c-27c6-42b3-8b04-0f228ed31a67"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Groupsettings"
+                  },
+                  {
+                    "example": {
+                      "sessionLength": 50,
+                      "requestAccess": {
+                        "enabled": true
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "sessionLength": 50,
+                "requestAccess": {
+                  "enabled": true
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Groupsettings"
+                    },
+                    {
+                      "example": {
+                        "sessionLength": 50,
+                        "requestAccess": {
+                          "enabled": true
+                        }
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "sessionLength": 50,
+                  "requestAccess": {
+                    "enabled": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/group/{groupId}/members",
+      "method": "GET",
+      "operation_id": "Listallmembersinagroup",
+      "summary": "List all members in a group",
+      "details": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "List all members in a group",
+        "description": "> **Note**: Requests to this endpoint are limited to one per minute. Additional requests within this time will receive a `429 Too Many Requests` response.",
+        "operationId": "Listallmembersinagroup",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The group ID. The `API_KEY` must have access admin to this group.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listallmembersinagroupresponse"
+                  },
+                  "description": "",
+                  "example": [
+                    {
+                      "id": "",
+                      "name": "",
+                      "username": "",
+                      "email": "",
+                      "orgs": [
+                        {
+                          "name": "",
+                          "role": ""
+                        }
+                      ],
+                      "groupRole": ""
+                    }
+                  ]
+                },
+                "example": [
+                  {
+                    "id": "",
+                    "name": "",
+                    "username": "",
+                    "email": "",
+                    "orgs": [
+                      {
+                        "name": "",
+                        "role": ""
+                      }
+                    ],
+                    "groupRole": ""
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/group/{groupId}/org/{orgId}/members",
+      "method": "POST",
+      "operation_id": "Addamembertoanorganizationwithinagroup",
+      "summary": "Add a member to an organization within a group",
+      "details": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Add a member to an organization within a group",
+        "description": "",
+        "operationId": "Addamembertoanorganizationwithinagroup",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The group ID. The `API_KEY` must have access admin to this group.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "orgId",
+            "in": "path",
+            "description": "The organization ID we want to add the member to. The `API_KEY` must have access to this organization.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Addmemberbody"
+                  },
+                  {
+                    "example": {
+                      "userId": "",
+                      "role": ""
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "userId": "",
+                "role": ""
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/group/{groupId}/tags",
+      "method": "GET",
+      "operation_id": "Listalltagsinagroup",
+      "summary": "List all tags in a group",
+      "details": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "List all tags in a group",
+        "description": "",
+        "operationId": "Listalltagsinagroup",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The group ID. The `API_KEY` must have access admin to this group.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "The number of results to return (the default is 1000).",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 10
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The offset from which to start returning results from.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {
+              "Link": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    },
+                    "example": "<https://api.snyk.io/v1/group/4a18d42f-0706-4ad0-b127-24078731fbed/tags?page=3&perPage=10>; rel=last, <https://api.snyk.io/v1/group/4a18d42f-0706-4ad0-b127-24078731fbed/tags?page=2&perPage=10>; rel=next"
+                  }
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Listalltagsinagroupresponse"
+                    },
+                    {
+                      "example": {
+                        "tags": [
+                          {
+                            "key": "meta",
+                            "value": "Alfa"
+                          },
+                          {
+                            "key": "meta",
+                            "value": "Bravo"
+                          },
+                          {
+                            "key": "meta",
+                            "value": "Charlie"
+                          },
+                          {
+                            "key": "meta",
+                            "value": "Delta"
+                          },
+                          {
+                            "key": "meta",
+                            "value": "Echo"
+                          },
+                          {
+                            "key": "meta",
+                            "value": "Foxtrot"
+                          },
+                          {
+                            "key": "meta",
+                            "value": "Golf"
+                          },
+                          {
+                            "key": "meta",
+                            "value": "Hotel"
+                          },
+                          {
+                            "key": "meta",
+                            "value": "India"
+                          },
+                          {
+                            "key": "meta",
+                            "value": "Juliet"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "tags": [
+                    {
+                      "key": "meta",
+                      "value": "Alfa"
+                    },
+                    {
+                      "key": "meta",
+                      "value": "Bravo"
+                    },
+                    {
+                      "key": "meta",
+                      "value": "Charlie"
+                    },
+                    {
+                      "key": "meta",
+                      "value": "Delta"
+                    },
+                    {
+                      "key": "meta",
+                      "value": "Echo"
+                    },
+                    {
+                      "key": "meta",
+                      "value": "Foxtrot"
+                    },
+                    {
+                      "key": "meta",
+                      "value": "Golf"
+                    },
+                    {
+                      "key": "meta",
+                      "value": "Hotel"
+                    },
+                    {
+                      "key": "meta",
+                      "value": "India"
+                    },
+                    {
+                      "key": "meta",
+                      "value": "Juliet"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/group/{groupId}/tags/delete",
+      "method": "POST",
+      "operation_id": "Deletetagfromgroup",
+      "summary": "Delete tag from group",
+      "details": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "Delete tag from group",
+        "description": "",
+        "operationId": "Deletetagfromgroup",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The group ID. The `API_KEY` must have access admin to this group.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "4a18d42f-0706-4ad0-b127-24078731fbed"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/Deletetagbody"
+                  },
+                  {
+                    "example": {
+                      "key": "",
+                      "value": "",
+                      "force": false
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "key": "",
+                "value": "",
+                "force": false
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Deletetagbody"
+                    },
+                    {
+                      "example": {
+                        "key": "",
+                        "value": "",
+                        "force": false
+                      }
+                    }
+                  ]
+                },
+                "example": {
+                  "key": "",
+                  "value": "",
+                  "force": false
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/group/{groupId}/orgs",
+      "method": "GET",
+      "operation_id": "Listallorganizationsinagroup",
+      "summary": "List all organizations in a group",
+      "details": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "List all organizations in a group",
+        "description": "",
+        "operationId": "Listallorganizationsinagroup",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The group ID. The `API_KEY` must have READ access to this group and LIST organizations access in this group.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "a060a49f-636e-480f-9e14-38e773b2a97f"
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "The number of results to return (maximum is 100).",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 100
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "For pagination - offset (from which to start returning results).",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "number",
+              "format": "double",
+              "example": 1
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Only organizations that have a name that **starts with** this value (case insensitive) will be returned.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "my"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Listallorganizationsinagroupresponse"
+                    },
+                    {
+                      "example": {
+                        "id": "a060a49f-636e-480f-9e14-38e773b2a97f",
+                        "name": "ACME Inc.",
+                        "url": "https://api.snyk.io/v1/group/0dfc509a-e7a9-48ef-9d39-649d6468fc09",
+                        "created": "2021-06-07T00:00:00+00:00",
+                        "orgs": [
+                          {
+                            "name": "myDefaultOrg",
+                            "id": "689ce7f9-7943-4a71-b704-2ba575f01089",
+                            "slug": "my-default-org",
+                            "url": "https://api.snyk.io/v1/org/default-org",
+                            "created": "2021-06-07T00:00:00+00:00"
+                          },
+                          {
+                            "name": "My Other Org",
+                            "id": "a04d9cbd-ae6e-44af-b573-0556b0ad4bd2",
+                            "slug": "my-other-org",
+                            "url": "https://api.snyk.io/v1/org/my-other-org",
+                            "created": "2021-06-07T00:00:00+00:00"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    {
+      "path": "/group/{groupId}/roles",
+      "method": "GET",
+      "operation_id": "Listallrolesinagroup",
+      "summary": "List all roles in a group",
+      "details": {
+        "tags": [
+          "Groups"
+        ],
+        "summary": "List all roles in a group",
+        "description": "",
+        "operationId": "Listallrolesinagroup",
+        "parameters": [
+          {
+            "name": "groupId",
+            "in": "path",
+            "description": "The group ID. The `API_KEY` must have READ access to this group.",
+            "required": true,
+            "style": "simple",
+            "schema": {
+              "type": "string",
+              "example": "a060a49f-636e-480f-9e14-38e773b2a97f"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Listallrolesinagroupresponse"
+                  },
+                  "description": "",
+                  "example": [
+                    {
+                      "name": "Org Collaborator",
+                      "description": "Collaborator",
+                      "publicId": "6525b356-a400-465f-b2e5-3eee1161e69f",
+                      "created": "2021-04-22T16:02:53.233000+00:00",
+                      "modified": "2021-04-22T16:02:53.332000+00:00"
+                    },
+                    {
+                      "name": "Org Admin",
+                      "description": "Admin",
+                      "publicId": "af047fef-69f3-4bd9-9760-8957ce0d2ece",
+                      "created": "2021-04-22T16:02:53.233000+00:00",
+                      "modified": "2021-04-22T16:02:53.332000+00:00"
+                    }
+                  ]
+                },
+                "example": [
+                  {
+                    "name": "Org Collaborator",
+                    "description": "Collaborator",
+                    "publicId": "6525b356-a400-465f-b2e5-3eee1161e69f",
+                    "created": "2021-04-22T16:02:53.233000+00:00",
+                    "modified": "2021-04-22T16:02:53.332000+00:00"
+                  },
+                  {
+                    "name": "Org Admin",
+                    "description": "Admin",
+                    "publicId": "af047fef-69f3-4bd9-9760-8957ce0d2ece",
+                    "created": "2021-04-22T16:02:53.233000+00:00",
+                    "modified": "2021-04-22T16:02:53.332000+00:00"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "orgs": {
+      "title": "orgs",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the organization"
+        },
+        "role": {
+          "type": "string",
+          "description": "the role of the user in the organization"
+        }
+      }
+    },
+    "Listalltagsinagroupresponse": {
+      "title": "Listalltagsinagroupresponse",
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Tagbody"
+          },
+          "description": ""
+        }
+      }
+    },
+    "Addmemberbody": {
+      "title": "Addmemberbody",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The id of the user."
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the user, \"admin\" or \"collaborator\"."
+        }
+      }
+    },
+    "requestAccess": {
+      "title": "requestAccess",
+      "required": [
+        "enabled"
+      ],
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Choose whether a user may request access to Snyk orgs in this group that they are not a member of.",
+          "example": true
+        }
+      },
+      "description": "Can only be updated if `API_KEY` has edit access to request access settings."
+    },
+    "Orgs1": {
+      "title": "Orgs1",
+      "required": [
+        "name",
+        "id",
+        "slug",
+        "url",
+        "created"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "slug": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "name": "myDefaultOrg",
+        "id": "689ce7f9-7943-4a71-b704-2ba575f01089",
+        "slug": "my-default-org",
+        "url": "https://api.snyk.io/v1/org/default-org",
+        "created": "2021-06-07T00:00:00+00:00"
+      }
+    },
+    "Tagbody": {
+      "title": "Tagbody",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Valid tag key."
+        },
+        "value": {
+          "type": "string",
+          "description": "Valid tag value."
+        }
+      }
+    },
+    "Listallorganizationsinagroupresponse": {
+      "title": "Listallorganizationsinagroupresponse",
+      "required": [
+        "id",
+        "name",
+        "url",
+        "created",
+        "orgs"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "orgs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Orgs1"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "id": "a060a49f-636e-480f-9e14-38e773b2a97f",
+        "name": "ACME Inc.",
+        "url": "https://api.snyk.io/v1/group/0dfc509a-e7a9-48ef-9d39-649d6468fc09",
+        "created": "2021-06-07T00:00:00+00:00",
+        "orgs": [
+          {
+            "name": "myDefaultOrg",
+            "id": "689ce7f9-7943-4a71-b704-2ba575f01089",
+            "slug": "my-default-org",
+            "url": "https://api.snyk.io/v1/org/default-org",
+            "created": "2021-06-07T00:00:00+00:00"
+          },
+          {
+            "name": "My Other Org",
+            "id": "a04d9cbd-ae6e-44af-b573-0556b0ad4bd2",
+            "slug": "my-other-org",
+            "url": "https://api.snyk.io/v1/org/my-other-org",
+            "created": "2021-06-07T00:00:00+00:00"
+          }
+        ]
+      }
+    },
+    "Listallmembersinagroupresponse": {
+      "title": "Listallmembersinagroupresponse",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id of the user."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the user."
+        },
+        "username": {
+          "type": "string",
+          "description": "The username of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the user (email is null if the member is a service account)."
+        },
+        "orgs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/orgs"
+          },
+          "description": ""
+        },
+        "groupRole": {
+          "type": "string",
+          "description": "(Optional) The role of the user in the group."
+        }
+      }
+    },
+    "Listallrolesinagroupresponse": {
+      "title": "Listallrolesinagroupresponse",
+      "required": [
+        "name",
+        "description",
+        "publicId",
+        "created",
+        "modified"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "publicId": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "modified": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "name": "Org Collaborator",
+        "description": "Collaborator",
+        "publicId": "6525b356-a400-465f-b2e5-3eee1161e69f",
+        "created": "2021-04-22T16:02:53.233000+00:00",
+        "modified": "2021-04-22T16:02:53.332000+00:00"
+      }
+    },
+    "Groupsettings": {
+      "title": "Groupsettings",
+      "type": "object",
+      "properties": {
+        "requestAccess": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/requestAccess"
+            },
+            {
+              "description": "Can only be updated if `API_KEY` has edit access to request access settings."
+            }
+          ]
+        },
+        "sessionLength": {
+          "type": "number",
+          "description": "The new session length for the group in minutes. This must be an integer between 1 and 43200 (30 days). Setting this value to null will result in this group inheriting from the global default of 30 days."
+        }
+      }
+    },
+    "Deletetagbody": {
+      "title": "Deletetagbody",
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Valid tag key."
+        },
+        "value": {
+          "type": "string",
+          "description": "Valid tag value."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "force delete tag that has entities (default is `false`)."
+        }
+      }
+    }
+  },
+  "referenced_common_schemas": []
+}

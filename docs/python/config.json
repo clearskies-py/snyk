@@ -1,0 +1,130 @@
+{
+    "tree": [
+        {
+            "title": "Backends",
+            "source": "clearskies.backends.ApiBackend",
+            "builder": "clearskies_doc_builder.builders.Module",
+            "classes": [
+                "clearskies_snyk.backends.snyk_backend.SnykBackend",
+                "clearskies_snyk.backends.snyk_v1_backend.SnykV1Backend"
+            ]
+        },
+        {
+            "title": "Models",
+            "source": "clearskies.Model",
+            "builder": "clearskies_doc_builder.builders.Module",
+            "classes": [
+                "clearskies_snyk.models.snyk_access_request.SnykAccessRequest",
+                "clearskies_snyk.models.snyk_ai_bom.SnykAiBom",
+                "clearskies_snyk.models.snyk_broker_connection.SnykBrokerConnection",
+                "clearskies_snyk.models.snyk_broker_connection_integration.SnykBrokerConnectionIntegration",
+                "clearskies_snyk.models.snyk_broker_deployment.SnykBrokerDeployment",
+                "clearskies_snyk.models.snyk_cloud_environment.SnykCloudEnvironment",
+                "clearskies_snyk.models.snyk_cloud_resource.SnykCloudResource",
+                "clearskies_snyk.models.snyk_cloud_scan.SnykCloudScan",
+                "clearskies_snyk.models.snyk_collection.SnykCollection",
+                "clearskies_snyk.models.snyk_collection_relationship_project.SnykCollectionRelationshipProject",
+                "clearskies_snyk.models.snyk_container_image.SnykContainerImage",
+                "clearskies_snyk.models.snyk_container_image_target_ref.SnykContainerImageTargetRef",
+                "clearskies_snyk.models.snyk_custom_base_image.SnykCustomBaseImage",
+                "clearskies_snyk.models.snyk_fix_pull_request.SnykFixPullRequest",
+                "clearskies_snyk.models.snyk_group.SnykGroup",
+                "clearskies_snyk.models.snyk_group_app_install.SnykGroupAppInstall",
+                "clearskies_snyk.models.snyk_group_audit_log.SnykGroupAuditLog",
+                "clearskies_snyk.models.snyk_group_export.SnykGroupExport",
+                "clearskies_snyk.models.snyk_group_issue.SnykGroupIssue",
+                "clearskies_snyk.models.snyk_group_member.SnykGroupMember",
+                "clearskies_snyk.models.snyk_group_membership.SnykGroupMembership",
+                "clearskies_snyk.models.snyk_group_org_membership.SnykGroupOrgMembership",
+                "clearskies_snyk.models.snyk_group_policy.SnykGroupPolicy",
+                "clearskies_snyk.models.snyk_group_service_account.SnykGroupServiceAccount",
+                "clearskies_snyk.models.snyk_group_settings_iac.SnykGroupSettingsIac",
+                "clearskies_snyk.models.snyk_group_sso_connection.SnykGroupSsoConnection",
+                "clearskies_snyk.models.snyk_group_sso_connection_user.SnykGroupSsoConnectionUser",
+                "clearskies_snyk.models.snyk_group_user.SnykGroupUser",
+                "clearskies_snyk.models.snyk_learn_assignment.SnykLearnAssignment",
+                "clearskies_snyk.models.snyk_learn_catalog.SnykLearnCatalog",
+                "clearskies_snyk.models.snyk_org.SnykOrg",
+                "clearskies_snyk.models.snyk_org_app.SnykOrgApp",
+                "clearskies_snyk.models.snyk_org_app_bot.SnykOrgAppBot",
+                "clearskies_snyk.models.snyk_org_app_install.SnykOrgAppInstall",
+                "clearskies_snyk.models.snyk_org_audit_log.SnykOrgAuditLog",
+                "clearskies_snyk.models.snyk_org_export.SnykOrgExport",
+                "clearskies_snyk.models.snyk_org_invite.SnykOrgInvite",
+                "clearskies_snyk.models.snyk_org_issue.SnykOrgIssue",
+                "clearskies_snyk.models.snyk_org_member.SnykOrgMember",
+                "clearskies_snyk.models.snyk_org_membership.SnykOrgMembership",
+                "clearskies_snyk.models.snyk_org_policy.SnykOrgPolicy",
+                "clearskies_snyk.models.snyk_org_policy_event.SnykOrgPolicyEvent",
+                "clearskies_snyk.models.snyk_org_service_account.SnykOrgServiceAccount",
+                "clearskies_snyk.models.snyk_org_settings_iac.SnykOrgSettingsIac",
+                "clearskies_snyk.models.snyk_org_settings_open_source.SnykOrgSettingsOpenSource",
+                "clearskies_snyk.models.snyk_org_settings_sast.SnykOrgSettingsSast",
+                "clearskies_snyk.models.snyk_org_user.SnykOrgUser",
+                "clearskies_snyk.models.snyk_package.SnykPackage",
+                "clearskies_snyk.models.snyk_project.SnykProject",
+                "clearskies_snyk.models.snyk_project_history.SnykProjectHistory",
+                "clearskies_snyk.models.snyk_project_ignore.SnykProjectIgnore",
+                "clearskies_snyk.models.snyk_project_sbom.SnykProjectSbom",
+                "clearskies_snyk.models.snyk_pull_request_template.SnykPullRequestTemplate",
+                "clearskies_snyk.models.snyk_sbom_test.SnykSbomTest",
+                "clearskies_snyk.models.snyk_self.SnykSelf",
+                "clearskies_snyk.models.snyk_self_app.SnykSelfApp",
+                "clearskies_snyk.models.snyk_self_app_session.SnykSelfAppSession",
+                "clearskies_snyk.models.snyk_slack_channel.SnykSlackChannel",
+                "clearskies_snyk.models.snyk_slack_default_notification_settings.SnykSlackDefaultNotificationSettings",
+                "clearskies_snyk.models.snyk_slack_project_notification_settings.SnykSlackProjectNotificationSettings",
+                "clearskies_snyk.models.snyk_target.SnykTarget",
+                "clearskies_snyk.models.snyk_tenant.SnykTenant",
+                "clearskies_snyk.models.snyk_tenant_membership.SnykTenantMembership",
+                "clearskies_snyk.models.snyk_tenant_role.SnykTenantRole",
+                "clearskies_snyk.models.snyk_test_job.SnykTestJob"
+            ]
+        },
+        {
+            "title": "Base Models",
+            "source": "clearskies.Model",
+            "builder": "clearskies_doc_builder.builders.Module",
+            "classes": [
+                "clearskies_snyk.models.snyk_model.SnykModel",
+                "clearskies_snyk.models.v1.snyk_v1_model.SnykV1Model"
+            ],
+            "parent": "Models"
+        },
+        {
+            "title": "V1 Models",
+            "source": "clearskies.Model",
+            "builder": "clearskies_doc_builder.builders.Module",
+            "classes": [
+                "clearskies_snyk.models.v1.snyk_dependency.SnykDependency",
+                "clearskies_snyk.models.v1.snyk_entitlement.SnykEntitlement",
+                "clearskies_snyk.models.v1.snyk_group_role_v1.SnykGroupRoleV1",
+                "clearskies_snyk.models.v1.snyk_group_settings.SnykGroupSettings",
+                "clearskies_snyk.models.v1.snyk_group_tag.SnykGroupTag",
+                "clearskies_snyk.models.v1.snyk_import_job.SnykImportJob",
+                "clearskies_snyk.models.v1.snyk_integration.SnykIntegration",
+                "clearskies_snyk.models.v1.snyk_integration_setting.SnykIntegrationSetting",
+                "clearskies_snyk.models.v1.snyk_license.SnykLicense",
+                "clearskies_snyk.models.v1.snyk_org_v1.SnykOrgV1",
+                "clearskies_snyk.models.v1.snyk_webhook.SnykWebhook"
+            ],
+            "parent": "Models"
+        },
+        {
+            "title": "Columns",
+            "source": "clearskies.columns.Json",
+            "builder": "clearskies_doc_builder.builders.Module",
+            "classes": [
+                "clearskies_snyk.columns.project_tag_list.ProjectTagList"
+            ]
+        },
+        {
+            "title": "Defaults",
+            "source": "clearskies.di.AdditionalConfigAutoImport",
+            "builder": "clearskies_doc_builder.builders.Module",
+            "classes": [
+                "clearskies_snyk.defaults.default_snyk_auth.DefaultSnykAuth"
+            ]
+        }
+    ]
+}

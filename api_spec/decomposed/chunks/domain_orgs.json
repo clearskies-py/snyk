@@ -1,0 +1,1747 @@
+{
+  "tag": "Orgs",
+  "endpoint_count": 8,
+  "schema_count": 20,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/orgs",
+      "operation_id": "listOrgsInGroup",
+      "summary": "List all organizations in group"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs",
+      "operation_id": "listOrgs",
+      "summary": "List accessible organizations"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}",
+      "operation_id": "getOrg",
+      "summary": "Get organization"
+    },
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}",
+      "operation_id": "updateOrg",
+      "summary": "Update organization"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/memberships",
+      "operation_id": "listOrgMemberships",
+      "summary": "Get all memberships of the org"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/memberships",
+      "operation_id": "createOrgMembership",
+      "summary": "Create a org membership for a user with role"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/memberships/{membership_id}",
+      "operation_id": "deleteOrgMembership",
+      "summary": "Remove user's org membership"
+    },
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}/memberships/{membership_id}",
+      "operation_id": "updateOrgMembership",
+      "summary": "Update a org membership for a user with role"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/groups/{group_id}/orgs",
+      "method": "GET",
+      "operation_id": "listOrgsInGroup",
+      "summary": "List all organizations in group",
+      "details": {
+        "description": "Get a paginated list of all the organizations belonging to the group.\nBy default, this endpoint returns the organizations in alphabetical order of their name.\n\n#### Required permissions\n\n- `View Groups (group.read)`\n\n- `View Organizations (group.org.list)`",
+        "operationId": "listOrgsInGroup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/PathGroupId"
+          },
+          {
+            "$ref": "#/components/parameters/QueryNameFilter"
+          },
+          {
+            "$ref": "#/components/parameters/QuerySlugFilter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/Org"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of organizations in the group.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List all organizations in group",
+        "tags": [
+          "Orgs"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2023-10-24~experimental",
+          "2023-12-14~beta",
+          "2024-02-28"
+        ],
+        "x-snyk-api-resource": "orgs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-02-28",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs",
+      "method": "GET",
+      "operation_id": "listOrgs",
+      "summary": "List accessible organizations",
+      "details": {
+        "description": "Get a paginated list of organizations you have access to.",
+        "operationId": "listOrgs",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "If set, only return organizations within the specified group",
+            "in": "query",
+            "name": "group_id",
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "If true, only return organizations that are not part of a group.",
+            "in": "query",
+            "name": "is_personal",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Only return orgs whose slug exactly matches this value.",
+            "in": "query",
+            "name": "slug",
+            "schema": {
+              "maxLength": 100,
+              "pattern": "^[\\w.-]+$",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Only return orgs whose name contains this value.",
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "description": "Expand the specified related resources in the response to include their attributes.",
+            "in": "query",
+            "name": "expand",
+            "schema": {
+              "items": {
+                "enum": [
+                  "member_role"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/OrgWithRelationships"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "A list of organizations you have access to.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List accessible organizations",
+        "tags": [
+          "Orgs"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-06~experimental",
+          "2022-12-15~beta",
+          "2023-05-29",
+          "2024-02-28"
+        ],
+        "x-snyk-api-resource": "orgs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-02-28",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}",
+      "method": "GET",
+      "operation_id": "getOrg",
+      "summary": "Get organization",
+      "details": {
+        "description": "Get the full details of an organization.\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "operationId": "getOrg",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Unique identifier for org",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "example": "b667f176-df52-4b0a-9954-117af6b05ab7",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Expand the specified related resources in the response to include their attributes.",
+            "in": "query",
+            "name": "expand",
+            "schema": {
+              "items": {
+                "enum": [
+                  "tenant"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Org20230529"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns an instance of an organization",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get organization",
+        "tags": [
+          "Orgs"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-06~experimental",
+          "2022-12-15~beta",
+          "2023-05-29"
+        ],
+        "x-snyk-api-resource": "orgs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2023-05-29",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}",
+      "method": "PATCH",
+      "operation_id": "updateOrg",
+      "summary": "Update organization",
+      "details": {
+        "description": "Update the details of an organization\n\n#### Required permissions\n\n- `Edit Organization (org.edit)`",
+        "operationId": "updateOrg",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "$ref": "#/components/parameters/PathOrgId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "$ref": "#/components/schemas/OrgUpdateAttributes"
+                      },
+                      "id": {
+                        "description": "The ID of the resource.",
+                        "format": "uuid",
+                        "type": "string"
+                      },
+                      "type": {
+                        "description": "The type of the resource.",
+                        "enum": [
+                          "org"
+                        ],
+                        "example": "org",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "type",
+                      "attributes"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "description": "org resource object",
+                      "properties": {
+                        "attributes": {
+                          "$ref": "#/components/schemas/OrgAttributes"
+                        },
+                        "id": {
+                          "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "relationships": {
+                          "$ref": "#/components/schemas/OrgRelationships"
+                        },
+                        "type": {
+                          "enum": [
+                            "org"
+                          ],
+                          "example": "org",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type"
+                      ],
+                      "type": "object"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Instance of org is updated",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update organization",
+        "tags": [
+          "Orgs"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2022-04-06~experimental",
+          "2022-12-15~beta",
+          "2023-05-29",
+          "2024-02-28"
+        ],
+        "x-snyk-api-resource": "orgs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-02-28",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/memberships",
+      "method": "GET",
+      "operation_id": "listOrgMemberships",
+      "summary": "Get all memberships of the org",
+      "details": {
+        "description": "Returns all memberships of the org\n\n#### Required permissions\n\n- `View Organization Memberships (org.membership.read)`",
+        "operationId": "listOrgMemberships",
+        "parameters": [
+          {
+            "description": "The ID of the org",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Which column to sort by.",
+            "in": "query",
+            "name": "sort_by",
+            "schema": {
+              "enum": [
+                "username",
+                "user_display_name",
+                "email",
+                "login_method",
+                "role"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "description": "Order in which results are returned.",
+            "example": "ASC",
+            "in": "query",
+            "name": "sort_order",
+            "schema": {
+              "default": "ASC",
+              "enum": [
+                "ASC",
+                "DESC"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/EmailFilter"
+          },
+          {
+            "$ref": "#/components/parameters/UserIdFilter"
+          },
+          {
+            "$ref": "#/components/parameters/UsernameFilter"
+          },
+          {
+            "$ref": "#/components/parameters/RoleFilter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/OrgMembershipResponseData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "required": [
+                    "jsonapi",
+                    "data",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "List of org memberships is returned",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get all memberships of the org",
+        "tags": [
+          "Orgs"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-05-09~experimental",
+          "2024-08-25"
+        ],
+        "x-snyk-api-resource": "orgs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-08-25",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/memberships",
+      "method": "POST",
+      "operation_id": "createOrgMembership",
+      "summary": "Create a org membership for a user with role",
+      "details": {
+        "description": "Create a org membership for a user with role\n\n#### Required permissions\n\n- `Add Organization Memberships (org.membership.add)`",
+        "operationId": "createOrgMembership",
+        "parameters": [
+          {
+            "description": "The ID of the org",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrgMembershipRequestBody20240825"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/OrgMembership"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/Links"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Membership for the user is created on the org",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create a org membership for a user with role",
+        "tags": [
+          "Orgs"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-05-09~experimental",
+          "2024-08-25"
+        ],
+        "x-snyk-api-resource": "orgs",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-08-25",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/memberships/{membership_id}",
+      "method": "DELETE",
+      "operation_id": "deleteOrgMembership",
+      "summary": "Remove user's org membership",
+      "details": {
+        "description": "Remove a user's membership of the group.\n\n#### Required permissions\n\n- `Delete Organization Memberships (org.membership.delete)`",
+        "operationId": "deleteOrgMembership",
+        "parameters": [
+          {
+            "description": "The id of the org",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/OrgMembershipId"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Org membership for the user was successfully deleted.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Remove user's org membership",
+        "tags": [
+          "Orgs"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-06-06~experimental",
+          "2024-08-25"
+        ],
+        "x-snyk-api-resource": "org_memberships",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-08-25",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/memberships/{membership_id}",
+      "method": "PATCH",
+      "operation_id": "updateOrgMembership",
+      "summary": "Update a org membership for a user with role",
+      "details": {
+        "description": "Update a org membership for a user with role\n\n#### Required permissions\n\n- `Edit Organization Memberships (org.membership.edit)`",
+        "operationId": "updateOrgMembership",
+        "parameters": [
+          {
+            "description": "The id of the org",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/OrgMembershipId"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/UpdateOrgMembershipRequestBody20240825"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "The Membership is updated",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update a org membership for a user with role",
+        "tags": [
+          "Orgs"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-06-06~experimental",
+          "2024-08-25"
+        ],
+        "x-snyk-api-resource": "org_memberships",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-08-25",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "OrgWithRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/OrgAttributes"
+        },
+        "id": {
+          "description": "The Snyk ID of the organization.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/OrgRelationships"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Types"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "OrgUpdateAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "The display name of the organization.",
+          "example": "My Org",
+          "maxLength": 60,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "UpdateOrgMembershipRequestBody20240825": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "type": "object"
+        },
+        "id": {
+          "description": "The Snyk ID of the organization.",
+          "example": "f60ff965-6889-4db2-8c86-0285d62f35ab",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "additionalProperties": false,
+          "properties": {
+            "role": {
+              "properties": {
+                "data": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "description": "The Snyk ID of the Org Role.",
+                      "example": "f60ff965-6889-4db2-8c86-0285d62f35ab",
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "The type of the resource. Always 'org_role'.",
+                      "example": "org_role",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id"
+                  ],
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "required": [
+            "role"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "description": "The type of the resource. Always 'org_membership'.",
+          "example": "org_membership",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "OrgAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "access_requests_enabled": {
+          "description": "Whether the organization permits access requests from users who are not members of the organization.",
+          "example": false,
+          "type": "boolean"
+        },
+        "created_at": {
+          "description": "The time the organization was created.",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "group_id": {
+          "description": "The Snyk ID of the group to which the organization belongs.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+          "format": "uuid",
+          "type": "string"
+        },
+        "is_personal": {
+          "description": "Whether the organization is independent (that is, not part of a group).",
+          "example": true,
+          "type": "boolean"
+        },
+        "name": {
+          "description": "The display name of the organization.",
+          "example": "My Org",
+          "type": "string"
+        },
+        "slug": {
+          "description": "The canonical (unique and URL-friendly) name of the organization.",
+          "example": "my-org",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "The time the organization was last modified.",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "slug",
+        "is_personal"
+      ],
+      "type": "object"
+    },
+    "OrgMembershipRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "org": {
+          "$ref": "#/components/schemas/OrgMembershipOrgData"
+        },
+        "role": {
+          "$ref": "#/components/schemas/OrgMembershipRoleData"
+        },
+        "user": {
+          "$ref": "#/components/schemas/OrgMembershipUserData"
+        }
+      },
+      "required": [
+        "role",
+        "org",
+        "user"
+      ],
+      "type": "object"
+    },
+    "OrgAttributes20230529": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "description": "The time the organization was created.",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "group_id": {
+          "description": "The Snyk ID of the group to which the organization belongs.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+          "format": "uuid",
+          "type": "string"
+        },
+        "is_personal": {
+          "description": "Whether the organization is independent (that is, not part of a group).",
+          "example": true,
+          "type": "boolean"
+        },
+        "name": {
+          "description": "The display name of the organization.",
+          "example": "My Org",
+          "type": "string"
+        },
+        "slug": {
+          "description": "The canonical (unique and URL-friendly) name of the organization.",
+          "example": "my-org",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "The time the organization was last modified.",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "slug",
+        "is_personal"
+      ],
+      "type": "object"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "OrgMembershipAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "description": "The time when this Org membership was created",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "OrgMembershipResponseData": {
+      "additionalProperties": false,
+      "items": {
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/OrgMembershipAttributes"
+          },
+          "id": {
+            "example": "331ede0a-de94-456f-b788-166caeca58bf",
+            "format": "uuid",
+            "type": "string"
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/OrgMembershipRelationships"
+          },
+          "type": {
+            "description": "Content type",
+            "example": "org_memberships",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "OrgMembershipRoleData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "name": {
+                  "description": "The name of the role",
+                  "example": "Admin role",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "org_role",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "OrgMembershipUserData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "email": {
+                  "description": "The email of the user",
+                  "example": "user@test.com",
+                  "type": "string"
+                },
+                "login_method": {
+                  "description": "The login method of the user",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The name of the user",
+                  "example": "User2",
+                  "type": "string"
+                },
+                "username": {
+                  "description": "The username of the user",
+                  "example": "User name 2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "username",
+                "email"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "user",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "OrgRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "member_role": {
+          "$ref": "#/components/schemas/MemberRoleRelationship"
+        }
+      },
+      "type": "object"
+    },
+    "Types": {
+      "example": "resource",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+      "type": "string"
+    },
+    "Org": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/OrgAttributes"
+        },
+        "id": {
+          "description": "The Snyk ID of the organization.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Types"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "MemberRoleRelationship": {
+      "additionalProperties": false,
+      "nullable": true,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/OrgRoleAttributes"
+            },
+            "id": {
+              "description": "The Snyk ID of the organization role.",
+              "example": "f60ff965-6889-4db2-8c86-0285d62f35ab",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "$ref": "#/components/schemas/Types"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "CreateOrgMembershipRequestBody20240825": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "relationships": {
+              "additionalProperties": false,
+              "properties": {
+                "org": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "id": {
+                          "example": "8aab168e-fb3b-47c0-9d87-442715788b31",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "Always \"org\"",
+                          "enum": [
+                            "org"
+                          ],
+                          "example": "org",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "id"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                },
+                "role": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "id": {
+                          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "Always \"org_role\"",
+                          "enum": [
+                            "org_role"
+                          ],
+                          "example": "org_role",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "id"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                },
+                "user": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "id": {
+                          "example": "677d5f47-a8bf-4090-ba52-680903e7c8b5",
+                          "format": "uuid",
+                          "type": "string"
+                        },
+                        "type": {
+                          "description": "Always \"user\"",
+                          "enum": [
+                            "user"
+                          ],
+                          "example": "user",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "id"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "role",
+                "user",
+                "org"
+              ],
+              "type": "object"
+            },
+            "type": {
+              "description": "type of membership according to its entity",
+              "enum": [
+                "org_membership"
+              ],
+              "example": "org_membership",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "relationships"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "OrgMembership": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "properties": {
+            "created_at": {
+              "description": "The date that the org membership was created on",
+              "example": "2021-05-29T09:50:54.014Z",
+              "format": "date-time"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/OrgMembershipRelationships"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "org_membership",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "OrgRoleAttributes": {
+      "properties": {
+        "name": {
+          "description": "The display name of the organization role.",
+          "example": "Collaborator",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Org20230529": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/OrgAttributes20230529"
+        },
+        "id": {
+          "description": "The Snyk ID of the organization.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "properties": {
+            "tenant": {
+              "properties": {
+                "data": {
+                  "properties": {
+                    "id": {
+                      "example": "00000000-0000-0000-0000-000000000000",
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "The type of the resource for tenant operations",
+                      "enum": [
+                        "tenant"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Types"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "OrgMembershipOrgData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "name": {
+                  "description": "The name of the organization",
+                  "example": "Example org",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "org",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "JsonApi",
+    "Meta",
+    "LinkProperty",
+    "PaginatedLinks",
+    "Links"
+  ]
+}

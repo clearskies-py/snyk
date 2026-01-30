@@ -1,0 +1,811 @@
+{
+  "tag": "Test",
+  "endpoint_count": 1,
+  "schema_count": 10,
+  "endpoints_summary": [
+    {
+      "method": "POST",
+      "path": "/test/pip",
+      "operation_id": "Testrequirements.txtfile",
+      "summary": "Test requirements.txt file"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/test/pip",
+      "method": "POST",
+      "operation_id": "Testrequirements.txtfile",
+      "summary": "Test requirements.txt file",
+      "details": {
+        "tags": [
+          "Test"
+        ],
+        "summary": "Test requirements.txt file",
+        "description": "Test for issues in pip files.You can test your pip packages for issues according to their manifest file using this action. It takes a JSON object containing a the \"target\" `requirements.txt`.\n\n#### Required permissions\n\n- `View Organization`\n\n- `Test Packages`",
+        "operationId": "Testrequirements.txtfile",
+        "parameters": [
+          {
+            "name": "org",
+            "in": "query",
+            "description": "The organization to test the package with. See \"The Snyk organization for a request\" above.",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "9695cbb1-3a87-4d6f-8ae1-61a1c37ee9f7"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/piprequestpayload"
+                  },
+                  {
+                    "example": {
+                      "encoding": "plain",
+                      "files": {
+                        "target": {
+                          "contents": "supervisor==3.1\\noauth2==1.5.211"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "example": {
+                "encoding": "plain",
+                "files": {
+                  "target": {
+                    "contents": "supervisor==3.1\\noauth2==1.5.211"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Testrequirements.txtfileresponse"
+                    },
+                    {
+                      "example": {
+                        "ok": false,
+                        "issues": {
+                          "vulnerabilities": [
+                            {
+                              "id": "SNYK-PYTHON-OAUTH2-40013",
+                              "url": "https://snyk.io/vuln/SNYK-PYTHON-OAUTH2-40013",
+                              "title": "Replay Attack",
+                              "type": "vuln",
+                              "description": "## Overview\n[`oauth2`](https://pypi.python.org/pypi/oauth2) is a library for OAuth version 1.9\nThe Server.verify_request function in SimpleGeo python-oauth2 does not check the nonce, which allows remote attackers to perform replay attacks via a signed URL.\n\n\n## Remediation\nUpgrade to version `1.9rc1` or greater.\n\n\n## References\n- [NVD](https://nvd.nist.gov/vuln/detail/CVE-2013-4346)\n- [Bugzilla redhat](https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2013-4346)\n- [GitHub Issue](https://github.com/simplegeo/python-oauth2/issues/129)\n\n",
+                              "functions": [],
+                              "from": [
+                                "oauth2@1.5.211"
+                              ],
+                              "package": "oauth2",
+                              "version": "1.5.211",
+                              "severity": "medium",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "python",
+                              "packageManager": "pip",
+                              "semver": {
+                                "vulnerable": [
+                                  "[,1.9rc1)"
+                                ]
+                              },
+                              "publicationTime": "2013-02-05T12:31:58+00:00",
+                              "disclosureTime": "2013-02-05T12:31:58+00:00",
+                              "isUpgradable": false,
+                              "isPatchable": false,
+                              "isPinnable": true,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2013-4346"
+                                ],
+                                "CWE": [
+                                  "CWE-310"
+                                ]
+                              },
+                              "credit": [
+                                "Andr\u00e9 Cruz"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+                              "cvssScore": 4.3,
+                              "patches": [],
+                              "upgradePath": []
+                            },
+                            {
+                              "id": "SNYK-PYTHON-OAUTH2-40014",
+                              "url": "https://snyk.io/vuln/SNYK-PYTHON-OAUTH2-40014",
+                              "title": "Insecure Randomness",
+                              "type": "vuln",
+                              "description": "## Overview\n[`oauth2`](https://pypi.python.org/pypi/oauth2) is a library for OAuth version 1.9\n\n\nAffected versions of this package are vulnerable to Insecure Randomness.\nThe (1) make_nonce, (2) generate_nonce, and (3) generate_verifier functions in SimpleGeo python-oauth2 uses weak random numbers to generate nonces, which makes it easier for remote attackers to guess the nonce via a brute force attack.\n\n\n## Remediation\nUpgrade to version `1.9rc1` or greater.\n\n\n## References\n- [Redhat Bugzilla](https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2013-4347)\n- [GitHub Issue](https://github.com/simplegeo/python-oauth2/issues/9)\n- [Openwall](http://www.openwall.com/lists/oss-security/2013/09/12/7)\n- [GitHub PR](https://github.com/simplegeo/python-oauth2/pull/146)\n\n",
+                              "functions": [],
+                              "from": [
+                                "oauth2@1.5.211"
+                              ],
+                              "package": "oauth2",
+                              "version": "1.5.211",
+                              "severity": "medium",
+                              "exploitMaturity": "no-known-exploit",
+                              "language": "python",
+                              "packageManager": "pip",
+                              "semver": {
+                                "vulnerable": [
+                                  "[,1.9rc1)"
+                                ]
+                              },
+                              "publicationTime": "2017-04-13T12:31:58+00:00",
+                              "disclosureTime": "2014-05-20T14:55:00+00:00",
+                              "isUpgradable": false,
+                              "isPatchable": false,
+                              "isPinnable": true,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2013-4347"
+                                ],
+                                "CWE": [
+                                  "CWE-310"
+                                ]
+                              },
+                              "credit": [
+                                "Unknown"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+                              "cvssScore": 5.4,
+                              "patches": [],
+                              "upgradePath": []
+                            },
+                            {
+                              "id": "SNYK-PYTHON-SUPERVISOR-40610",
+                              "url": "https://snyk.io/vuln/SNYK-PYTHON-SUPERVISOR-40610",
+                              "title": "Arbitrary Command Execution",
+                              "type": "vuln",
+                              "description": "## Overview\n[`supervisor`](https://pypi.python.org/pypi/supervisor/) is a client/server system that allows its users to monitor and control a number of processes on UNIX-like operating systems.\n\n\nAffected versions of the package are vulnerable to Arbitrary Command Execution. A vulnerability has been found where an authenticated client can send a malicious XML-RPC request to `supervisord` that will run arbitrary shell commands on the server. The commands will be run as the same user as `supervisord`. Depending on how `supervisord` has been configured, this may be root.\n\n\n## Details\n* `supervisord` is the server component and is responsible for starting child processes, responding to commands from clients, and other commands.\n* `supervisorctl` is the command line component, providing a shell-like interface to the features provided by `supervisord`.\n\n\n`supervisord` can be configured to run an HTTP server on a TCP socket and/or a Unix domain socket. This HTTP server is how `supervisorctl` communicates with `supervisord`. If an HTTP server has been enabled, it will always serve both HTML pages and an XML-RPC interface. A vulnerability has been found where an authenticated client can send a malicious XML-RPC request to `supervisord` that will run arbitrary shell commands on the server. The commands will be run as the same user as `supervisord`. Depending on how `supervisord` has been configured, this may be root.\nThis vulnerability can only be exploited by an authenticated client or if `supervisord` has been configured to run an HTTP server without authentication. If authentication has not been enabled, `supervisord` will log a message at the critical level every time it starts.\n\n\n## PoC by Maor Shwartz\n\n\nCreate a config file `supervisord.conf`:\n\n\n```conf\n[supervisord]\nloglevel = trace\n\n\n[inet_http_server]\nport = 127.0.0.1:9001\n\n\n[rpcinterface:supervisor]\nsupervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface\n```\n\n\nStart supervisord in the foreground with that config file:\n\n\n```\n$ supervisord -n -c supervisord.conf\n```\n\n\nIn a new terminal:\n\n\n```py\n$ python2\n>>> from xmlrpclib import ServerProxy\n>>> server = ServerProxy('http://127.0.0.1:9001/RPC2')\n>>> server.supervisor.supervisord.options.execve('/bin/sh', [], {})\n\n  ```\n\n\n\nIf the `supervisord` version is vulnerable, the `execve` will be executed and the `supervisord` process will be replaced with /bin/sh (or any other command given). If the `supervisord` version is not vulnerable, it will return an `UNKNOWN_METHOD` fault.\n\n\n\n\n## Remediation\nUpgrade `supervisor` to version 3.3.3 or higher.\n\n\n## References\n- [Github Issue](https://github.com/Supervisor/supervisor/issues/964)\n- [Github Commit 3.0.1](https://github.com/Supervisor/supervisor/commit/83060f3383ebd26add094398174f1de34cf7b7f0)\n- [Github Commit 3.1.4](https://github.com/Supervisor/supervisor/commit/dbe0f55871a122eac75760aef511efc3a8830b88)\n- [Github Commit 3.2.4](https://github.com/Supervisor/supervisor/commit/aac3c21893cab7361f5c35c8e20341b298f6462e)\n- [Github Commit 3.3.3](https://github.com/Supervisor/supervisor/commit/058f46141e346b18dee0497ba11203cb81ecb19e)",
+                              "functions": [],
+                              "from": [
+                                "supervisor@3.1.0"
+                              ],
+                              "package": "supervisor",
+                              "version": "3.1.0",
+                              "severity": "high",
+                              "exploitMaturity": "mature",
+                              "language": "python",
+                              "packageManager": "pip",
+                              "semver": {
+                                "vulnerable": [
+                                  "[3.0a1,3.0.1)",
+                                  "[3.1.0,3.1.4)",
+                                  "[3.2.0,3.2.4)",
+                                  "[3.3.0,3.3.3)"
+                                ]
+                              },
+                              "publicationTime": "2017-08-08T06:59:14+00:00",
+                              "disclosureTime": "2017-07-18T21:00:00+00:00",
+                              "isUpgradable": false,
+                              "isPatchable": false,
+                              "isPinnable": true,
+                              "identifiers": {
+                                "CVE": [
+                                  "CVE-2017-11610"
+                                ],
+                                "CWE": [
+                                  "CWE-94"
+                                ]
+                              },
+                              "credit": [
+                                "Maor Shwartz"
+                              ],
+                              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H/E:H/RL:O/RC:C",
+                              "cvssScore": 8.8,
+                              "patches": [],
+                              "upgradePath": []
+                            }
+                          ],
+                          "licenses": []
+                        },
+                        "dependencyCount": 4,
+                        "org": {
+                          "name": "atokeneduser",
+                          "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+                        },
+                        "licensesPolicy": null,
+                        "packageManager": "pip"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  ],
+  "schemas": {
+    "target5": {
+      "title": "target5",
+      "required": [
+        "contents"
+      ],
+      "type": "object",
+      "properties": {
+        "contents": {
+          "type": "string",
+          "description": "the contents of `requirements.txt` as a string, encoded according to `encoding` above.",
+          "example": "supervisor==3.1\\noauth2==1.5.211"
+        }
+      },
+      "description": "the `requirements.txt` file, encoded according the the \"encoding\" field."
+    },
+    "Testrequirements.txtfileresponse": {
+      "title": "Testrequirements.txtfileresponse",
+      "required": [
+        "ok",
+        "issues",
+        "dependencyCount",
+        "org",
+        "licensesPolicy",
+        "packageManager"
+      ],
+      "type": "object",
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/Issues1"
+        },
+        "dependencyCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "org": {
+          "$ref": "#/components/schemas/Org1"
+        },
+        "licensesPolicy": {
+          "type": "string",
+          "nullable": true
+        },
+        "packageManager": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "ok": false,
+        "issues": {
+          "vulnerabilities": [
+            {
+              "id": "SNYK-PYTHON-OAUTH2-40013",
+              "url": "https://snyk.io/vuln/SNYK-PYTHON-OAUTH2-40013",
+              "title": "Replay Attack",
+              "type": "vuln",
+              "description": "## Overview\n[`oauth2`](https://pypi.python.org/pypi/oauth2) is a library for OAuth version 1.9\nThe Server.verify_request function in SimpleGeo python-oauth2 does not check the nonce, which allows remote attackers to perform replay attacks via a signed URL.\n\n\n## Remediation\nUpgrade to version `1.9rc1` or greater.\n\n\n## References\n- [NVD](https://nvd.nist.gov/vuln/detail/CVE-2013-4346)\n- [Bugzilla redhat](https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2013-4346)\n- [GitHub Issue](https://github.com/simplegeo/python-oauth2/issues/129)\n\n",
+              "functions": [],
+              "from": [
+                "oauth2@1.5.211"
+              ],
+              "package": "oauth2",
+              "version": "1.5.211",
+              "severity": "medium",
+              "exploitMaturity": "no-known-exploit",
+              "language": "python",
+              "packageManager": "pip",
+              "semver": {
+                "vulnerable": [
+                  "[,1.9rc1)"
+                ]
+              },
+              "publicationTime": "2013-02-05T12:31:58+00:00",
+              "disclosureTime": "2013-02-05T12:31:58+00:00",
+              "isUpgradable": false,
+              "isPatchable": false,
+              "isPinnable": true,
+              "identifiers": {
+                "CVE": [
+                  "CVE-2013-4346"
+                ],
+                "CWE": [
+                  "CWE-310"
+                ]
+              },
+              "credit": [
+                "Andr\u00e9 Cruz"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:N/I:L/A:N",
+              "cvssScore": 4.3,
+              "patches": [],
+              "upgradePath": []
+            },
+            {
+              "id": "SNYK-PYTHON-OAUTH2-40014",
+              "url": "https://snyk.io/vuln/SNYK-PYTHON-OAUTH2-40014",
+              "title": "Insecure Randomness",
+              "type": "vuln",
+              "description": "## Overview\n[`oauth2`](https://pypi.python.org/pypi/oauth2) is a library for OAuth version 1.9\n\n\nAffected versions of this package are vulnerable to Insecure Randomness.\nThe (1) make_nonce, (2) generate_nonce, and (3) generate_verifier functions in SimpleGeo python-oauth2 uses weak random numbers to generate nonces, which makes it easier for remote attackers to guess the nonce via a brute force attack.\n\n\n## Remediation\nUpgrade to version `1.9rc1` or greater.\n\n\n## References\n- [Redhat Bugzilla](https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2013-4347)\n- [GitHub Issue](https://github.com/simplegeo/python-oauth2/issues/9)\n- [Openwall](http://www.openwall.com/lists/oss-security/2013/09/12/7)\n- [GitHub PR](https://github.com/simplegeo/python-oauth2/pull/146)\n\n",
+              "functions": [],
+              "from": [
+                "oauth2@1.5.211"
+              ],
+              "package": "oauth2",
+              "version": "1.5.211",
+              "severity": "medium",
+              "exploitMaturity": "no-known-exploit",
+              "language": "python",
+              "packageManager": "pip",
+              "semver": {
+                "vulnerable": [
+                  "[,1.9rc1)"
+                ]
+              },
+              "publicationTime": "2017-04-13T12:31:58+00:00",
+              "disclosureTime": "2014-05-20T14:55:00+00:00",
+              "isUpgradable": false,
+              "isPatchable": false,
+              "isPinnable": true,
+              "identifiers": {
+                "CVE": [
+                  "CVE-2013-4347"
+                ],
+                "CWE": [
+                  "CWE-310"
+                ]
+              },
+              "credit": [
+                "Unknown"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:L/A:N",
+              "cvssScore": 5.4,
+              "patches": [],
+              "upgradePath": []
+            },
+            {
+              "id": "SNYK-PYTHON-SUPERVISOR-40610",
+              "url": "https://snyk.io/vuln/SNYK-PYTHON-SUPERVISOR-40610",
+              "title": "Arbitrary Command Execution",
+              "type": "vuln",
+              "description": "## Overview\n[`supervisor`](https://pypi.python.org/pypi/supervisor/) is a client/server system that allows its users to monitor and control a number of processes on UNIX-like operating systems.\n\n\nAffected versions of the package are vulnerable to Arbitrary Command Execution. A vulnerability has been found where an authenticated client can send a malicious XML-RPC request to `supervisord` that will run arbitrary shell commands on the server. The commands will be run as the same user as `supervisord`. Depending on how `supervisord` has been configured, this may be root.\n\n\n## Details\n* `supervisord` is the server component and is responsible for starting child processes, responding to commands from clients, and other commands.\n* `supervisorctl` is the command line component, providing a shell-like interface to the features provided by `supervisord`.\n\n\n`supervisord` can be configured to run an HTTP server on a TCP socket and/or a Unix domain socket. This HTTP server is how `supervisorctl` communicates with `supervisord`. If an HTTP server has been enabled, it will always serve both HTML pages and an XML-RPC interface. A vulnerability has been found where an authenticated client can send a malicious XML-RPC request to `supervisord` that will run arbitrary shell commands on the server. The commands will be run as the same user as `supervisord`. Depending on how `supervisord` has been configured, this may be root.\nThis vulnerability can only be exploited by an authenticated client or if `supervisord` has been configured to run an HTTP server without authentication. If authentication has not been enabled, `supervisord` will log a message at the critical level every time it starts.\n\n\n## PoC by Maor Shwartz\n\n\nCreate a config file `supervisord.conf`:\n\n\n```conf\n[supervisord]\nloglevel = trace\n\n\n[inet_http_server]\nport = 127.0.0.1:9001\n\n\n[rpcinterface:supervisor]\nsupervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface\n```\n\n\nStart supervisord in the foreground with that config file:\n\n\n```\n$ supervisord -n -c supervisord.conf\n```\n\n\nIn a new terminal:\n\n\n```py\n$ python2\n>>> from xmlrpclib import ServerProxy\n>>> server = ServerProxy('http://127.0.0.1:9001/RPC2')\n>>> server.supervisor.supervisord.options.execve('/bin/sh', [], {})\n\n  ```\n\n\n\nIf the `supervisord` version is vulnerable, the `execve` will be executed and the `supervisord` process will be replaced with /bin/sh (or any other command given). If the `supervisord` version is not vulnerable, it will return an `UNKNOWN_METHOD` fault.\n\n\n\n\n## Remediation\nUpgrade `supervisor` to version 3.3.3 or higher.\n\n\n## References\n- [Github Issue](https://github.com/Supervisor/supervisor/issues/964)\n- [Github Commit 3.0.1](https://github.com/Supervisor/supervisor/commit/83060f3383ebd26add094398174f1de34cf7b7f0)\n- [Github Commit 3.1.4](https://github.com/Supervisor/supervisor/commit/dbe0f55871a122eac75760aef511efc3a8830b88)\n- [Github Commit 3.2.4](https://github.com/Supervisor/supervisor/commit/aac3c21893cab7361f5c35c8e20341b298f6462e)\n- [Github Commit 3.3.3](https://github.com/Supervisor/supervisor/commit/058f46141e346b18dee0497ba11203cb81ecb19e)",
+              "functions": [],
+              "from": [
+                "supervisor@3.1.0"
+              ],
+              "package": "supervisor",
+              "version": "3.1.0",
+              "severity": "high",
+              "exploitMaturity": "mature",
+              "language": "python",
+              "packageManager": "pip",
+              "semver": {
+                "vulnerable": [
+                  "[3.0a1,3.0.1)",
+                  "[3.1.0,3.1.4)",
+                  "[3.2.0,3.2.4)",
+                  "[3.3.0,3.3.3)"
+                ]
+              },
+              "publicationTime": "2017-08-08T06:59:14+00:00",
+              "disclosureTime": "2017-07-18T21:00:00+00:00",
+              "isUpgradable": false,
+              "isPatchable": false,
+              "isPinnable": true,
+              "identifiers": {
+                "CVE": [
+                  "CVE-2017-11610"
+                ],
+                "CWE": [
+                  "CWE-94"
+                ]
+              },
+              "credit": [
+                "Maor Shwartz"
+              ],
+              "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H/E:H/RL:O/RC:C",
+              "cvssScore": 8.8,
+              "patches": [],
+              "upgradePath": []
+            }
+          ],
+          "licenses": []
+        },
+        "dependencyCount": 4,
+        "org": {
+          "name": "atokeneduser",
+          "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+        },
+        "licensesPolicy": null,
+        "packageManager": "pip"
+      }
+    },
+    "Org1": {
+      "title": "Org1",
+      "required": [
+        "name",
+        "id"
+      ],
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      },
+      "example": {
+        "name": "atokeneduser",
+        "id": "689ce7f9-7943-4a71-b704-2ba575f01089"
+      }
+    },
+    "Identifiers2": {
+      "title": "Identifiers2",
+      "required": [
+        "CVE",
+        "CWE"
+      ],
+      "type": "object",
+      "properties": {
+        "CVE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CWE": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "CVE": [
+          "CVE-2017-5641"
+        ],
+        "CWE": [
+          "CWE-502"
+        ]
+      }
+    },
+    "Vulnerability1": {
+      "title": "Vulnerability1",
+      "required": [
+        "id",
+        "url",
+        "title",
+        "type",
+        "description",
+        "functions",
+        "from",
+        "package",
+        "version",
+        "severity",
+        "exploitMaturity",
+        "language",
+        "packageManager",
+        "semver",
+        "publicationTime",
+        "disclosureTime",
+        "isUpgradable",
+        "isPatchable",
+        "isPinnable",
+        "identifiers",
+        "credit",
+        "CVSSv3",
+        "cvssScore",
+        "patches",
+        "upgradePath"
+      ],
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "functions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "package": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "exploitMaturity": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "packageManager": {
+          "type": "string"
+        },
+        "semver": {
+          "$ref": "#/components/schemas/Semver2"
+        },
+        "publicationTime": {
+          "type": "string"
+        },
+        "disclosureTime": {
+          "type": "string"
+        },
+        "isUpgradable": {
+          "type": "boolean"
+        },
+        "isPatchable": {
+          "type": "boolean"
+        },
+        "isPinnable": {
+          "type": "boolean"
+        },
+        "identifiers": {
+          "$ref": "#/components/schemas/Identifiers2"
+        },
+        "credit": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "CVSSv3": {
+          "type": "string"
+        },
+        "cvssScore": {
+          "type": "number"
+        },
+        "patches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        },
+        "upgradePath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "id": "SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+        "url": "https://snyk.io/vuln/SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+        "title": "Arbitrary Code Execution",
+        "type": "vuln",
+        "description": "## Overview\n\n[org.apache.flex.blazeds:blazeds](https://github.com/apache/flex-blazeds) is an application development framework for easily building Flash-based applications for mobile devices, web browsers, and desktops.\n\n\nAffected versions of this package are vulnerable to Arbitrary Code Execution.\nThe AMF deserialization implementation of Flex BlazeDS is vulnerable to Deserialization of Untrusted Data. By sending a specially crafted AMF message, it is possible to make the server establish a connection to an endpoint specified in the message and request an RMI remote object from that endpoint. This can result in the execution of arbitrary code on the server via Java deserialization.\n\n\nStarting with BlazeDS version `4.7.3`, Deserialization of XML is disabled completely per default, while the `ClassDeserializationValidator` allows deserialization of whitelisted classes only. BlazeDS internally comes with the following whitelist:\n```\nflex.messaging.io.amf.ASObject\nflex.messaging.io.amf.SerializedObject\nflex.messaging.io.ArrayCollection\nflex.messaging.io.ArrayList\nflex.messaging.messages.AcknowledgeMessage\nflex.messaging.messages.AcknowledgeMessageExt\nflex.messaging.messages.AsyncMessage\nflex.messaging.messages.AsyncMessageExt\nflex.messaging.messages.CommandMessage\nflex.messaging.messages.CommandMessageExt\nflex.messaging.messages.ErrorMessage\nflex.messaging.messages.HTTPMessage\nflex.messaging.messages.RemotingMessage\nflex.messaging.messages.SOAPMessage\njava.lang.Boolean\njava.lang.Byte\njava.lang.Character\njava.lang.Double\njava.lang.Float\njava.lang.Integer\njava.lang.Long\njava.lang.Object\njava.lang.Short\njava.lang.String\njava.util.ArrayList\njava.util.Date\njava.util.HashMap\norg.w3c.dom.Document\n```\n\n## Remediation\n\nUpgrade `org.apache.flex.blazeds:blazeds` to version 4.7.3 or higher.\n\n\n## References\n\n- [CVE-2017-3066](https://nvd.nist.gov/vuln/detail/CVE-2017-5641)\n\n- [Github Commit](https://github.com/apache/flex-blazeds/commit/f861f0993c35e664906609cad275e45a71e2aaf1)\n\n- [Github Release Notes](https://github.com/apache/flex-blazeds/blob/master/RELEASE_NOTES)\n\n- [Securitytracker Issue](http://www.securitytracker.com/id/1038364)\n",
+        "functions": [],
+        "from": [
+          "org.apache.flex.blazeds:blazeds@4.7.2"
+        ],
+        "package": "org.apache.flex.blazeds:blazeds",
+        "version": "4.7.2",
+        "severity": "critical",
+        "exploitMaturity": "no-known-exploit",
+        "language": "java",
+        "packageManager": "maven",
+        "semver": {
+          "vulnerable": [
+            "[,4.7.3)"
+          ]
+        },
+        "publicationTime": "2017-08-09T14:17:08+00:00",
+        "disclosureTime": "2017-04-25T21:00:00+00:00",
+        "isUpgradable": true,
+        "isPatchable": false,
+        "isPinnable": false,
+        "identifiers": {
+          "CVE": [
+            "CVE-2017-5641"
+          ],
+          "CWE": [
+            "CWE-502"
+          ]
+        },
+        "credit": [
+          "Markus Wulftange"
+        ],
+        "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+        "cvssScore": 9.8,
+        "patches": [],
+        "upgradePath": [
+          "org.apache.flex.blazeds:blazeds@4.7.3"
+        ]
+      }
+    },
+    "Issues1": {
+      "title": "Issues1",
+      "required": [
+        "vulnerabilities",
+        "licenses"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Vulnerability1"
+          },
+          "description": ""
+        },
+        "licenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerabilities": [
+          {
+            "id": "SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+            "url": "https://snyk.io/vuln/SNYK-JAVA-ORGAPACHEFLEXBLAZEDS-31455",
+            "title": "Arbitrary Code Execution",
+            "type": "vuln",
+            "description": "## Overview\n\n[org.apache.flex.blazeds:blazeds](https://github.com/apache/flex-blazeds) is an application development framework for easily building Flash-based applications for mobile devices, web browsers, and desktops.\n\n\nAffected versions of this package are vulnerable to Arbitrary Code Execution.\nThe AMF deserialization implementation of Flex BlazeDS is vulnerable to Deserialization of Untrusted Data. By sending a specially crafted AMF message, it is possible to make the server establish a connection to an endpoint specified in the message and request an RMI remote object from that endpoint. This can result in the execution of arbitrary code on the server via Java deserialization.\n\n\nStarting with BlazeDS version `4.7.3`, Deserialization of XML is disabled completely per default, while the `ClassDeserializationValidator` allows deserialization of whitelisted classes only. BlazeDS internally comes with the following whitelist:\n```\nflex.messaging.io.amf.ASObject\nflex.messaging.io.amf.SerializedObject\nflex.messaging.io.ArrayCollection\nflex.messaging.io.ArrayList\nflex.messaging.messages.AcknowledgeMessage\nflex.messaging.messages.AcknowledgeMessageExt\nflex.messaging.messages.AsyncMessage\nflex.messaging.messages.AsyncMessageExt\nflex.messaging.messages.CommandMessage\nflex.messaging.messages.CommandMessageExt\nflex.messaging.messages.ErrorMessage\nflex.messaging.messages.HTTPMessage\nflex.messaging.messages.RemotingMessage\nflex.messaging.messages.SOAPMessage\njava.lang.Boolean\njava.lang.Byte\njava.lang.Character\njava.lang.Double\njava.lang.Float\njava.lang.Integer\njava.lang.Long\njava.lang.Object\njava.lang.Short\njava.lang.String\njava.util.ArrayList\njava.util.Date\njava.util.HashMap\norg.w3c.dom.Document\n```\n\n## Remediation\n\nUpgrade `org.apache.flex.blazeds:blazeds` to version 4.7.3 or higher.\n\n\n## References\n\n- [CVE-2017-3066](https://nvd.nist.gov/vuln/detail/CVE-2017-5641)\n\n- [Github Commit](https://github.com/apache/flex-blazeds/commit/f861f0993c35e664906609cad275e45a71e2aaf1)\n\n- [Github Release Notes](https://github.com/apache/flex-blazeds/blob/master/RELEASE_NOTES)\n\n- [Securitytracker Issue](http://www.securitytracker.com/id/1038364)\n",
+            "functions": [],
+            "from": [
+              "org.apache.flex.blazeds:blazeds@4.7.2"
+            ],
+            "package": "org.apache.flex.blazeds:blazeds",
+            "version": "4.7.2",
+            "severity": "critical",
+            "exploitMaturity": "no-known-exploit",
+            "language": "java",
+            "packageManager": "maven",
+            "semver": {
+              "vulnerable": [
+                "[,4.7.3)"
+              ]
+            },
+            "publicationTime": "2017-08-09T14:17:08+00:00",
+            "disclosureTime": "2017-04-25T21:00:00+00:00",
+            "isUpgradable": true,
+            "isPatchable": false,
+            "isPinnable": false,
+            "identifiers": {
+              "CVE": [
+                "CVE-2017-5641"
+              ],
+              "CWE": [
+                "CWE-502"
+              ]
+            },
+            "credit": [
+              "Markus Wulftange"
+            ],
+            "CVSSv3": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+            "cvssScore": 9.8,
+            "patches": [],
+            "upgradePath": [
+              "org.apache.flex.blazeds:blazeds@4.7.3"
+            ]
+          }
+        ],
+        "licenses": []
+      }
+    },
+    "Semver2": {
+      "title": "Semver2",
+      "required": [
+        "vulnerable"
+      ],
+      "type": "object",
+      "properties": {
+        "vulnerable": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": ""
+        }
+      },
+      "example": {
+        "vulnerable": [
+          "[,4.7.3)"
+        ]
+      }
+    },
+    "files8": {
+      "title": "files8",
+      "required": [
+        "target"
+      ],
+      "type": "object",
+      "properties": {
+        "target": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/target5"
+            },
+            {
+              "description": "the `requirements.txt` file, encoded according the the \"encoding\" field."
+            }
+          ]
+        }
+      },
+      "description": "The manifest files:"
+    },
+    "piprequestpayload": {
+      "title": "piprequestpayload",
+      "required": [
+        "files"
+      ],
+      "type": "object",
+      "properties": {
+        "encoding": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/encoding"
+            },
+            {
+              "description": "the encoding for the manifest files sent."
+            }
+          ]
+        },
+        "files": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/files8"
+            },
+            {
+              "description": "The manifest files:"
+            }
+          ]
+        }
+      }
+    },
+    "encoding": {
+      "title": "encoding",
+      "enum": [
+        "plain",
+        "base64"
+      ],
+      "type": "string",
+      "description": "the encoding for the manifest files sent."
+    }
+  },
+  "referenced_common_schemas": []
+}

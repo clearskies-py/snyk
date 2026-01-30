@@ -1,0 +1,870 @@
+{
+  "tag": "TenantRole",
+  "endpoint_count": 5,
+  "schema_count": 10,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/tenants/{tenant_id}/roles",
+      "operation_id": "listTenantRoles",
+      "summary": "List all available roles for a given tenant (Early Access)"
+    },
+    {
+      "method": "POST",
+      "path": "/tenants/{tenant_id}/roles",
+      "operation_id": "createTenantRole",
+      "summary": "Create a custom tenant role for a given tenant (Early Access)"
+    },
+    {
+      "method": "DELETE",
+      "path": "/tenants/{tenant_id}/roles/{role_id}",
+      "operation_id": "deleteTenantRole",
+      "summary": "Delete a specific tenant role by its id and its tenant id. (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/tenants/{tenant_id}/roles/{role_id}",
+      "operation_id": "getTenantRole",
+      "summary": "Return a specific role by its id and its tenant id. (Early Access)"
+    },
+    {
+      "method": "PATCH",
+      "path": "/tenants/{tenant_id}/roles/{role_id}",
+      "operation_id": "updateTenantRole",
+      "summary": "Update a specific tenant role by its id and its tenant id. (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/tenants/{tenant_id}/roles",
+      "method": "GET",
+      "operation_id": "listTenantRoles",
+      "summary": "List all available roles for a given tenant (Early Access)",
+      "details": {
+        "description": "List all available roles for a given tenant.\n\n#### Required permissions\n\n- `View Tenant Roles (tenant.roles.read)`",
+        "operationId": "listTenantRoles",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Unique identifier of the tenant.",
+            "in": "path",
+            "name": "tenant_id",
+            "required": true,
+            "schema": {
+              "example": "00000000-0000-0000-0000-000000000000",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Role name filter.",
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "example": "examplename",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Custom"
+          },
+          {
+            "$ref": "#/components/parameters/AssignableByMe"
+          },
+          {
+            "$ref": "#/components/parameters/ExpandPermissions"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "$ref": "#/components/schemas/TenantRoleResponseData"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/TenantRolesExternalMeta"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns an array of roles that are the roles on a Tenant.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List all available roles for a given tenant (Early Access)",
+        "tags": [
+          "TenantRole"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "tenant_roles",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/tenants/{tenant_id}/roles",
+      "method": "POST",
+      "operation_id": "createTenantRole",
+      "summary": "Create a custom tenant role for a given tenant (Early Access)",
+      "details": {
+        "description": "Create a custom tenant role for a given tenant.\n\n#### Required permissions\n\n- `View Tenant Roles (tenant.roles.read)`\n\n- `Create Tenant Roles (tenant.roles.create)`",
+        "operationId": "createTenantRole",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Unique identifier of the tenant.",
+            "in": "path",
+            "name": "tenant_id",
+            "required": true,
+            "schema": {
+              "example": "00000000-0000-0000-0000-000000000000",
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "$ref": "#/components/schemas/CreateTenantRoleRequestAttributes"
+                      },
+                      "type": {
+                        "$ref": "#/components/schemas/TenantRoleType20241015"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "attributes"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TenantRoleResponseData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "jsonapi",
+                    "links"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Tenant role successfully created.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create a custom tenant role for a given tenant (Early Access)",
+        "tags": [
+          "TenantRole"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "tenant_roles",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/tenants/{tenant_id}/roles/{role_id}",
+      "method": "DELETE",
+      "operation_id": "deleteTenantRole",
+      "summary": "Delete a specific tenant role by its id and its tenant id. (Early Access)",
+      "details": {
+        "description": "Delete a custom tenant role in a given tenant\n\n#### Required permissions\n\n- `View Tenant Roles (tenant.roles.read)`\n\n- `Delete Tenant Roles (tenant.roles.delete)`",
+        "operationId": "deleteTenantRole",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Unique identifier of the tenant.",
+            "in": "path",
+            "name": "tenant_id",
+            "required": true,
+            "schema": {
+              "example": "00000000-0000-0000-0000-000000000000",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RoleId"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Tenant role successfully deleted.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Delete a specific tenant role by its id and its tenant id. (Early Access)",
+        "tags": [
+          "TenantRole"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "tenant_roles",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/tenants/{tenant_id}/roles/{role_id}",
+      "method": "GET",
+      "operation_id": "getTenantRole",
+      "summary": "Return a specific role by its id and its tenant id. (Early Access)",
+      "details": {
+        "description": "Return a role from a tenant by the tenant and role id with its details and permissions.\n\n#### Required permissions\n\n- `View Tenant Roles (tenant.roles.read)`",
+        "operationId": "getTenantRole",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Unique identifier of the tenant.",
+            "in": "path",
+            "name": "tenant_id",
+            "required": true,
+            "schema": {
+              "example": "00000000-0000-0000-0000-000000000000",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RoleId"
+          },
+          {
+            "$ref": "#/components/parameters/HasUsersAssigned"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TenantRoleResponseData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns the requested role.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Return a specific role by its id and its tenant id. (Early Access)",
+        "tags": [
+          "TenantRole"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "tenant_roles",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/tenants/{tenant_id}/roles/{role_id}",
+      "method": "PATCH",
+      "operation_id": "updateTenantRole",
+      "summary": "Update a specific tenant role by its id and its tenant id. (Early Access)",
+      "details": {
+        "description": "Update attributes of a custom tenant role in a given tenant\n\n#### Required permissions\n\n- `View Tenant Roles (tenant.roles.read)`\n\n- `Edit Tenant Roles (tenant.roles.edit)`",
+        "operationId": "updateTenantRole",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Version"
+          },
+          {
+            "description": "Unique identifier of the tenant.",
+            "in": "path",
+            "name": "tenant_id",
+            "required": true,
+            "schema": {
+              "example": "00000000-0000-0000-0000-000000000000",
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RoleId"
+          },
+          {
+            "$ref": "#/components/parameters/ForceUpdate"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "properties": {
+                  "data": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "attributes": {
+                        "$ref": "#/components/schemas/UpdateTenantRoleRequestAttributes"
+                      },
+                      "id": {
+                        "$ref": "#/components/schemas/RoleId"
+                      },
+                      "type": {
+                        "$ref": "#/components/schemas/TenantRoleType20241015"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "attributes"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/TenantRoleResponseData"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/SelfLink"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Returns the updated role.",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Update a specific tenant role by its id and its tenant id. (Early Access)",
+        "tags": [
+          "TenantRole"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "tenant_roles",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "TenantRolesExternalMeta": {
+      "properties": {
+        "permissions": {
+          "items": {
+            "properties": {
+              "description": {
+                "example": "Edit details of the Group",
+                "type": "string"
+              },
+              "name": {
+                "example": "Edit Group Details",
+                "type": "string"
+              },
+              "parent": {
+                "example": "group.read",
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "value",
+              "description",
+              "name"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "$ref": "#/components/schemas/LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "CreateTenantRoleRequestAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "description": "The description of the tenant role.",
+          "maxLength": 160,
+          "minLength": 1,
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the tenant role.",
+          "maxLength": 60,
+          "minLength": 1,
+          "type": "string"
+        },
+        "permissions": {
+          "description": "Requested permissions of the tenant role. Must be the entire set of permissions.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "permissions"
+      ],
+      "type": "object"
+    },
+    "UpdateTenantRoleRequestAttributes": {
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "description": {
+          "description": "The description of the tenant role.",
+          "maxLength": 160,
+          "minLength": 1,
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the tenant role.",
+          "maxLength": 60,
+          "minLength": 1,
+          "type": "string"
+        },
+        "permissions": {
+          "description": "Requested permissions of the tenant role. Must be the entire set of permissions.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TenantRoleMeta": {
+      "additionalProperties": false,
+      "properties": {
+        "app_count": {
+          "type": "integer"
+        },
+        "service_account_count": {
+          "type": "integer"
+        },
+        "user_count": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "TenantRoleResponseAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "custom": {
+          "default": false,
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "normalized_name": {
+          "type": "string"
+        },
+        "permissions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "permissions",
+        "custom"
+      ],
+      "type": "object"
+    },
+    "RoleId": {
+      "example": "00000000-0000-0000-0000-000000000000",
+      "format": "uuid",
+      "type": "string"
+    },
+    "TenantRoleType20241015": {
+      "description": "The type of the resource for tenant role operations",
+      "enum": [
+        "tenant_role"
+      ],
+      "type": "string"
+    },
+    "Tenant": {
+      "properties": {
+        "data": {
+          "properties": {
+            "id": {
+              "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "tenant"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "TenantRoleResponseData": {
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/TenantRoleResponseAttributes"
+        },
+        "id": {
+          "example": "d5b640e5-d88c-4c17-9bf0-93597b7a1ce2",
+          "format": "uuid",
+          "type": "string"
+        },
+        "meta": {
+          "$ref": "#/components/schemas/TenantRoleMeta"
+        },
+        "relationships": {
+          "properties": {
+            "tenant": {
+              "$ref": "#/components/schemas/Tenant"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/TenantRoleType20241015"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": [
+    "PaginatedLinks",
+    "LinkProperty",
+    "Meta",
+    "JsonApi"
+  ]
+}
