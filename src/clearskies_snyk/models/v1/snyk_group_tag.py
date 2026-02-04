@@ -44,7 +44,7 @@ class SnykGroupTag(Model):
     """
 
     id_column_name: str = "id"
-    backend = SnykV1Backend()
+    backend = SnykV1Backend(can_create=False, can_update=False, can_delete=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

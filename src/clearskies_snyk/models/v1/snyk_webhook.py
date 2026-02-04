@@ -56,7 +56,7 @@ class SnykWebhook(Model):
     """
 
     id_column_name: str = "id"
-    backend = SnykV1Backend()
+    backend = SnykV1Backend(can_update=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

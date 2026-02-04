@@ -35,13 +35,11 @@ class SnykOrgIssue(Model):
 
     # Issues API uses scan_item.id and scan_item.type as query parameters
     # Map 'type' to 'issue_type' to avoid shadowing Python's builtin type
-    backend = SnykBackend(
-        api_to_model_map={
+    backend = SnykBackend(api_to_model_map={
             "scan_item_id": "scan_item.id",
             "scan_item_type": "scan_item.type",
             "type": "issue_type",
-        }
-    )
+        }, can_create=False, can_update=False, can_delete=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

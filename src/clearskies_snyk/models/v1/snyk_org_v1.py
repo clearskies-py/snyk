@@ -1,11 +1,14 @@
 """Snyk Organization model for v1 API."""
 
-import clearskies
+from typing import Self
 
-from clearskies_snyk.models.v1.snyk_v1_model import SnykV1Model
+from clearskies import Model
+from clearskies.columns import Json, String
+
+from clearskies_snyk.backends import SnykV1Backend
 
 
-class SnykOrgV1(SnykV1Model):
+class SnykOrgV1(Model):
     """
     Model representing a Snyk Organization from the v1 API.
 
@@ -31,12 +34,17 @@ class SnykOrgV1(SnykV1Model):
     - GET /v1/org/{orgId} - Get a specific organization
     """
 
+    id_column_name: str = "id"
+
+    backend = SnykV1Backend(can_create=False, can_update=False, can_delete=False)
+
     @classmethod
-    def destination_name(cls) -> str:
+    def destination_name(cls: type[Self]) -> str:
         """Return the API endpoint path for organizations."""
         return "orgs"
 
-    name = clearskies.columns.String()
-    slug = clearskies.columns.String()
-    url = clearskies.columns.String()
-    group = clearskies.columns.Json()
+    id = String()
+    name = String()
+    slug = String()
+    url = String()
+    group = Json()

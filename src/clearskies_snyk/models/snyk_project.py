@@ -39,11 +39,13 @@ class SnykProject(Model):
 
     id_column_name: str = "id"
 
+    # orgs/{org_id}/projects: query=True, create=False, update=True, delete=True
     # Map API field 'type' to 'project_type' to avoid shadowing builtin
     backend = SnykBackend(
         api_to_model_map={
             "type": "project_type",
-        }
+        },
+        can_create=False,
     )
 
     @classmethod

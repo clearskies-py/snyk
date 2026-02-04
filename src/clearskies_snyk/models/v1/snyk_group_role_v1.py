@@ -43,11 +43,9 @@ class SnykGroupRoleV1(Model):
     """
 
     id_column_name: str = "public_id"
-    backend = SnykV1Backend(
-        api_to_model_map={
+    backend = SnykV1Backend(api_to_model_map={
             "publicId": "public_id",
-        }
-    )
+        }, can_create=False, can_update=False, can_delete=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

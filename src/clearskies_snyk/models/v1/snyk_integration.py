@@ -32,11 +32,9 @@ class SnykIntegration(Model):
     id_column_name: str = "id"
 
     # Map 'type' to 'integration_type' to avoid shadowing Python's builtin type
-    backend = SnykV1Backend(
-        api_to_model_map={
+    backend = SnykV1Backend(api_to_model_map={
             "type": "integration_type",
-        }
-    )
+        }, can_delete=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

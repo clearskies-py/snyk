@@ -48,7 +48,8 @@ class SnykGroup(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend()
+    # groups: query=True, create=False, update=False, delete=False
+    backend = SnykBackend(can_create=False, can_update=False, can_delete=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

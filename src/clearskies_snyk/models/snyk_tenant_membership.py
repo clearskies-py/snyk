@@ -33,7 +33,7 @@ class SnykTenantMembership(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend()
+    backend = SnykBackend(can_create=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

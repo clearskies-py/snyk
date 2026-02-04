@@ -69,7 +69,6 @@ from clearskies_snyk.models.v1.snyk_integration import SnykIntegration
 from clearskies_snyk.models.v1.snyk_integration_setting import SnykIntegrationSetting
 from clearskies_snyk.models.v1.snyk_license import SnykLicense
 from clearskies_snyk.models.v1.snyk_org_v1 import SnykOrgV1
-from clearskies_snyk.models.v1.snyk_v1_model import SnykV1Model
 from clearskies_snyk.models.v1.snyk_webhook import SnykWebhook
 
 __all__ = [
@@ -83,6 +82,5 @@ __all__ = [
     "SnykIntegrationSetting",
     "SnykLicense",
     "SnykOrgV1",
-    "SnykV1Model",
     "SnykWebhook",
 ]

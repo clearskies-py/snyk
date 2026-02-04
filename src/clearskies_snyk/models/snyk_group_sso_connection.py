@@ -28,11 +28,9 @@ class SnykGroupSsoConnection(Model):
     id_column_name: str = "id"
 
     # Map 'type' to 'connection_type' to avoid shadowing Python's builtin type
-    backend = SnykBackend(
-        api_to_model_map={
+    backend = SnykBackend(api_to_model_map={
             "type": "connection_type",
-        }
-    )
+        }, can_create=False, can_update=False, can_delete=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

@@ -104,8 +104,8 @@ def extract_models(models_dir: str | Path = "src/clearskies_snyk/models") -> dic
         
         class_name = class_match.group(1)
         
-        # Skip base classes and references
-        if class_name in ("SnykModel", "SnykV1Model") or "Reference" in class_name:
+        # Skip reference classes
+        if "Reference" in class_name:
             continue
         
         # Extract destination_name - handle multiple patterns including docstrings

@@ -36,7 +36,6 @@ from clearskies_snyk.models.snyk_group_sso_connection_user import (
 from clearskies_snyk.models.snyk_group_user import SnykGroupUser
 from clearskies_snyk.models.snyk_learn_assignment import SnykLearnAssignment
 from clearskies_snyk.models.snyk_learn_catalog import SnykLearnCatalog
-from clearskies_snyk.models.snyk_model import SnykModel
 from clearskies_snyk.models.snyk_org import SnykOrg
 from clearskies_snyk.models.snyk_org_app import SnykOrgApp
 from clearskies_snyk.models.snyk_org_app_bot import SnykOrgAppBot
@@ -113,7 +112,6 @@ __all__ = [
     "SnykGroupUser",
     "SnykLearnAssignment",
     "SnykLearnCatalog",
-    "SnykModel",
     "SnykOrg",
     "SnykOrgApp",
     "SnykOrgAppBot",

@@ -27,7 +27,7 @@ class SnykSlackDefaultNotificationSettings(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend(api_to_model_map={"type": "settings_type"})
+    backend = SnykBackend(api_to_model_map={"type": "settings_type"}, can_update=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

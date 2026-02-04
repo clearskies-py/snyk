@@ -54,7 +54,8 @@ class SnykOrg(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend()
+    # orgs: query=True, create=False, update=True, delete=False
+    backend = SnykBackend(can_create=False, can_delete=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

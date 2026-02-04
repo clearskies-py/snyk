@@ -122,6 +122,10 @@ class SnykBackend(clearskies.backends.ApiBackend):
         pagination_parameter_name: str = "starting_after",
         pagination_parameter_type: str = "str",
         limit_parameter_name: str = "limit",
+        can_create: bool | None = True,
+        can_update: bool | None = True,
+        can_delete: bool | None = True,
+        can_query: bool | None = True,
     ):
         self.finalize_and_validate_configuration()
 

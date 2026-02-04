@@ -34,7 +34,7 @@ ORM-like models for the Snyk REST API using the Clearskies framework.
 
 ## Existing Patterns
 Models follow this pattern:
-- Inherit from `clearskies.Model` or `SnykModel`
+- Inherit from `clearskies.Model`
 - Use `SnykBackend()` for API communication
 - Define columns using `clearskies.columns` (String, Boolean, Datetime, Json, etc.)
 - Implement `destination_name()` returning the API endpoint path
