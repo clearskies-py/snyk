@@ -23,8 +23,7 @@ class SnykBrokerConnectionIntegration(Model):
 
     # Fetch all integrations for a broker connection
     integrations = SnykBrokerConnectionIntegration().where(
-        "tenant_id=tenant-id-123",
-        "connection_id=conn-id-456"
+        "tenant_id=tenant-id-123", "connection_id=conn-id-456"
     )
     for integration in integrations:
         print(f"Integration: {integration.id} - Type: {integration.integration_type}")

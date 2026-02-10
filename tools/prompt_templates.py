@@ -6,7 +6,7 @@ test cases by feeding API spec chunks to an LLM.
 
 Usage:
     from tools.prompt_templates import MODEL_TEST_TEMPLATE, format_prompt
-    
+
     prompt = format_prompt(
         MODEL_TEST_TEMPLATE,
         tag_name="Orgs",
@@ -20,16 +20,15 @@ from __future__ import annotations
 import json
 from typing import Any
 
-
 # =============================================================================
 # Template: Model Unit Test Generation
 # =============================================================================
 
-MODEL_TEST_TEMPLATE = '''
+MODEL_TEST_TEMPLATE = """
 # Context: Clearskies Snyk Model Test Generation
 
 ## Project Context
-You are generating tests for the `clearskies-snyk` Python module, which provides 
+You are generating tests for the `clearskies-snyk` Python module, which provides
 ORM-like models for the Snyk REST API using the Clearskies framework.
 
 ## Existing Patterns
@@ -88,18 +87,18 @@ Provide complete, runnable pytest test code with:
 - Docstrings explaining each test
 - Mock fixtures for API responses
 - Assertions using native `assert` statements
-'''
+"""
 
 
 # =============================================================================
 # Template: Schema Validation Test Generation
 # =============================================================================
 
-SCHEMA_VALIDATION_TEMPLATE = '''
+SCHEMA_VALIDATION_TEMPLATE = """
 # Context: Schema Validation Test Generation
 
 ## Task
-Generate tests that validate the `{model_name}` model's columns match the 
+Generate tests that validate the `{model_name}` model's columns match the
 OpenAPI schema definition.
 
 ## Schema Definition
@@ -128,14 +127,14 @@ OpenAPI schema definition.
 
 ## Output
 Generate a test file that programmatically validates schema compliance.
-'''
+"""
 
 
 # =============================================================================
 # Template: Integration Test Generation
 # =============================================================================
 
-INTEGRATION_TEST_TEMPLATE = '''
+INTEGRATION_TEST_TEMPLATE = """
 # Context: Integration Test Generation
 
 ## API Endpoint
@@ -164,7 +163,7 @@ Generate integration tests that:
 
 ## Output
 Complete pytest integration test with mocked HTTP responses.
-'''
+"""
 
 
 # =============================================================================
@@ -175,7 +174,7 @@ MODEL_IMPLEMENTATION_TEMPLATE = '''
 # Context: Clearskies Snyk Model Implementation
 
 ## Task
-Generate a new model class for the `{resource_name}` resource based on the 
+Generate a new model class for the `{resource_name}` resource based on the
 OpenAPI specification.
 
 ## API Specification
@@ -194,14 +193,14 @@ from clearskies_snyk.backends import SnykBackend
 
 class SnykExample(Model):
     """Model for Snyk Example resource."""
-    
+
     id_column_name: str = "id"
     backend = SnykBackend()
-    
+
     @classmethod
     def destination_name(cls: type[Self]) -> str:
         return "endpoint/path"
-    
+
     id = String()
     name = String()
     # ... other columns
@@ -223,17 +222,15 @@ Complete model class implementation.
 # Helper Functions
 # =============================================================================
 
-def format_prompt(
-    template: str,
-    **kwargs: Any
-) -> str:
+
+def format_prompt(template: str, **kwargs: Any) -> str:
     """
     Format a prompt template with the given parameters.
-    
+
     Args:
         template: The prompt template string
         **kwargs: Parameters to substitute into the template
-    
+
     Returns:
         Formatted prompt string
     """
@@ -244,38 +241,38 @@ def format_prompt(
             formatted_kwargs[key] = json.dumps(value, indent=2)
         else:
             formatted_kwargs[key] = value
-    
+
     return template.format(**formatted_kwargs)
 
 
 def truncate_json(data: dict[str, Any], max_chars: int = 10000) -> str:
     """
     Truncate JSON data to fit within a character limit.
-    
+
     Args:
         data: The data to serialize
         max_chars: Maximum characters allowed
-    
+
     Returns:
         JSON string, possibly truncated
     """
     json_str = json.dumps(data, indent=2)
     if len(json_str) <= max_chars:
         return json_str
-    
+
     # Truncate and add indicator
-    return json_str[:max_chars - 50] + '\n\n... [TRUNCATED]'
+    return json_str[: max_chars - 50] + "\n\n... [TRUNCATED]"
 
 
 def estimate_tokens(text: str) -> int:
     """
     Estimate the number of tokens in a text string.
-    
+
     Uses a rough approximation of 4 characters per token.
-    
+
     Args:
         text: The text to estimate
-    
+
     Returns:
         Estimated token count
     """
@@ -283,35 +280,32 @@ def estimate_tokens(text: str) -> int:
 
 
 def create_model_test_prompt(
-    chunk: dict[str, Any],
-    common_schemas: dict[str, Any],
-    model_name: str,
-    max_tokens: int = 15000
+    chunk: dict[str, Any], common_schemas: dict[str, Any], model_name: str, max_tokens: int = 15000
 ) -> str:
     """
     Create a prompt for generating model tests.
-    
+
     Args:
         chunk: The API spec chunk for this domain
         common_schemas: Common schemas shared across domains
         model_name: Name of the model class to test
         max_tokens: Maximum tokens for the prompt
-    
+
     Returns:
         Formatted prompt string
     """
     # Truncate if needed
     chunk_json = truncate_json(chunk, max_chars=40000)
     schemas_json = truncate_json(common_schemas, max_chars=12000)
-    
+
     prompt = format_prompt(
         MODEL_TEST_TEMPLATE,
         tag_name=chunk.get("tag", "Unknown"),
         chunk_json=chunk_json,
         common_schemas_json=schemas_json,
-        model_name=model_name
+        model_name=model_name,
     )
-    
+
     # Check token estimate
     tokens = estimate_tokens(prompt)
     if tokens > max_tokens:
@@ -322,9 +316,9 @@ def create_model_test_prompt(
             tag_name=chunk.get("tag", "Unknown"),
             chunk_json=chunk_json,
             common_schemas_json=schemas_json,
-            model_name=model_name
+            model_name=model_name,
         )
-    
+
     return prompt
 
 
@@ -335,20 +329,17 @@ def create_integration_test_prompt(
 ) -> str:
     """
     Create a prompt for generating integration tests.
-    
+
     Args:
         method: HTTP method (GET, POST, etc.)
         path: API endpoint path
         endpoint_spec: OpenAPI spec for this endpoint
-    
+
     Returns:
         Formatted prompt string
     """
     return format_prompt(
-        INTEGRATION_TEST_TEMPLATE,
-        method=method,
-        path=path,
-        endpoint_spec_json=json.dumps(endpoint_spec, indent=2)
+        INTEGRATION_TEST_TEMPLATE, method=method, path=path, endpoint_spec_json=json.dumps(endpoint_spec, indent=2)
     )
 
 
@@ -377,10 +368,10 @@ MODEL_TAG_MAPPING = {
 def get_tag_for_model(model_name: str) -> str | None:
     """
     Get the API tag associated with a model.
-    
+
     Args:
         model_name: Name of the model class
-    
+
     Returns:
         Tag name or None if not found
     """

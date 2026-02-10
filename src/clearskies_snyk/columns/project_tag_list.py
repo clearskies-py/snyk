@@ -120,8 +120,6 @@ class ProjectTagList(Json):
 
         tag_data = data.get(self.name)
         if isinstance(tag_data, list):
-            data[self.name] = [
-                tag.to_dict() if isinstance(tag, SnykProjectTag) else tag for tag in tag_data
-            ]
+            data[self.name] = [tag.to_dict() if isinstance(tag, SnykProjectTag) else tag for tag in tag_data]
 
         return data

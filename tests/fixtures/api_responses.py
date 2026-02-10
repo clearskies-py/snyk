@@ -246,9 +246,7 @@ class ProjectResponseFactory:
             for i in range(count)
         ]
 
-        links = make_pagination_links(
-            f"/rest/orgs/{org_id}/projects", starting_after=starting_after
-        )
+        links = make_pagination_links(f"/rest/orgs/{org_id}/projects", starting_after=starting_after)
 
         return make_jsonapi_response(projects, links=links)
 
@@ -329,9 +327,7 @@ class TargetResponseFactory:
             for i in range(count)
         ]
 
-        links = make_pagination_links(
-            f"/rest/orgs/{org_id}/targets", starting_after=starting_after
-        )
+        links = make_pagination_links(f"/rest/orgs/{org_id}/targets", starting_after=starting_after)
 
         return make_jsonapi_response(targets, links=links)
 
@@ -406,9 +402,7 @@ class CollectionResponseFactory:
             for i in range(count)
         ]
 
-        links = make_pagination_links(
-            f"/rest/orgs/{org_id}/collections", starting_after=starting_after
-        )
+        links = make_pagination_links(f"/rest/orgs/{org_id}/collections", starting_after=starting_after)
 
         return make_jsonapi_response(collections, links=links)
 
@@ -503,9 +497,7 @@ class IssueResponseFactory:
             for i in range(count)
         ]
 
-        links = make_pagination_links(
-            f"/rest/orgs/{org_id}/issues", starting_after=starting_after
-        )
+        links = make_pagination_links(f"/rest/orgs/{org_id}/issues", starting_after=starting_after)
 
         return make_jsonapi_response(issues, links=links)
 
@@ -585,8 +577,6 @@ class ServiceAccountResponseFactory:
             for i in range(count)
         ]
 
-        links = make_pagination_links(
-            f"/rest/orgs/{org_id}/service_accounts", starting_after=starting_after
-        )
+        links = make_pagination_links(f"/rest/orgs/{org_id}/service_accounts", starting_after=starting_after)
 
         return make_jsonapi_response(service_accounts, links=links)

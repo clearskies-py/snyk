@@ -1,3 +1,5 @@
+# Import submodules for v1 and references
+from clearskies_snyk.models import references, v1
 from clearskies_snyk.models.snyk_access_request import SnykAccessRequest
 from clearskies_snyk.models.snyk_ai_bom import SnykAiBom
 from clearskies_snyk.models.snyk_broker_connection import SnykBrokerConnection
@@ -9,7 +11,6 @@ from clearskies_snyk.models.snyk_cloud_environment import SnykCloudEnvironment
 from clearskies_snyk.models.snyk_cloud_resource import SnykCloudResource
 from clearskies_snyk.models.snyk_cloud_scan import SnykCloudScan
 from clearskies_snyk.models.snyk_collection import SnykCollection
-from clearskies_snyk.models.snyk_custom_base_image import SnykCustomBaseImage
 from clearskies_snyk.models.snyk_collection_relationship_project import (
     SnykCollectionRelationshipProject,
 )
@@ -17,6 +18,7 @@ from clearskies_snyk.models.snyk_container_image import SnykContainerImage
 from clearskies_snyk.models.snyk_container_image_target_ref import (
     SnykContainerImageTargetRef,
 )
+from clearskies_snyk.models.snyk_custom_base_image import SnykCustomBaseImage
 from clearskies_snyk.models.snyk_fix_pull_request import SnykFixPullRequest
 from clearskies_snyk.models.snyk_group import SnykGroup
 from clearskies_snyk.models.snyk_group_app_install import SnykGroupAppInstall
@@ -75,10 +77,6 @@ from clearskies_snyk.models.snyk_tenant import SnykTenant
 from clearskies_snyk.models.snyk_tenant_membership import SnykTenantMembership
 from clearskies_snyk.models.snyk_tenant_role import SnykTenantRole
 from clearskies_snyk.models.snyk_test_job import SnykTestJob
-
-# Import submodules for v1 and references
-from clearskies_snyk.models import references
-from clearskies_snyk.models import v1
 
 __all__ = [
     # API Models

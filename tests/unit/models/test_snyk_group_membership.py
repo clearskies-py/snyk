@@ -9,8 +9,9 @@ This module tests the SnykGroupMembership model including:
 
 from __future__ import annotations
 
-import pytest
 from unittest.mock import MagicMock, PropertyMock, patch
+
+import pytest
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models import SnykGroupMembership
@@ -79,63 +80,63 @@ class TestSnykGroupMembershipHelperMethods:
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = {"email": "test@example.com", "name": "Test User"}
         # Access the property through the class
-        result = SnykGroupMembership.email.fget(membership)
+        result = SnykGroupMembership.email.fget(membership)  # type: ignore[attr-defined]
         assert result == "test@example.com"
 
     def test_email_property_with_empty_user(self) -> None:
         """Test email property returns empty string when user is empty."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = {}
-        result = SnykGroupMembership.email.fget(membership)
+        result = SnykGroupMembership.email.fget(membership)  # type: ignore[attr-defined]
         assert result == ""
 
     def test_email_property_with_none_user(self) -> None:
         """Test email property returns empty string when user is None."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = None
-        result = SnykGroupMembership.email.fget(membership)
+        result = SnykGroupMembership.email.fget(membership)  # type: ignore[attr-defined]
         assert result == ""
 
     def test_name_property_with_valid_data(self) -> None:
         """Test name property returns correct name."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = {"name": "Test User", "email": "test@example.com"}
-        result = SnykGroupMembership.name.fget(membership)
+        result = SnykGroupMembership.name.fget(membership)  # type: ignore[attr-defined]
         assert result == "Test User"
 
     def test_name_property_with_empty_user(self) -> None:
         """Test name property returns empty string when user is empty."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = {}
-        result = SnykGroupMembership.name.fget(membership)
+        result = SnykGroupMembership.name.fget(membership)  # type: ignore[attr-defined]
         assert result == ""
 
     def test_name_property_with_none_user(self) -> None:
         """Test name property returns empty string when user is None."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = None
-        result = SnykGroupMembership.name.fget(membership)
+        result = SnykGroupMembership.name.fget(membership)  # type: ignore[attr-defined]
         assert result == ""
 
     def test_username_property_with_valid_data(self) -> None:
         """Test username property returns correct username."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = {"username": "testuser", "email": "test@example.com"}
-        result = SnykGroupMembership.username.fget(membership)
+        result = SnykGroupMembership.username.fget(membership)  # type: ignore[attr-defined]
         assert result == "testuser"
 
     def test_username_property_with_empty_user(self) -> None:
         """Test username property returns empty string when user is empty."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = {}
-        result = SnykGroupMembership.username.fget(membership)
+        result = SnykGroupMembership.username.fget(membership)  # type: ignore[attr-defined]
         assert result == ""
 
     def test_username_property_with_none_user(self) -> None:
         """Test username property returns empty string when user is None."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = None
-        result = SnykGroupMembership.username.fget(membership)
+        result = SnykGroupMembership.username.fget(membership)  # type: ignore[attr-defined]
         assert result == ""
 
 
@@ -161,19 +162,19 @@ class TestSnykGroupMembershipEdgeCases:
         """Test email property handles missing email key."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = {"name": "Test User"}  # No email key
-        result = SnykGroupMembership.email.fget(membership)
+        result = SnykGroupMembership.email.fget(membership)  # type: ignore[attr-defined]
         assert result == ""
 
     def test_name_property_with_missing_key(self) -> None:
         """Test name property handles missing name key."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = {"email": "test@example.com"}  # No name key
-        result = SnykGroupMembership.name.fget(membership)
+        result = SnykGroupMembership.name.fget(membership)  # type: ignore[attr-defined]
         assert result == ""
 
     def test_username_property_with_missing_key(self) -> None:
         """Test username property handles missing username key."""
         membership = MagicMock(spec=SnykGroupMembership)
         membership.user = {"email": "test@example.com"}  # No username key
-        result = SnykGroupMembership.username.fget(membership)
+        result = SnykGroupMembership.username.fget(membership)  # type: ignore[attr-defined]
         assert result == ""

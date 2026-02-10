@@ -108,11 +108,7 @@ class TestSnykBackend(unittest.TestCase):
         mock_query = MagicMock()
         mock_response = MagicMock()
         mock_response.content = b'{"links": {"next": "/rest/orgs?starting_after=abc123&version=2024-10-15"}}'
-        mock_response.json.return_value = {
-            "links": {
-                "next": "/rest/orgs?starting_after=abc123&version=2024-10-15"
-            }
-        }
+        mock_response.json.return_value = {"links": {"next": "/rest/orgs?starting_after=abc123&version=2024-10-15"}}
 
         result = backend.get_next_page_data_from_response(mock_query, mock_response)
 

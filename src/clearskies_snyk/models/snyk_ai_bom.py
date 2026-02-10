@@ -21,10 +21,7 @@ class SnykAiBom(Model):
 
     # Create an AI-BOM (triggers async job)
     ai_bom = SnykAiBom()
-    ai_bom.save({
-        "org_id": "org-123",
-        "bundle_id": "sha256-hash-of-bundle"
-    })
+    ai_bom.save({"org_id": "org-123", "bundle_id": "sha256-hash-of-bundle"})
     ```
     """
 

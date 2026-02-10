@@ -23,7 +23,9 @@ class SnykIntegrationSetting(Model):
     from clearskies_snyk.models import SnykIntegrationSetting
 
     # Fetch settings for an integration
-    settings = SnykIntegrationSetting().where("org_id=org-id-123").where("integration_id=int-id-456").first()
+    settings = (
+        SnykIntegrationSetting().where("org_id=org-id-123").where("integration_id=int-id-456").first()
+    )
     print(f"Auto upgrade enabled: {settings.auto_dep_upgrade_enabled}")
     ```
     """

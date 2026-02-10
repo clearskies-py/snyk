@@ -20,7 +20,6 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-
 # Common schemas that are shared across multiple domains
 COMMON_SCHEMA_NAMES = {
     # Error handling
@@ -62,11 +61,11 @@ def save_json(path: Path, data: dict[str, Any]) -> None:
 def find_schema_refs(obj: Any) -> set[str]:
     """
     Recursively find all schema references ($ref) in an object.
-    
+
     Returns a set of schema names (without the full path).
     """
     schemas: set[str] = set()
-    
+
     if isinstance(obj, dict):
         if "$ref" in obj:
             ref = obj["$ref"]
@@ -77,36 +76,32 @@ def find_schema_refs(obj: Any) -> set[str]:
     elif isinstance(obj, list):
         for item in obj:
             schemas.update(find_schema_refs(item))
-    
+
     return schemas
 
 
-def resolve_schema_dependencies(
-    spec: dict[str, Any],
-    schema_names: set[str],
-    max_depth: int = 5
-) -> set[str]:
+def resolve_schema_dependencies(spec: dict[str, Any], schema_names: set[str], max_depth: int = 5) -> set[str]:
     """
     Resolve all schema dependencies recursively.
-    
+
     Given a set of schema names, find all schemas they reference.
     """
     all_schemas = set(schema_names)
     schemas_to_check = set(schema_names)
-    
+
     for _ in range(max_depth):
         new_schemas: set[str] = set()
         for schema_name in schemas_to_check:
             schema = spec.get("components", {}).get("schemas", {}).get(schema_name, {})
             refs = find_schema_refs(schema)
             new_schemas.update(refs - all_schemas)
-        
+
         if not new_schemas:
             break
-        
+
         all_schemas.update(new_schemas)
         schemas_to_check = new_schemas
-    
+
     return all_schemas
 
 
@@ -114,62 +109,57 @@ def extract_common_schemas(spec: dict[str, Any]) -> dict[str, Any]:
     """Extract common schemas that are shared across domains."""
     all_schemas = spec.get("components", {}).get("schemas", {})
     common = {}
-    
+
     for name in COMMON_SCHEMA_NAMES:
         if name in all_schemas:
             common[name] = all_schemas[name]
-    
+
     return common
 
 
 def group_endpoints_by_tag(spec: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
     """Group all endpoints by their tags."""
     endpoints_by_tag: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    
+
     for path, methods in spec.get("paths", {}).items():
         for method, details in methods.items():
             if not isinstance(details, dict):
                 continue
-            
+
             tags = details.get("tags", ["Untagged"])
             for tag in tags:
-                endpoints_by_tag[tag].append({
-                    "path": path,
-                    "method": method.upper(),
-                    "operation_id": details.get("operationId", ""),
-                    "summary": details.get("summary", ""),
-                    "details": details,
-                })
-    
+                endpoints_by_tag[tag].append(
+                    {
+                        "path": path,
+                        "method": method.upper(),
+                        "operation_id": details.get("operationId", ""),
+                        "summary": details.get("summary", ""),
+                        "details": details,
+                    }
+                )
+
     return dict(endpoints_by_tag)
 
 
 def create_domain_chunk(
-    spec: dict[str, Any],
-    tag: str,
-    endpoints: list[dict[str, Any]],
-    common_schema_names: set[str]
+    spec: dict[str, Any], tag: str, endpoints: list[dict[str, Any]], common_schema_names: set[str]
 ) -> dict[str, Any]:
     """Create a domain chunk containing endpoints and their schemas."""
     # Find all schemas referenced by these endpoints
     domain_schemas: set[str] = set()
     for endpoint in endpoints:
         domain_schemas.update(find_schema_refs(endpoint["details"]))
-    
+
     # Resolve dependencies
     all_domain_schemas = resolve_schema_dependencies(spec, domain_schemas)
-    
+
     # Remove common schemas (they're in a separate file)
     domain_specific_schemas = all_domain_schemas - common_schema_names
-    
+
     # Get the actual schema definitions
     all_schemas = spec.get("components", {}).get("schemas", {})
-    schemas = {
-        name: all_schemas[name]
-        for name in domain_specific_schemas
-        if name in all_schemas
-    }
-    
+    schemas = {name: all_schemas[name] for name in domain_specific_schemas if name in all_schemas}
+
     # Create simplified endpoint list (without full details for summary)
     endpoint_summary = [
         {
@@ -180,7 +170,7 @@ def create_domain_chunk(
         }
         for ep in endpoints
     ]
-    
+
     return {
         "tag": tag,
         "endpoint_count": len(endpoints),
@@ -199,45 +189,47 @@ def estimate_tokens(data: dict[str, Any]) -> int:
     return len(json_str) // 4
 
 
-def decompose_spec(
-    spec_path: str | Path,
-    output_dir: str | Path,
-    max_tokens_per_chunk: int = 15000
-) -> dict[str, Any]:
+def decompose_spec(spec_path: str | Path, output_dir: str | Path, max_tokens_per_chunk: int = 15000) -> dict[str, Any]:
     """
     Decompose the OpenAPI spec into domain chunks.
-    
+
     Args:
         spec_path: Path to the OpenAPI spec JSON file
         output_dir: Directory to write the chunks
         max_tokens_per_chunk: Maximum estimated tokens per chunk
-    
+
     Returns:
         Manifest dictionary with metadata about all chunks
     """
     spec = load_spec(spec_path)
     output_dir = Path(output_dir)
-    
+
     # Extract common schemas
     common_schemas = extract_common_schemas(spec)
     common_schema_names = set(common_schemas.keys())
-    
+
     # Save common schemas
-    save_json(output_dir / "shared" / "common_schemas.json", {
-        "description": "Common schemas shared across all domains",
-        "schemas": common_schemas,
-    })
-    
+    save_json(
+        output_dir / "shared" / "common_schemas.json",
+        {
+            "description": "Common schemas shared across all domains",
+            "schemas": common_schemas,
+        },
+    )
+
     # Extract common parameters
     common_params = spec.get("components", {}).get("parameters", {})
-    save_json(output_dir / "shared" / "common_parameters.json", {
-        "description": "Common parameters shared across endpoints",
-        "parameters": common_params,
-    })
-    
+    save_json(
+        output_dir / "shared" / "common_parameters.json",
+        {
+            "description": "Common parameters shared across endpoints",
+            "parameters": common_params,
+        },
+    )
+
     # Group endpoints by tag
     endpoints_by_tag = group_endpoints_by_tag(spec)
-    
+
     # Create manifest
     manifest: dict[str, Any] = {
         "spec_info": spec.get("info", {}),
@@ -249,14 +241,14 @@ def decompose_spec(
         ],
         "chunks": [],
     }
-    
+
     # Create domain chunks
     for tag, endpoints in sorted(endpoints_by_tag.items(), key=lambda x: -len(x[1])):
         tag_slug = tag.lower().replace(" ", "_").replace("-", "_")
-        
+
         chunk = create_domain_chunk(spec, tag, endpoints, common_schema_names)
         estimated_tokens = estimate_tokens(chunk)
-        
+
         chunk_meta = {
             "tag": tag,
             "slug": tag_slug,
@@ -266,74 +258,64 @@ def decompose_spec(
             "estimated_tokens": estimated_tokens,
             "needs_splitting": estimated_tokens > max_tokens_per_chunk,
         }
-        
+
         # If chunk is too large, split by endpoint
         if estimated_tokens > max_tokens_per_chunk and len(endpoints) > 3:
             # Split into smaller chunks
-            sub_chunks = split_large_domain(
-                spec, tag, endpoints, common_schema_names, max_tokens_per_chunk
-            )
-            
+            sub_chunks = split_large_domain(spec, tag, endpoints, common_schema_names, max_tokens_per_chunk)
+
             for i, sub_chunk in enumerate(sub_chunks):
-                sub_path = f"chunks/domain_{tag_slug}_part{i+1}.json"
+                sub_path = f"chunks/domain_{tag_slug}_part{i + 1}.json"
                 save_json(output_dir / sub_path, sub_chunk)
-                
-                manifest["chunks"].append({
-                    "tag": tag,
-                    "slug": f"{tag_slug}_part{i+1}",
-                    "path": sub_path,
-                    "endpoint_count": sub_chunk["endpoint_count"],
-                    "schema_count": sub_chunk["schema_count"],
-                    "estimated_tokens": estimate_tokens(sub_chunk),
-                    "is_partial": True,
-                    "part": i + 1,
-                    "total_parts": len(sub_chunks),
-                })
+
+                manifest["chunks"].append(
+                    {
+                        "tag": tag,
+                        "slug": f"{tag_slug}_part{i + 1}",
+                        "path": sub_path,
+                        "endpoint_count": sub_chunk["endpoint_count"],
+                        "schema_count": sub_chunk["schema_count"],
+                        "estimated_tokens": estimate_tokens(sub_chunk),
+                        "is_partial": True,
+                        "part": i + 1,
+                        "total_parts": len(sub_chunks),
+                    }
+                )
         else:
             save_json(output_dir / chunk_meta["path"], chunk)
             manifest["chunks"].append(chunk_meta)
-    
+
     # Save manifest
     save_json(output_dir / "manifest.json", manifest)
-    
+
     return manifest
 
 
 def split_large_domain(
-    spec: dict[str, Any],
-    tag: str,
-    endpoints: list[dict[str, Any]],
-    common_schema_names: set[str],
-    max_tokens: int
+    spec: dict[str, Any], tag: str, endpoints: list[dict[str, Any]], common_schema_names: set[str], max_tokens: int
 ) -> list[dict[str, Any]]:
     """Split a large domain into smaller chunks."""
     chunks: list[dict[str, Any]] = []
     current_endpoints: list[dict[str, Any]] = []
-    
+
     for endpoint in endpoints:
         current_endpoints.append(endpoint)
-        
+
         # Create a test chunk to estimate size
-        test_chunk = create_domain_chunk(
-            spec, tag, current_endpoints, common_schema_names
-        )
-        
+        test_chunk = create_domain_chunk(spec, tag, current_endpoints, common_schema_names)
+
         if estimate_tokens(test_chunk) > max_tokens and len(current_endpoints) > 1:
             # Remove last endpoint and save chunk
             current_endpoints.pop()
-            chunk = create_domain_chunk(
-                spec, tag, current_endpoints, common_schema_names
-            )
+            chunk = create_domain_chunk(spec, tag, current_endpoints, common_schema_names)
             chunks.append(chunk)
             current_endpoints = [endpoint]
-    
+
     # Add remaining endpoints
     if current_endpoints:
-        chunk = create_domain_chunk(
-            spec, tag, current_endpoints, common_schema_names
-        )
+        chunk = create_domain_chunk(spec, tag, current_endpoints, common_schema_names)
         chunks.append(chunk)
-    
+
     return chunks
 
 
@@ -345,11 +327,11 @@ def print_summary(manifest: dict[str, Any]) -> None:
     print(f"\nTotal Endpoints: {manifest['total_endpoints']}")
     print(f"Total Tags: {manifest['total_tags']}")
     print(f"Total Chunks: {len(manifest['chunks'])}")
-    
+
     print("\n" + "-" * 60)
     print("CHUNKS BY SIZE (estimated tokens)")
     print("-" * 60)
-    
+
     for chunk in sorted(manifest["chunks"], key=lambda x: -x["estimated_tokens"]):
         status = "⚠️ LARGE" if chunk.get("needs_splitting") else "✅"
         partial = f" (part {chunk['part']}/{chunk['total_parts']})" if chunk.get("is_partial") else ""
@@ -359,15 +341,13 @@ def print_summary(manifest: dict[str, Any]) -> None:
             f"{chunk['schema_count']} schemas, "
             f"~{chunk['estimated_tokens']} tokens"
         )
-    
+
     print("\n" + "=" * 60)
 
 
 def main() -> None:
-    """Main entry point."""
-    parser = argparse.ArgumentParser(
-        description="Decompose OpenAPI spec into LLM-friendly chunks"
-    )
+    """Run the spec decomposition script."""
+    parser = argparse.ArgumentParser(description="Decompose OpenAPI spec into LLM-friendly chunks")
     parser.add_argument(
         "--spec",
         default="api_spec/v2-rest-api-spec.json",
@@ -384,16 +364,16 @@ def main() -> None:
         default=15000,
         help="Maximum estimated tokens per chunk",
     )
-    
+
     args = parser.parse_args()
-    
+
     print(f"Loading spec from: {args.spec}")
     print(f"Output directory: {args.output}")
-    
+
     manifest = decompose_spec(args.spec, args.output, args.max_tokens)
-    
+
     print_summary(manifest)
-    
+
     print(f"\n✅ Decomposition complete!")
     print(f"   Manifest: {args.output}/manifest.json")
 

@@ -10,19 +10,19 @@ This module demonstrates the test patterns for Snyk models, including:
 
 from __future__ import annotations
 
-import pytest
 from unittest.mock import MagicMock
+
+import pytest
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models import SnykOrg
-
 from tests.fixtures import (
+    ERROR_401,
+    ERROR_404,
     OrgResponseFactory,
     make_jsonapi_response,
     make_pagination_links,
     make_resource,
-    ERROR_401,
-    ERROR_404,
 )
 
 
@@ -72,9 +72,7 @@ class TestSnykOrgResponseMapping:
         """Create a mock query object."""
         return MagicMock()
 
-    def test_map_single_org_response(
-        self, backend: SnykBackend, mock_query: MagicMock
-    ) -> None:
+    def test_map_single_org_response(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test mapping a single organization response."""
         response = OrgResponseFactory.single(
             id="org-123",
@@ -93,9 +91,7 @@ class TestSnykOrgResponseMapping:
         assert result[0]["group_id"] == "group-456"
         assert result[0]["is_personal"] is False
 
-    def test_map_list_org_response(
-        self, backend: SnykBackend, mock_query: MagicMock
-    ) -> None:
+    def test_map_list_org_response(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test mapping a list of organizations response."""
         response = OrgResponseFactory.list(count=3)
 
@@ -107,9 +103,7 @@ class TestSnykOrgResponseMapping:
             assert "name" in record
             assert "slug" in record
 
-    def test_map_empty_response(
-        self, backend: SnykBackend, mock_query: MagicMock
-    ) -> None:
+    def test_map_empty_response(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test mapping an empty response."""
         response = make_jsonapi_response([])
 
@@ -117,9 +111,7 @@ class TestSnykOrgResponseMapping:
 
         assert len(result) == 0
 
-    def test_map_response_with_missing_attributes(
-        self, backend: SnykBackend, mock_query: MagicMock
-    ) -> None:
+    def test_map_response_with_missing_attributes(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test mapping a response with missing optional attributes."""
         response = make_jsonapi_response(
             make_resource(
@@ -154,25 +146,17 @@ class TestSnykOrgPagination:
         """Create a mock query object."""
         return MagicMock()
 
-    def test_extract_pagination_cursor(
-        self, backend: SnykBackend, mock_query: MagicMock
-    ) -> None:
+    def test_extract_pagination_cursor(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test extracting pagination cursor from response."""
         mock_response = MagicMock()
         mock_response.content = b'{"links": {"next": "/rest/orgs?starting_after=cursor123&version=2024-10-15"}}'
-        mock_response.json.return_value = {
-            "links": {
-                "next": "/rest/orgs?starting_after=cursor123&version=2024-10-15"
-            }
-        }
+        mock_response.json.return_value = {"links": {"next": "/rest/orgs?starting_after=cursor123&version=2024-10-15"}}
 
         result = backend.get_next_page_data_from_response(mock_query, mock_response)
 
         assert result["starting_after"] == "cursor123"
 
-    def test_no_next_page(
-        self, backend: SnykBackend, mock_query: MagicMock
-    ) -> None:
+    def test_no_next_page(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test handling when there's no next page."""
         mock_response = MagicMock()
         mock_response.content = b'{"links": {}}'
@@ -182,12 +166,10 @@ class TestSnykOrgPagination:
 
         assert "starting_after" not in result
 
-    def test_empty_links(
-        self, backend: SnykBackend, mock_query: MagicMock
-    ) -> None:
+    def test_empty_links(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test handling when links is empty."""
         mock_response = MagicMock()
-        mock_response.content = b'{}'
+        mock_response.content = b"{}"
         mock_response.json.return_value = {}
 
         result = backend.get_next_page_data_from_response(mock_query, mock_response)
@@ -208,9 +190,7 @@ class TestSnykOrgEdgeCases:
         """Create a mock query object."""
         return MagicMock()
 
-    def test_map_response_with_relationships(
-        self, backend: SnykBackend, mock_query: MagicMock
-    ) -> None:
+    def test_map_response_with_relationships(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test mapping a response that includes relationships."""
         response = make_jsonapi_response(
             make_resource(
@@ -220,11 +200,7 @@ class TestSnykOrgEdgeCases:
                     "name": "Test Org",
                     "slug": "test-org",
                 },
-                relationships={
-                    "group": {
-                        "data": {"id": "group-456", "type": "group"}
-                    }
-                },
+                relationships={"group": {"data": {"id": "group-456", "type": "group"}}},
             )
         )
 
@@ -235,23 +211,19 @@ class TestSnykOrgEdgeCases:
         # Relationship should be extracted as {rel_name}_id
         assert result[0].get("group_id") == "group-456"
 
-    def test_map_response_with_null_data(
-        self, backend: SnykBackend, mock_query: MagicMock
-    ) -> None:
+    def test_map_response_with_null_data(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test mapping a response with null data field."""
         response = {"data": None, "jsonapi": {"version": "1.0"}}
 
         # The backend passes through to parent which wraps in list
         # This test documents the current behavior
         result = backend.map_records_response(response, mock_query)
-        
+
         # Current implementation wraps the response in a list
         # This is acceptable behavior - the model layer handles None
         assert isinstance(result, list)
 
-    def test_map_response_with_extra_fields(
-        self, backend: SnykBackend, mock_query: MagicMock
-    ) -> None:
+    def test_map_response_with_extra_fields(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test that extra fields in response are preserved."""
         response = make_jsonapi_response(
             make_resource(

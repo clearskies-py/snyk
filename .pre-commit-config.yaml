@@ -1,15 +1,15 @@
 # Pre-commit configuration for  Akeyless Custom Producer
 
 ci:
-    autofix_commit_msg: "chore(pre-commit): autofix run"
-    autoupdate_commit_msg: "chore(pre-commit): autoupdate hooks"
+  autofix_commit_msg: "chore(pre-commit): autofix run"
+  autoupdate_commit_msg: "chore(pre-commit): autoupdate hooks"
 
 default_install_hook_types:
-    - pre-commit
-    - commit-msg
-    - post-checkout
-    - post-merge
-    - post-rewrite
+  - pre-commit
+  - commit-msg
+  - post-checkout
+  - post-merge
+  - post-rewrite
 
 default_stages: ["pre-commit"]
 
@@ -49,14 +49,14 @@ repos:
     rev: v1.16.1
     hooks:
       - id: mypy
-        additional_dependencies: [types-requests]
+        additional_dependencies: [types-requests, types-pyyaml]
         files: \.py$
 
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.35.1
     hooks:
       - id: yamllint
-        args: [-d, relaxed]
+        args: [--config-file, .yamllint]
 
   - repo: local
     hooks:
@@ -66,11 +66,11 @@ repos:
         language: system
         types: [python]
         pass_filenames: false
-    # Prevent committing .rej files
+      # Prevent committing .rej files
       - id: forbidden-files
         name: forbidden files
         entry:
-            found Copier update rejection files; review and remove them before
-            merging.
+          found Copier update rejection files; review and remove them before
+          merging.
         language: fail
         files: "\\.rej$"

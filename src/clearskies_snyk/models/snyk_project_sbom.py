@@ -22,10 +22,7 @@ class SnykProjectSbom(Model):
     from clearskies_snyk.models import SnykProjectSbom
 
     # Fetch SBOM for a project
-    sbom = SnykProjectSbom().find(
-        "org_id=org-id-123",
-        "project_id=project-id-456"
-    )
+    sbom = SnykProjectSbom().find("org_id=org-id-123", "project_id=project-id-456")
     print(f"SBOM Format: {sbom.format}")
     ```
     """

@@ -1,0 +1,48 @@
+---
+# Yamllint configuration for the project
+# See: https://yamllint.readthedocs.io/en/stable/configuration.html
+
+extends: default
+
+rules:
+  # Allow long lines in YAML files (common in OpenAPI specs and workflows)
+  line-length:
+    max: 120
+    level: warning
+
+  # Allow more than 2 blank lines for better readability in large files
+  empty-lines:
+    max: 5
+
+  # Be more lenient with indentation for GitHub Actions
+  indentation:
+    spaces: 2
+    indent-sequences: consistent
+
+  # Allow duplicate keys (sometimes needed in OpenAPI specs)
+  key-duplicates: disable
+
+  # Allow truthy values like 'on' in GitHub Actions
+  truthy:
+    allowed-values: ['true', 'false', 'on', 'off', 'yes', 'no']
+
+  # Relax document-start requirement
+  document-start: disable
+
+  # Allow inline mappings
+  braces:
+    max-spaces-inside: 1
+
+  # Allow inline sequences
+  brackets:
+    max-spaces-inside: 1
+
+  # Relax comment rules for auto-generated files
+  comments:
+    min-spaces-from-content: 1
+    level: warning
+
+  # Don't check line endings (allow CRLF in vendored files)
+  new-lines:
+    type: unix
+    level: warning

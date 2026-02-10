@@ -18,7 +18,9 @@ class SnykCollectionRelationshipProject(Model):
     from clearskies_snyk.models import SnykCollectionRelationshipProject
 
     # Fetch all projects in a collection
-    relationships = SnykCollectionRelationshipProject().where("org_id=org-id-123").where("collection_id=col-id-456")
+    relationships = (
+        SnykCollectionRelationshipProject().where("org_id=org-id-123").where("collection_id=col-id-456")
+    )
     for rel in relationships:
         print(f"Project: {rel.id}")
     ```

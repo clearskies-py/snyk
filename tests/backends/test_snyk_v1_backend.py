@@ -171,9 +171,7 @@ class TestSnykV1Backend:
 
         mock_response = MagicMock()
         mock_response.content = b'{"items": [{"id": "1"}, {"id": "2"}]}'
-        mock_response.json.return_value = {
-            "items": [{"id": "1"}, {"id": "2"}]
-        }
+        mock_response.json.return_value = {"items": [{"id": "1"}, {"id": "2"}]}
 
         result = backend.get_next_page_data_from_response(query, mock_response)
         assert result.get("page") == 2  # Should request page 2
@@ -216,7 +214,7 @@ class TestSnykV1Backend:
         query = clearskies.query.Query(model_class=MockModel)
 
         mock_response = MagicMock()
-        mock_response.content = b'{}'
+        mock_response.content = b"{}"
         mock_response.json.return_value = {}
 
         result = backend.get_next_page_data_from_response(query, mock_response)
@@ -238,9 +236,7 @@ class TestSnykV1Backend:
 
         mock_response = MagicMock()
         mock_response.content = b'{"items": [{"id": "1"}, {"id": "2"}]}'
-        mock_response.json.return_value = {
-            "items": [{"id": "1"}, {"id": "2"}]
-        }
+        mock_response.json.return_value = {"items": [{"id": "1"}, {"id": "2"}]}
 
         result = backend.get_next_page_data_from_response(query, mock_response)
         assert result.get("page") == 4  # Should request page 4
@@ -254,17 +250,13 @@ class TestSnykV1Backend:
     def test_extract_records_from_response_with_wrapper(self):
         """Test _extract_records_from_response with wrapper key."""
         backend = SnykV1Backend()
-        records = backend._extract_records_from_response({
-            "projects": [{"id": "1"}, {"id": "2"}]
-        })
+        records = backend._extract_records_from_response({"projects": [{"id": "1"}, {"id": "2"}]})
         assert len(records) == 2
 
     def test_extract_records_from_response_with_generic_wrapper(self):
         """Test _extract_records_from_response with generic single-key wrapper."""
         backend = SnykV1Backend()
-        records = backend._extract_records_from_response({
-            "custom_data": [{"id": "1"}]
-        })
+        records = backend._extract_records_from_response({"custom_data": [{"id": "1"}]})
         assert len(records) == 1
 
     def test_extract_records_from_response_with_empty_dict(self):
@@ -276,7 +268,5 @@ class TestSnykV1Backend:
     def test_extract_records_from_response_with_non_list_value(self):
         """Test _extract_records_from_response with non-list value."""
         backend = SnykV1Backend()
-        records = backend._extract_records_from_response({
-            "single_item": {"id": "1"}
-        })
+        records = backend._extract_records_from_response({"single_item": {"id": "1"}})
         assert len(records) == 0  # Non-list values return empty

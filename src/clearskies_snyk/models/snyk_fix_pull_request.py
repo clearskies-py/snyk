@@ -22,11 +22,9 @@ class SnykFixPullRequest(Model):
     # Create a fix pull request (POST only endpoint)
     # This is typically used to trigger PR creation for specific issues
     fix_pr = SnykFixPullRequest()
-    fix_pr.save({
-        "org_id": "org-123",
-        "project_id": "project-456",
-        "issue_ids": ["SNYK-JS-YARGSPARSER-560381"]
-    })
+    fix_pr.save(
+        {"org_id": "org-123", "project_id": "project-456", "issue_ids": ["SNYK-JS-YARGSPARSER-560381"]}
+    )
     ```
     """
 

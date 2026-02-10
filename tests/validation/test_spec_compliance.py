@@ -53,7 +53,8 @@ def get_paths_for_tag(spec: dict[str, Any], tag: str) -> list[str]:
 def normalize_path(path: str) -> str:
     """Normalize a path by replacing parameter placeholders."""
     import re
-    return re.sub(r'\{[^}]+\}', '{param}', path)
+
+    return re.sub(r"\{[^}]+\}", "{param}", path)
 
 
 class TestOrgSpecCompliance:
@@ -76,15 +77,17 @@ class TestOrgSpecCompliance:
         """Verify the model has the expected columns."""
         # Get column names from class attributes
         model_columns = {
-            name for name in dir(SnykOrg)
-            if not name.startswith('_') and hasattr(getattr(SnykOrg, name, None), '__class__')
-            and 'Column' in str(type(getattr(SnykOrg, name, None)).__mro__)
+            name
+            for name in dir(SnykOrg)
+            if not name.startswith("_")
+            and hasattr(getattr(SnykOrg, name, None), "__class__")
+            and "Column" in str(type(getattr(SnykOrg, name, None)).__mro__)
         }
-        
+
         # Core columns that should exist based on the API
         expected = {"id", "name", "slug", "is_personal", "group_id"}
         missing = expected - model_columns
-        
+
         # Alternative: check if attributes exist on class
         for col in expected:
             assert hasattr(SnykOrg, col), f"Missing column: {col}"
@@ -110,7 +113,7 @@ class TestGroupSpecCompliance:
         """Verify the model has the expected columns."""
         # Core columns that should exist based on the API
         expected = {"id", "name"}
-        
+
         # Check if attributes exist on class
         for col in expected:
             assert hasattr(SnykGroup, col), f"Missing column: {col}"
@@ -139,7 +142,7 @@ class TestProjectSpecCompliance:
         """Verify the model has the expected columns."""
         # Core columns that should exist based on the API
         expected = {"id", "name", "origin", "status", "org_id"}
-        
+
         # Check if attributes exist on class
         for col in expected:
             assert hasattr(SnykProject, col), f"Missing column: {col}"
@@ -210,18 +213,12 @@ class TestServiceAccountSpecCompliance:
 
     def test_org_service_accounts_endpoint_exists(self, spec: dict[str, Any]) -> None:
         """Verify an org service accounts endpoint exists in the spec."""
-        sa_paths = [
-            p for p in spec["paths"] 
-            if "service_accounts" in p and "orgs" in p
-        ]
+        sa_paths = [p for p in spec["paths"] if "service_accounts" in p and "orgs" in p]
         assert len(sa_paths) > 0, "Expected at least one org service accounts endpoint"
 
     def test_group_service_accounts_endpoint_exists(self, spec: dict[str, Any]) -> None:
         """Verify a group service accounts endpoint exists in the spec."""
-        sa_paths = [
-            p for p in spec["paths"] 
-            if "service_accounts" in p and "groups" in p
-        ]
+        sa_paths = [p for p in spec["paths"] if "service_accounts" in p and "groups" in p]
         assert len(sa_paths) > 0, "Expected at least one group service accounts endpoint"
 
 
@@ -244,34 +241,34 @@ class TestSpecCoverage:
             "Issues": [SnykOrgIssue, SnykGroupIssue],
             "ServiceAccounts": [SnykOrgServiceAccount, SnykGroupServiceAccount],
         }
-        
+
         # Get all tags from spec
         all_tags = set()
         for path, methods in spec.get("paths", {}).items():
             for method, details in methods.items():
                 if isinstance(details, dict):
                     all_tags.update(details.get("tags", []))
-        
+
         # Check coverage
         covered_tags = set(tag_model_map.keys())
         high_priority_tags = {"Orgs", "Groups", "Projects", "Issues"}
-        
+
         missing_high_priority = high_priority_tags - covered_tags
         assert not missing_high_priority, f"Missing models for high-priority tags: {missing_high_priority}"
 
     def test_endpoint_count_summary(self, spec: dict[str, Any]) -> None:
         """Print a summary of endpoint coverage (informational)."""
         from collections import defaultdict
-        
+
         endpoints_by_tag: dict[str, int] = defaultdict(int)
         for path, methods in spec.get("paths", {}).items():
             for method, details in methods.items():
                 if isinstance(details, dict):
                     for tag in details.get("tags", ["Untagged"]):
                         endpoints_by_tag[tag] += 1
-        
+
         total_endpoints = sum(endpoints_by_tag.values())
-        
+
         # This test always passes - it's for informational purposes
         print(f"\n\nTotal endpoints in spec: {total_endpoints}")
         print(f"Tags with most endpoints:")

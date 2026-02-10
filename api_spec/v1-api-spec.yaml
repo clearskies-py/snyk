@@ -24,7 +24,7 @@ paths:
           schema:
             type: string
             example: 4a18d42f-0706-4ad0-b127-24078731fbed
-        
+
       responses:
         '200':
           description: ''
@@ -118,7 +118,7 @@ paths:
           schema:
             type: string
             example: 4a18d42f-0706-4ad0-b127-24078731fbed
-        
+
       responses:
         '200':
           description: ''
@@ -294,7 +294,7 @@ paths:
           schema:
             type: string
             example: 6d5813be-7e6d-4ab8-80c2-1e3e2a454545
-        
+
       responses:
         '200':
           description: ''
@@ -398,7 +398,7 @@ paths:
           schema:
             type: string
             example: b61bc07c-27c6-42b3-8b04-0f228ed31a67
-        
+
       responses:
         '200':
           description: ''
@@ -473,7 +473,7 @@ paths:
           schema:
             type: string
             example: 4a18d42f-0706-4ad0-b127-24078731fbed
-        
+
       responses:
         '200':
           description: ''
@@ -582,7 +582,7 @@ paths:
             type: number
             format: double
             example: 1
-        
+
       responses:
         '200':
           description: ''
@@ -735,7 +735,7 @@ paths:
           schema:
             type: string
             example: my
-        
+
       responses:
         '200':
           description: ''
@@ -778,7 +778,7 @@ paths:
           schema:
             type: string
             example: a060a49f-636e-480f-9e14-38e773b2a97f
-        
+
       responses:
         '200':
           description: ''
@@ -828,7 +828,7 @@ paths:
         #### Required permissions
 
         - `View Organization`
-      operationId: Listalltheorganizationsauserbelongsto        
+      operationId: Listalltheorganizationsauserbelongsto
       responses:
         '200':
           description: ''
@@ -948,7 +948,7 @@ paths:
           schema:
             type: string
             example: 4a18d42f-0706-4ad0-b127-24078731fbed
-        
+
       responses:
         '200':
           description: ''
@@ -1182,7 +1182,7 @@ paths:
           schema:
             type: boolean
             example: true
-        
+
       responses:
         '200':
           description: ''
@@ -1227,7 +1227,7 @@ paths:
           schema:
             type: string
             example: 25065eb1-109c-4c3e-9503-68fc56ef6f44
-        
+
       responses:
         '200':
           description: ''
@@ -1393,7 +1393,7 @@ paths:
           schema:
             type: string
             example: 4a18d42f-0706-4ad0-b127-24078731fbed
-        
+
       responses:
         '200':
           description: ''
@@ -1471,7 +1471,7 @@ paths:
           schema:
             type: string
             example: 4a18d42f-0706-4ad0-b127-24078731fbed
-        
+
       responses:
         '204':
           description: ''
@@ -1515,11 +1515,11 @@ paths:
                   type: string
                   description: ID of the role to grant this user.
                   example: ''
-                role: 
+                role:
                   type: string
                   description: Deprecated. Name of the role to grant this user. Must be one of `ADMIN`, `COLLABORATOR`, or `RESTRICTED_COLLABORATOR`. This field is invalid if `rolePublicId` is supplied with the request.
                   example: ''
-              required: 
+              required:
                 - email
         required: true
       responses:
@@ -1733,7 +1733,7 @@ paths:
         - [Set up a broker for an existing integration](https://docs.snyk.io/snyk-api/api-endpoints-index-and-tips/examples-for-the-update-existing-integration-endpoint#set-up-broker-for-an-existing-integration)
 
         - [Update credentials for an existing non-brokered integration](https://docs.snyk.io/snyk-api/api-endpoints-index-and-tips/examples-for-the-update-existing-integration-endpoint#update-credentials-for-an-existing-non-brokered-integration)
-        
+
         - [Disable broker for an existing integration](https://docs.snyk.io/snyk-api/api-endpoints-index-and-tips/examples-for-the-update-existing-integration-endpoint#disable-broker-for-an-existing-integration)
 
         #### Required permissions
@@ -4055,7 +4055,7 @@ paths:
           schema:
             type: string
             example: 4a18d42f-0706-4ad0-b127-24078731fbed
-        
+
       responses:
         '200':
           description: ''
@@ -4109,7 +4109,7 @@ paths:
               - $ref: '#/components/schemas/entitlementKey'
               - description: The entitlement to query.
                 example: reports
-        
+
       responses:
         '200':
           description: ''
@@ -4179,7 +4179,7 @@ paths:
           schema:
             type: string
             example: https://repo1.maven.org/maven2
-        
+
       responses:
         '200':
           description: ''
@@ -4441,7 +4441,7 @@ paths:
           schema:
             type: string
             example: 0.7.0
-        
+
       responses:
         '200':
           description: ''
@@ -5529,7 +5529,7 @@ paths:
           schema:
             type: string
             example: 1.0.3
-        
+
       responses:
         '200':
           description: ''
@@ -6174,7 +6174,7 @@ paths:
           schema:
             type: string
             example: 4.7.2
-        
+
       responses:
         '200':
           description: ''
@@ -6559,7 +6559,7 @@ paths:
           schema:
             type: string
             example: 4.7.2
-        
+
       responses:
         '200':
           description: ''
@@ -6814,7 +6814,7 @@ paths:
           schema:
             type: string
             example: '3.3'
-        
+
       responses:
         '200':
           description: ''
@@ -11318,7 +11318,7 @@ paths:
           schema:
             type: string
             example: 4a18d42f-0706-4ad0-b127-24078731fbed
-        
+
       responses:
         '200':
           description: ''
@@ -11372,7 +11372,7 @@ paths:
           schema:
             type: string
             example: 463c1ee5-31bc-428c-b451-b79a3270db08
-        
+
       responses:
         '200':
           description: ''
@@ -11421,7 +11421,7 @@ paths:
           schema:
             type: string
             example: 463c1ee5-31bc-428c-b451-b79a3270db08
-        
+
       responses:
         '200':
           description: ''
@@ -11461,7 +11461,7 @@ paths:
           schema:
             type: string
             example: 463c1ee5-31bc-428c-b451-b79a3270db08
-        
+
       responses:
         '200':
           description: ''

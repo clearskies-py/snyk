@@ -21,7 +21,7 @@ class TestDefaultSnykAuth:
         """Test authentication with SNYK_AUTH_SECRET_PATH environment variable."""
         auth_provider = DefaultSnykAuth()
         mock_environment = MagicMock()
-        mock_environment.get.side_effect = lambda key, *args: (
+        mock_environment.get.side_effect = lambda key, *args, **kwargs: (
             "/path/to/secret" if key == "SNYK_AUTH_SECRET_PATH" else None
         )
 
@@ -39,7 +39,7 @@ class TestDefaultSnykAuth:
         auth_provider = DefaultSnykAuth()
         mock_environment = MagicMock()
         # Return None/empty for SNYK_AUTH_SECRET_PATH to trigger fallback
-        mock_environment.get.side_effect = lambda key, *args: (
+        mock_environment.get.side_effect = lambda key, *args, **kwargs: (
             None if key == "SNYK_AUTH_SECRET_PATH" else "test-api-key"
         )
 
@@ -57,7 +57,7 @@ class TestDefaultSnykAuth:
         auth_provider = DefaultSnykAuth()
         mock_environment = MagicMock()
         # Both are set, but secret_path should be preferred
-        mock_environment.get.side_effect = lambda key, *args: (
+        mock_environment.get.side_effect = lambda key, *args, **kwargs: (
             "/path/to/secret" if key == "SNYK_AUTH_SECRET_PATH" else "test-api-key"
         )
 

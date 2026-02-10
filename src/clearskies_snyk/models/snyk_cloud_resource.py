@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Boolean, BelongsToId, BelongsToModel, Datetime, Integer, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Integer, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_org_reference

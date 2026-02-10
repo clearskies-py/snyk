@@ -171,7 +171,9 @@ class TestSnykGroupServiceAccountReference:
 
     def test_get_model_class_returns_snyk_group_service_account(self) -> None:
         """Test that get_model_class returns SnykGroupServiceAccount."""
-        from clearskies_snyk.models.references.snyk_group_service_account_reference import SnykGroupServiceAccountReference
+        from clearskies_snyk.models.references.snyk_group_service_account_reference import (
+            SnykGroupServiceAccountReference,
+        )
         from clearskies_snyk.models.snyk_group_service_account import SnykGroupServiceAccount
 
         ref = SnykGroupServiceAccountReference()

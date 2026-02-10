@@ -9,7 +9,6 @@ from __future__ import annotations
 
 from typing import Any
 
-
 # JSON:API version used by Snyk
 JSONAPI_VERSION: dict[str, str] = {"version": "1.0"}
 
@@ -85,9 +84,7 @@ def make_relationship(
     Returns:
         A dictionary representing a JSON:API relationship
     """
-    relationship: dict[str, Any] = {
-        "data": {"id": id, "type": type}
-    }
+    relationship: dict[str, Any] = {"data": {"id": id, "type": type}}
     if links is not None:
         relationship["links"] = links
     return relationship
