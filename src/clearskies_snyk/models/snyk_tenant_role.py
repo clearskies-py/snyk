@@ -48,7 +48,6 @@ class SnykTenantRole(Model):
     """
     tenant_id = BelongsToId(
         snyk_tenant_reference.SnykTenantReference,
-        readable_parent_columns=["id", "name", "slug"],
         is_searchable=True,
     )
 

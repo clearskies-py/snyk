@@ -47,7 +47,6 @@ class SnykOrgPolicyEvent(Model):
     """
     org_id = BelongsToId(
         snyk_org_reference.SnykOrgReference,
-        readable_parent_columns=["id", "name", "slug"],
         is_searchable=True,
     )
 
@@ -63,7 +62,6 @@ class SnykOrgPolicyEvent(Model):
     """
     policy_id = BelongsToId(
         snyk_org_policy_reference.SnykOrgPolicyReference,
-        readable_parent_columns=["id", "name"],
         is_searchable=True,
     )
 

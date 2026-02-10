@@ -51,7 +51,7 @@ class DefaultSnykAuth(clearskies.di.AdditionalConfigAutoImport):
         Returns:
             A SecretBearer authentication instance configured for Snyk API.
         """
-        if environment.get("SNYK_AUTH_SECRET_PATH", True):
-            secret_key = environment.get("SNYK_AUTH_SECRET_PATH")
-            return clearskies.authentication.SecretBearer(secret_key=secret_key, header_prefix="token ")
+        secret_path = environment.get("SNYK_AUTH_SECRET_PATH", silent=True)
+        if secret_path:
+            return clearskies.authentication.SecretBearer(secret_key=secret_path, header_prefix="token ")
         return clearskies.authentication.SecretBearer(environment_key="SNYK_AUTH_KEY", header_prefix="token ")

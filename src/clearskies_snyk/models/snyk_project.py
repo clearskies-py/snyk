@@ -63,7 +63,6 @@ class SnykProject(Model):
     """
     org_id = BelongsToId(
         snyk_org_reference.SnykOrgReference,
-        readable_parent_columns=["id", "name", "slug"],
         is_searchable=True,
     )
 
@@ -209,7 +208,6 @@ class SnykProject(Model):
     """
     target_id = BelongsToId(
         snyk_target_reference.SnykTargetReference,
-        readable_parent_columns=["id", "display_name"],
     )
 
     """

@@ -48,7 +48,6 @@ class SnykGroupAuditLog(Model):
     """
     group_id = BelongsToId(
         snyk_group_reference.SnykGroupReference,
-        readable_parent_columns=["id", "name"],
         is_searchable=True,
     )
 

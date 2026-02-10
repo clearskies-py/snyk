@@ -89,7 +89,6 @@ class SnykCollection(Model):
     """
     org_id = BelongsToId(
         snyk_org_reference.SnykOrgReference,
-        readable_parent_columns=["id", "name", "slug"],
         is_searchable=True,
     )
 
@@ -109,7 +108,7 @@ class SnykCollection(Model):
         related_model_class=snyk_project_reference.SnykProjectReference,
         pivot_model_class=snyk_collection_relationship_project.SnykCollectionRelationshipProject,
         own_column_name_in_pivot="collection_id",
-        related_column_name_in_pivot="project_id",
+        related_column_name_in_pivot="id",
     )
 
     """

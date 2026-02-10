@@ -2,9 +2,13 @@
 
 import json
 from dataclasses import dataclass
-from typing import Any
+from typing import TYPE_CHECKING, Any, Callable
 
+from clearskies import decorators
 from clearskies.columns import Json
+
+if TYPE_CHECKING:
+    from clearskies import typing
 
 
 @dataclass
@@ -48,6 +52,26 @@ class ProjectTagList(Json):
     # API receives: {"tags": [{"key": "env", "value": "prod"}]}
     ```
     """
+
+    _descriptor_config_map = None
+
+    @decorators.parameters_to_properties
+    def __init__(
+        self,
+        default: dict[str, Any] | list[Any] | None = None,
+        setable: dict[str, Any] | list[Any] | Callable[..., dict[str, Any]] | None = None,
+        is_readable: bool = True,
+        is_writeable: bool = True,
+        is_temporary: bool = False,
+        validators: "typing.validator | list[typing.validator]" = [],
+        on_change_pre_save: "typing.action | list[typing.action]" = [],
+        on_change_post_save: "typing.action | list[typing.action]" = [],
+        on_change_save_finished: "typing.action | list[typing.action]" = [],
+        created_by_source_type: str = "",
+        created_by_source_key: str = "",
+        created_by_source_strict: bool = True,
+    ):
+        pass
 
     def from_backend(self, value: Any) -> list[SnykProjectTag]:
         """

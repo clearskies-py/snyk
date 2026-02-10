@@ -50,7 +50,6 @@ class SnykOrgInvite(Model):
     """
     org_id = BelongsToId(
         snyk_org_reference.SnykOrgReference,
-        readable_parent_columns=["id", "name", "slug"],
         is_searchable=True,
     )
 
