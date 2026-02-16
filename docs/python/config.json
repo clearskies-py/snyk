@@ -82,22 +82,19 @@
             ]
         },
         {
-            "title": "Base Models",
-            "source": "clearskies.Model",
-            "builder": "clearskies_doc_builder.builders.Module",
-            "classes": [
-                "clearskies_snyk.models.snyk_model.SnykModel",
-                "clearskies_snyk.models.v1.snyk_v1_model.SnykV1Model"
-            ],
-            "parent": "Models"
-        },
-        {
             "title": "V1 Models",
             "source": "clearskies.Model",
             "builder": "clearskies_doc_builder.builders.Module",
             "classes": [
+                "clearskies_snyk.models.v1.snyk_azure_repos_import.SnykAzureReposImport",
+                "clearskies_snyk.models.v1.snyk_bitbucket_cloud_import.SnykBitbucketCloudImport",
+                "clearskies_snyk.models.v1.snyk_bitbucket_server_import.SnykBitbucketServerImport",
+                "clearskies_snyk.models.v1.snyk_container_registry_import.SnykContainerRegistryImport",
                 "clearskies_snyk.models.v1.snyk_dependency.SnykDependency",
+                "clearskies_snyk.models.v1.snyk_dockerhub_import.SnykDockerHubImport",
                 "clearskies_snyk.models.v1.snyk_entitlement.SnykEntitlement",
+                "clearskies_snyk.models.v1.snyk_github_import.SnykGitHubImport",
+                "clearskies_snyk.models.v1.snyk_gitlab_import.SnykGitLabImport",
                 "clearskies_snyk.models.v1.snyk_group_role_v1.SnykGroupRoleV1",
                 "clearskies_snyk.models.v1.snyk_group_settings.SnykGroupSettings",
                 "clearskies_snyk.models.v1.snyk_group_tag.SnykGroupTag",
