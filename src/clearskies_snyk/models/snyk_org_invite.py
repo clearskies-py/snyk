@@ -19,15 +19,18 @@ class SnykOrgInvite(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/invites
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgInvite
 
-    # Fetch all invites for an organization
-    invites = SnykOrgInvite().where("org_id=org-id-123")
-    for invite in invites:
-        print(f"Invite: {invite.email} ({invite.role})")
 
-    # Access the parent organization
-    print(f"Org: {invite.org.name}")
+    def my_handler(snyk_org_invite: SnykOrgInvite):
+        # Fetch all invites for an organization
+        invites = snyk_org_invite.where("org_id=org-id-123")
+        for invite in invites:
+            print(f"Invite: {invite.email} ({invite.role})")
+
+        # Access the parent organization
+        print(f"Org: {invite.org.name}")
     ```
     """
 

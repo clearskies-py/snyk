@@ -16,11 +16,14 @@ class SnykGroupSettingsIac(Model):
     Uses the Snyk v2 REST API endpoint: /groups/{group_id}/settings/iac
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupSettingsIac
 
-    # Fetch IaC settings for a group
-    settings = SnykGroupSettingsIac().where("group_id=group-id-123").first()
-    print(f"Custom Rules Enabled: {settings.custom_rules_is_enabled}")
+
+    def my_handler(snyk_group_settings_iac: SnykGroupSettingsIac):
+        # Fetch IaC settings for a group
+        settings = snyk_group_settings_iac.where("group_id=group-id-123").first()
+        print(f"Custom Rules Enabled: {settings.custom_rules_is_enabled}")
     ```
     """
 

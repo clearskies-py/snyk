@@ -19,11 +19,14 @@ class SnykGroupExport(Model):
     Uses the Snyk v2 REST API endpoint: `/groups/{group_id}/export`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupExport
 
-    # Check export status
-    export = SnykGroupExport().find("group_id=group-id-123", "export_id=export-id-456")
-    print(f"Export Status: {export.status}")
+
+    def my_handler(snyk_group_export: SnykGroupExport):
+        # Check export status
+        export = snyk_group_export.find("group_id=group-id-123", "export_id=export-id-456")
+        print(f"Export Status: {export.status}")
     ```
     """
 

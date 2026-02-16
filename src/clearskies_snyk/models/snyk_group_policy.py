@@ -20,15 +20,18 @@ class SnykGroupPolicy(Model):
     Uses the Snyk v2 REST API endpoint: /groups/{group_id}/policies
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupPolicy
 
-    # Fetch all policies for a group
-    policies = SnykGroupPolicy().where("group_id=group-id-123")
-    for policy in policies:
-        print(f"Policy: {policy.name} ({policy.action_type})")
 
-    # Access the parent group
-    print(f"Group: {policy.group.name}")
+    def my_handler(snyk_group_policy: SnykGroupPolicy):
+        # Fetch all policies for a group
+        policies = snyk_group_policy.where("group_id=group-id-123")
+        for policy in policies:
+            print(f"Policy: {policy.name} ({policy.action_type})")
+
+        # Access the parent group
+        print(f"Group: {policy.group.name}")
     ```
     """
 

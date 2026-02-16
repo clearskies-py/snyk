@@ -29,19 +29,22 @@ class SnykCollection(Model):
     used to group projects together.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykCollection
 
-    # Fetch all collections for an organization
-    collections = SnykCollection().where("org_id=org-id-123")
-    for collection in collections:
-        print(f"Collection: {collection.name}")
 
-    # Access the parent organization
-    print(f"Org: {collection.org.name}")
+    def my_handler(snyk_collection: SnykCollection):
+        # Fetch all collections for an organization
+        collections = snyk_collection.where("org_id=org-id-123")
+        for collection in collections:
+            print(f"Collection: {collection.name}")
 
-    # Access related projects (ManyToMany)
-    for project in collection.projects:
-        print(f"  Project: {project.name}")
+        # Access the parent organization
+        print(f"Org: {collection.org.name}")
+
+        # Access related projects (ManyToMany)
+        for project in collection.projects:
+            print(f"  Project: {project.name}")
     ```
     """
 

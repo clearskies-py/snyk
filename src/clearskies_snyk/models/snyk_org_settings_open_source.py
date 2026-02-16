@@ -17,11 +17,14 @@ class SnykOrgSettingsOpenSource(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/settings/opensource
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgSettingsOpenSource
 
-    # Fetch Open Source settings for an organization
-    settings = SnykOrgSettingsOpenSource().where("org_id=org-id-123").first()
-    print(f"Reachability Enabled: {settings.reachability_enabled}")
+
+    def my_handler(snyk_org_settings_open_source: SnykOrgSettingsOpenSource):
+        # Fetch Open Source settings for an organization
+        settings = snyk_org_settings_open_source.where("org_id=org-id-123").first()
+        print(f"Reachability Enabled: {settings.reachability_enabled}")
     ```
     """
 

@@ -24,12 +24,15 @@ class SnykEntitlement(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykEntitlement
 
-    # Fetch all entitlements for an organization
-    entitlements = SnykEntitlement().where("org_id=org-id-123")
-    for entitlement in entitlements:
-        print(f"{entitlement.name}: {entitlement.value}")
+
+    def my_handler(snyk_entitlement: SnykEntitlement):
+        # Fetch all entitlements for an organization
+        entitlements = snyk_entitlement.where("org_id=org-id-123")
+        for entitlement in entitlements:
+            print(f"{entitlement.name}: {entitlement.value}")
     ```
 
     ## Common Entitlements

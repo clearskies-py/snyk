@@ -19,12 +19,15 @@ class SnykBrokerDeployment(Model):
     Uses the Snyk v2 REST API endpoint: `/tenants/{tenant_id}/brokers/deployments`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykBrokerDeployment
 
-    # Fetch all broker deployments for a tenant
-    deployments = SnykBrokerDeployment().where("tenant_id=tenant-id-123")
-    for deployment in deployments:
-        print(f"Deployment: {deployment.id}")
+
+    def my_handler(snyk_broker_deployment: SnykBrokerDeployment):
+        # Fetch all broker deployments for a tenant
+        deployments = snyk_broker_deployment.where("tenant_id=tenant-id-123")
+        for deployment in deployments:
+            print(f"Deployment: {deployment.id}")
     ```
     """
 

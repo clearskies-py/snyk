@@ -19,15 +19,18 @@ class SnykOrgPolicy(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/policies
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgPolicy
 
-    # Fetch all policies for an organization
-    policies = SnykOrgPolicy().where("org_id=org-id-123")
-    for policy in policies:
-        print(f"Policy: {policy.name} ({policy.action_type})")
 
-    # Access the parent organization
-    print(f"Org: {policy.org.name}")
+    def my_handler(snyk_org_policy: SnykOrgPolicy):
+        # Fetch all policies for an organization
+        policies = snyk_org_policy.where("org_id=org-id-123")
+        for policy in policies:
+            print(f"Policy: {policy.name} ({policy.action_type})")
+
+        # Access the parent organization
+        print(f"Org: {policy.org.name}")
     ```
     """
 

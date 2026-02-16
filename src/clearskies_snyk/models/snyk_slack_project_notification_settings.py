@@ -17,12 +17,17 @@ class SnykSlackProjectNotificationSettings(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/slack_app/{bot_id}/projects/{project_id}
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykSlackProjectNotificationSettings
 
-    # Get project-specific Slack notification settings
-    settings = SnykSlackProjectNotificationSettings().where("org_id=org-123").where("bot_id=bot-456")
-    for setting in settings:
-        print(f"Project: {setting.target_project_name}, Active: {setting.is_active}")
+
+    def my_handler(snyk_slack_project_notification_settings: SnykSlackProjectNotificationSettings):
+        # Get project-specific Slack notification settings
+        settings = snyk_slack_project_notification_settings.where("org_id=org-123").where(
+            "bot_id=bot-456"
+        )
+        for setting in settings:
+            print(f"Project: {setting.target_project_name}, Active: {setting.is_active}")
     ```
     """
 

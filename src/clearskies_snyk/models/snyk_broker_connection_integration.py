@@ -19,14 +19,17 @@ class SnykBrokerConnectionIntegration(Model):
     `/tenants/{tenant_id}/brokers/connections/{connection_id}/integrations`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykBrokerConnectionIntegration
 
-    # Fetch all integrations for a broker connection
-    integrations = SnykBrokerConnectionIntegration().where(
-        "tenant_id=tenant-id-123", "connection_id=conn-id-456"
-    )
-    for integration in integrations:
-        print(f"Integration: {integration.id} - Type: {integration.integration_type}")
+
+    def my_handler(snyk_broker_connection_integration: SnykBrokerConnectionIntegration):
+        # Fetch all integrations for a broker connection
+        integrations = snyk_broker_connection_integration.where(
+            "tenant_id=tenant-id-123", "connection_id=conn-id-456"
+        )
+        for integration in integrations:
+            print(f"Integration: {integration.id} - Type: {integration.integration_type}")
     ```
     """
 

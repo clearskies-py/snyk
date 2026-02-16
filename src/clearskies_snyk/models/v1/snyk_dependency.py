@@ -25,12 +25,15 @@ class SnykDependency(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykDependency
 
-    # Fetch all dependencies for an organization
-    dependencies = SnykDependency().where("org_id=org-id-123")
-    for dep in dependencies:
-        print(f"{dep.name}@{dep.version}: {dep.issues_critical} critical issues")
+
+    def my_handler(snyk_dependency: SnykDependency):
+        # Fetch all dependencies for an organization
+        dependencies = snyk_dependency.where("org_id=org-id-123")
+        for dep in dependencies:
+            print(f"{dep.name}@{dep.version}: {dep.issues_critical} critical issues")
     ```
 
     ## Rate Limits

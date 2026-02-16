@@ -16,15 +16,18 @@ class SnykGroupMembership(Model):
     This model represents memberships in a Snyk group, including user and role information.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupMembership
 
-    # Fetch all memberships for a group
-    memberships = SnykGroupMembership().where("group_id=group-id-123")
-    for membership in memberships:
-        print(f"User: {membership.name} - Role: {membership.role}")
 
-    # Access the parent group
-    print(f"Group: {membership.group_model.name}")
+    def my_handler(snyk_group_membership: SnykGroupMembership):
+        # Fetch all memberships for a group
+        memberships = snyk_group_membership.where("group_id=group-id-123")
+        for membership in memberships:
+            print(f"User: {membership.name} - Role: {membership.role}")
+
+        # Access the parent group
+        print(f"Group: {membership.group_model.name}")
     ```
     """
 

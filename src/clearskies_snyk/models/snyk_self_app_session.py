@@ -16,12 +16,15 @@ class SnykSelfAppSession(Model):
     Uses the Snyk v2 REST API endpoint: /self/apps/{app_id}/sessions
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykSelfAppSession
 
-    # List sessions for an app
-    sessions = SnykSelfAppSession().where("app_id=app-id-123")
-    for session in sessions:
-        print(f"Session: {session.id} created at {session.created_at}")
+
+    def my_handler(snyk_self_app_session: SnykSelfAppSession):
+        # List sessions for an app
+        sessions = snyk_self_app_session.where("app_id=app-id-123")
+        for session in sessions:
+            print(f"Session: {session.id} created at {session.created_at}")
     ```
     """
 

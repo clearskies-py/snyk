@@ -32,23 +32,25 @@ class SnykOrg(Model):
     container for projects, targets, and other resources in Snyk.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrg
 
-    # Fetch all organizations
-    orgs = SnykOrg()
-    for org in orgs:
-        print(f"Org: {org.name} ({org.slug})")
 
-    # Find a specific organization by ID
-    org = orgs.find("id=org-id-123")
-    print(org.name)
+    def my_handler(snyk_org: SnykOrg):
+        # Fetch all organizations
+        for org in snyk_org:
+            print(f"Org: {org.name} ({org.slug})")
 
-    # Access the parent group
-    print(f"Group: {org.group.name}")
+        # Find a specific organization by ID
+        org = snyk_org.find("id=org-id-123")
+        print(org.name)
 
-    # Access related projects
-    for project in org.projects:
-        print(f"  Project: {project.name}")
+        # Access the parent group
+        print(f"Group: {org.group.name}")
+
+        # Access related projects
+        for project in org.projects:
+            print(f"  Project: {project.name}")
     ```
     """
 

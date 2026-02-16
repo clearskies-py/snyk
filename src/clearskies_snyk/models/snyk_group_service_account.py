@@ -16,15 +16,18 @@ class SnykGroupServiceAccount(Model):
     This model represents service accounts at the group level in Snyk.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupServiceAccount
 
-    # Fetch all service accounts for a group
-    accounts = SnykGroupServiceAccount().where("group_id=group-id-123")
-    for account in accounts:
-        print(f"Service Account: {account.name} ({account.auth_type})")
 
-    # Access the parent group
-    print(f"Group: {account.group.name}")
+    def my_handler(snyk_group_service_account: SnykGroupServiceAccount):
+        # Fetch all service accounts for a group
+        accounts = snyk_group_service_account.where("group_id=group-id-123")
+        for account in accounts:
+            print(f"Service Account: {account.name} ({account.auth_type})")
+
+        # Access the parent group
+        print(f"Group: {account.group.name}")
     ```
     """
 

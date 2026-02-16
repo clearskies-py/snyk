@@ -20,12 +20,15 @@ class SnykOrgAuditLog(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/audit_logs/search
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgAuditLog
 
-    # Fetch audit logs for an organization
-    logs = SnykOrgAuditLog().where("org_id=org-id-123")
-    for log in logs:
-        print(f"Event: {log.event} at {log.created}")
+
+    def my_handler(snyk_org_audit_log: SnykOrgAuditLog):
+        # Fetch audit logs for an organization
+        logs = snyk_org_audit_log.where("org_id=org-id-123")
+        for log in logs:
+            print(f"Event: {log.event} at {log.created}")
     ```
     """
 

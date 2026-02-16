@@ -17,23 +17,26 @@ class SnykTarget(Model):
     (e.g., a repository, container image, or other scannable resource).
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykTarget
 
-    # Fetch all targets for an organization
-    targets = SnykTarget().where("org_id=org-id-123")
-    for target in targets:
-        print(f"Target: {target.display_name}")
 
-    # Find a specific target
-    target = targets.find("id=target-id-456")
-    print(target.display_name)
+    def my_handler(snyk_target: SnykTarget):
+        # Fetch all targets for an organization
+        targets = snyk_target.where("org_id=org-id-123")
+        for target in targets:
+            print(f"Target: {target.display_name}")
 
-    # Access parent organization
-    print(f"Org: {target.org.name}")
+        # Find a specific target
+        target = targets.find("id=target-id-456")
+        print(target.display_name)
 
-    # Access related projects
-    for project in target.projects:
-        print(f"  Project: {project.name}")
+        # Access parent organization
+        print(f"Org: {target.org.name}")
+
+        # Access related projects
+        for project in target.projects:
+            print(f"  Project: {project.name}")
     ```
     """
 

@@ -19,14 +19,17 @@ class SnykOrgUser(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/users/{id}
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgUser
 
-    # Get a specific user in an organization
-    user = SnykOrgUser().where("org_id=org-id-123").find("id=user-id-456")
-    print(f"User: {user.name} ({user.email})")
 
-    # Access the parent organization
-    print(f"Org: {user.org.name}")
+    def my_handler(snyk_org_user: SnykOrgUser):
+        # Get a specific user in an organization
+        user = snyk_org_user.where("org_id=org-id-123").find("id=user-id-456")
+        print(f"User: {user.name} ({user.email})")
+
+        # Access the parent organization
+        print(f"Org: {user.org.name}")
     ```
     """
 

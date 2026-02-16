@@ -16,12 +16,15 @@ class SnykPackage(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/ecosystems/{ecosystem}/packages/{package_name}
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykPackage
 
-    # Get package metadata
-    package = SnykPackage().where("org_id=org-id-123&ecosystem=npm&package_name=express").first()
-    print(f"Package: {package.package_name}")
-    print(f"Latest Version: {package.latest_version}")
+
+    def my_handler(snyk_package: SnykPackage):
+        # Get package metadata
+        package = snyk_package.where("org_id=org-id-123&ecosystem=npm&package_name=express").first()
+        print(f"Package: {package.package_name}")
+        print(f"Latest Version: {package.latest_version}")
     ```
     """
 

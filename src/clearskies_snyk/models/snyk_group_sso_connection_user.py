@@ -16,12 +16,15 @@ class SnykGroupSsoConnectionUser(Model):
     Uses the Snyk v2 REST API endpoint: /groups/{group_id}/sso_connections/{sso_id}/users
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupSsoConnectionUser
 
-    # List users for an SSO connection
-    users = SnykGroupSsoConnectionUser().where("group_id=group-id-123&sso_id=sso-id-456")
-    for user in users:
-        print(f"User: {user.name} ({user.email})")
+
+    def my_handler(snyk_group_sso_connection_user: SnykGroupSsoConnectionUser):
+        # List users for an SSO connection
+        users = snyk_group_sso_connection_user.where("group_id=group-id-123&sso_id=sso-id-456")
+        for user in users:
+            print(f"User: {user.name} ({user.email})")
     ```
     """
 

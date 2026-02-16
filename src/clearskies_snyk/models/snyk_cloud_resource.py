@@ -20,15 +20,18 @@ class SnykCloudResource(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/cloud/resources
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykCloudResource
 
-    # Fetch all cloud resources for an organization
-    resources = SnykCloudResource().where("org_id=org-id-123")
-    for resource in resources:
-        print(f"Resource: {resource.name} ({resource.resource_type})")
 
-    # Access the parent organization
-    print(f"Org: {resource.org.name}")
+    def my_handler(snyk_cloud_resource: SnykCloudResource):
+        # Fetch all cloud resources for an organization
+        resources = snyk_cloud_resource.where("org_id=org-id-123")
+        for resource in resources:
+            print(f"Resource: {resource.name} ({resource.resource_type})")
+
+        # Access the parent organization
+        print(f"Org: {resource.org.name}")
     ```
     """
 

@@ -19,11 +19,14 @@ class SnykProjectSbom(Model):
     Uses the Snyk v2 REST API endpoint: `/orgs/{org_id}/projects/{project_id}/sbom`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykProjectSbom
 
-    # Fetch SBOM for a project
-    sbom = SnykProjectSbom().find("org_id=org-id-123", "project_id=project-id-456")
-    print(f"SBOM Format: {sbom.format}")
+
+    def my_handler(snyk_project_sbom: SnykProjectSbom):
+        # Fetch SBOM for a project
+        sbom = snyk_project_sbom.find("org_id=org-id-123", "project_id=project-id-456")
+        print(f"SBOM Format: {sbom.format}")
     ```
     """
 

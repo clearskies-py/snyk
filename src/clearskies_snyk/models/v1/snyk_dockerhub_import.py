@@ -23,21 +23,26 @@ class SnykDockerHubImport(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykDockerHubImport, SnykImportJob
 
-    # Create an import job for a Docker Hub image
-    import_response = SnykDockerHubImport().create(
-        {
-            "org_id": "4a18d42f-0706-4ad0-b127-24078731fbed",
-            "integration_id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
-            "target": {"name": "organization/repository:tag"},
-        }
-    )
 
-    # Check import job status
-    job = SnykImportJob().find(
-        f"org_id={org_id}&integration_id={integration_id}&id={import_response.id}"
-    )
+    def my_handler(snyk_dockerhub_import: SnykDockerHubImport, snyk_import_job: SnykImportJob):
+        # Create an import job for a Docker Hub image
+        import_response = snyk_dockerhub_import.create(
+            {
+                "org_id": "4a18d42f-0706-4ad0-b127-24078731fbed",
+                "integration_id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
+                "target": {"name": "organization/repository:tag"},
+            }
+        )
+
+        # Check import job status
+        org_id = import_response.org_id
+        integration_id = import_response.integration_id
+        job = snyk_import_job.find(
+            f"org_id={org_id}&integration_id={integration_id}&id={import_response.id}"
+        )
     ```
 
     ## Target Object

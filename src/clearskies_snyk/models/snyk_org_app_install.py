@@ -19,12 +19,15 @@ class SnykOrgAppInstall(Model):
     Uses the Snyk v2 REST API endpoint: `/orgs/{org_id}/apps/installs`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgAppInstall
 
-    # Fetch all app installs for an org
-    installs = SnykOrgAppInstall().where("org_id=org-id-123")
-    for install in installs:
-        print(f"Install: {install.id} - App: {install.app_id}")
+
+    def my_handler(snyk_org_app_install: SnykOrgAppInstall):
+        # Fetch all app installs for an org
+        installs = snyk_org_app_install.where("org_id=org-id-123")
+        for install in installs:
+            print(f"Install: {install.id} - App: {install.app_id}")
     ```
     """
 

@@ -16,12 +16,15 @@ class SnykSelfApp(Model):
     Uses the Snyk v2 REST API endpoint: /self/apps
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykSelfApp
 
-    # List apps installed by the current user
-    apps = SnykSelfApp()
-    for app in apps:
-        print(f"App: {app.name}")
+
+    def my_handler(snyk_self_app: SnykSelfApp):
+        # List apps installed by the current user
+        apps = snyk_self_app
+        for app in apps:
+            print(f"App: {app.name}")
     ```
     """
 

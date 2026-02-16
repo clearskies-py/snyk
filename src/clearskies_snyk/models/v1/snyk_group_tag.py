@@ -24,12 +24,15 @@ class SnykGroupTag(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykGroupTag
 
-    # Fetch all tags for a group
-    tags = SnykGroupTag().where("group_id=group-id-123")
-    for tag in tags:
-        print(f"Tag: {tag.key}={tag.value}")
+
+    def my_handler(snyk_group_tag: SnykGroupTag):
+        # Fetch all tags for a group
+        tags = snyk_group_tag.where("group_id=group-id-123")
+        for tag in tags:
+            print(f"Tag: {tag.key}={tag.value}")
     ```
 
     ## Tag Structure

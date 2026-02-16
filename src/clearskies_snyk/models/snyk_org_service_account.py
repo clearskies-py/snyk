@@ -16,15 +16,18 @@ class SnykOrgServiceAccount(Model):
     This model represents service accounts at the organization level in Snyk.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgServiceAccount
 
-    # Fetch all service accounts for an organization
-    accounts = SnykOrgServiceAccount().where("org_id=org-id-123")
-    for account in accounts:
-        print(f"Service Account: {account.name} ({account.auth_type})")
 
-    # Access the parent organization
-    print(f"Org: {account.org.name}")
+    def my_handler(snyk_org_service_account: SnykOrgServiceAccount):
+        # Fetch all service accounts for an organization
+        accounts = snyk_org_service_account.where("org_id=org-id-123")
+        for account in accounts:
+            print(f"Service Account: {account.name} ({account.auth_type})")
+
+        # Access the parent organization
+        print(f"Org: {account.org.name}")
     ```
     """
 

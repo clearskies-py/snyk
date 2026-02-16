@@ -24,22 +24,25 @@ class SnykWebhook(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykWebhook
 
-    # Fetch all webhooks for an organization
-    webhooks = SnykWebhook().where("org_id=org-id-123")
-    for webhook in webhooks:
-        print(f"Webhook: {webhook.url}")
 
-    # Create a new webhook
-    webhook = SnykWebhook()
-    webhook.org_id = "org-id-123"
-    webhook.url = "https://my.app.com/webhook-handler/snyk"
-    webhook.secret = "my-secret-key"
-    webhook.save()
+    def my_handler(snyk_webhook: SnykWebhook):
+        # Fetch all webhooks for an organization
+        webhooks = snyk_webhook.where("org_id=org-id-123")
+        for webhook in webhooks:
+            print(f"Webhook: {webhook.url}")
 
-    # Delete a webhook
-    webhook.delete()
+        # Create a new webhook
+        webhook = snyk_webhook
+        webhook.org_id = "org-id-123"
+        webhook.url = "https://my.app.com/webhook-handler/snyk"
+        webhook.secret = "my-secret-key"
+        webhook.save()
+
+        # Delete a webhook
+        webhook.delete()
     ```
 
     ## Webhook Events

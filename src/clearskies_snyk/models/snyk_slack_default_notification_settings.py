@@ -16,12 +16,17 @@ class SnykSlackDefaultNotificationSettings(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/slack_app/{bot_id}
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykSlackDefaultNotificationSettings
 
-    # Get default Slack notification settings
-    settings = SnykSlackDefaultNotificationSettings().where("org_id=org-123").where("bot_id=bot-456")
-    for setting in settings:
-        print(f"Channel: {setting.target_channel_name}, Severity: {setting.severity_threshold}")
+
+    def my_handler(snyk_slack_default_notification_settings: SnykSlackDefaultNotificationSettings):
+        # Get default Slack notification settings
+        settings = snyk_slack_default_notification_settings.where("org_id=org-123").where(
+            "bot_id=bot-456"
+        )
+        for setting in settings:
+            print(f"Channel: {setting.target_channel_name}, Severity: {setting.severity_threshold}")
     ```
     """
 

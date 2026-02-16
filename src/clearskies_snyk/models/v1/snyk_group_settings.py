@@ -24,16 +24,19 @@ class SnykGroupSettings(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykGroupSettings
 
-    # Get settings for a group
-    settings = SnykGroupSettings().find("group-id-123")
-    print(f"Session length: {settings.session_length} minutes")
-    print(f"Request access enabled: {settings.request_access_enabled}")
 
-    # Update settings
-    settings.session_length = 60
-    settings.save()
+    def my_handler(snyk_group_settings: SnykGroupSettings):
+        # Get settings for a group
+        settings = snyk_group_settings.find("group-id-123")
+        print(f"Session length: {settings.session_length} minutes")
+        print(f"Request access enabled: {settings.request_access_enabled}")
+
+        # Update settings
+        settings.session_length = 60
+        settings.save()
     ```
 
     ## Settings

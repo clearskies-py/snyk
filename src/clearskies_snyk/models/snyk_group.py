@@ -25,24 +25,27 @@ class SnykGroup(Model):
     that can contain multiple organizations.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroup
 
-    # Fetch all groups
-    groups = SnykGroup()
-    for group in groups:
-        print(f"Group: {group.name}")
 
-    # Find a specific group
-    group = groups.find("id=group-id-123")
-    print(group.name)
+    def my_handler(snyk_group: SnykGroup):
+        # Fetch all groups
+        groups = snyk_group
+        for group in groups:
+            print(f"Group: {group.name}")
 
-    # Access related organizations
-    for org in group.orgs:
-        print(f"  Org: {org.name}")
+        # Find a specific group
+        group = groups.find("id=group-id-123")
+        print(group.name)
 
-    # Access group memberships
-    for membership in group.memberships:
-        print(f"  Member: {membership.name}")
+        # Access related organizations
+        for org in group.orgs:
+            print(f"  Org: {org.name}")
+
+        # Access group memberships
+        for membership in group.memberships:
+            print(f"  Member: {membership.name}")
     ```
     """
 

@@ -16,12 +16,15 @@ class SnykAccessRequest(Model):
     Uses the Snyk v2 REST API endpoint: /self/access_requests
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykAccessRequest
 
-    # List access requests for the current user
-    requests = SnykAccessRequest()
-    for req in requests:
-        print(f"Access Request: {req.id} - Status: {req.status}")
+
+    def my_handler(snyk_access_request: SnykAccessRequest):
+        # List access requests for the current user
+        requests = snyk_access_request
+        for req in requests:
+            print(f"Access Request: {req.id} - Status: {req.status}")
     ```
     """
 

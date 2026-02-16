@@ -18,11 +18,14 @@ class SnykSelf(Model):
     Uses the Snyk v2 REST API endpoint: /self
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykSelf
 
-    # Get the current user
-    self_user = SnykSelf().find("id=self")
-    print(f"Current user: {self_user.name} ({self_user.email})")
+
+    def my_handler(snyk_self: SnykSelf):
+        # Get the current user
+        self_user = snyk_self.find("id=self")
+        print(f"Current user: {self_user.name} ({self_user.email})")
     ```
     """
 

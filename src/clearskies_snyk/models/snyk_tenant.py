@@ -19,24 +19,27 @@ class SnykTenant(Model):
     Uses the Snyk v2 REST API endpoint: /tenants
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykTenant
 
-    # Fetch all tenants
-    tenants = SnykTenant()
-    for tenant in tenants:
-        print(f"Tenant: {tenant.name} ({tenant.slug})")
 
-    # Find a specific tenant by ID
-    tenant = tenants.find("id=tenant-id-123")
-    print(tenant.name)
+    def my_handler(snyk_tenant: SnykTenant):
+        # Fetch all tenants
+        tenants = snyk_tenant
+        for tenant in tenants:
+            print(f"Tenant: {tenant.name} ({tenant.slug})")
 
-    # Access related memberships
-    for membership in tenant.memberships:
-        print(f"  Membership: {membership.id}")
+        # Find a specific tenant by ID
+        tenant = tenants.find("id=tenant-id-123")
+        print(tenant.name)
 
-    # Access related roles
-    for role in tenant.roles:
-        print(f"  Role: {role.name}")
+        # Access related memberships
+        for membership in tenant.memberships:
+            print(f"  Membership: {membership.id}")
+
+        # Access related roles
+        for role in tenant.roles:
+            print(f"  Role: {role.name}")
     ```
     """
 

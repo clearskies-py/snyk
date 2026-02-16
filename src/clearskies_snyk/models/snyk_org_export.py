@@ -19,11 +19,14 @@ class SnykOrgExport(Model):
     Uses the Snyk v2 REST API endpoint: `/orgs/{org_id}/export`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgExport
 
-    # Check export status
-    export = SnykOrgExport().find("org_id=org-id-123", "export_id=export-id-456")
-    print(f"Export Status: {export.status}")
+
+    def my_handler(snyk_org_export: SnykOrgExport):
+        # Check export status
+        export = snyk_org_export.find("org_id=org-id-123", "export_id=export-id-456")
+        print(f"Export Status: {export.status}")
     ```
     """
 

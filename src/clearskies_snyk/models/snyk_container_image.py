@@ -16,15 +16,18 @@ class SnykContainerImage(Model):
     This model represents container images in a Snyk organization.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykContainerImage
 
-    # Fetch all container images for an organization
-    images = SnykContainerImage().where("org_id=org-id-123")
-    for image in images:
-        print(f"Image: {image.names} ({image.platform})")
 
-    # Access the parent organization
-    print(f"Org: {image.org.name}")
+    def my_handler(snyk_container_image: SnykContainerImage):
+        # Fetch all container images for an organization
+        images = snyk_container_image.where("org_id=org-id-123")
+        for image in images:
+            print(f"Image: {image.names} ({image.platform})")
+
+        # Access the parent organization
+        print(f"Org: {image.org.name}")
     ```
     """
 

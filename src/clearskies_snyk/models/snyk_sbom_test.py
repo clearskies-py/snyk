@@ -18,11 +18,13 @@ class SnykSbomTest(Model):
     Uses the Snyk v2 REST API endpoint: `/orgs/{org_id}/sbom_tests`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykSbomTest
 
-    # Fetch SBOM test status
-    test = SnykSbomTest().find("org_id=org-id-123", "job_id=job-id-456")
-    print(f"Test Status: {test.status}")
+    def my_handler(snyk_sbom_test: SnykSbomTest):
+        # Fetch SBOM test status
+        test = snyk_sbom_test.find("org_id=org-id-123", "job_id=job-id-456")
+        print(f"Test Status: {test.status}")
     ```
     """
 

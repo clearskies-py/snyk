@@ -19,15 +19,18 @@ class SnykCloudScan(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/cloud/scans
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykCloudScan
 
-    # Fetch all cloud scans for an organization
-    scans = SnykCloudScan().where("org_id=org-id-123")
-    for scan in scans:
-        print(f"Scan: {scan.id} ({scan.status})")
 
-    # Access the parent organization
-    print(f"Org: {scan.org.name}")
+    def my_handler(snyk_cloud_scan: SnykCloudScan):
+        # Fetch all cloud scans for an organization
+        scans = snyk_cloud_scan.where("org_id=org-id-123")
+        for scan in scans:
+            print(f"Scan: {scan.id} ({scan.status})")
+
+        # Access the parent organization
+        print(f"Org: {scan.org.name}")
     ```
     """
 

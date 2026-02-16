@@ -15,12 +15,15 @@ class SnykContainerImageTargetRef(Model):
     This model represents target references for container images.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykContainerImageTargetRef
 
-    # Fetch target refs for a container image
-    refs = SnykContainerImageTargetRef().where("org_id=org-id-123").where("id=image-id-456")
-    for ref in refs:
-        print(f"Target: {ref.target_id} - {ref.target_reference}")
+
+    def my_handler(snyk_container_image_target_ref: SnykContainerImageTargetRef):
+        # Fetch target refs for a container image
+        refs = snyk_container_image_target_ref.where("org_id=org-id-123").where("id=image-id-456")
+        for ref in refs:
+            print(f"Target: {ref.target_id} - {ref.target_reference}")
     ```
     """
 

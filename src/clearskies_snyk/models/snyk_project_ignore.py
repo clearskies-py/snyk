@@ -20,12 +20,15 @@ class SnykProjectIgnore(Model):
     Uses the Snyk v1 API endpoint: /org/{orgId}/project/{projectId}/ignores
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykProjectIgnore
 
-    # Fetch ignores for a project
-    ignores = SnykProjectIgnore().where("org_id=org-id-123").where("project_id=project-id-456")
-    for ignore in ignores:
-        print(f"Ignored: {ignore.issue_id} - {ignore.ignored_path}")
+
+    def my_handler(snyk_project_ignore: SnykProjectIgnore):
+        # Fetch ignores for a project
+        ignores = snyk_project_ignore.where("org_id=org-id-123").where("project_id=project-id-456")
+        for ignore in ignores:
+            print(f"Ignored: {ignore.issue_id} - {ignore.ignored_path}")
     ```
     """
 

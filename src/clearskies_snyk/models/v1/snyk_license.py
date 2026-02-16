@@ -24,12 +24,15 @@ class SnykLicense(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykLicense
 
-    # Fetch all licenses for an organization
-    licenses = SnykLicense().where("org_id=org-id-123")
-    for license in licenses:
-        print(f"{license.id}: severity={license.severity}")
+
+    def my_handler(snyk_license: SnykLicense):
+        # Fetch all licenses for an organization
+        licenses = snyk_license.where("org_id=org-id-123")
+        for license in licenses:
+            print(f"{license.id}: severity={license.severity}")
     ```
 
     ## Severity Levels

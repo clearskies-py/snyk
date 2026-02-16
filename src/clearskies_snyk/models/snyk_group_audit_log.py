@@ -20,12 +20,15 @@ class SnykGroupAuditLog(Model):
     Uses the Snyk v2 REST API endpoint: /groups/{group_id}/audit_logs/search
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupAuditLog
 
-    # Fetch audit logs for a group
-    logs = SnykGroupAuditLog().where("group_id=group-id-123")
-    for log in logs:
-        print(f"Event: {log.event} at {log.created}")
+
+    def my_handler(snyk_group_audit_log: SnykGroupAuditLog):
+        # Fetch audit logs for a group
+        logs = snyk_group_audit_log.where("group_id=group-id-123")
+        for log in logs:
+            print(f"Event: {log.event} at {log.created}")
     ```
     """
 

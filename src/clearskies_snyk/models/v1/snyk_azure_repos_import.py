@@ -23,23 +23,28 @@ class SnykAzureReposImport(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykAzureReposImport, SnykImportJob
 
-    # Create an import job for an Azure Repos repository
-    import_response = SnykAzureReposImport().create(
-        {
-            "org_id": "4a18d42f-0706-4ad0-b127-24078731fbed",
-            "integration_id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
-            "target": {"owner": "my-project", "name": "my-repo", "branch": "main"},
-            "files": [{"path": "package.json"}],
-            "exclusion_globs": "fixtures,tests",
-        }
-    )
 
-    # Check import job status
-    job = SnykImportJob().find(
-        f"org_id={org_id}&integration_id={integration_id}&id={import_response.id}"
-    )
+    def my_handler(snyk_azure_repos_import: SnykAzureReposImport, snyk_import_job: SnykImportJob):
+        # Create an import job for an Azure Repos repository
+        import_response = snyk_azure_repos_import.create(
+            {
+                "org_id": "4a18d42f-0706-4ad0-b127-24078731fbed",
+                "integration_id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
+                "target": {"owner": "my-project", "name": "my-repo", "branch": "main"},
+                "files": [{"path": "package.json"}],
+                "exclusion_globs": "fixtures,tests",
+            }
+        )
+
+        # Check import job status
+        org_id = import_response.org_id
+        integration_id = import_response.integration_id
+        job = snyk_import_job.find(
+            f"org_id={org_id}&integration_id={integration_id}&id={import_response.id}"
+        )
     ```
 
     ## Target Object

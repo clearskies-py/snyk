@@ -36,30 +36,37 @@ class SnykContainerRegistryImport(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykContainerRegistryImport, SnykImportJob
 
-    # Create an import job for a GCR/GAR/Harbor/etc. image
-    import_response = SnykContainerRegistryImport().create(
-        {
-            "org_id": "4a18d42f-0706-4ad0-b127-24078731fbed",
-            "integration_id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
-            "target": {"name": "project/repository:tag"},
-        }
-    )
 
-    # For ACR/ECR/Artifactory/Nexus (no project prefix)
-    import_response = SnykContainerRegistryImport().create(
-        {
-            "org_id": "4a18d42f-0706-4ad0-b127-24078731fbed",
-            "integration_id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
-            "target": {"name": "repository:tag"},
-        }
-    )
+    def my_handler(
+        snyk_container_registry_import: SnykContainerRegistryImport, snyk_import_job: SnykImportJob
+    ):
+        # Create an import job for a GCR/GAR/Harbor/etc. image
+        import_response = snyk_container_registry_import.create(
+            {
+                "org_id": "4a18d42f-0706-4ad0-b127-24078731fbed",
+                "integration_id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
+                "target": {"name": "project/repository:tag"},
+            }
+        )
 
-    # Check import job status
-    job = SnykImportJob().find(
-        f"org_id={org_id}&integration_id={integration_id}&id={import_response.id}"
-    )
+        # For ACR/ECR/Artifactory/Nexus (no project prefix)
+        import_response = snyk_container_registry_import.create(
+            {
+                "org_id": "4a18d42f-0706-4ad0-b127-24078731fbed",
+                "integration_id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
+                "target": {"name": "repository:tag"},
+            }
+        )
+
+        # Check import job status
+        org_id = import_response.org_id
+        integration_id = import_response.integration_id
+        job = snyk_import_job.find(
+            f"org_id={org_id}&integration_id={integration_id}&id={import_response.id}"
+        )
     ```
 
     ## Target Object

@@ -20,12 +20,15 @@ class SnykIntegration(Model):
     Uses the Snyk v1 API endpoint: /org/{orgId}/integrations
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykIntegration
 
-    # Fetch all integrations for an organization
-    integrations = SnykIntegration().where("org_id=org-id-123")
-    for integration in integrations:
-        print(f"Integration: {integration.integration_type}")
+
+    def my_handler(snyk_integration: SnykIntegration):
+        # Fetch all integrations for an organization
+        integrations = snyk_integration.where("org_id=org-id-123")
+        for integration in integrations:
+            print(f"Integration: {integration.integration_type}")
     ```
     """
 

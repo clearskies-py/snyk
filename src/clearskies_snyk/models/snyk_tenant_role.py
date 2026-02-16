@@ -17,15 +17,18 @@ class SnykTenantRole(Model):
     Roles control permissions and access within a tenant.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykTenantRole
 
-    # Fetch all roles for a tenant
-    roles = SnykTenantRole().where("tenant_id=tenant-id-123")
-    for role in roles:
-        print(f"Role: {role.name} - {role.description}")
 
-    # Access the parent tenant
-    print(f"Tenant: {role.tenant.name}")
+    def my_handler(snyk_tenant_role: SnykTenantRole):
+        # Fetch all roles for a tenant
+        roles = snyk_tenant_role.where("tenant_id=tenant-id-123")
+        for role in roles:
+            print(f"Role: {role.name} - {role.description}")
+
+        # Access the parent tenant
+        print(f"Tenant: {role.tenant.name}")
     ```
     """
 

@@ -18,12 +18,15 @@ class SnykOrgApp(Model):
     Uses the Snyk v2 REST API endpoint: `/orgs/{org_id}/apps`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgApp
 
-    # Fetch all apps for an org
-    apps = SnykOrgApp().where("org_id=org-id-123")
-    for app in apps:
-        print(f"App: {app.name} - Client ID: {app.client_id}")
+
+    def my_handler(snyk_org_app: SnykOrgApp):
+        # Fetch all apps for an org
+        apps = snyk_org_app.where("org_id=org-id-123")
+        for app in apps:
+            print(f"App: {app.name} - Client ID: {app.client_id}")
     ```
     """
 

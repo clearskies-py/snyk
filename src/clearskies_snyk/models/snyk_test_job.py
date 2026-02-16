@@ -17,13 +17,16 @@ class SnykTestJob(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/test_jobs/{job_id}
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykTestJob
 
-    # Get test job status
-    job = SnykTestJob().find("org_id=org-123&job_id=job-456")
-    print(f"Job status: {job.status}")
-    if job.status == "finished":
-        print(f"Test ID: {job.test_id}")
+
+    def my_handler(snyk_test_job: SnykTestJob):
+        # Get test job status
+        job = snyk_test_job.find("org_id=org-123&job_id=job-456")
+        print(f"Job status: {job.status}")
+        if job.status == "finished":
+            print(f"Test ID: {job.test_id}")
     ```
     """
 

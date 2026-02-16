@@ -17,12 +17,15 @@ class SnykPullRequestTemplate(Model):
     Uses the Snyk v2 REST API endpoint: /groups/{group_id}/settings/pull_request_template
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykPullRequestTemplate
 
-    # Fetch pull request template for a group
-    template = SnykPullRequestTemplate().where("group_id=group-id-123").first()
-    print(f"PR Title: {template.title}")
-    print(f"PR Description: {template.description}")
+
+    def my_handler(snyk_pull_request_template: SnykPullRequestTemplate):
+        # Fetch pull request template for a group
+        template = snyk_pull_request_template.where("group_id=group-id-123").first()
+        print(f"PR Title: {template.title}")
+        print(f"PR Description: {template.description}")
     ```
     """
 

@@ -19,12 +19,15 @@ class SnykOrgPolicyEvent(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/policies/{policy_id}/events
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgPolicyEvent
 
-    # Fetch all events for a policy
-    events = SnykOrgPolicyEvent().where("org_id=org-id-123").where("policy_id=policy-id-456")
-    for event in events:
-        print(f"Event: {event.event_type} at {event.created_at}")
+
+    def my_handler(snyk_org_policy_event: SnykOrgPolicyEvent):
+        # Fetch all events for a policy
+        events = snyk_org_policy_event.where("org_id=org-id-123").where("policy_id=policy-id-456")
+        for event in events:
+            print(f"Event: {event.event_type} at {event.created_at}")
     ```
     """
 

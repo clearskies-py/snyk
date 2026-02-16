@@ -15,14 +15,17 @@ class SnykCollectionRelationshipProject(Model):
     This model represents the relationship between collections and projects.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykCollectionRelationshipProject
 
-    # Fetch all projects in a collection
-    relationships = (
-        SnykCollectionRelationshipProject().where("org_id=org-id-123").where("collection_id=col-id-456")
-    )
-    for rel in relationships:
-        print(f"Project: {rel.id}")
+
+    def my_handler(snyk_collection_relationship_project: SnykCollectionRelationshipProject):
+        # Fetch all projects in a collection
+        relationships = snyk_collection_relationship_project.where("org_id=org-id-123").where(
+            "collection_id=col-id-456"
+        )
+        for rel in relationships:
+            print(f"Project: {rel.id}")
     ```
     """
 

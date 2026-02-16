@@ -18,22 +18,25 @@ class SnykProject(Model):
     in Snyk and are associated with a target (repository, container image, etc.).
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykProject
 
-    # Fetch all projects for an organization
-    projects = SnykProject().where("org_id=org-id-123")
-    for project in projects:
-        print(f"Project: {project.name} ({project.status})")
 
-    # Find a specific project
-    project = projects.find("id=project-id-456")
-    print(project.name)
+    def my_handler(snyk_project: SnykProject):
+        # Fetch all projects for an organization
+        projects = snyk_project.where("org_id=org-id-123")
+        for project in projects:
+            print(f"Project: {project.name} ({project.status})")
 
-    # Access parent organization
-    print(f"Org: {project.org.name}")
+        # Find a specific project
+        project = projects.find("id=project-id-456")
+        print(project.name)
 
-    # Access parent target
-    print(f"Target: {project.target.display_name}")
+        # Access parent organization
+        print(f"Org: {project.org.name}")
+
+        # Access parent target
+        print(f"Target: {project.target.display_name}")
     ```
     """
 

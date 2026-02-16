@@ -21,12 +21,15 @@ class SnykProjectHistory(Model):
     Uses the Snyk v1 API endpoint: /org/{orgId}/project/{projectId}/history
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykProjectHistory
 
-    # Fetch history for a project
-    history = SnykProjectHistory().where("org_id=org-id-123").where("project_id=project-id-456")
-    for snapshot in history:
-        print(f"Snapshot: {snapshot.created} - Issues: {snapshot.issue_counts}")
+
+    def my_handler(snyk_project_history: SnykProjectHistory):
+        # Fetch history for a project
+        history = snyk_project_history.where("org_id=org-id-123").where("project_id=project-id-456")
+        for snapshot in history:
+            print(f"Snapshot: {snapshot.created} - Issues: {snapshot.issue_counts}")
     ```
     """
 

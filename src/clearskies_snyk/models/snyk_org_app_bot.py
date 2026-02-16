@@ -19,12 +19,15 @@ class SnykOrgAppBot(Model):
     Uses the Snyk v2 REST API endpoint: `/orgs/{org_id}/app_bots`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgAppBot
 
-    # Fetch all app bots for an org
-    bots = SnykOrgAppBot().where("org_id=org-id-123")
-    for bot in bots:
-        print(f"Bot: {bot.id} - App: {bot.app_id}")
+
+    def my_handler(snyk_org_app_bot: SnykOrgAppBot):
+        # Fetch all app bots for an org
+        bots = snyk_org_app_bot.where("org_id=org-id-123")
+        for bot in bots:
+            print(f"Bot: {bot.id} - App: {bot.app_id}")
     ```
     """
 

@@ -16,12 +16,15 @@ class SnykOrgSettingsSast(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/settings/sast
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgSettingsSast
 
-    # Fetch SAST settings for an organization
-    settings = SnykOrgSettingsSast().where("org_id=org-id-123").first()
-    print(f"SAST Enabled: {settings.sast_enabled}")
-    print(f"Autofix Enabled: {settings.autofix_enabled}")
+
+    def my_handler(snyk_org_settings_sast: SnykOrgSettingsSast):
+        # Fetch SAST settings for an organization
+        settings = snyk_org_settings_sast.where("org_id=org-id-123").first()
+        print(f"SAST Enabled: {settings.sast_enabled}")
+        print(f"Autofix Enabled: {settings.autofix_enabled}")
     ```
     """
 

@@ -16,23 +16,25 @@ class SnykOrgIssue(Model):
     This model represents issues at the organization level in Snyk.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgIssue
 
-    # Fetch all issues for an organization
-    issues = SnykOrgIssue().where("org_id=org-id-123")
-    for issue in issues:
-        print(f"Issue: {issue.title} ({issue.effective_severity_level})")
 
-    # Filter by scan item
-    issues = (
-        SnykOrgIssue()
-        .where("org_id=org-id-123")
-        .where("scan_item_id=project-123")
-        .where("scan_item_type=project")
-    )
+    def my_handler(snyk_org_issue: SnykOrgIssue):
+        # Fetch all issues for an organization
+        issues = snyk_org_issue.where("org_id=org-id-123")
+        for issue in issues:
+            print(f"Issue: {issue.title} ({issue.effective_severity_level})")
 
-    # Access the parent organization
-    print(f"Org: {issue.org.name}")
+        # Filter by scan item
+        issues = (
+            snyk_org_issue.where("org_id=org-id-123")
+            .where("scan_item_id=project-123")
+            .where("scan_item_type=project")
+        )
+
+        # Access the parent organization
+        print(f"Org: {issue.org.name}")
     ```
     """
 

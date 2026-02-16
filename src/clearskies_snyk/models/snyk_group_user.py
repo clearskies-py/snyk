@@ -19,14 +19,17 @@ class SnykGroupUser(Model):
     Uses the Snyk v2 REST API endpoint: /groups/{group_id}/users/{id}
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupUser
 
-    # Get a specific user in a group
-    user = SnykGroupUser().where("group_id=group-id-123").find("id=user-id-456")
-    print(f"User: {user.id}")
 
-    # Access the parent group
-    print(f"Group: {user.group.name}")
+    def my_handler(snyk_group_user: SnykGroupUser):
+        # Get a specific user in a group
+        user = snyk_group_user.where("group_id=group-id-123").find("id=user-id-456")
+        print(f"User: {user.id}")
+
+        # Access the parent group
+        print(f"Group: {user.group.name}")
     ```
     """
 

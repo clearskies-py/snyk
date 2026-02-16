@@ -15,12 +15,15 @@ class SnykGroupOrgMembership(Model):
     This model represents organization memberships within a group.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupOrgMembership
 
-    # Fetch all org memberships for a group
-    memberships = SnykGroupOrgMembership().where("group_id=group-id-123")
-    for membership in memberships:
-        print(f"User: {membership.user_id} - Org: {membership.org_name}")
+
+    def my_handler(snyk_group_org_membership: SnykGroupOrgMembership):
+        # Fetch all org memberships for a group
+        memberships = snyk_group_org_membership.where("group_id=group-id-123")
+        for membership in memberships:
+            print(f"User: {membership.user_id} - Org: {membership.org_name}")
     ```
     """
 

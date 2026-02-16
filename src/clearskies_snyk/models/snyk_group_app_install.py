@@ -19,12 +19,15 @@ class SnykGroupAppInstall(Model):
     Uses the Snyk v2 REST API endpoint: `/groups/{group_id}/apps/installs`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupAppInstall
 
-    # Fetch all app installs for a group
-    installs = SnykGroupAppInstall().where("group_id=group-id-123")
-    for install in installs:
-        print(f"Install: {install.id} - App: {install.app_id}")
+
+    def my_handler(snyk_group_app_install: SnykGroupAppInstall):
+        # Fetch all app installs for a group
+        installs = snyk_group_app_install.where("group_id=group-id-123")
+        for install in installs:
+            print(f"Install: {install.id} - App: {install.app_id}")
     ```
     """
 

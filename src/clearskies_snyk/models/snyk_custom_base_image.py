@@ -17,12 +17,15 @@ class SnykCustomBaseImage(Model):
     Uses the Snyk v2 REST API endpoint: /custom_base_images/{custombaseimage_id}
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykCustomBaseImage
 
-    # List custom base images
-    images = SnykCustomBaseImage().where("org_id=org-123")
-    for image in images:
-        print(f"Image: {image.repository}:{image.tag}, Include: {image.include_in_recommendations}")
+
+    def my_handler(snyk_custom_base_image: SnykCustomBaseImage):
+        # List custom base images
+        images = snyk_custom_base_image.where("org_id=org-123")
+        for image in images:
+            print(f"Image: {image.repository}:{image.tag}, Include: {image.include_in_recommendations}")
     ```
     """
 

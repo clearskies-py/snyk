@@ -19,15 +19,18 @@ class SnykTenantMembership(Model):
     Uses the Snyk v2 REST API endpoint: /tenants/{tenant_id}/memberships
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykTenantMembership
 
-    # Fetch all memberships for a tenant
-    memberships = SnykTenantMembership().where("tenant_id=tenant-id-123")
-    for membership in memberships:
-        print(f"Membership: {membership.id}")
 
-    # Access the parent tenant
-    print(f"Tenant: {membership.tenant.name}")
+    def my_handler(snyk_tenant_membership: SnykTenantMembership):
+        # Fetch all memberships for a tenant
+        memberships = snyk_tenant_membership.where("tenant_id=tenant-id-123")
+        for membership in memberships:
+            print(f"Membership: {membership.id}")
+
+        # Access the parent tenant
+        print(f"Tenant: {membership.tenant.name}")
     ```
     """
 

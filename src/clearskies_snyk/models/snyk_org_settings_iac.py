@@ -16,14 +16,17 @@ class SnykOrgSettingsIac(Model):
     This model represents Infrastructure as Code settings at the organization level.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgSettingsIac
 
-    # Fetch IaC settings for an organization
-    settings = SnykOrgSettingsIac().where("org_id=org-id-123").first()
-    print(f"Custom Rules: {settings.custom_rules}")
 
-    # Access the parent organization
-    print(f"Org: {settings.org.name}")
+    def my_handler(snyk_org_settings_iac: SnykOrgSettingsIac):
+        # Fetch IaC settings for an organization
+        settings = snyk_org_settings_iac.where("org_id=org-id-123").first()
+        print(f"Custom Rules: {settings.custom_rules}")
+
+        # Access the parent organization
+        print(f"Org: {settings.org.name}")
     ```
     """
 

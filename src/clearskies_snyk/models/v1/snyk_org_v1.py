@@ -18,14 +18,17 @@ class SnykOrgV1(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgV1
 
-    # Get all organizations
-    for org in SnykOrgV1.all():
-        print(f"{org.name} ({org.slug})")
 
-    # Get a specific organization by ID
-    org = SnykOrgV1.find("org-id-123")
+    def my_handler(snyk_org_v1: SnykOrgV1):
+        # Get all organizations
+        for org in SnykOrgV1.all():
+            print(f"{org.name} ({org.slug})")
+
+        # Get a specific organization by ID
+        org = SnykOrgV1.find("org-id-123")
     ```
 
     ## API Endpoint

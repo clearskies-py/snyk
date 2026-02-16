@@ -16,12 +16,15 @@ class SnykLearnAssignment(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/learn/assignments
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykLearnAssignment
 
-    # List assignments for an organization
-    assignments = SnykLearnAssignment().where("org_id=org-id-123")
-    for assignment in assignments:
-        print(f"Assignment: {assignment.lesson_title} for {assignment.user_email}")
+
+    def my_handler(snyk_learn_assignment: SnykLearnAssignment):
+        # List assignments for an organization
+        assignments = snyk_learn_assignment.where("org_id=org-id-123")
+        for assignment in assignments:
+            print(f"Assignment: {assignment.lesson_title} for {assignment.user_email}")
     ```
     """
 

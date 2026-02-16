@@ -16,23 +16,25 @@ class SnykGroupIssue(Model):
     This model represents issues at the group level in Snyk.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupIssue
 
-    # Fetch all issues for a group
-    issues = SnykGroupIssue().where("group_id=group-id-123")
-    for issue in issues:
-        print(f"Issue: {issue.title} ({issue.effective_severity_level})")
 
-    # Filter by scan item
-    issues = (
-        SnykGroupIssue()
-        .where("group_id=group-id-123")
-        .where("scan_item_id=project-123")
-        .where("scan_item_type=project")
-    )
+    def my_handler(snyk_group_issue: SnykGroupIssue):
+        # Fetch all issues for a group
+        issues = snyk_group_issue.where("group_id=group-id-123")
+        for issue in issues:
+            print(f"Issue: {issue.title} ({issue.effective_severity_level})")
 
-    # Access the parent group
-    print(f"Group: {issue.group.name}")
+        # Filter by scan item
+        issues = (
+            snyk_group_issue.where("group_id=group-id-123")
+            .where("scan_item_id=project-123")
+            .where("scan_item_type=project")
+        )
+
+        # Access the parent group
+        print(f"Group: {issue.group.name}")
     ```
     """
 

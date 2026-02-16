@@ -15,12 +15,15 @@ class SnykGroupMember(Model):
     This model represents members of a Snyk group.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykGroupMember
 
-    # Fetch all members for a group
-    members = SnykGroupMember().where("group_id=group-id-123")
-    for member in members:
-        print(f"Member: {member.name} ({member.email})")
+
+    def my_handler(snyk_group_member: SnykGroupMember):
+        # Fetch all members for a group
+        members = snyk_group_member.where("group_id=group-id-123")
+        for member in members:
+            print(f"Member: {member.name} ({member.email})")
     ```
     """
 

@@ -17,14 +17,21 @@ class SnykFixPullRequest(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/projects/{project_id}/fix_pull_requests
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykFixPullRequest
 
-    # Create a fix pull request (POST only endpoint)
-    # This is typically used to trigger PR creation for specific issues
-    fix_pr = SnykFixPullRequest()
-    fix_pr.save(
-        {"org_id": "org-123", "project_id": "project-456", "issue_ids": ["SNYK-JS-YARGSPARSER-560381"]}
-    )
+
+    def my_handler(snyk_fix_pull_request: SnykFixPullRequest):
+        # Create a fix pull request (POST only endpoint)
+        # This is typically used to trigger PR creation for specific issues
+        fix_pr = snyk_fix_pull_request
+        fix_pr.save(
+            {
+                "org_id": "org-123",
+                "project_id": "project-456",
+                "issue_ids": ["SNYK-JS-YARGSPARSER-560381"],
+            }
+        )
     ```
     """
 

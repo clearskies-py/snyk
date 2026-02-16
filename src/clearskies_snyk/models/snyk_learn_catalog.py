@@ -16,12 +16,15 @@ class SnykLearnCatalog(Model):
     Uses the Snyk v2 REST API endpoint: /learn/catalog
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykLearnCatalog
 
-    # List all catalog resources
-    resources = SnykLearnCatalog()
-    for resource in resources:
-        print(f"Resource: {resource.name} ({resource.resource_type})")
+
+    def my_handler(snyk_learn_catalog: SnykLearnCatalog):
+        # List all catalog resources
+        resources = snyk_learn_catalog
+        for resource in resources:
+            print(f"Resource: {resource.name} ({resource.resource_type})")
     ```
     """
 

@@ -15,12 +15,15 @@ class SnykOrgMember(Model):
     This model represents members of a Snyk organization.
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykOrgMember
 
-    # Fetch all members for an organization
-    members = SnykOrgMember().where("org_id=org-id-123")
-    for member in members:
-        print(f"Member: {member.name} ({member.email})")
+
+    def my_handler(snyk_org_member: SnykOrgMember):
+        # Fetch all members for an organization
+        members = snyk_org_member.where("org_id=org-id-123")
+        for member in members:
+            print(f"Member: {member.name} ({member.email})")
     ```
     """
 

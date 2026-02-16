@@ -23,25 +23,30 @@ class SnykGitLabImport(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykGitLabImport, SnykImportJob
 
-    # Create an import job for a GitLab repository
-    import_response = SnykGitLabImport().create(
-        {
-            "org_id": "4a18d42f-0706-4ad0-b127-24078731fbed",
-            "integration_id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
-            "target": {"id": 12345, "branch": "develop"},
-            "files": [{"path": "package.json"}, {"path": "backend/requirements.txt"}],
-            "exclusion_globs": "fixtures,tests,node_modules",
-        }
-    )
 
-    # The job ID is returned in the response
-    job_id = import_response.id
+    def my_handler(snyk_gitlab_import: SnykGitLabImport, snyk_import_job: SnykImportJob):
+        # Create an import job for a GitLab repository
+        import_response = snyk_gitlab_import.create(
+            {
+                "org_id": "4a18d42f-0706-4ad0-b127-24078731fbed",
+                "integration_id": "9a3e5d90-b782-468a-a042-9a2073736f0b",
+                "target": {"id": 12345, "branch": "develop"},
+                "files": [{"path": "package.json"}, {"path": "backend/requirements.txt"}],
+                "exclusion_globs": "fixtures,tests,node_modules",
+            }
+        )
 
-    # Check import job status
-    job = SnykImportJob().find(f"org_id={org_id}&integration_id={integration_id}&id={job_id}")
-    print(f"Status: {job.status}")
+        # The job ID is returned in the response
+        job_id = import_response.id
+        org_id = import_response.org_id
+        integration_id = import_response.integration_id
+
+        # Check import job status
+        job = snyk_import_job.find(f"org_id={org_id}&integration_id={integration_id}&id={job_id}")
+        print(f"Status: {job.status}")
     ```
 
     ## Target Object

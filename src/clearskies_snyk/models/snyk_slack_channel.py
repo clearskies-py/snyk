@@ -16,12 +16,15 @@ class SnykSlackChannel(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/slack_app/{tenant_id}/channels/{channel_id}
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykSlackChannel
 
-    # List Slack channels accessible by the Snyk Slack App
-    channels = SnykSlackChannel().where("org_id=org-123").where("tenant_id=tenant-456")
-    for channel in channels:
-        print(f"Channel: {channel.name}, Type: {channel.channel_type}")
+
+    def my_handler(snyk_slack_channel: SnykSlackChannel):
+        # List Slack channels accessible by the Snyk Slack App
+        channels = snyk_slack_channel.where("org_id=org-123").where("tenant_id=tenant-456")
+        for channel in channels:
+            print(f"Channel: {channel.name}, Type: {channel.channel_type}")
     ```
     """
 

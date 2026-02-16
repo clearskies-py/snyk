@@ -17,11 +17,14 @@ class SnykAiBom(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/ai_boms
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykAiBom
 
-    # Create an AI-BOM (triggers async job)
-    ai_bom = SnykAiBom()
-    ai_bom.save({"org_id": "org-123", "bundle_id": "sha256-hash-of-bundle"})
+
+    def my_handler(snyk_ai_bom: SnykAiBom):
+        # Create an AI-BOM (triggers async job)
+        ai_bom = snyk_ai_bom
+        ai_bom.save({"org_id": "org-123", "bundle_id": "sha256-hash-of-bundle"})
     ```
     """
 

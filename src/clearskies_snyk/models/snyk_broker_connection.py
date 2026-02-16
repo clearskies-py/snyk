@@ -18,12 +18,15 @@ class SnykBrokerConnection(Model):
     Uses the Snyk v2 REST API endpoint: `/orgs/{org_id}/brokers/connections`
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykBrokerConnection
 
-    # Fetch all broker connections for an org
-    connections = SnykBrokerConnection().where("org_id=org-id-123")
-    for conn in connections:
-        print(f"Connection: {conn.name} - Type: {conn.connection_type}")
+
+    def my_handler(snyk_broker_connection: SnykBrokerConnection):
+        # Fetch all broker connections for an org
+        connections = snyk_broker_connection.where("org_id=org-id-123")
+        for conn in connections:
+            print(f"Connection: {conn.name} - Type: {conn.connection_type}")
     ```
     """
 

@@ -19,15 +19,18 @@ class SnykCloudEnvironment(Model):
     Uses the Snyk v2 REST API endpoint: /orgs/{org_id}/cloud/environments
 
     ```python
+    import clearskies
     from clearskies_snyk.models import SnykCloudEnvironment
 
-    # Fetch all cloud environments for an organization
-    environments = SnykCloudEnvironment().where("org_id=org-id-123")
-    for env in environments:
-        print(f"Environment: {env.name} ({env.kind})")
 
-    # Access the parent organization
-    print(f"Org: {env.org.name}")
+    def my_handler(snyk_cloud_environment: SnykCloudEnvironment):
+        # Fetch all cloud environments for an organization
+        environments = snyk_cloud_environment.where("org_id=org-id-123")
+        for env in environments:
+            print(f"Environment: {env.name} ({env.kind})")
+
+        # Access the parent organization
+        print(f"Org: {env.org.name}")
     ```
     """
 

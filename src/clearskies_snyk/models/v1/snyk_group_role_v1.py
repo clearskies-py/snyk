@@ -24,12 +24,15 @@ class SnykGroupRoleV1(Model):
     ## Usage
 
     ```python
+    import clearskies
     from clearskies_snyk.models.v1 import SnykGroupRoleV1
 
-    # Fetch all roles for a group
-    roles = SnykGroupRoleV1().where("group_id=group-id-123")
-    for role in roles:
-        print(f"Role: {role.name} - {role.description}")
+
+    def my_handler(snyk_group_role_v1: SnykGroupRoleV1):
+        # Fetch all roles for a group
+        roles = snyk_group_role_v1.where("group_id=group-id-123")
+        for role in roles:
+            print(f"Role: {role.name} - {role.description}")
     ```
 
     ## Common Roles
