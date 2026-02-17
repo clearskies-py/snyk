@@ -37,9 +37,6 @@ packages = ["src/clearskies_snyk"]
 
 [tool.hatch.build]
 exclude = [
-    "src/clearskies_snyk/*_test.py",
-    "src/clearskies_snyk/**/*_test.py",
-    "src/clearskies_snyk/integration_tests/*",
     "docs/**",
     "tests/**"
 ]
