@@ -1,6 +1,6 @@
 """Tests for V1 models."""
 
-from clearskies_snyk.backends import SnykV1Backend
+from clearskies_snyk.backends import SnykV1Backend, SnykV1ImportBackend
 
 
 class TestSnykWebhook:
@@ -234,3 +234,181 @@ class TestSnykIntegration:
         from clearskies_snyk.models.v1 import SnykIntegration
 
         assert isinstance(SnykIntegration.backend, SnykV1Backend)
+
+
+class TestSnykGitHubImport:
+    """Test suite for SnykGitHubImport model."""
+
+    def test_destination_name_returns_correct_path(self) -> None:
+        """Test that destination_name returns the correct v1 API path."""
+        from clearskies_snyk.models.v1 import SnykGitHubImport
+
+        assert SnykGitHubImport.destination_name() == "org/{org_id}/integrations/{integration_id}/import"
+
+    def test_model_has_expected_columns(self) -> None:
+        """Test that SnykGitHubImport has the expected columns."""
+        from clearskies_snyk.models.v1 import SnykGitHubImport
+
+        assert hasattr(SnykGitHubImport, "org_id")
+        assert hasattr(SnykGitHubImport, "integration_id")
+        assert hasattr(SnykGitHubImport, "target")
+        assert hasattr(SnykGitHubImport, "files")
+        assert hasattr(SnykGitHubImport, "exclusion_globs")
+
+    def test_model_uses_v1_import_backend(self) -> None:
+        """Test that SnykGitHubImport uses SnykV1ImportBackend."""
+        from clearskies_snyk.models.v1 import SnykGitHubImport
+
+        assert isinstance(SnykGitHubImport.backend, SnykV1ImportBackend)
+
+
+class TestSnykGitLabImport:
+    """Test suite for SnykGitLabImport model."""
+
+    def test_destination_name_returns_correct_path(self) -> None:
+        """Test that destination_name returns the correct v1 API path."""
+        from clearskies_snyk.models.v1 import SnykGitLabImport
+
+        assert SnykGitLabImport.destination_name() == "org/{org_id}/integrations/{integration_id}/import"
+
+    def test_model_has_expected_columns(self) -> None:
+        """Test that SnykGitLabImport has the expected columns."""
+        from clearskies_snyk.models.v1 import SnykGitLabImport
+
+        assert hasattr(SnykGitLabImport, "org_id")
+        assert hasattr(SnykGitLabImport, "integration_id")
+        assert hasattr(SnykGitLabImport, "target")
+        assert hasattr(SnykGitLabImport, "files")
+        assert hasattr(SnykGitLabImport, "exclusion_globs")
+
+    def test_model_uses_v1_import_backend(self) -> None:
+        """Test that SnykGitLabImport uses SnykV1ImportBackend."""
+        from clearskies_snyk.models.v1 import SnykGitLabImport
+
+        assert isinstance(SnykGitLabImport.backend, SnykV1ImportBackend)
+
+
+class TestSnykBitbucketCloudImport:
+    """Test suite for SnykBitbucketCloudImport model."""
+
+    def test_destination_name_returns_correct_path(self) -> None:
+        """Test that destination_name returns the correct v1 API path."""
+        from clearskies_snyk.models.v1 import SnykBitbucketCloudImport
+
+        assert SnykBitbucketCloudImport.destination_name() == "org/{org_id}/integrations/{integration_id}/import"
+
+    def test_model_has_expected_columns(self) -> None:
+        """Test that SnykBitbucketCloudImport has the expected columns."""
+        from clearskies_snyk.models.v1 import SnykBitbucketCloudImport
+
+        assert hasattr(SnykBitbucketCloudImport, "org_id")
+        assert hasattr(SnykBitbucketCloudImport, "integration_id")
+        assert hasattr(SnykBitbucketCloudImport, "target")
+        assert hasattr(SnykBitbucketCloudImport, "files")
+        assert hasattr(SnykBitbucketCloudImport, "exclusion_globs")
+
+    def test_model_uses_v1_import_backend(self) -> None:
+        """Test that SnykBitbucketCloudImport uses SnykV1ImportBackend."""
+        from clearskies_snyk.models.v1 import SnykBitbucketCloudImport
+
+        assert isinstance(SnykBitbucketCloudImport.backend, SnykV1ImportBackend)
+
+
+class TestSnykBitbucketServerImport:
+    """Test suite for SnykBitbucketServerImport model."""
+
+    def test_destination_name_returns_correct_path(self) -> None:
+        """Test that destination_name returns the correct v1 API path."""
+        from clearskies_snyk.models.v1 import SnykBitbucketServerImport
+
+        assert SnykBitbucketServerImport.destination_name() == "org/{org_id}/integrations/{integration_id}/import"
+
+    def test_model_has_expected_columns(self) -> None:
+        """Test that SnykBitbucketServerImport has the expected columns."""
+        from clearskies_snyk.models.v1 import SnykBitbucketServerImport
+
+        assert hasattr(SnykBitbucketServerImport, "org_id")
+        assert hasattr(SnykBitbucketServerImport, "integration_id")
+        assert hasattr(SnykBitbucketServerImport, "target")
+        assert hasattr(SnykBitbucketServerImport, "files")
+        assert hasattr(SnykBitbucketServerImport, "exclusion_globs")
+
+    def test_model_uses_v1_import_backend(self) -> None:
+        """Test that SnykBitbucketServerImport uses SnykV1ImportBackend."""
+        from clearskies_snyk.models.v1 import SnykBitbucketServerImport
+
+        assert isinstance(SnykBitbucketServerImport.backend, SnykV1ImportBackend)
+
+
+class TestSnykAzureReposImport:
+    """Test suite for SnykAzureReposImport model."""
+
+    def test_destination_name_returns_correct_path(self) -> None:
+        """Test that destination_name returns the correct v1 API path."""
+        from clearskies_snyk.models.v1 import SnykAzureReposImport
+
+        assert SnykAzureReposImport.destination_name() == "org/{org_id}/integrations/{integration_id}/import"
+
+    def test_model_has_expected_columns(self) -> None:
+        """Test that SnykAzureReposImport has the expected columns."""
+        from clearskies_snyk.models.v1 import SnykAzureReposImport
+
+        assert hasattr(SnykAzureReposImport, "org_id")
+        assert hasattr(SnykAzureReposImport, "integration_id")
+        assert hasattr(SnykAzureReposImport, "target")
+        assert hasattr(SnykAzureReposImport, "files")
+        assert hasattr(SnykAzureReposImport, "exclusion_globs")
+
+    def test_model_uses_v1_import_backend(self) -> None:
+        """Test that SnykAzureReposImport uses SnykV1ImportBackend."""
+        from clearskies_snyk.models.v1 import SnykAzureReposImport
+
+        assert isinstance(SnykAzureReposImport.backend, SnykV1ImportBackend)
+
+
+class TestSnykDockerHubImport:
+    """Test suite for SnykDockerHubImport model."""
+
+    def test_destination_name_returns_correct_path(self) -> None:
+        """Test that destination_name returns the correct v1 API path."""
+        from clearskies_snyk.models.v1 import SnykDockerHubImport
+
+        assert SnykDockerHubImport.destination_name() == "org/{org_id}/integrations/{integration_id}/import"
+
+    def test_model_has_expected_columns(self) -> None:
+        """Test that SnykDockerHubImport has the expected columns."""
+        from clearskies_snyk.models.v1 import SnykDockerHubImport
+
+        assert hasattr(SnykDockerHubImport, "org_id")
+        assert hasattr(SnykDockerHubImport, "integration_id")
+        assert hasattr(SnykDockerHubImport, "target")
+
+    def test_model_uses_v1_import_backend(self) -> None:
+        """Test that SnykDockerHubImport uses SnykV1ImportBackend."""
+        from clearskies_snyk.models.v1 import SnykDockerHubImport
+
+        assert isinstance(SnykDockerHubImport.backend, SnykV1ImportBackend)
+
+
+class TestSnykContainerRegistryImport:
+    """Test suite for SnykContainerRegistryImport model."""
+
+    def test_destination_name_returns_correct_path(self) -> None:
+        """Test that destination_name returns the correct v1 API path."""
+        from clearskies_snyk.models.v1 import SnykContainerRegistryImport
+
+        assert SnykContainerRegistryImport.destination_name() == "org/{org_id}/integrations/{integration_id}/import"
+
+    def test_model_has_expected_columns(self) -> None:
+        """Test that SnykContainerRegistryImport has the expected columns."""
+        from clearskies_snyk.models.v1 import SnykContainerRegistryImport
+
+        assert hasattr(SnykContainerRegistryImport, "org_id")
+        assert hasattr(SnykContainerRegistryImport, "integration_id")
+        assert hasattr(SnykContainerRegistryImport, "target")
+
+    def test_model_uses_v1_import_backend(self) -> None:
+        """Test that SnykContainerRegistryImport uses SnykV1ImportBackend."""
+        from clearskies_snyk.models.v1 import SnykContainerRegistryImport
+
+        assert isinstance(SnykContainerRegistryImport.backend, SnykV1ImportBackend)
