@@ -5,10 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.5] - 2026-02-18
+
+### Changed
+- Update lock file
+
+### Fixed
+- Set job id
+
 ## [2.0.4] - 2026-02-17
 
 ### Added
 - Add backend for the import jobs to handle the location header
+
+### Changed
+- Bump version to v2.0.4 by @github-actions[bot]
 
 ## [2.0.3] - 2026-02-17
 
@@ -48,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## New Contributors
 * @github-actions[bot] made their first contribution
 * @ made their first contribution
+[2.0.5]: https://github.com/clearskies-py/snyk/compare/v2.0.4..v2.0.5
 [2.0.4]: https://github.com/clearskies-py/snyk/compare/v2.0.3..v2.0.4
 [2.0.3]: https://github.com/clearskies-py/snyk/compare/v2.0.2..v2.0.3
 [2.0.2]: https://github.com/clearskies-py/snyk/compare/v2.0.1..v2.0.2
