@@ -53,7 +53,7 @@ class TestSnykV1ImportBackend:
             model,
         )
 
-        assert result.record["id"] == "abc-123-def"
+        assert result.record["job_id"] == "abc-123-def"
         assert result.record["org_id"] == "4a18d42f-0706-4ad0-b127-24078731fbed"
         assert result.record["integration_id"] == "9a3e5d90-b782-468a-a042-9a2073736f0b"
 
@@ -88,7 +88,7 @@ class TestSnykV1ImportBackend:
             model,
         )
 
-        assert result.record["id"] == "job-789"
+        assert result.record["job_id"] == "job-789"
         assert result.record["org_id"] == "org-123"
         assert result.record["integration_id"] == "int-456"
 
@@ -169,59 +169,34 @@ class TestSnykV1ImportBackend:
         model = MockModel()
         result = test_backend.create({"org_id": "org-123", "integration_id": "int-456"}, model)
 
-        assert result.record["id"] == "job-789"
+        assert result.record["job_id"] == "job-789"
 
-    def test_create_falls_back_to_parent_when_no_location(self):
-        """Test that create() falls back to parent behavior when no Location header."""
+    def test_create_raises_error_when_no_location_header(self):
+        """Test that create() raises ValueError when no Location header is provided."""
         test_backend = SnykV1ImportBackend()
 
         class MockModel(clearskies.Model):
             id_column_name = "id"
             backend = test_backend
             id = clearskies.columns.String()
-            name = clearskies.columns.String()
+            org_id = clearskies.columns.String()
+            integration_id = clearskies.columns.String()
 
             @classmethod
             def destination_name(cls):
-                return "items"
-
-        mock_response = MagicMock()
-        mock_response.status_code = 201
-        mock_response.content = b'{"id": "item-123", "name": "Test Item"}'
-        mock_response.json.return_value = {"id": "item-123", "name": "Test Item"}
-        mock_response.headers = {}  # No Location header
-
-        test_backend.execute_request = MagicMock(return_value=mock_response)
-
-        model = MockModel()
-        result = test_backend.create({}, model)
-
-        # Should fall back to normal response handling
-        assert result.record["id"] == "item-123"
-        assert result.record["name"] == "Test Item"
-
-    def test_create_falls_back_when_empty_body_and_no_location(self):
-        """Test that create() returns empty record when no Location and no body."""
-        test_backend = SnykV1ImportBackend()
-
-        class MockModel(clearskies.Model):
-            id_column_name = "id"
-            backend = test_backend
-            id = clearskies.columns.String()
-
-            @classmethod
-            def destination_name(cls):
-                return "items"
+                return "org/{org_id}/integrations/{integration_id}/import"
 
         mock_response = MagicMock()
         mock_response.status_code = 201
         mock_response.content = b""
+        mock_response.text = ""
         mock_response.headers = {}  # No Location header
 
         test_backend.execute_request = MagicMock(return_value=mock_response)
 
         model = MockModel()
-        result = test_backend.create({}, model)
-
-        # Should return empty record
-        assert result.record == {}
+        with pytest.raises(
+            ValueError,
+            match="Snyk API import endpoint returned no Location header. According to API specification",
+        ):
+            test_backend.create({"org_id": "org-123", "integration_id": "int-456"}, model)

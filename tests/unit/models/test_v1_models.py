@@ -123,7 +123,7 @@ class TestSnykImportJob:
         """Test that SnykImportJob has the expected columns."""
         from clearskies_snyk.models.v1 import SnykImportJob
 
-        assert hasattr(SnykImportJob, "id")
+        assert hasattr(SnykImportJob, "job_id")
         assert hasattr(SnykImportJob, "org_id")
         assert hasattr(SnykImportJob, "integration_id")
         assert hasattr(SnykImportJob, "status")

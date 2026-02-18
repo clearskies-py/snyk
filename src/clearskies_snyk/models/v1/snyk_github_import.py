@@ -10,8 +10,10 @@ from clearskies.columns import Json, String
 
 from clearskies_snyk.backends import SnykV1ImportBackend
 
+from .snyk_target_import import SnykTargetImport
 
-class SnykGitHubImport(Model):
+
+class SnykGitHubImport(SnykTargetImport):
     """
     Model for creating GitHub/GitHub Enterprise import jobs (v1 API).
 
@@ -83,32 +85,6 @@ class SnykGitHubImport(Model):
     - Requires a Snyk personal access/API token for GitHub Cloud integrations
     - Contact support if you need to import a non-default branch
     """
-
-    id_column_name: str = "id"
-    backend = SnykV1ImportBackend(can_update=False, can_delete=False, can_query=False)
-
-    @classmethod
-    def destination_name(cls: type[Self]) -> str:
-        """Return the slug of the api endpoint for this model."""
-        return "org/{org_id}/integrations/{integration_id}/import"
-
-    """
-    The unique identifier for the organization (required for routing).
-    """
-    org_id = String(is_searchable=True)
-
-    """
-    The unique identifier for the integration (required for routing).
-    This can be found on the Integration page in the Settings area.
-    """
-    integration_id = String(is_searchable=True)
-
-    """
-    The target repository to import.
-    Object with: owner (required), name (required), branch (required).
-    Example: {"owner": "my-org", "name": "my-repo", "branch": "main"}
-    """
-    target = Json()
 
     """
     Optional array of specific manifest files to import.

@@ -54,7 +54,7 @@ class SnykImportJob(Model):
     import_job_model = di.build(
         SnykImportJob, org_id=import_job.org_id, integration_id=import_job.integration_id
     )
-    job = import_job_model.find(import_job.id)
+    job = import_job_model.find(import_job.job_id)
     print(f"Status: {job.status}")
     for log in job.logs:
         print(f"  {log['name']}: {log['status']}")
@@ -73,7 +73,7 @@ class SnykImportJob(Model):
     - `View Organization`
     """
 
-    id_column_name: str = "id"
+    id_column_name: str = "job_id"
     backend = SnykV1Backend(can_create=False, can_update=False, can_delete=False)
 
     @classmethod
@@ -84,7 +84,7 @@ class SnykImportJob(Model):
     """
     The unique identifier for the import job.
     """
-    id = String()
+    job_id = String()
 
     """
     The ID of the organization this import job belongs to.

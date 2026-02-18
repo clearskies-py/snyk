@@ -10,10 +10,8 @@ from clearskies.columns import Json, String
 
 from clearskies_snyk.backends import SnykV1ImportBackend
 
-from .snyk_target_import import SnykTargetImport
 
-
-class SnykGitLabImport(SnykTargetImport):
+class SnykTargetImport(Model):
     """
     Model for creating GitLab import jobs (v1 API).
 
@@ -77,16 +75,32 @@ class SnykGitLabImport(SnykTargetImport):
     - `Test Project`
     """
 
-    """
-    Optional array of specific manifest files to import.
-    Each file object has a 'path' field.
-    Example: [{"path": "package.json"}, {"path": "requirements.txt"}]
-    """
-    files = Json()
+    id_column_name: str = "job_id"
+    backend = SnykV1ImportBackend(can_update=False, can_delete=False, can_query=False)
+
+    @classmethod
+    def destination_name(cls: type[Self]) -> str:
+        """Return the slug of the api endpoint for this model."""
+        return "org/{org_id}/integrations/{integration_id}/import"
 
     """
-    Comma-separated list of up to 10 folder names to exclude from scanning.
-    Default: "fixtures, tests, __tests__, node_modules"
-    Use empty string to exclude no folders.
+    The Snyk id for the import job, returned in the Location header of the API response when creating an import job."""
+    job_id = String()
+
     """
-    exclusion_globs = String()
+    The unique identifier for the organization (required for routing).
+    """
+    org_id = String(is_searchable=True)
+
+    """
+    The unique identifier for the integration (required for routing).
+    This can be found on the Integration page in the Settings area.
+    """
+    integration_id = String(is_searchable=True)
+
+    """
+    The target repository to import.
+    Object with: id (required, numeric), branch (required).
+    Example: {"id": 12345, "branch": "develop"}
+    """
+    target = Json()

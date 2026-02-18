@@ -64,15 +64,16 @@ class SnykV1ImportBackend(SnykV1Backend):
 
         response = self.execute_request(url, request_method, json=data, headers=self.headers)
 
-        # The import API returns a 201 with empty body and job ID in Location header
+        # The import API always returns a 201 with empty body and job ID in Location header
+        # According to API spec, the response content is always empty and only the Location header is provided
         location = response.headers.get("Location", "")
 
         if not location:
-            # Fall back to normal response handling if no Location header
-            if response.content:
-                record = self.map_create_response(response.json(), model)
-                return RecordQueryResult(record=record)
-            return RecordQueryResult(record={})
+            raise ValueError(
+                "Snyk API import endpoint returned no Location header. "
+                "According to API specification, the import endpoint must return a Location header with the job ID. "
+                f"Response status: {response.status_code}, Body: {response.text[:200] if response.text else 'empty'}"
+            )
 
         # Extract job ID from Location URL
         # Format:  /org/{orgId}/integrations/{integrationId}/import/{jobId}
@@ -105,7 +106,7 @@ class SnykV1ImportBackend(SnykV1Backend):
 
         # Return the job data with routing parameters
         record = {
-            "id": job_id,
+            "job_id": job_id,
             "org_id": org_id,
             "integration_id": integration_id,
         }

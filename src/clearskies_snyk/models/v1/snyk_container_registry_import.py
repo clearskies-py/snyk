@@ -10,8 +10,10 @@ from clearskies.columns import Json, String
 
 from clearskies_snyk.backends import SnykV1ImportBackend
 
+from .snyk_target_import import SnykTargetImport
 
-class SnykContainerRegistryImport(Model):
+
+class SnykContainerRegistryImport(SnykTargetImport):
     """
     Model for creating container registry import jobs (v1 API).
 
@@ -90,32 +92,3 @@ class SnykContainerRegistryImport(Model):
     - `Add Project`
     - `Test Project`
     """
-
-    id_column_name: str = "id"
-    backend = SnykV1ImportBackend(can_update=False, can_delete=False, can_query=False)
-
-    @classmethod
-    def destination_name(cls: type[Self]) -> str:
-        """Return the slug of the api endpoint for this model."""
-        return "org/{org_id}/integrations/{integration_id}/import"
-
-    """
-    The unique identifier for the organization (required for routing).
-    """
-    org_id = String(is_searchable=True)
-
-    """
-    The unique identifier for the integration (required for routing).
-    This can be found on the Integration page in the Settings area.
-    """
-    integration_id = String(is_searchable=True)
-
-    """
-    The target container image to import.
-    Object with: name (required).
-
-    Format varies by registry:
-    - GCR/GAR/Harbor/DigitalOcean/Quay/GitLab CR/GitHub CR: {"name": "project/repository:tag"}
-    - ACR/ECR/Artifactory/Nexus: {"name": "repository:tag"}
-    """
-    target = Json()
