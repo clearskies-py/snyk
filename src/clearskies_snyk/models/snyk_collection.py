@@ -52,9 +52,10 @@ class SnykCollection(Model):
 
     # Map 'type' to 'collection_type' to avoid shadowing Python's builtin type
     backend = SnykBackend(
+        resource_type="collection",
         api_to_model_map={
             "type": "collection_type",
-        }
+        },
     )
 
     @classmethod

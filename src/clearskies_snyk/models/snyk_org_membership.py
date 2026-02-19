@@ -5,7 +5,7 @@ from typing import Self
 from clearskies import Model
 from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Json, String
 
-from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.backends import SnykMembershipBackend
 from clearskies_snyk.models.references import snyk_org_reference
 
 
@@ -34,10 +34,11 @@ class SnykOrgMembership(Model):
     id_column_name: str = "id"
 
     # Map 'type' to 'membership_type' to avoid shadowing Python's builtin type
-    backend = SnykBackend(
+    backend = SnykMembershipBackend(
+        resource_type="membership",
         api_to_model_map={
             "type": "membership_type",
-        }
+        },
     )
 
     @classmethod

@@ -96,6 +96,17 @@ class SnykBackend(clearskies.backends.ApiBackend):
     ```
 
     The backend will add `organization_id: "org-123"` to the flattened record.
+
+    ## JSON:API Resource Type
+
+    When creating or updating records, the backend needs to know the JSON:API resource type
+    (e.g., "project", "org", etc.). By default, it will try to infer this from the model's
+    destination_name by taking the last path segment and singularizing it. However, you can
+    explicitly set this using the `resource_type` parameter:
+
+    ```python
+    backend = SnykBackend(resource_type="project")
+    ```
     """
 
     base_url = configs.String(default="https://api.snyk.io/rest/")
@@ -107,6 +118,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
     pagination_parameter_name = configs.String(default="starting_after")
     limit_parameter_name = configs.String(default="limit")
     headers = configs.StringDict(default={"Accept": "application/vnd.api+json"})
+    resource_type = configs.String(default="")
 
     can_count = False
 
@@ -126,6 +138,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
         can_update: bool | None = True,
         can_delete: bool | None = True,
         can_query: bool | None = True,
+        resource_type: str = "",
     ):
         self.finalize_and_validate_configuration()
 
@@ -228,3 +241,66 @@ class SnykBackend(clearskies.backends.ApiBackend):
                         next_page_data[self.pagination_parameter_name] = starting_after
 
         return next_page_data
+
+    def map_update_request(self, id: int | str, data: dict[str, Any], model: "clearskies.Model") -> dict[str, Any]:  # type: ignore
+        """
+        Map update data to JSON:API format required by Snyk REST API.
+
+        The Snyk REST API expects: {"data": {"type": "...", "id": "...", "attributes": {...}}}
+
+        This hook is called by the ApiBackend.update() method to transform the data before
+        sending it to the API.
+        """
+        resource_type = self._get_resource_type(model)
+
+        return {
+            "data": {
+                "type": resource_type,
+                "id": str(id),
+                "attributes": data,
+            }
+        }
+
+    def map_create_request(self, data: dict[str, Any], model: "clearskies.Model") -> dict[str, Any]:  # type: ignore
+        """
+        Map create data to JSON:API format required by Snyk REST API.
+
+        The Snyk REST API expects: {"data": {"type": "...", "attributes": {...}}}
+
+        This hook is called by the ApiBackend.create() method to transform the data before
+        sending it to the API.
+        """
+        resource_type = self._get_resource_type(model)
+
+        return {
+            "data": {
+                "type": resource_type,
+                "attributes": data,
+            }
+        }
+
+    def _get_resource_type(self, model: "clearskies.Model") -> str:  # type: ignore
+        """
+        Get the JSON:API resource type for a model.
+
+        If resource_type is explicitly set in the backend configuration, use that.
+        Otherwise, infer it from the model's destination_name by taking the last
+        path segment and singularizing it (e.g., "orgs/{org_id}/projects" -> "project").
+        """
+        # Use explicitly configured resource type if available
+        if self.resource_type:
+            return self.resource_type
+
+        # Otherwise, infer from destination_name
+        if model and hasattr(model, "destination_name"):
+            destination = model.destination_name()
+            # Extract the last segment and singularize
+            # e.g., "orgs/{org_id}/projects" -> "project"
+            parts = destination.split("/")
+            resource_name = parts[-1]
+            # Simple singularization: remove trailing 's'
+            if resource_name.endswith("s") and len(resource_name) > 1:
+                return resource_name[:-1]
+            return resource_name
+
+        return "resource"

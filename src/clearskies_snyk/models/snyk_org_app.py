@@ -32,7 +32,7 @@ class SnykOrgApp(Model):
 
     id_column_name: str = "client_id"
 
-    backend = SnykBackend()
+    backend = SnykBackend(resource_type="app")
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

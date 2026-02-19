@@ -49,6 +49,7 @@ class SnykProject(Model):
             "type": "project_type",
         },
         can_create=False,
+        resource_type="project",
     )
 
     @classmethod

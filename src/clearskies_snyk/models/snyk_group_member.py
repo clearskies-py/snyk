@@ -29,7 +29,7 @@ class SnykGroupMember(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend()
+    backend = SnykBackend(resource_type="member")
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

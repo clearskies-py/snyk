@@ -31,7 +31,7 @@ class SnykCustomBaseImage(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend(api_to_model_map={"type": "image_type"})
+    backend = SnykBackend(resource_type="custom_base_image", api_to_model_map={"type": "image_type"})
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

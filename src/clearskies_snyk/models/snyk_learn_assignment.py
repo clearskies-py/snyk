@@ -32,9 +32,10 @@ class SnykLearnAssignment(Model):
 
     # Map 'type' to 'assignment_type' to avoid shadowing Python's builtin type
     backend = SnykBackend(
+        resource_type="assignment",
         api_to_model_map={
             "type": "assignment_type",
-        }
+        },
     )
 
     @classmethod

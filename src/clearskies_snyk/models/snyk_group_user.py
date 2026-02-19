@@ -35,7 +35,7 @@ class SnykGroupUser(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend(can_create=False, can_delete=False, can_query=False)
+    backend = SnykBackend(resource_type="user", can_create=False, can_delete=False, can_query=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

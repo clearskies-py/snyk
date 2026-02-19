@@ -32,7 +32,7 @@ class SnykGroupExport(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend(can_update=False, can_delete=False)
+    backend = SnykBackend(resource_type="export", can_update=False, can_delete=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

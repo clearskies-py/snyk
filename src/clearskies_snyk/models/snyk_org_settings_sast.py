@@ -32,6 +32,7 @@ class SnykOrgSettingsSast(Model):
 
     # Map 'type' to 'settings_type' to avoid shadowing Python's builtin type
     backend = SnykBackend(
+        resource_type="sast",
         api_to_model_map={
             "type": "settings_type",
         },

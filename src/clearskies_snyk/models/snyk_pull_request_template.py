@@ -33,6 +33,7 @@ class SnykPullRequestTemplate(Model):
 
     # Map 'type' to 'template_type' to avoid shadowing Python's builtin type
     backend = SnykBackend(
+        resource_type="pull_request_template",
         api_to_model_map={
             "type": "template_type",
         },

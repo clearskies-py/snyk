@@ -30,7 +30,9 @@ class SnykAiBom(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend(api_to_model_map={"type": "bom_type"}, can_update=False, can_delete=False)
+    backend = SnykBackend(
+        resource_type="ai_bom", api_to_model_map={"type": "bom_type"}, can_update=False, can_delete=False
+    )
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

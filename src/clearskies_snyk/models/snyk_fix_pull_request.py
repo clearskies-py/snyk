@@ -37,7 +37,13 @@ class SnykFixPullRequest(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend(api_to_model_map={"type": "pr_type"}, can_update=False, can_delete=False, can_query=False)
+    backend = SnykBackend(
+        resource_type="pull_request",
+        api_to_model_map={"type": "pr_type"},
+        can_update=False,
+        can_delete=False,
+        can_query=False,
+    )
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

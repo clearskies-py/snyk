@@ -33,7 +33,7 @@ class SnykOrgServiceAccount(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend()
+    backend = SnykBackend(resource_type="service_account")
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

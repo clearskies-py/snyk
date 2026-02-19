@@ -33,7 +33,7 @@ class SnykOrgAppInstall(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend(can_update=False)
+    backend = SnykBackend(resource_type="app_install", can_update=False)
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:

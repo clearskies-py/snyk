@@ -34,7 +34,7 @@ class SnykTenantRole(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend()
+    backend = SnykBackend(resource_type="tenant_role")
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:
