@@ -4,7 +4,7 @@ from typing import Any
 
 import clearskies
 import requests
-from clearskies import configs
+from clearskies import configs, di
 from clearskies.authentication import Authentication
 from clearskies.decorators import parameters_to_properties
 from clearskies.di import inject
@@ -117,7 +117,9 @@ class SnykBackend(clearskies.backends.ApiBackend):
     api_to_model_map = configs.AnyDict(default={})
     pagination_parameter_name = configs.String(default="starting_after")
     limit_parameter_name = configs.String(default="limit")
-    headers = configs.StringDict(default={"Accept": "application/vnd.api+json"})
+    headers = configs.StringDict(
+        default={"Accept": "application/vnd.api+json", "Content-Type": "application/vnd.api+json"}
+    )
     resource_type = configs.String(default="")
 
     can_count = False
@@ -138,6 +140,11 @@ class SnykBackend(clearskies.backends.ApiBackend):
         can_update: bool | None = True,
         can_delete: bool | None = True,
         can_query: bool | None = True,
+        headers: dict[str, str] | None = None,
+        update_headers: dict[str, str] | None = None,
+        create_headers: dict[str, str] | None = None,
+        delete_headers: dict[str, str] | None = None,
+        records_headers: dict[str, str] | None = None,
         resource_type: str = "",
     ):
         self.finalize_and_validate_configuration()
@@ -246,18 +253,38 @@ class SnykBackend(clearskies.backends.ApiBackend):
         """
         Map update data to JSON:API format required by Snyk REST API.
 
-        The Snyk REST API expects: {"data": {"type": "...", "id": "...", "attributes": {...}}}
+        The Snyk REST API expects:
+        {"data": {"attributes": {...}, "id": "...", "relationships": {}, "type": "..."}}
 
         This hook is called by the ApiBackend.update() method to transform the data before
         sending it to the API.
+
+        Note: Based on working implementation, the Snyk API requires 'type' and an empty
+        'relationships' object for PATCH requests on projects.
         """
+        import json
+        import logging
+
         resource_type = self._get_resource_type(model)
+
+        # Remove relationship fields (*_id) from attributes - these can't be updated via PATCH
+        # Also remove empty string values that should be null or omitted
+        attributes = {}
+        for k, v in data.items():
+            # Skip relationship fields
+            if k.endswith("_id") and k != "id":
+                continue
+            # Skip empty strings for array fields (business_criticality, lifecycle, environment)
+            if k in ("business_criticality", "lifecycle", "environment") and v == "":
+                continue
+            attributes[k] = v
 
         return {
             "data": {
-                "type": resource_type,
+                "attributes": attributes,
                 "id": str(id),
-                "attributes": data,
+                "relationships": {},
+                "type": resource_type,
             }
         }
 
@@ -304,3 +331,79 @@ class SnykBackend(clearskies.backends.ApiBackend):
             return resource_name
 
         return "resource"
+
+    def _add_version_to_url(self, url: str) -> str:
+        """
+        Add the API version parameter to a URL if not already present.
+
+        Args:
+            url: The URL to add the version parameter to
+
+        Returns:
+            The URL with the version parameter added
+        """
+        if "version=" not in url:
+            separator = "&" if "?" in url else "?"
+            url = f"{url}{separator}version={self.api_version}"
+        return url
+
+    def update_url(self, id: int | str, data: dict[str, Any], model: "clearskies.Model") -> tuple[str, list[str]]:  # type: ignore
+        """
+        Override to add version parameter to update URLs.
+
+        This hook is called by the parent ApiBackend.update() method to build the URL.
+        """
+        url, used_routing_params = super().update_url(id, data, model)
+        return (self._add_version_to_url(url), used_routing_params)
+
+    def create_url(self, data: dict[str, Any], model: "clearskies.Model") -> tuple[str, list[str]]:  # type: ignore
+        """
+        Override to add version parameter to create URLs.
+
+        This hook is called by the parent ApiBackend.create() method to build the URL.
+        """
+        url, used_routing_params = super().create_url(data, model)
+        return (self._add_version_to_url(url), used_routing_params)
+
+    def delete_url(self, id: int | str, data: dict[str, Any], model: "clearskies.Model") -> tuple[str, list[str]]:  # type: ignore
+        """
+        Override to add version parameter to delete URLs.
+
+        This hook is called by the parent ApiBackend.delete() method to build the URL.
+        """
+        url, used_routing_params = super().delete_url(id, data, model)
+        return (self._add_version_to_url(url), used_routing_params)
+
+    def records_url(self, query: Query) -> tuple[str, list[str]]:  # type: ignore
+        """
+        Override to add version parameter to records URLs.
+
+        This hook is called by the parent ApiBackend.records() method to build the URL.
+        Note: For records/query operations, the version is already added via
+        pagination_to_request_parameters(), so we don't add it again here.
+        """
+        return super().records_url(query)
+
+    def update_headers(self, id: int | str, data: dict[str, Any], model: "clearskies.Model") -> dict[str, str]:  # type: ignore
+        """
+        Override to provide headers for update requests.
+
+        This hook is called by the parent ApiBackend.update() method to get headers.
+        """
+        return self.headers
+
+    def create_headers(self, data: dict[str, Any], model: "clearskies.Model") -> dict[str, str]:  # type: ignore
+        """
+        Override to provide headers for create requests.
+
+        This hook is called by the parent ApiBackend.create() method to get headers.
+        """
+        return self.headers
+
+    def delete_headers(self, id: int | str, model: "clearskies.Model") -> dict[str, str]:  # type: ignore
+        """
+        Override to provide headers for delete requests.
+
+        This hook is called by the parent ApiBackend.delete() method to get headers.
+        """
+        return self.headers
