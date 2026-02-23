@@ -4,12 +4,51 @@ Note: This model uses the Snyk v1 API. The v2 REST API does not have
 import job endpoints.
 """
 
-from typing import Self
+from dataclasses import dataclass
+from typing import Any, Self, cast
 
 from clearskies import Model
 from clearskies.columns import Json, String
 
 from clearskies_snyk.backends import SnykV1Backend
+
+
+@dataclass
+class ImportProject:
+    """
+    Represents a project created from an import target.
+
+    Attributes:
+        target_file: The project's package manifest file
+        success: Whether the project was successfully imported
+        project_url: The URL to the project in Snyk
+        project_id: The Snyk project public ID
+    """
+
+    target_file: str
+    success: bool
+    project_url: str
+    project_id: str
+
+
+@dataclass
+class ImportLog:
+    """
+    Represents a single log entry for a target being imported.
+
+    Attributes:
+        name: The name of the target (e.g., 'org/repo')
+        created: Timestamp when import was attempted
+        status: Status of this specific import
+        truncated: Whether the import was truncated
+        projects: List of projects created from this target
+    """
+
+    name: str
+    created: str
+    status: str
+    truncated: bool
+    projects: list[ImportProject]
 
 
 class SnykImportJob(Model):
@@ -117,3 +156,40 @@ class SnykImportJob(Model):
     - projects: List of projects created from this target
     """
     logs = Json()
+
+    def get_logs(self) -> list[ImportLog]:
+        """
+        Get the import logs as a list of ImportLog dataclass instances.
+
+        Returns:
+            list[ImportLog]: List of ImportLog objects representing each target import log.
+
+        Example:
+            ```python
+            job = import_job_model.find(job_id)
+            for log in job.get_logs():
+                print(f"{log.name}: {log.status}")
+                for project in log.projects:
+                    success_str = "✓" if project.success else "✗"
+                    print(f"  {success_str} {project.target_file} ({project.project_id})")
+            ```
+        """
+        raw_logs = cast(list[dict[str, Any]], self.logs or [])
+        return [
+            ImportLog(
+                name=log.get("name", ""),
+                created=log.get("created", ""),
+                status=log.get("status", ""),
+                truncated=log.get("truncated", False),
+                projects=[
+                    ImportProject(
+                        target_file=proj.get("targetFile", ""),
+                        success=proj.get("success", False),
+                        project_url=proj.get("projectUrl", ""),
+                        project_id=proj.get("projectId", ""),
+                    )
+                    for proj in log.get("projects", [])
+                ],
+            )
+            for log in raw_logs
+        ]
