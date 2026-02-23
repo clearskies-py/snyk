@@ -9,6 +9,7 @@ from clearskies.authentication import Authentication
 from clearskies.decorators import parameters_to_properties
 from clearskies.di import inject
 from clearskies.query import Query
+from requests import Response
 
 
 class SnykBackend(clearskies.backends.ApiBackend):
@@ -219,7 +220,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
     def get_next_page_data_from_response(
         self,
         query: Query,
-        response: "requests.Response",  # type: ignore
+        response: Response,
     ) -> dict[str, Any]:
         """
         Extract pagination data from the Snyk REST API response.
@@ -249,7 +250,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
 
         return next_page_data
 
-    def map_update_request(self, id: int | str, data: dict[str, Any], model: "clearskies.Model") -> dict[str, Any]:  # type: ignore
+    def map_update_request(self, id: int | str, data: dict[str, Any], model: clearskies.Model) -> dict[str, Any]:
         """
         Map update data to JSON:API format required by Snyk REST API.
 
@@ -288,7 +289,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
             }
         }
 
-    def map_create_request(self, data: dict[str, Any], model: "clearskies.Model") -> dict[str, Any]:  # type: ignore
+    def map_create_request(self, data: dict[str, Any], model: clearskies.Model) -> dict[str, Any]:
         """
         Map create data to JSON:API format required by Snyk REST API.
 
@@ -306,7 +307,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
             }
         }
 
-    def _get_resource_type(self, model: "clearskies.Model") -> str:  # type: ignore
+    def _get_resource_type(self, model: clearskies.Model) -> str:
         """
         Get the JSON:API resource type for a model.
 
@@ -347,7 +348,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
             url = f"{url}{separator}version={self.api_version}"
         return url
 
-    def update_url(self, id: int | str, data: dict[str, Any], model: "clearskies.Model") -> tuple[str, list[str]]:  # type: ignore
+    def update_url(self, id: int | str, data: dict[str, Any], model: clearskies.Model) -> tuple[str, list[str]]:
         """
         Override to add version parameter to update URLs.
 
@@ -356,7 +357,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
         url, used_routing_params = super().update_url(id, data, model)
         return (self._add_version_to_url(url), used_routing_params)
 
-    def create_url(self, data: dict[str, Any], model: "clearskies.Model") -> tuple[str, list[str]]:  # type: ignore
+    def create_url(self, data: dict[str, Any], model: clearskies.Model) -> tuple[str, list[str]]:
         """
         Override to add version parameter to create URLs.
 
@@ -365,16 +366,16 @@ class SnykBackend(clearskies.backends.ApiBackend):
         url, used_routing_params = super().create_url(data, model)
         return (self._add_version_to_url(url), used_routing_params)
 
-    def delete_url(self, id: int | str, data: dict[str, Any], model: "clearskies.Model") -> tuple[str, list[str]]:  # type: ignore
+    def delete_url(self, id: int | str, data: dict[str, Any], model: clearskies.Model) -> tuple[str, list[str]]:
         """
         Override to add version parameter to delete URLs.
 
         This hook is called by the parent ApiBackend.delete() method to build the URL.
         """
-        url, used_routing_params = super().delete_url(id, data, model)
+        url, used_routing_params = super().delete_url(id, model)
         return (self._add_version_to_url(url), used_routing_params)
 
-    def records_url(self, query: Query) -> tuple[str, list[str]]:  # type: ignore
+    def records_url(self, query: Query) -> tuple[str, list[str]]:
         """
         Override to add version parameter to records URLs.
 
@@ -384,26 +385,14 @@ class SnykBackend(clearskies.backends.ApiBackend):
         """
         return super().records_url(query)
 
-    def update_headers(self, id: int | str, data: dict[str, Any], model: "clearskies.Model") -> dict[str, str]:  # type: ignore
-        """
-        Override to provide headers for update requests.
-
-        This hook is called by the parent ApiBackend.update() method to get headers.
-        """
+    def get_update_headers(self) -> dict[str, str]:
+        """Return headers to use for update requests."""
         return self.headers
 
-    def create_headers(self, data: dict[str, Any], model: "clearskies.Model") -> dict[str, str]:  # type: ignore
-        """
-        Override to provide headers for create requests.
-
-        This hook is called by the parent ApiBackend.create() method to get headers.
-        """
+    def get_create_headers(self) -> dict[str, str]:
+        """Return headers to use for create requests."""
         return self.headers
 
-    def delete_headers(self, id: int | str, model: "clearskies.Model") -> dict[str, str]:  # type: ignore
-        """
-        Override to provide headers for delete requests.
-
-        This hook is called by the parent ApiBackend.delete() method to get headers.
-        """
+    def get_delete_headers(self) -> dict[str, str]:
+        """Return headers to use for delete requests."""
         return self.headers
