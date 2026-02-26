@@ -6,7 +6,7 @@ from clearskies import Model
 from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
-from clearskies_snyk.columns import ProjectTagList
+from clearskies_snyk.columns import ProjectTagList, SelectList
 from clearskies_snyk.models.references import snyk_org_reference, snyk_target_reference
 
 
@@ -120,8 +120,9 @@ class SnykProject(Model):
 
     """
     The business criticality of the project.
+    Snyk API requires this to be an array of values.
     """
-    business_criticality = Select(
+    business_criticality = SelectList(
         allowed_values=[
             "critical",
             "high",
@@ -132,12 +133,14 @@ class SnykProject(Model):
 
     """
     The environment of the project.
+    Snyk API requires this to be an array of values.
     """
-    environment = Select(
+    environment = SelectList(
         allowed_values=[
             "frontend",
             "backend",
             "internal",
+            "external",
             "mobile",
             "saas",
             "onprem",
@@ -148,8 +151,9 @@ class SnykProject(Model):
 
     """
     The lifecycle stage of the project.
+    Snyk API requires this to be an array of values.
     """
-    lifecycle = Select(
+    lifecycle = SelectList(
         allowed_values=[
             "production",
             "development",
