@@ -172,45 +172,20 @@ class SnykBackend(clearskies.backends.ApiBackend):
         This method extracts the `data` list and flattens each record by merging
         the `id` with the `attributes`, and also extracts relationship IDs.
 
-        Additionally, this method ensures that routing parameters from the query
-        are preserved in each record so that subsequent operations (like delete)
-        can reconstruct the correct URL.
+        The parent ApiBackend.map_records_response() will call check_dict_and_map_to_model()
+        on each record, which merges query_data into the record using {**query_data, **mapped}.
         """
         if isinstance(response_data, dict):
             data = response_data.get("data", [])
             if isinstance(data, list):
                 flattened_records = []
                 for record in data:
-                    flattened_record = self._flatten_json_api_record(record)
-                    # Add routing parameters from query_data to ensure they persist
-                    # This is critical for operations like delete() that need to rebuild URLs
-                    if query_data:
-                        for key, value in query_data.items():
-                            # Only add routing parameters (those that match URL path parameters)
-                            # Skip pagination parameters and filters
-                            if key not in (
-                                self.pagination_parameter_name,
-                                self.limit_parameter_name,
-                                "version",
-                            ) and not key.startswith("filter"):
-                                if key not in flattened_record:
-                                    flattened_record[key] = value
-                    flattened_records.append(flattened_record)
+                    flattened_records.append(self._flatten_json_api_record(record))
+                # Parent will merge query_data into each record via check_dict_and_map_to_model()
                 return super().map_records_response(flattened_records, query, query_data)
             elif isinstance(data, dict):
-                # Single record response
-                flattened_record = self._flatten_json_api_record(data)
-                # Add routing parameters for single record responses too
-                if query_data:
-                    for key, value in query_data.items():
-                        if key not in (
-                            self.pagination_parameter_name,
-                            self.limit_parameter_name,
-                            "version",
-                        ) and not key.startswith("filter"):
-                            if key not in flattened_record:
-                                flattened_record[key] = value
-                return super().map_records_response([flattened_record], query, query_data)
+                # Single record response - parent will merge query_data
+                return super().map_records_response([self._flatten_json_api_record(data)], query, query_data)
         return super().map_records_response(response_data, query, query_data)
 
     def _flatten_json_api_record(self, record: dict[str, Any]) -> dict[str, Any]:
