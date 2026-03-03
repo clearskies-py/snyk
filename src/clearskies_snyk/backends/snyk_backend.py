@@ -171,17 +171,46 @@ class SnykBackend(clearskies.backends.ApiBackend):
 
         This method extracts the `data` list and flattens each record by merging
         the `id` with the `attributes`, and also extracts relationship IDs.
+
+        Additionally, this method ensures that routing parameters from the query
+        are preserved in each record so that subsequent operations (like delete)
+        can reconstruct the correct URL.
         """
         if isinstance(response_data, dict):
             data = response_data.get("data", [])
             if isinstance(data, list):
                 flattened_records = []
                 for record in data:
-                    flattened_records.append(self._flatten_json_api_record(record))
+                    flattened_record = self._flatten_json_api_record(record)
+                    # Add routing parameters from query_data to ensure they persist
+                    # This is critical for operations like delete() that need to rebuild URLs
+                    if query_data:
+                        for key, value in query_data.items():
+                            # Only add routing parameters (those that match URL path parameters)
+                            # Skip pagination parameters and filters
+                            if key not in (
+                                self.pagination_parameter_name,
+                                self.limit_parameter_name,
+                                "version",
+                            ) and not key.startswith("filter"):
+                                if key not in flattened_record:
+                                    flattened_record[key] = value
+                    flattened_records.append(flattened_record)
                 return super().map_records_response(flattened_records, query, query_data)
             elif isinstance(data, dict):
                 # Single record response
-                return super().map_records_response([self._flatten_json_api_record(data)], query, query_data)
+                flattened_record = self._flatten_json_api_record(data)
+                # Add routing parameters for single record responses too
+                if query_data:
+                    for key, value in query_data.items():
+                        if key not in (
+                            self.pagination_parameter_name,
+                            self.limit_parameter_name,
+                            "version",
+                        ) and not key.startswith("filter"):
+                            if key not in flattened_record:
+                                flattened_record[key] = value
+                return super().map_records_response([flattened_record], query, query_data)
         return super().map_records_response(response_data, query, query_data)
 
     def _flatten_json_api_record(self, record: dict[str, Any]) -> dict[str, Any]:
@@ -366,11 +395,12 @@ class SnykBackend(clearskies.backends.ApiBackend):
         url, used_routing_params = super().create_url(data, model)
         return (self._add_version_to_url(url), used_routing_params)
 
-    def delete_url(self, id: int | str, data: dict[str, Any], model: clearskies.Model) -> tuple[str, list[str]]:
+    def delete_url(self, id: int | str, model: clearskies.Model) -> tuple[str, list[str]]:
         """
         Override to add version parameter to delete URLs.
 
         This hook is called by the parent ApiBackend.delete() method to build the URL.
+        The parent method uses model.data to extract routing parameters.
         """
         url, used_routing_params = super().delete_url(id, model)
         return (self._add_version_to_url(url), used_routing_params)
