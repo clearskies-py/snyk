@@ -5,7 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.12] - 2026-03-03
+
+### Fixed
+- Routing data
+
 ## [2.0.11] - 2026-03-03
+
+### Changed
+- Bump version to v2.0.11 by @github-actions[bot]
 
 ### Fixed
 - Routing data
@@ -103,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## New Contributors
 * @github-actions[bot] made their first contribution
 * @ made their first contribution
+[2.0.12]: https://github.com/clearskies-py/snyk/compare/v2.0.11..v2.0.12
 [2.0.11]: https://github.com/clearskies-py/snyk/compare/v2.0.10..v2.0.11
 [2.0.10]: https://github.com/clearskies-py/snyk/compare/v2.0.9..v2.0.10
 [2.0.9]: https://github.com/clearskies-py/snyk/compare/v2.0.8..v2.0.9
