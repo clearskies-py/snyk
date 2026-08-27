@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Boolean, Datetime, Json, String
+from clearskies.columns import Boolean, Datetime, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -83,3 +83,33 @@ class SnykOrgApp(Model):
     Timestamp of when the app was last updated.
     """
     updated_at = Datetime()
+
+    """
+    Client secret for the app.
+    """
+    client_secret = String()
+
+    """
+    Context scope for the app.
+    """
+    context = Select(allowed_values=["tenant", "user"])
+
+    """
+    OAuth grant type.
+    """
+    grant_type = Select(allowed_values=["authorization_code", "client_credentials"])
+
+    """
+    Whether the app is confidential.
+    """
+    is_confidential = Boolean()
+
+    """
+    Public ID of the owning organization.
+    """
+    org_public_id = String()
+
+    """
+    Expand related resources.
+    """
+    expand = String(is_searchable=True, is_temporary=True)

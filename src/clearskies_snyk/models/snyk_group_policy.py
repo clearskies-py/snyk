@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Json, Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_group_reference
@@ -104,3 +104,55 @@ class SnykGroupPolicy(Model):
     Information about who created the policy.
     """
     created_by = Json()
+
+    """
+    Search policies by keyword.
+    """
+    search = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    order_by = Select(
+        allowed_values=["created", "expires", "ignore-type", "requested-by"], is_searchable=True, is_temporary=True
+    )
+
+    """
+    Sort direction.
+    """
+    order_direction = Select(allowed_values=["asc", "desc"], is_searchable=True, is_temporary=True)
+
+    """
+    Filter by review status.
+    """
+    review = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter policies expiring before this date.
+    """
+    expires_before = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter policies expiring after this date.
+    """
+    expires_after = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter policies that never expire.
+    """
+    expires_never = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by change type.
+    """
+    changes = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by comment.
+    """
+    comment = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by source.
+    """
+    source = String(is_searchable=True, is_temporary=True)

@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Datetime, String
+from clearskies.columns import Boolean, Datetime, Integer, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -64,3 +64,58 @@ class SnykOrgAppInstall(Model):
     Timestamp of when the app was installed.
     """
     created_at = Datetime()
+
+    """
+    Access token TTL in seconds.
+    """
+    access_token_ttl_seconds = Integer()
+
+    """
+    Client secret for the app.
+    """
+    client_secret = String()
+
+    """
+    Context scope for the app.
+    """
+    context = Select(allowed_values=["tenant", "user"])
+
+    """
+    OAuth grant type.
+    """
+    grant_type = Select(allowed_values=["authorization_code", "client_credentials"])
+
+    """
+    Whether the app is confidential.
+    """
+    is_confidential = Boolean()
+
+    """
+    Whether the app is public.
+    """
+    is_public = Boolean()
+
+    """
+    Name of the app install.
+    """
+    name = String()
+
+    """
+    Public ID of the owning organization.
+    """
+    org_public_id = String()
+
+    """
+    Allowed redirect URIs.
+    """
+    redirect_uris = Json()
+
+    """
+    OAuth scopes for the app.
+    """
+    scopes = Json()
+
+    """
+    Expand related resources.
+    """
+    expand = String(is_searchable=True, is_temporary=True)

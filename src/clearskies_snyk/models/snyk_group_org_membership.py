@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Json, String
+from clearskies.columns import Boolean, Datetime, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -80,3 +80,63 @@ class SnykGroupOrgMembership(Model):
     User information as JSON object.
     """
     user = Json()
+
+    """
+    Name of the member.
+    """
+    name = String()
+
+    """
+    URL-friendly slug.
+    """
+    slug = String()
+
+    """
+    URL of the avatar.
+    """
+    avatar_url = String()
+
+    """
+    URL of the logo.
+    """
+    logo_url = String()
+
+    """
+    Timestamp when created.
+    """
+    created_at = Datetime()
+
+    """
+    Timestamp when last updated.
+    """
+    updated_at = Datetime()
+
+    """
+    Email of the member.
+    """
+    email = String()
+
+    """
+    Username of the member.
+    """
+    username = String()
+
+    """
+    Sort field.
+    """
+    sort_by = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort order.
+    """
+    sort_order = String(is_searchable=True, is_temporary=True)
+
+    """
+    Cascade membership changes.
+    """
+    cascade = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Include group membership count.
+    """
+    include_group_membership_count = Boolean(is_searchable=True, is_temporary=True)

@@ -64,3 +64,28 @@ class SnykGroupAppInstall(Model):
     Timestamp of when the app was installed.
     """
     created_at = Datetime()
+
+    """
+    Name of the app install.
+    """
+    name = String()
+
+    """
+    URL-friendly slug.
+    """
+    slug = String()
+
+    """
+    URL of the avatar.
+    """
+    avatar_url = String()
+
+    """
+    URL of the logo.
+    """
+    logo_url = String()
+
+    """
+    Timestamp when last updated.
+    """
+    updated_at = Datetime()

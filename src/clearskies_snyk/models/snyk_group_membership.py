@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, String
 
 from clearskies_snyk.backends import SnykMembershipBackend
 from clearskies_snyk.models.references import snyk_group_reference
@@ -111,6 +111,56 @@ class SnykGroupMembership(Model):
     Metadata about the membership.
     """
     meta = Json()
+
+    """
+    URL-friendly slug.
+    """
+    slug = String()
+
+    """
+    URL of the avatar.
+    """
+    avatar_url = String()
+
+    """
+    URL of the logo.
+    """
+    logo_url = String()
+
+    """
+    Timestamp when created.
+    """
+    created_at = Datetime()
+
+    """
+    Timestamp when last updated.
+    """
+    updated_at = Datetime()
+
+    """
+    Filter by organization name.
+    """
+    org_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by role name.
+    """
+    role_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort_by = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort order.
+    """
+    sort_order = String(is_searchable=True, is_temporary=True)
+
+    """
+    Cascade membership changes.
+    """
+    cascade = Boolean(is_searchable=True, is_temporary=True)
 
     def get_membership_count(self) -> int:
         """Get membership count from metadata if available."""

@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Integer, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_group_reference
@@ -134,6 +134,11 @@ class SnykGroupIssue(Model):
     key = String()
 
     """
+    SAST identifier that allows the identification of Snyk Code issues with a unique ID per repository.
+    """
+    key_asset = String()
+
+    """
     Priority information for the issue.
     """
     priority = Json()
@@ -174,6 +179,11 @@ class SnykGroupIssue(Model):
     risk = Json()
 
     """
+    Exploit details for the issue, including maturity levels and sources.
+    """
+    exploit_details = Json()
+
+    """
     The type of issue.
     """
     issue_type = Select(
@@ -184,6 +194,7 @@ class SnykGroupIssue(Model):
             "code",
             "custom",
             "config",
+            "secrets",
         ],
     )
 
@@ -226,3 +237,13 @@ class SnykGroupIssue(Model):
     Filter: Issues created after this timestamp.
     """
     created_after = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Whether to include code flows in the response.
+    """
+    include_code_flows = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Pagination offset.
+    """
+    offset = Integer(is_searchable=True, is_temporary=True)

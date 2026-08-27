@@ -111,7 +111,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
     """
 
     base_url = configs.String(default="https://api.snyk.io/rest/")
-    api_version = configs.String(default="2025-11-05")
+    api_version = configs.String(default="2026-03-25")
     authentication = inject.ByName("snyk_auth")  # type: ignore[assignment]
     requests = inject.Requests()
     api_casing = configs.Select(["snake_case", "camelCase", "TitleCase"], default="snake_case")

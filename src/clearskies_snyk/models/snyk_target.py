@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Datetime, HasMany, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_org_reference, snyk_project_reference
@@ -108,3 +108,18 @@ class SnykTarget(Model):
         snyk_project_reference.SnykProjectReference,
         foreign_column_name="target_id",
     )
+
+    """
+    Filter targets created at or after this timestamp.
+    """
+    created_gte = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Exclude targets with no projects.
+    """
+    exclude_empty = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by source types.
+    """
+    source_types = String(is_searchable=True, is_temporary=True)

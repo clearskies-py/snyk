@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Datetime, Integer, Json, Select, String
+from clearskies.columns import Boolean, Datetime, Integer, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -114,3 +114,38 @@ class SnykLearnCatalog(Model):
     Lesson IDs for learning paths.
     """
     lesson_ids = Json()
+
+    """
+    Return best matching lesson.
+    """
+    best_match = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by content source.
+    """
+    content_source = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by CVE identifiers.
+    """
+    cves = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by CWE identifiers.
+    """
+    cwes = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by ecosystem.
+    """
+    ecosystem = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by rule IDs.
+    """
+    rules = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by source.
+    """
+    source = String(is_searchable=True, is_temporary=True)

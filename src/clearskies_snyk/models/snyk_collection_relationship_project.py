@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Json, Select, String
+from clearskies.columns import Boolean, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -72,3 +72,28 @@ class SnykCollectionRelationshipProject(Model):
     Metadata about the relationship.
     """
     meta = Json()
+
+    """
+    Whether the relationship is generated.
+    """
+    is_generated = Boolean()
+
+    """
+    Name of the project.
+    """
+    name = String()
+
+    """
+    Filter by integration.
+    """
+    integration = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort direction.
+    """
+    direction = String(is_searchable=True, is_temporary=True)

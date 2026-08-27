@@ -44,7 +44,7 @@ class SnykContainerImageTargetRef(Model):
     """
     The platform of the container image.
     """
-    platform = String()
+    platform = String(is_searchable=True)
 
     """
     The ID of the organization.

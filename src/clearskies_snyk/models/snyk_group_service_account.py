@@ -113,3 +113,8 @@ class SnykGroupServiceAccount(Model):
     Timestamp of when the service account was created.
     """
     created_at = Datetime()
+
+    """
+    Timestamp of when the service account was last updated.
+    """
+    updated_at = Datetime()

@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import String
+from clearskies.columns import Datetime, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -66,3 +66,83 @@ class SnykBrokerConnectionIntegration(Model):
     The type of integration (e.g., github, gitlab).
     """
     integration_type = String()
+
+    """
+    The name of the connection.
+    """
+    name = String()
+
+    """
+    The broker context identifier.
+    """
+    context = String()
+
+    """
+    The deployment ID associated with the integration.
+    """
+    deployment_id = String()
+
+    """
+    The identifier for the connection.
+    """
+    identifier = String()
+
+    """
+    Secrets associated with the connection.
+    """
+    secrets = Json()
+
+    """
+    Configuration for the connection.
+    """
+    configuration = Json()
+
+    """
+    The encrypted value of the secret.
+    """
+    encrypted = String()
+
+    """
+    Expiry timestamp for the secret.
+    """
+    expires_at = Datetime()
+
+    """
+    Nonce for the secret.
+    """
+    nonce = String()
+
+    """
+    Validation rules for the connection.
+    """
+    validations = Json()
+
+    """
+    Required fields for the connection type.
+    """
+    required = Json()
+
+    """
+    Sonarqube API token (for Sonarqube connections).
+    """
+    sonarqube_api_token = String()
+
+    """
+    Sonarqube host URL (for Sonarqube connections).
+    """
+    sonarqube_host_url = String()
+
+    """
+    Checkmarx configuration (for Checkmarx connections).
+    """
+    checkmarx = Json()
+
+    """
+    Checkmarx username (for Checkmarx connections).
+    """
+    checkmarx_username = String()
+
+    """
+    Checkmarx password (for Checkmarx connections).
+    """
+    checkmarx_password = String()

@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Email, Json, String
+from clearskies.columns import Boolean, Datetime, Email, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -75,3 +75,63 @@ class SnykGroupMember(Model):
     Organizations the member belongs to.
     """
     orgs = Json()
+
+    """
+    URL-friendly slug.
+    """
+    slug = String()
+
+    """
+    URL of the avatar.
+    """
+    avatar_url = String()
+
+    """
+    URL of the logo.
+    """
+    logo_url = String()
+
+    """
+    Timestamp when the membership was created.
+    """
+    created_at = Datetime()
+
+    """
+    Timestamp when the membership was last updated.
+    """
+    updated_at = Datetime()
+
+    """
+    Filter by user ID.
+    """
+    user_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by organization name.
+    """
+    org_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by role name.
+    """
+    role_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort_by = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort order.
+    """
+    sort_order = String(is_searchable=True, is_temporary=True)
+
+    """
+    Cascade membership changes.
+    """
+    cascade = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Include group membership count.
+    """
+    include_group_membership_count = Boolean(is_searchable=True, is_temporary=True)

@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import String
+from clearskies.columns import Select, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -48,3 +48,13 @@ class SnykSlackChannel(Model):
     # Attributes
     name = String()  # Name of the Slack Channel
     slack_channel_type = String()  # public, private, direct_message, multiparty_direct_message
+
+    """
+    Minimum severity threshold for notifications.
+    """
+    severity_threshold = Select(allowed_values=["low", "medium", "high", "critical"])
+
+    """
+    The Slack channel ID to send notifications to.
+    """
+    target_channel_id = String()

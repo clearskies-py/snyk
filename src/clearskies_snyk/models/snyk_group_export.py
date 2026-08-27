@@ -73,3 +73,23 @@ class SnykGroupExport(Model):
     URL to download the export results.
     """
     download_url = String()
+
+    """
+    Name associated with the export.
+    """
+    name = String()
+
+    """
+    URL-friendly slug.
+    """
+    slug = String()
+
+    """
+    URL of the avatar.
+    """
+    avatar_url = String()
+
+    """
+    URL of the logo.
+    """
+    logo_url = String()

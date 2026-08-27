@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, String
 
 from clearskies_snyk.backends import SnykMembershipBackend
 from clearskies_snyk.models.references import snyk_org_reference
@@ -106,3 +106,58 @@ class SnykOrgMembership(Model):
     Timestamp of when the membership was created.
     """
     created_at = Datetime(is_temporary=True)
+
+    """
+    Whether access requests are enabled.
+    """
+    access_requests_enabled = Boolean()
+
+    """
+    Timestamp when last updated.
+    """
+    updated_at = Datetime()
+
+    """
+    Whether this is a personal org.
+    """
+    is_personal = Boolean()
+
+    """
+    URL-friendly slug.
+    """
+    slug = String()
+
+    """
+    Filter by email.
+    """
+    email = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by username.
+    """
+    username = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by role name.
+    """
+    role_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort_by = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort order.
+    """
+    sort_order = String(is_searchable=True, is_temporary=True)
+
+    """
+    Expand related resources.
+    """
+    expand = String(is_searchable=True, is_temporary=True)
+
+    """
+    Name of the organization.
+    """
+    name = String()

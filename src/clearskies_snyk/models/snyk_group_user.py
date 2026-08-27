@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_group_reference
@@ -66,3 +66,68 @@ class SnykGroupUser(Model):
     The membership details including role.
     """
     membership = Json()
+
+    """
+    Name of the user.
+    """
+    name = String()
+
+    """
+    Email of the user.
+    """
+    email = String()
+
+    """
+    Username of the user.
+    """
+    username = String()
+
+    """
+    Whether the user is active.
+    """
+    active = Boolean()
+
+    """
+    Timestamp when the user was created.
+    """
+    created_at = Datetime()
+
+    """
+    Timestamp when the user was last updated.
+    """
+    updated_at = Datetime()
+
+    """
+    Filter by user ID.
+    """
+    user_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by organization name.
+    """
+    org_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by role name.
+    """
+    role_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort_by = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort order.
+    """
+    sort_order = String(is_searchable=True, is_temporary=True)
+
+    """
+    Cascade membership changes.
+    """
+    cascade = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Include group membership count.
+    """
+    include_group_membership_count = Boolean(is_searchable=True, is_temporary=True)

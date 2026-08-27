@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Json, String
+from clearskies.columns import Boolean, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -68,3 +68,13 @@ class SnykProjectSbom(Model):
     The SBOM document content.
     """
     sbom = Json()
+
+    """
+    Exclude certain fields from the SBOM.
+    """
+    exclude = Select(allowed_values=["licenses"], is_searchable=True, is_temporary=True)
+
+    """
+    Include Go module-level dependencies.
+    """
+    go_module_level = Boolean(is_searchable=True, is_temporary=True)

@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Datetime, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_tenant_reference
@@ -80,3 +80,38 @@ class SnykTenantRole(Model):
     Timestamp of when the role was last modified.
     """
     modified = Datetime()
+
+    """
+    Permissions granted by this role.
+    """
+    permissions = Json()
+
+    """
+    Whether this is a custom role. Also used as search filter.
+    """
+    custom = Boolean(is_searchable=True)
+
+    """
+    Normalized name of the role.
+    """
+    normalized_name = String()
+
+    """
+    Filter roles assignable by the current user.
+    """
+    assignable_by_me = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Expand permission details in the response.
+    """
+    expand_permissions = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Filter roles that have users assigned.
+    """
+    has_users_assigned = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Force the operation.
+    """
+    force = Boolean(is_searchable=True, is_temporary=True)

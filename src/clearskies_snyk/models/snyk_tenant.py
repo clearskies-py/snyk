@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Datetime, HasMany, String
+from clearskies.columns import Boolean, Datetime, HasMany, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_tenant_membership_reference, snyk_tenant_role_reference
@@ -96,3 +96,57 @@ class SnykTenant(Model):
         snyk_tenant_role_reference.SnykTenantRoleReference,
         foreign_column_name="tenant_id",
     )
+
+    """
+    Account type for the tenant user.
+    """
+    account_type = String()
+
+    """
+    Whether the tenant user is active.
+    """
+    active = Boolean()
+
+    """
+    Email of the tenant user.
+    """
+    email = String()
+
+    """
+    Login method for the tenant user.
+    """
+    login_method = String()
+
+    """
+    Username of the tenant user.
+    """
+    username = String()
+
+    """
+    Filter by user ID.
+    """
+    user_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by role name.
+    """
+    role_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort_by = Select(
+        allowed_values=["username", "user_display_name", "email", "login_method", "role_name"],
+        is_searchable=True,
+        is_temporary=True,
+    )
+
+    """
+    Sort order.
+    """
+    sort_order = Select(allowed_values=["ASC", "DESC"], is_searchable=True, is_temporary=True)
+
+    """
+    Filter by connection type.
+    """
+    connection_type = String(is_searchable=True, is_temporary=True)

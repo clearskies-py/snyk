@@ -59,3 +59,8 @@ class SnykAccessRequest(Model):
     The status of the access request.
     """
     status = Select(allowed_values=["pending", "expired"])
+
+    """
+    Filter by organization ID.
+    """
+    org_id = String(is_searchable=True, is_temporary=True)

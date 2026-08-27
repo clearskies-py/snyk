@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Datetime, Select, String
+from clearskies.columns import Boolean, Datetime, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -73,3 +73,13 @@ class SnykOrgExport(Model):
     URL to download the export results.
     """
     download_url = String()
+
+    """
+    Include deactivated members.
+    """
+    include_deactivated = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Include deleted members.
+    """
+    include_deleted = Boolean(is_searchable=True, is_temporary=True)

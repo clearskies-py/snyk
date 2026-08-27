@@ -89,3 +89,23 @@ class SnykContainerImage(Model):
     BelongsTo relationship to SnykOrg.
     """
     org = BelongsToModel("org_id")
+
+    """
+    The image ID.
+    """
+    image_id = String()
+
+    """
+    The operating system of the image.
+    """
+    os = String()
+
+    """
+    The OS type of the image.
+    """
+    os_type = String()
+
+    """
+    Filter by image IDs.
+    """
+    image_ids = String(is_searchable=True, is_temporary=True)

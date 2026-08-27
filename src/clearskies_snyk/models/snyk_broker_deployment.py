@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Json, String
+from clearskies.columns import Datetime, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -64,3 +64,13 @@ class SnykBrokerDeployment(Model):
     Metadata information such as user/org id or metrics.
     """
     metadata = Json()
+
+    """
+    Timestamp when created.
+    """
+    created_at = Datetime()
+
+    """
+    Timestamp when last updated.
+    """
+    updated_at = Datetime()

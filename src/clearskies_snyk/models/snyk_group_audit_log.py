@@ -85,3 +85,23 @@ class SnykGroupAuditLog(Model):
     The content/details of the audit log entry.
     """
     content = Json()
+
+    """
+    Name associated with the audit log entry.
+    """
+    name = String()
+
+    """
+    URL-friendly slug.
+    """
+    slug = String()
+
+    """
+    URL of the avatar.
+    """
+    avatar_url = String()
+
+    """
+    URL of the logo.
+    """
+    logo_url = String()

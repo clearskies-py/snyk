@@ -224,3 +224,53 @@ class SnykProject(Model):
     BelongsTo relationship to SnykTarget.
     """
     target = BelongsToModel("target_id")
+
+    """
+    Filter projects monitored via CLI before this date.
+    """
+    cli_monitored_before = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter projects monitored via CLI after this date.
+    """
+    cli_monitored_after = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Expand related resources.
+    """
+    expand = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by project IDs.
+    """
+    ids = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by importing user public ID.
+    """
+    importing_user_public_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Return only metadata count.
+    """
+    meta_count = Select(allowed_values=["only"], is_searchable=True, is_temporary=True)
+
+    """
+    Include latest dependency total in response.
+    """
+    meta_latest_dependency_total = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Include latest issue counts in response.
+    """
+    meta_latest_issue_counts = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by project names.
+    """
+    names = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter projects whose name starts with given value.
+    """
+    names_start_with = String(is_searchable=True, is_temporary=True)

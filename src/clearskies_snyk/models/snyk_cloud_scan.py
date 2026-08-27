@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Integer, Json, Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Integer, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_org_reference
@@ -135,3 +135,28 @@ class SnykCloudScan(Model):
     Scan relationships.
     """
     relationships = Json()
+
+    """
+    Filter: scans updated before this timestamp.
+    """
+    updated_before = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: scans updated after this timestamp.
+    """
+    updated_after = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: scans created before this timestamp.
+    """
+    created_before = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: scans created after this timestamp.
+    """
+    created_after = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: return only removed scans.
+    """
+    removed = Boolean(is_searchable=True, is_temporary=True)

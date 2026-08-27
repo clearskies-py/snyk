@@ -116,3 +116,23 @@ class SnykCloudEnvironment(Model):
     Environment relationships.
     """
     relationships = Json()
+
+    """
+    Filter: Environments updated before this timestamp.
+    """
+    updated_before = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: Environments updated after this timestamp.
+    """
+    updated_after = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: Environments created before this timestamp.
+    """
+    created_before = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: Environments created after this timestamp.
+    """
+    created_after = Datetime(is_searchable=True, is_temporary=True)

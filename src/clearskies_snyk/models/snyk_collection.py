@@ -121,3 +121,28 @@ class SnykCollection(Model):
     ManyToMany relationship to SnykProject.
     """
     projects = ManyToManyModels("project_ids")
+
+    """
+    Filter by target ID.
+    """
+    target_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by integration.
+    """
+    integration = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter collections to show.
+    """
+    show = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort direction.
+    """
+    direction = String(is_searchable=True, is_temporary=True)

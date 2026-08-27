@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Integer, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_org_reference
@@ -85,3 +85,33 @@ class SnykOrgAuditLog(Model):
     The content/details of the audit log entry.
     """
     content = Json()
+
+    """
+    Pagination cursor.
+    """
+    cursor = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by event types.
+    """
+    events = String(is_searchable=True, is_temporary=True)
+
+    """
+    Exclude specific event types.
+    """
+    exclude_events = String(is_searchable=True, is_temporary=True)
+
+    """
+    Number of results per page.
+    """
+    size = Integer(is_searchable=True, is_temporary=True)
+
+    """
+    Sort order.
+    """
+    sort_order = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by user ID.
+    """
+    user_id = String(is_searchable=True, is_temporary=True)

@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_tenant_reference
@@ -77,3 +77,72 @@ class SnykTenantMembership(Model):
     The user relationship data.
     """
     user = Json()
+
+    """
+    Account type for the member.
+    """
+    account_type = String()
+
+    """
+    Whether the member is active.
+    """
+    active = Boolean()
+
+    """
+    Email of the member.
+    """
+    email = String()
+
+    """
+    Login method for the member.
+    """
+    login_method = String()
+
+    """
+    Username of the member.
+    """
+    username = String()
+
+    """
+    Name of the member.
+    """
+    name = String()
+
+    """
+    URL-friendly slug.
+    """
+    slug = String()
+
+    """
+    Timestamp when last updated.
+    """
+    updated_at = Datetime()
+
+    """
+    Filter by user ID.
+    """
+    user_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by role name.
+    """
+    role_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort_by = Select(
+        allowed_values=["username", "user_display_name", "email", "login_method", "role_name"],
+        is_searchable=True,
+        is_temporary=True,
+    )
+
+    """
+    Sort order.
+    """
+    sort_order = Select(allowed_values=["ASC", "DESC"], is_searchable=True, is_temporary=True)
+
+    """
+    Filter by connection type.
+    """
+    connection_type = String(is_searchable=True, is_temporary=True)

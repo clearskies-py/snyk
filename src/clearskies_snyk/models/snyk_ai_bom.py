@@ -59,3 +59,13 @@ class SnykAiBom(Model):
 
     # Relationships
     relationships = Json()  # Contains ai_bom relationship data
+
+    """
+    Whether the AI-BOM is enriched.
+    """
+    enriched = String()
+
+    """
+    Upload revision ID.
+    """
+    upload_revision_id = String()

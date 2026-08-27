@@ -158,3 +158,43 @@ class SnykCloudResource(Model):
     Source location information.
     """
     source_location = Json()
+
+    """
+    Schema version for the resource.
+    """
+    schema_version = String()
+
+    """
+    Filter: Return only removed resources.
+    """
+    removed = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: Scope to a specific environment ID.
+    """
+    environment_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: Scope to a specific project ID.
+    """
+    project_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: Resources updated before this timestamp.
+    """
+    updated_before = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: Resources updated after this timestamp.
+    """
+    updated_after = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: Resources created before this timestamp.
+    """
+    created_before = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter: Resources created after this timestamp.
+    """
+    created_after = Datetime(is_searchable=True, is_temporary=True)

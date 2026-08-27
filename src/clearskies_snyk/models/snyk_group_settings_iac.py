@@ -84,3 +84,33 @@ class SnykGroupSettingsIac(Model):
     The last time the settings were updated.
     """
     updated = Datetime()
+
+    """
+    Name associated with the settings.
+    """
+    name = String()
+
+    """
+    URL-friendly slug.
+    """
+    slug = String()
+
+    """
+    URL of the avatar.
+    """
+    avatar_url = String()
+
+    """
+    URL of the logo.
+    """
+    logo_url = String()
+
+    """
+    Timestamp when created.
+    """
+    created_at = Datetime()
+
+    """
+    Timestamp when last updated.
+    """
+    updated_at = Datetime()

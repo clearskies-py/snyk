@@ -137,3 +137,13 @@ class SnykLearnAssignment(Model):
     The date the assignment was last updated.
     """
     updated_at = Datetime()
+
+    """
+    Filter by lesson IDs.
+    """
+    lesson_ids = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by user IDs.
+    """
+    user_ids = String(is_searchable=True, is_temporary=True)

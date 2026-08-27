@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Json, Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_org_policy_reference, snyk_org_reference
@@ -108,3 +108,75 @@ class SnykOrgPolicyEvent(Model):
     The changes made in this event.
     """
     changes = Json()
+
+    """
+    Name of the policy event.
+    """
+    name = String()
+
+    """
+    Timestamp when last updated.
+    """
+    updated_at = Datetime()
+
+    """
+    The action of the event.
+    """
+    action = String()
+
+    """
+    The type of action.
+    """
+    action_type = String()
+
+    """
+    Conditions group for the event.
+    """
+    conditions_group = Json()
+
+    """
+    Search by keyword.
+    """
+    search = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    order_by = Select(
+        allowed_values=["created", "expires", "ignore-type", "requested-by"], is_searchable=True, is_temporary=True
+    )
+
+    """
+    Sort direction.
+    """
+    order_direction = Select(allowed_values=["asc", "desc"], is_searchable=True, is_temporary=True)
+
+    """
+    Filter by review status.
+    """
+    review_filter = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by review status (maps to 'review' query param).
+    """
+    review = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter events expiring before this date.
+    """
+    expires_before = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter events expiring after this date.
+    """
+    expires_after = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter events that never expire.
+    """
+    expires_never = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by source.
+    """
+    source = String(is_searchable=True, is_temporary=True)

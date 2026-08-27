@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import HasMany, HasOne, String
+from clearskies.columns import Boolean, Datetime, HasMany, HasOne, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import (
@@ -140,3 +140,73 @@ class SnykGroup(Model):
         snyk_group_role_v1_reference.SnykGroupRoleV1Reference,
         foreign_column_name="group_id",
     )
+
+    """
+    URL of the group avatar.
+    """
+    avatar_url = String()
+
+    """
+    URL of the group logo.
+    """
+    logo_url = String()
+
+    """
+    URL-friendly slug for the group.
+    """
+    slug = String()
+
+    """
+    Timestamp when the group was created.
+    """
+    created_at = Datetime()
+
+    """
+    Timestamp when the group was last updated.
+    """
+    updated_at = Datetime()
+
+    """
+    Contact email for the group.
+    """
+    email = String()
+
+    """
+    Username associated with the group.
+    """
+    username = String()
+
+    """
+    Filter by user ID.
+    """
+    user_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by organization name.
+    """
+    org_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by role name.
+    """
+    role_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort_by = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort order.
+    """
+    sort_order = String(is_searchable=True, is_temporary=True)
+
+    """
+    Include group membership count in response.
+    """
+    include_group_membership_count = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Cascade membership changes.
+    """
+    cascade = Boolean(is_searchable=True, is_temporary=True)

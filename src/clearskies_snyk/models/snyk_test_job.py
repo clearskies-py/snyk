@@ -52,3 +52,63 @@ class SnykTestJob(Model):
     # Relationships - contains test reference when job is finished
     relationships = Json()  # Contains test relationship with id and type
     test_id = String()  # Extracted from relationships.test.data.id when finished
+
+    """
+    Components included in the test job.
+    """
+    components = Json()
+
+    """
+    Configuration for the test job.
+    """
+    config = Json()
+
+    """
+    Effective summary of test results.
+    """
+    effective_summary = Json()
+
+    """
+    Outcome of the test job.
+    """
+    outcome = Json()
+
+    """
+    Raw summary of test results.
+    """
+    raw_summary = Json()
+
+    """
+    Resources tested in the job.
+    """
+    resources = Json()
+
+    """
+    SDLC stage for the test job.
+    """
+    sdlc_stage = Json()
+
+    """
+    Current state of the test job.
+    """
+    state = Json()
+
+    """
+    Subject of the test job.
+    """
+    subject = Json()
+
+    """
+    Locators for the test subject.
+    """
+    subject_locators = Json()
+
+    """
+    Facts gathered during the test.
+    """
+    test_facts = Json()
+
+    """
+    Public ID of the user who created the job.
+    """
+    user_public_id = String()

@@ -15,7 +15,7 @@ class TestSnykBackend(unittest.TestCase):
         """Test that the backend initializes with correct defaults."""
         backend = SnykBackend()
         assert backend.base_url == "https://api.snyk.io/rest/"
-        assert backend.api_version == "2025-11-05"
+        assert backend.api_version == "2026-03-25"
         assert backend.api_casing == "snake_case"
         assert backend.pagination_parameter_name == "starting_after"
         assert backend.limit_parameter_name == "limit"
@@ -137,7 +137,7 @@ class TestSnykBackend(unittest.TestCase):
         url_params, body_params = backend.pagination_to_request_parameters(mock_query)
 
         assert "version" in url_params
-        assert url_params["version"] == "2025-11-05"
+        assert url_params["version"] == "2026-03-25"
 
     def test_flatten_json_api_record_with_non_dict(self) -> None:
         """Test _flatten_json_api_record returns non-dict values unchanged."""

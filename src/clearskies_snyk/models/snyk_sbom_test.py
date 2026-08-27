@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Datetime, Select, String
+from clearskies.columns import Boolean, Datetime, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 
@@ -65,3 +65,35 @@ class SnykSbomTest(Model):
     Timestamp of when the test was completed.
     """
     finished_at = Datetime()
+
+    """
+    The SBOM document to test.
+    """
+    sbom = Json()
+
+    """
+    SBOM format.
+    """
+    format = Select(
+        allowed_values=[
+            "cyclonedx1.6+json",
+            "cyclonedx1.6+xml",
+            "cyclonedx1.5+json",
+            "cyclonedx1.5+xml",
+            "cyclonedx1.4+json",
+            "cyclonedx1.4+xml",
+            "spdx2.3+json",
+        ],
+        is_searchable=True,
+        is_temporary=True,
+    )
+
+    """
+    Exclude certain fields.
+    """
+    exclude = Select(allowed_values=["licenses"], is_searchable=True, is_temporary=True)
+
+    """
+    Include Go module-level dependencies.
+    """
+    go_module_level = Boolean(is_searchable=True, is_temporary=True)

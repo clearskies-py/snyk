@@ -95,6 +95,46 @@ class SnykGroupSsoConnectionUser(Model):
     membership_created_at = Datetime()
 
     """
+    Timestamp when the user was created.
+    """
+    created_at = Datetime()
+
+    """
     Whether the membership is direct or indirect.
     """
     membership_strategy = Select(allowed_values=["direct", "indirect"])
+
+    """
+    Filter by user ID.
+    """
+    user_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by organization name.
+    """
+    org_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by role name.
+    """
+    role_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort_by = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort order.
+    """
+    sort_order = String(is_searchable=True, is_temporary=True)
+
+    """
+    Cascade membership changes.
+    """
+    cascade = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Include group membership count.
+    """
+    include_group_membership_count = Boolean(is_searchable=True, is_temporary=True)

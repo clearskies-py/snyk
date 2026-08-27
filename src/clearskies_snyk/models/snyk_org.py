@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Boolean, HasMany, HasOne, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, HasOne, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import (
@@ -230,3 +230,53 @@ class SnykOrg(Model):
         snyk_integration_reference.SnykIntegrationReference,
         foreign_column_name="org_id",
     )
+
+    """
+    Whether access requests are enabled for the org.
+    """
+    access_requests_enabled = Boolean()
+
+    """
+    Timestamp when the org was created.
+    """
+    created_at = Datetime()
+
+    """
+    Timestamp when the org was last updated.
+    """
+    updated_at = Datetime()
+
+    """
+    Filter by user email.
+    """
+    email = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by user ID.
+    """
+    user_id = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by username.
+    """
+    username = String(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by role name.
+    """
+    role_name = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort field.
+    """
+    sort_by = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort order.
+    """
+    sort_order = String(is_searchable=True, is_temporary=True)
+
+    """
+    Expand related resources.
+    """
+    expand = String(is_searchable=True, is_temporary=True)

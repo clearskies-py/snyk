@@ -54,3 +54,13 @@ class SnykCustomBaseImage(Model):
 
     # Versioning schema (complex object)
     versioning_schema = Json()  # Can be semver, custom, or single-selection type
+
+    """
+    Sort field.
+    """
+    sort_by = String(is_searchable=True, is_temporary=True)
+
+    """
+    Sort direction.
+    """
+    sort_direction = String(is_searchable=True, is_temporary=True)
