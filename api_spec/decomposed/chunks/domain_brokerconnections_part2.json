@@ -2165,33 +2165,21 @@
     }
   ],
   "schemas": {
-    "CreateBrokerConnectionIntegration": {
+    "GetBrokerConnectionIntegrationResponse": {
       "additionalProperties": false,
       "properties": {
         "data": {
-          "$ref": "#/components/schemas/IntegrationResource"
+          "$ref": "#/components/schemas/OrgIntegrationResource"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
         }
       },
       "required": [
         "data"
-      ],
-      "type": "object"
-    },
-    "IntegrationResource": {
-      "additionalProperties": false,
-      "properties": {
-        "integration_id": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "type": {
-          "description": "Connection type",
-          "example": "github",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
       ],
       "type": "object"
     },
@@ -2215,17 +2203,29 @@
       },
       "type": "object"
     },
-    "GetBrokerConnectionIntegrationResponse": {
+    "IntegrationResource": {
+      "additionalProperties": false,
+      "properties": {
+        "integration_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Connection type",
+          "example": "github",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "CreateBrokerConnectionIntegration": {
       "additionalProperties": false,
       "properties": {
         "data": {
-          "$ref": "#/components/schemas/OrgIntegrationResource"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
+          "$ref": "#/components/schemas/IntegrationResource"
         }
       },
       "required": [
@@ -2236,8 +2236,7 @@
   },
   "referenced_common_schemas": [
     "PaginatedLinks",
-    "JsonApi",
-    "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "JsonApi"
   ]
 }

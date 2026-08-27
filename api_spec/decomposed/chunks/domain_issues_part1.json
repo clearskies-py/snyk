@@ -102,6 +102,9 @@
           },
           {
             "$ref": "#/components/parameters/Ignored"
+          },
+          {
+            "$ref": "#/components/parameters/IncludeCodeFlows"
           }
         ],
         "responses": {
@@ -878,6 +881,9 @@
           },
           {
             "$ref": "#/components/parameters/PathIssueId20240123"
+          },
+          {
+            "$ref": "#/components/parameters/IncludeCodeFlows"
           }
         ],
         "responses": {
@@ -1975,6 +1981,9 @@
                 }
               }
             }
+          },
+          "501": {
+            "$ref": "#/components/responses/501"
           }
         },
         "summary": "Get an issue",

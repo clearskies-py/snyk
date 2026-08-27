@@ -1088,9 +1088,115 @@
       },
       "properties": {
         "self": {
-          "$ref": "#/components/schemas/LinkProperty"
+          "example": "https://example.com/api/resource",
+          "oneOf": [
+            {
+              "description": "A string containing the link\u2019s URL.",
+              "example": "https://example.com/api/resource",
+              "type": "string"
+            },
+            {
+              "additionalProperties": false,
+              "example": {
+                "href": "https://example.com/api/resource"
+              },
+              "properties": {
+                "href": {
+                  "description": "A string containing the link\u2019s URL.",
+                  "example": "https://example.com/api/resource",
+                  "type": "string"
+                },
+                "meta": {
+                  "additionalProperties": true,
+                  "description": "Free-form object that may contain non-standard information.",
+                  "example": {
+                    "key1": "value1",
+                    "key2": {
+                      "sub_key": "sub_value"
+                    },
+                    "key3": [
+                      "array_value1",
+                      "array_value2"
+                    ]
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "href"
+              ],
+              "type": "object"
+            }
+          ]
         }
       },
+      "type": "object"
+    },
+    "CollectionRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "created_by_user": {
+          "properties": {
+            "data": {
+              "properties": {
+                "id": {
+                  "description": "ID of the user that created the collection. Null for auto-collections.",
+                  "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                  "format": "uuid",
+                  "nullable": true,
+                  "type": "string"
+                },
+                "type": {
+                  "enum": [
+                    "user"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "id"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "type": "object"
+        },
+        "org": {
+          "properties": {
+            "data": {
+              "properties": {
+                "id": {
+                  "description": "ID of the org that this collection belongs to",
+                  "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "type": {
+                  "enum": [
+                    "org"
+                  ]
+                }
+              },
+              "required": [
+                "type",
+                "id"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "data"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "org",
+        "created_by_user"
+      ],
       "type": "object"
     },
     "CollectionResponse": {
@@ -1173,129 +1279,51 @@
       ],
       "type": "object"
     },
-    "CreateCollectionRequest": {
-      "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "additionalProperties": false,
-              "properties": {
-                "name": {
-                  "$ref": "#/components/schemas/name"
-                }
-              },
-              "required": [
-                "name"
-              ],
-              "type": "object"
-            },
-            "type": {
-              "$ref": "#/components/schemas/Types"
-            }
-          },
-          "required": [
-            "type",
-            "attributes"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
-    },
-    "CollectionRelationships": {
+    "ProjectMeta": {
       "additionalProperties": false,
       "properties": {
-        "created_by_user": {
-          "properties": {
-            "data": {
-              "properties": {
-                "id": {
-                  "description": "ID of the user that created the collection. Null for auto-collections.",
-                  "example": "331ede0a-de94-456f-b788-166caeca58bf",
-                  "format": "uuid",
-                  "nullable": true,
-                  "type": "string"
-                },
-                "type": {
-                  "enum": [
-                    "user"
-                  ]
-                }
-              },
-              "required": [
-                "type",
-                "id"
-              ],
-              "type": "object"
-            }
-          },
-          "required": [
-            "data"
-          ],
-          "type": "object"
+        "imported": {
+          "description": "The time the project was imported",
+          "example": "2021-05-29T09:50:54.014Z",
+          "format": "date-time",
+          "type": "string"
         },
-        "org": {
-          "properties": {
-            "data": {
-              "properties": {
-                "id": {
-                  "description": "ID of the org that this collection belongs to",
-                  "example": "331ede0a-de94-456f-b788-166caeca58bf",
-                  "format": "uuid",
-                  "type": "string"
-                },
-                "type": {
-                  "enum": [
-                    "org"
-                  ]
-                }
-              },
-              "required": [
-                "type",
-                "id"
-              ],
-              "type": "object"
-            }
-          },
-          "required": [
-            "data"
-          ],
-          "type": "object"
+        "issues_critical_count": {
+          "description": "The sum of critical severity issues of the project",
+          "example": 10,
+          "type": "number"
+        },
+        "issues_high_count": {
+          "description": "The sum of high severity issues of the project",
+          "example": 10,
+          "type": "number"
+        },
+        "issues_low_count": {
+          "description": "The sum of low severity issues of the project",
+          "example": 10,
+          "type": "number"
+        },
+        "issues_medium_count": {
+          "description": "The sum of medium severity issues of the project",
+          "example": 10,
+          "type": "number"
+        },
+        "last_tested_at": {
+          "description": "The time the project was last tested",
+          "example": "2021-05-29T09:50:54.014Z",
+          "format": "date-time",
+          "type": "string"
         }
       },
       "required": [
-        "org",
-        "created_by_user"
+        "imported",
+        "last_tested_at",
+        "issues_critical_count",
+        "issues_high_count",
+        "issues_medium_count",
+        "issues_low_count"
       ],
       "type": "object"
-    },
-    "GetProjectsOfCollectionResponse": {
-      "properties": {
-        "data": {
-          "items": {
-            "$ref": "#/components/schemas/ProjectOfCollection"
-          },
-          "type": "array"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
-        }
-      },
-      "type": "object"
-    },
-    "name": {
-      "description": "User-defined name of the collection",
-      "maxLength": 255,
-      "minLength": 1,
-      "pattern": "^([a-zA-Z0-9 _\\-\\/:.])+$",
-      "type": "string"
     },
     "CollectionMeta": {
       "additionalProperties": false,
@@ -1332,6 +1360,128 @@
         "issues_high_count",
         "issues_medium_count",
         "issues_low_count"
+      ],
+      "type": "object"
+    },
+    "CreateCollectionRequest": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "$ref": "#/components/schemas/name"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "type": {
+              "$ref": "#/components/schemas/Types"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "DeleteProjectsFromCollectionRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "description": "IDs of items to remove from a collection",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "format": "uuid",
+                "type": "string"
+              },
+              "type": {
+                "description": "Type of the item id",
+                "enum": [
+                  "project"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "type"
+            ],
+            "type": "object"
+          },
+          "maxItems": 100,
+          "type": "array"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "GetProjectsOfCollectionResponse": {
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/ProjectOfCollection"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "type": "object"
+    },
+    "UpdateCollectionRequest": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "$ref": "#/components/schemas/name"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "$ref": "#/components/schemas/Types"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
       ],
       "type": "object"
     },
@@ -1394,129 +1544,17 @@
       ],
       "type": "object"
     },
-    "DeleteProjectsFromCollectionRequest": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "description": "IDs of items to remove from a collection",
-          "items": {
-            "additionalProperties": false,
-            "properties": {
-              "id": {
-                "format": "uuid",
-                "type": "string"
-              },
-              "type": {
-                "description": "Type of the item id",
-                "enum": [
-                  "project"
-                ],
-                "type": "string"
-              }
-            },
-            "required": [
-              "id",
-              "type"
-            ],
-            "type": "object"
-          },
-          "maxItems": 100,
-          "type": "array"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
-    },
-    "ProjectMeta": {
-      "additionalProperties": false,
-      "properties": {
-        "imported": {
-          "description": "The time the project was imported",
-          "example": "2021-05-29T09:50:54.014Z",
-          "format": "date-time",
-          "type": "string"
-        },
-        "issues_critical_count": {
-          "description": "The sum of critical severity issues of the project",
-          "example": 10,
-          "type": "number"
-        },
-        "issues_high_count": {
-          "description": "The sum of high severity issues of the project",
-          "example": 10,
-          "type": "number"
-        },
-        "issues_low_count": {
-          "description": "The sum of low severity issues of the project",
-          "example": 10,
-          "type": "number"
-        },
-        "issues_medium_count": {
-          "description": "The sum of medium severity issues of the project",
-          "example": 10,
-          "type": "number"
-        },
-        "last_tested_at": {
-          "description": "The time the project was last tested",
-          "example": "2021-05-29T09:50:54.014Z",
-          "format": "date-time",
-          "type": "string"
-        }
-      },
-      "required": [
-        "imported",
-        "last_tested_at",
-        "issues_critical_count",
-        "issues_high_count",
-        "issues_medium_count",
-        "issues_low_count"
-      ],
-      "type": "object"
-    },
-    "UpdateCollectionRequest": {
-      "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "additionalProperties": false,
-              "properties": {
-                "name": {
-                  "$ref": "#/components/schemas/name"
-                }
-              },
-              "required": [
-                "name"
-              ],
-              "type": "object"
-            },
-            "id": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "type": {
-              "$ref": "#/components/schemas/Types"
-            }
-          },
-          "required": [
-            "type",
-            "attributes"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
+    "name": {
+      "description": "User-defined name of the collection",
+      "maxLength": 255,
+      "minLength": 1,
+      "pattern": "^([a-zA-Z0-9 _\\-\\/:.])+$",
+      "type": "string"
     }
   },
   "referenced_common_schemas": [
     "PaginatedLinks",
     "LinkProperty",
-    "Meta",
     "JsonApi"
   ]
 }

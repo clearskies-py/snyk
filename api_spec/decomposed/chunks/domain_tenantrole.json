@@ -644,39 +644,6 @@
     }
   ],
   "schemas": {
-    "TenantRolesExternalMeta": {
-      "properties": {
-        "permissions": {
-          "items": {
-            "properties": {
-              "description": {
-                "example": "Edit details of the Group",
-                "type": "string"
-              },
-              "name": {
-                "example": "Edit Group Details",
-                "type": "string"
-              },
-              "parent": {
-                "example": "group.read",
-                "type": "string"
-              },
-              "value": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "value",
-              "description",
-              "name"
-            ],
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
     "SelfLink": {
       "additionalProperties": false,
       "example": {
@@ -684,7 +651,46 @@
       },
       "properties": {
         "self": {
-          "$ref": "#/components/schemas/LinkProperty"
+          "example": "https://example.com/api/resource",
+          "oneOf": [
+            {
+              "description": "A string containing the link\u2019s URL.",
+              "example": "https://example.com/api/resource",
+              "type": "string"
+            },
+            {
+              "additionalProperties": false,
+              "example": {
+                "href": "https://example.com/api/resource"
+              },
+              "properties": {
+                "href": {
+                  "description": "A string containing the link\u2019s URL.",
+                  "example": "https://example.com/api/resource",
+                  "type": "string"
+                },
+                "meta": {
+                  "additionalProperties": true,
+                  "description": "Free-form object that may contain non-standard information.",
+                  "example": {
+                    "key1": "value1",
+                    "key2": {
+                      "sub_key": "sub_value"
+                    },
+                    "key3": [
+                      "array_value1",
+                      "array_value2"
+                    ]
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "href"
+              ],
+              "type": "object"
+            }
+          ]
         }
       },
       "type": "object"
@@ -719,6 +725,18 @@
       ],
       "type": "object"
     },
+    "RoleId": {
+      "example": "00000000-0000-0000-0000-000000000000",
+      "format": "uuid",
+      "type": "string"
+    },
+    "TenantRoleType20241015": {
+      "description": "The type of the resource for tenant role operations",
+      "enum": [
+        "tenant_role"
+      ],
+      "type": "string"
+    },
     "UpdateTenantRoleRequestAttributes": {
       "additionalProperties": false,
       "minProperties": 1,
@@ -745,64 +763,6 @@
       },
       "type": "object"
     },
-    "TenantRoleMeta": {
-      "additionalProperties": false,
-      "properties": {
-        "app_count": {
-          "type": "integer"
-        },
-        "service_account_count": {
-          "type": "integer"
-        },
-        "user_count": {
-          "type": "integer"
-        }
-      },
-      "type": "object"
-    },
-    "TenantRoleResponseAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "custom": {
-          "default": false,
-          "type": "boolean"
-        },
-        "description": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "normalized_name": {
-          "type": "string"
-        },
-        "permissions": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "name",
-        "description",
-        "permissions",
-        "custom"
-      ],
-      "type": "object"
-    },
-    "RoleId": {
-      "example": "00000000-0000-0000-0000-000000000000",
-      "format": "uuid",
-      "type": "string"
-    },
-    "TenantRoleType20241015": {
-      "description": "The type of the resource for tenant role operations",
-      "enum": [
-        "tenant_role"
-      ],
-      "type": "string"
-    },
     "Tenant": {
       "properties": {
         "data": {
@@ -824,6 +784,39 @@
             "type"
           ],
           "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "TenantRolesExternalMeta": {
+      "properties": {
+        "permissions": {
+          "items": {
+            "properties": {
+              "description": {
+                "example": "Edit details of the Group",
+                "type": "string"
+              },
+              "name": {
+                "example": "Edit Group Details",
+                "type": "string"
+              },
+              "parent": {
+                "example": "group.read",
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "value",
+              "description",
+              "name"
+            ],
+            "type": "object"
+          },
+          "type": "array"
         }
       },
       "type": "object"
@@ -859,12 +852,57 @@
         "attributes"
       ],
       "type": "object"
+    },
+    "TenantRoleResponseAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "custom": {
+          "default": false,
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "normalized_name": {
+          "type": "string"
+        },
+        "permissions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "permissions",
+        "custom"
+      ],
+      "type": "object"
+    },
+    "TenantRoleMeta": {
+      "additionalProperties": false,
+      "properties": {
+        "app_count": {
+          "type": "integer"
+        },
+        "service_account_count": {
+          "type": "integer"
+        },
+        "user_count": {
+          "type": "integer"
+        }
+      },
+      "type": "object"
     }
   },
   "referenced_common_schemas": [
     "PaginatedLinks",
     "LinkProperty",
-    "Meta",
     "JsonApi"
   ]
 }

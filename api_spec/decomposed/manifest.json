@@ -3,20 +3,86 @@
     "title": "Snyk API",
     "version": "REST"
   },
-  "total_endpoints": 204,
-  "total_tags": 42,
+  "total_endpoints": 291,
+  "total_tags": 50,
   "shared_files": [
     "shared/common_schemas.json",
     "shared/common_parameters.json"
   ],
   "chunks": [
     {
+      "tag": "Inventory Assets",
+      "slug": "inventory_assets_part1",
+      "path": "chunks/domain_inventory_assets_part1.json",
+      "endpoint_count": 6,
+      "schema_count": 46,
+      "estimated_tokens": 13384,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 6
+    },
+    {
+      "tag": "Inventory Assets",
+      "slug": "inventory_assets_part2",
+      "path": "chunks/domain_inventory_assets_part2.json",
+      "endpoint_count": 7,
+      "schema_count": 45,
+      "estimated_tokens": 14848,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 6
+    },
+    {
+      "tag": "Inventory Assets",
+      "slug": "inventory_assets_part3",
+      "path": "chunks/domain_inventory_assets_part3.json",
+      "endpoint_count": 6,
+      "schema_count": 23,
+      "estimated_tokens": 9103,
+      "is_partial": true,
+      "part": 3,
+      "total_parts": 6
+    },
+    {
+      "tag": "Inventory Assets",
+      "slug": "inventory_assets_part4",
+      "path": "chunks/domain_inventory_assets_part4.json",
+      "endpoint_count": 8,
+      "schema_count": 47,
+      "estimated_tokens": 14861,
+      "is_partial": true,
+      "part": 4,
+      "total_parts": 6
+    },
+    {
+      "tag": "Inventory Assets",
+      "slug": "inventory_assets_part5",
+      "path": "chunks/domain_inventory_assets_part5.json",
+      "endpoint_count": 6,
+      "schema_count": 38,
+      "estimated_tokens": 13440,
+      "is_partial": true,
+      "part": 5,
+      "total_parts": 6
+    },
+    {
+      "tag": "Inventory Assets",
+      "slug": "inventory_assets_part6",
+      "path": "chunks/domain_inventory_assets_part6.json",
+      "endpoint_count": 3,
+      "schema_count": 42,
+      "estimated_tokens": 10651,
+      "is_partial": true,
+      "part": 6,
+      "total_parts": 6
+    },
+    {
       "tag": "Apps",
       "slug": "apps_part1",
       "path": "chunks/domain_apps_part1.json",
       "endpoint_count": 17,
       "schema_count": 42,
-      "estimated_tokens": 14454,
+      "estimated_tokens": 14617,
       "is_partial": true,
       "part": 1,
       "total_parts": 2
@@ -27,7 +93,7 @@
       "path": "chunks/domain_apps_part2.json",
       "endpoint_count": 11,
       "schema_count": 31,
-      "estimated_tokens": 8805,
+      "estimated_tokens": 8968,
       "is_partial": true,
       "part": 2,
       "total_parts": 2
@@ -38,7 +104,7 @@
       "path": "chunks/domain_serviceaccounts.json",
       "endpoint_count": 12,
       "schema_count": 1,
-      "estimated_tokens": 9947,
+      "estimated_tokens": 9945,
       "needs_splitting": false
     },
     {
@@ -47,7 +113,7 @@
       "path": "chunks/domain_brokerconnections_part1.json",
       "endpoint_count": 2,
       "schema_count": 5,
-      "estimated_tokens": 11713,
+      "estimated_tokens": 11711,
       "is_partial": true,
       "part": 1,
       "total_parts": 7
@@ -58,7 +124,7 @@
       "path": "chunks/domain_brokerconnections_part2.json",
       "endpoint_count": 2,
       "schema_count": 4,
-      "estimated_tokens": 12901,
+      "estimated_tokens": 12899,
       "is_partial": true,
       "part": 2,
       "total_parts": 7
@@ -69,7 +135,7 @@
       "path": "chunks/domain_brokerconnections_part3.json",
       "endpoint_count": 2,
       "schema_count": 13,
-      "estimated_tokens": 13623,
+      "estimated_tokens": 13621,
       "is_partial": true,
       "part": 3,
       "total_parts": 7
@@ -80,7 +146,7 @@
       "path": "chunks/domain_brokerconnections_part4.json",
       "endpoint_count": 1,
       "schema_count": 47,
-      "estimated_tokens": 12259,
+      "estimated_tokens": 12257,
       "is_partial": true,
       "part": 4,
       "total_parts": 7
@@ -91,7 +157,7 @@
       "path": "chunks/domain_brokerconnections_part5.json",
       "endpoint_count": 2,
       "schema_count": 13,
-      "estimated_tokens": 13642,
+      "estimated_tokens": 13640,
       "is_partial": true,
       "part": 5,
       "total_parts": 7
@@ -102,7 +168,7 @@
       "path": "chunks/domain_brokerconnections_part6.json",
       "endpoint_count": 1,
       "schema_count": 47,
-      "estimated_tokens": 12293,
+      "estimated_tokens": 12291,
       "is_partial": true,
       "part": 6,
       "total_parts": 7
@@ -113,18 +179,36 @@
       "path": "chunks/domain_brokerconnections_part7.json",
       "endpoint_count": 2,
       "schema_count": 4,
-      "estimated_tokens": 10367,
+      "estimated_tokens": 10365,
       "is_partial": true,
       "part": 7,
       "total_parts": 7
+    },
+    {
+      "tag": "Asset",
+      "slug": "asset",
+      "path": "chunks/domain_asset.json",
+      "endpoint_count": 11,
+      "schema_count": 25,
+      "estimated_tokens": 10995,
+      "needs_splitting": false
     },
     {
       "tag": "Policies",
       "slug": "policies",
       "path": "chunks/domain_policies.json",
       "endpoint_count": 10,
-      "schema_count": 49,
-      "estimated_tokens": 11366,
+      "schema_count": 54,
+      "estimated_tokens": 12211,
+      "needs_splitting": false
+    },
+    {
+      "tag": "OpensourceSettings",
+      "slug": "opensourcesettings",
+      "path": "chunks/domain_opensourcesettings.json",
+      "endpoint_count": 10,
+      "schema_count": 5,
+      "estimated_tokens": 7285,
       "needs_splitting": false
     },
     {
@@ -133,7 +217,7 @@
       "path": "chunks/domain_groups.json",
       "endpoint_count": 9,
       "schema_count": 19,
-      "estimated_tokens": 7808,
+      "estimated_tokens": 7806,
       "needs_splitting": false
     },
     {
@@ -142,7 +226,7 @@
       "path": "chunks/domain_cloud.json",
       "endpoint_count": 9,
       "schema_count": 24,
-      "estimated_tokens": 9649,
+      "estimated_tokens": 9647,
       "needs_splitting": false
     },
     {
@@ -150,9 +234,97 @@
       "slug": "orgs",
       "path": "chunks/domain_orgs.json",
       "endpoint_count": 8,
-      "schema_count": 20,
-      "estimated_tokens": 7689,
+      "schema_count": 21,
+      "estimated_tokens": 8010,
       "needs_splitting": false
+    },
+    {
+      "tag": "SastRuleExtensions",
+      "slug": "sastruleextensions_part1",
+      "path": "chunks/domain_sastruleextensions_part1.json",
+      "endpoint_count": 1,
+      "schema_count": 14,
+      "estimated_tokens": 8820,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 8
+    },
+    {
+      "tag": "SastRuleExtensions",
+      "slug": "sastruleextensions_part2",
+      "path": "chunks/domain_sastruleextensions_part2.json",
+      "endpoint_count": 1,
+      "schema_count": 19,
+      "estimated_tokens": 10760,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 8
+    },
+    {
+      "tag": "SastRuleExtensions",
+      "slug": "sastruleextensions_part3",
+      "path": "chunks/domain_sastruleextensions_part3.json",
+      "endpoint_count": 1,
+      "schema_count": 11,
+      "estimated_tokens": 9321,
+      "is_partial": true,
+      "part": 3,
+      "total_parts": 8
+    },
+    {
+      "tag": "SastRuleExtensions",
+      "slug": "sastruleextensions_part4",
+      "path": "chunks/domain_sastruleextensions_part4.json",
+      "endpoint_count": 1,
+      "schema_count": 2,
+      "estimated_tokens": 8836,
+      "is_partial": true,
+      "part": 4,
+      "total_parts": 8
+    },
+    {
+      "tag": "SastRuleExtensions",
+      "slug": "sastruleextensions_part5",
+      "path": "chunks/domain_sastruleextensions_part5.json",
+      "endpoint_count": 1,
+      "schema_count": 15,
+      "estimated_tokens": 9356,
+      "is_partial": true,
+      "part": 5,
+      "total_parts": 8
+    },
+    {
+      "tag": "SastRuleExtensions",
+      "slug": "sastruleextensions_part6",
+      "path": "chunks/domain_sastruleextensions_part6.json",
+      "endpoint_count": 1,
+      "schema_count": 0,
+      "estimated_tokens": 7658,
+      "is_partial": true,
+      "part": 6,
+      "total_parts": 8
+    },
+    {
+      "tag": "SastRuleExtensions",
+      "slug": "sastruleextensions_part7",
+      "path": "chunks/domain_sastruleextensions_part7.json",
+      "endpoint_count": 1,
+      "schema_count": 14,
+      "estimated_tokens": 8936,
+      "is_partial": true,
+      "part": 7,
+      "total_parts": 8
+    },
+    {
+      "tag": "SastRuleExtensions",
+      "slug": "sastruleextensions_part8",
+      "path": "chunks/domain_sastruleextensions_part8.json",
+      "endpoint_count": 1,
+      "schema_count": 18,
+      "estimated_tokens": 10691,
+      "is_partial": true,
+      "part": 8,
+      "total_parts": 8
     },
     {
       "tag": "Collection",
@@ -160,8 +332,52 @@
       "path": "chunks/domain_collection.json",
       "endpoint_count": 8,
       "schema_count": 14,
-      "estimated_tokens": 6808,
+      "estimated_tokens": 6972,
       "needs_splitting": false
+    },
+    {
+      "tag": "BrokerContexts",
+      "slug": "brokercontexts_part1",
+      "path": "chunks/domain_brokercontexts_part1.json",
+      "endpoint_count": 2,
+      "schema_count": 7,
+      "estimated_tokens": 12974,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 4
+    },
+    {
+      "tag": "BrokerContexts",
+      "slug": "brokercontexts_part2",
+      "path": "chunks/domain_brokercontexts_part2.json",
+      "endpoint_count": 2,
+      "schema_count": 8,
+      "estimated_tokens": 13110,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 4
+    },
+    {
+      "tag": "BrokerContexts",
+      "slug": "brokercontexts_part3",
+      "path": "chunks/domain_brokercontexts_part3.json",
+      "endpoint_count": 2,
+      "schema_count": 5,
+      "estimated_tokens": 10332,
+      "is_partial": true,
+      "part": 3,
+      "total_parts": 4
+    },
+    {
+      "tag": "BrokerContexts",
+      "slug": "brokercontexts_part4",
+      "path": "chunks/domain_brokercontexts_part4.json",
+      "endpoint_count": 2,
+      "schema_count": 10,
+      "estimated_tokens": 13281,
+      "is_partial": true,
+      "part": 4,
+      "total_parts": 4
     },
     {
       "tag": "SlackSettings",
@@ -169,7 +385,7 @@
       "path": "chunks/domain_slacksettings.json",
       "endpoint_count": 7,
       "schema_count": 11,
-      "estimated_tokens": 5133,
+      "estimated_tokens": 5296,
       "needs_splitting": false
     },
     {
@@ -187,7 +403,7 @@
       "path": "chunks/domain_issues_part1.json",
       "endpoint_count": 2,
       "schema_count": 0,
-      "estimated_tokens": 11463,
+      "estimated_tokens": 11502,
       "is_partial": true,
       "part": 1,
       "total_parts": 3
@@ -198,7 +414,7 @@
       "path": "chunks/domain_issues_part2.json",
       "endpoint_count": 3,
       "schema_count": 18,
-      "estimated_tokens": 14917,
+      "estimated_tokens": 14951,
       "is_partial": true,
       "part": 2,
       "total_parts": 3
@@ -209,10 +425,19 @@
       "path": "chunks/domain_issues_part3.json",
       "endpoint_count": 1,
       "schema_count": 16,
-      "estimated_tokens": 3252,
+      "estimated_tokens": 3250,
       "is_partial": true,
       "part": 3,
       "total_parts": 3
+    },
+    {
+      "tag": "ContainerRegistryImportPolicy",
+      "slug": "containerregistryimportpolicy",
+      "path": "chunks/domain_containerregistryimportpolicy.json",
+      "endpoint_count": 6,
+      "schema_count": 10,
+      "estimated_tokens": 5431,
+      "needs_splitting": false
     },
     {
       "tag": "Tenants",
@@ -220,7 +445,7 @@
       "path": "chunks/domain_tenants.json",
       "endpoint_count": 6,
       "schema_count": 32,
-      "estimated_tokens": 5631,
+      "estimated_tokens": 5828,
       "needs_splitting": false
     },
     {
@@ -229,16 +454,80 @@
       "path": "chunks/domain_custom_base_images.json",
       "endpoint_count": 5,
       "schema_count": 12,
-      "estimated_tokens": 4496,
+      "estimated_tokens": 4660,
       "needs_splitting": false
     },
     {
-      "tag": "Asset",
-      "slug": "asset",
-      "path": "chunks/domain_asset.json",
+      "tag": "SecretsRuleExtensions",
+      "slug": "secretsruleextensions_part1",
+      "path": "chunks/domain_secretsruleextensions_part1.json",
+      "endpoint_count": 1,
+      "schema_count": 15,
+      "estimated_tokens": 8667,
+      "is_partial": true,
+      "part": 1,
+      "total_parts": 5
+    },
+    {
+      "tag": "SecretsRuleExtensions",
+      "slug": "secretsruleextensions_part2",
+      "path": "chunks/domain_secretsruleextensions_part2.json",
+      "endpoint_count": 1,
+      "schema_count": 20,
+      "estimated_tokens": 10774,
+      "is_partial": true,
+      "part": 2,
+      "total_parts": 5
+    },
+    {
+      "tag": "SecretsRuleExtensions",
+      "slug": "secretsruleextensions_part3",
+      "path": "chunks/domain_secretsruleextensions_part3.json",
+      "endpoint_count": 1,
+      "schema_count": 0,
+      "estimated_tokens": 7641,
+      "is_partial": true,
+      "part": 3,
+      "total_parts": 5
+    },
+    {
+      "tag": "SecretsRuleExtensions",
+      "slug": "secretsruleextensions_part4",
+      "path": "chunks/domain_secretsruleextensions_part4.json",
+      "endpoint_count": 1,
+      "schema_count": 15,
+      "estimated_tokens": 8958,
+      "is_partial": true,
+      "part": 4,
+      "total_parts": 5
+    },
+    {
+      "tag": "SecretsRuleExtensions",
+      "slug": "secretsruleextensions_part5",
+      "path": "chunks/domain_secretsruleextensions_part5.json",
+      "endpoint_count": 1,
+      "schema_count": 19,
+      "estimated_tokens": 10631,
+      "is_partial": true,
+      "part": 5,
+      "total_parts": 5
+    },
+    {
+      "tag": "Learn assignment",
+      "slug": "learn_assignment",
+      "path": "chunks/domain_learn_assignment.json",
       "endpoint_count": 5,
-      "schema_count": 17,
-      "estimated_tokens": 6640,
+      "schema_count": 11,
+      "estimated_tokens": 4864,
+      "needs_splitting": false
+    },
+    {
+      "tag": "Projects",
+      "slug": "projects",
+      "path": "chunks/domain_projects.json",
+      "endpoint_count": 5,
+      "schema_count": 21,
+      "estimated_tokens": 8853,
       "needs_splitting": false
     },
     {
@@ -247,7 +536,7 @@
       "path": "chunks/domain_brokerdeployments_part1.json",
       "endpoint_count": 2,
       "schema_count": 3,
-      "estimated_tokens": 12712,
+      "estimated_tokens": 12781,
       "is_partial": true,
       "part": 1,
       "total_parts": 3
@@ -257,8 +546,8 @@
       "slug": "brokerdeployments_part2",
       "path": "chunks/domain_brokerdeployments_part2.json",
       "endpoint_count": 2,
-      "schema_count": 4,
-      "estimated_tokens": 12710,
+      "schema_count": 6,
+      "estimated_tokens": 12936,
       "is_partial": true,
       "part": 2,
       "total_parts": 3
@@ -269,7 +558,7 @@
       "path": "chunks/domain_brokerdeployments_part3.json",
       "endpoint_count": 1,
       "schema_count": 6,
-      "estimated_tokens": 6774,
+      "estimated_tokens": 6842,
       "is_partial": true,
       "part": 3,
       "total_parts": 3
@@ -280,7 +569,7 @@
       "path": "chunks/domain_deploymentcredentials_part1.json",
       "endpoint_count": 2,
       "schema_count": 7,
-      "estimated_tokens": 13084,
+      "estimated_tokens": 13082,
       "is_partial": true,
       "part": 1,
       "total_parts": 3
@@ -291,7 +580,7 @@
       "path": "chunks/domain_deploymentcredentials_part2.json",
       "endpoint_count": 2,
       "schema_count": 5,
-      "estimated_tokens": 12912,
+      "estimated_tokens": 12910,
       "is_partial": true,
       "part": 2,
       "total_parts": 3
@@ -302,7 +591,7 @@
       "path": "chunks/domain_deploymentcredentials_part3.json",
       "endpoint_count": 1,
       "schema_count": 6,
-      "estimated_tokens": 6790,
+      "estimated_tokens": 6788,
       "is_partial": true,
       "part": 3,
       "total_parts": 3
@@ -313,7 +602,7 @@
       "path": "chunks/domain_tenantrole.json",
       "endpoint_count": 5,
       "schema_count": 10,
-      "estimated_tokens": 4103,
+      "estimated_tokens": 4267,
       "needs_splitting": false
     },
     {
@@ -322,16 +611,16 @@
       "path": "chunks/domain_iacsettings.json",
       "endpoint_count": 4,
       "schema_count": 9,
-      "estimated_tokens": 3454,
+      "estimated_tokens": 3452,
       "needs_splitting": false
     },
     {
       "tag": "AiBom",
       "slug": "aibom_part1",
       "path": "chunks/domain_aibom_part1.json",
-      "endpoint_count": 3,
-      "schema_count": 17,
-      "estimated_tokens": 14593,
+      "endpoint_count": 2,
+      "schema_count": 16,
+      "estimated_tokens": 9702,
       "is_partial": true,
       "part": 1,
       "total_parts": 2
@@ -340,30 +629,12 @@
       "tag": "AiBom",
       "slug": "aibom_part2",
       "path": "chunks/domain_aibom_part2.json",
-      "endpoint_count": 1,
-      "schema_count": 3,
-      "estimated_tokens": 3556,
+      "endpoint_count": 2,
+      "schema_count": 16,
+      "estimated_tokens": 9233,
       "is_partial": true,
       "part": 2,
       "total_parts": 2
-    },
-    {
-      "tag": "Learn assignment",
-      "slug": "learn_assignment",
-      "path": "chunks/domain_learn_assignment.json",
-      "endpoint_count": 4,
-      "schema_count": 10,
-      "estimated_tokens": 4011,
-      "needs_splitting": false
-    },
-    {
-      "tag": "Projects",
-      "slug": "projects",
-      "path": "chunks/domain_projects.json",
-      "endpoint_count": 4,
-      "schema_count": 18,
-      "estimated_tokens": 7545,
-      "needs_splitting": false
     },
     {
       "tag": "SBOM",
@@ -371,8 +642,17 @@
       "path": "chunks/domain_sbom.json",
       "endpoint_count": 4,
       "schema_count": 7,
-      "estimated_tokens": 3306,
+      "estimated_tokens": 3304,
       "needs_splitting": false
+    },
+    {
+      "tag": "Assignments",
+      "slug": "assignments",
+      "path": "chunks/domain_assignments.json",
+      "endpoint_count": 3,
+      "schema_count": 13,
+      "estimated_tokens": 23755,
+      "needs_splitting": true
     },
     {
       "tag": "Pull Request Templates",
@@ -380,7 +660,7 @@
       "path": "chunks/domain_pull_request_templates.json",
       "endpoint_count": 3,
       "schema_count": 3,
-      "estimated_tokens": 2165,
+      "estimated_tokens": 2177,
       "needs_splitting": false
     },
     {
@@ -389,7 +669,7 @@
       "path": "chunks/domain_users.json",
       "endpoint_count": 3,
       "schema_count": 6,
-      "estimated_tokens": 2439,
+      "estimated_tokens": 2437,
       "needs_splitting": false
     },
     {
@@ -398,7 +678,7 @@
       "path": "chunks/domain_containerimage.json",
       "endpoint_count": 3,
       "schema_count": 8,
-      "estimated_tokens": 3042,
+      "estimated_tokens": 3205,
       "needs_splitting": false
     },
     {
@@ -416,7 +696,7 @@
       "path": "chunks/domain_targets.json",
       "endpoint_count": 3,
       "schema_count": 1,
-      "estimated_tokens": 2710,
+      "estimated_tokens": 2708,
       "needs_splitting": false
     },
     {
@@ -424,8 +704,8 @@
       "slug": "tests",
       "path": "chunks/domain_tests.json",
       "endpoint_count": 3,
-      "schema_count": 64,
-      "estimated_tokens": 15224,
+      "schema_count": 68,
+      "estimated_tokens": 15596,
       "needs_splitting": true
     },
     {
@@ -434,7 +714,7 @@
       "path": "chunks/domain_audit_logs.json",
       "endpoint_count": 2,
       "schema_count": 1,
-      "estimated_tokens": 2188,
+      "estimated_tokens": 2186,
       "needs_splitting": false
     },
     {
@@ -447,21 +727,21 @@
       "needs_splitting": false
     },
     {
-      "tag": "ContainerRegistryImportPolicy",
-      "slug": "containerregistryimportpolicy",
-      "path": "chunks/domain_containerregistryimportpolicy.json",
-      "endpoint_count": 2,
-      "schema_count": 9,
-      "estimated_tokens": 2575,
-      "needs_splitting": false
-    },
-    {
       "tag": "Learn progress",
       "slug": "learn_progress",
       "path": "chunks/domain_learn_progress.json",
       "endpoint_count": 2,
       "schema_count": 9,
-      "estimated_tokens": 2493,
+      "estimated_tokens": 2491,
+      "needs_splitting": false
+    },
+    {
+      "tag": "LanguagesSettings",
+      "slug": "languagessettings",
+      "path": "chunks/domain_languagessettings.json",
+      "endpoint_count": 2,
+      "schema_count": 21,
+      "estimated_tokens": 2711,
       "needs_splitting": false
     },
     {
@@ -470,7 +750,16 @@
       "path": "chunks/domain_sastsettings.json",
       "endpoint_count": 2,
       "schema_count": 1,
-      "estimated_tokens": 1387,
+      "estimated_tokens": 1385,
+      "needs_splitting": false
+    },
+    {
+      "tag": "SecretsSettings",
+      "slug": "secretssettings",
+      "path": "chunks/domain_secretssettings.json",
+      "endpoint_count": 2,
+      "schema_count": 1,
+      "estimated_tokens": 1406,
       "needs_splitting": false
     },
     {
@@ -479,7 +768,16 @@
       "path": "chunks/domain_slack.json",
       "endpoint_count": 2,
       "schema_count": 2,
-      "estimated_tokens": 1443,
+      "estimated_tokens": 1607,
+      "needs_splitting": false
+    },
+    {
+      "tag": "PersonalAccessToken",
+      "slug": "personalaccesstoken",
+      "path": "chunks/domain_personalaccesstoken.json",
+      "endpoint_count": 2,
+      "schema_count": 6,
+      "estimated_tokens": 1310,
       "needs_splitting": false
     },
     {
@@ -488,7 +786,7 @@
       "path": "chunks/domain_group.json",
       "endpoint_count": 1,
       "schema_count": 6,
-      "estimated_tokens": 1040,
+      "estimated_tokens": 1200,
       "needs_splitting": false
     },
     {
@@ -497,7 +795,7 @@
       "path": "chunks/domain_catalog_resource.json",
       "endpoint_count": 1,
       "schema_count": 2,
-      "estimated_tokens": 833,
+      "estimated_tokens": 1297,
       "needs_splitting": false
     },
     {
@@ -506,7 +804,7 @@
       "path": "chunks/domain_package.json",
       "endpoint_count": 1,
       "schema_count": 10,
-      "estimated_tokens": 1990,
+      "estimated_tokens": 3495,
       "needs_splitting": false
     },
     {
@@ -515,16 +813,7 @@
       "path": "chunks/domain_package_version.json",
       "endpoint_count": 1,
       "schema_count": 11,
-      "estimated_tokens": 2301,
-      "needs_splitting": false
-    },
-    {
-      "tag": "Fix Pull Requests",
-      "slug": "fix_pull_requests",
-      "path": "chunks/domain_fix_pull_requests.json",
-      "endpoint_count": 1,
-      "schema_count": 2,
-      "estimated_tokens": 1077,
+      "estimated_tokens": 3970,
       "needs_splitting": false
     },
     {
@@ -533,7 +822,7 @@
       "path": "chunks/domain_opensourcesettings.json",
       "endpoint_count": 1,
       "schema_count": 0,
-      "estimated_tokens": 744,
+      "estimated_tokens": 742,
       "needs_splitting": false
     },
     {
@@ -541,8 +830,8 @@
       "slug": "findings",
       "path": "chunks/domain_findings.json",
       "endpoint_count": 1,
-      "schema_count": 40,
-      "estimated_tokens": 15414,
+      "schema_count": 41,
+      "estimated_tokens": 15480,
       "needs_splitting": true
     },
     {
@@ -551,7 +840,7 @@
       "path": "chunks/domain_accessrequests.json",
       "endpoint_count": 1,
       "schema_count": 3,
-      "estimated_tokens": 741,
+      "estimated_tokens": 739,
       "needs_splitting": false
     }
   ]

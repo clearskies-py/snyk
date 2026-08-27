@@ -330,107 +330,6 @@
     }
   ],
   "schemas": {
-    "OrgInvitationAttributes20230828": {
-      "additionalProperties": false,
-      "properties": {
-        "email": {
-          "description": "The email address of the invitee.",
-          "example": "example@email.com",
-          "type": "string"
-        },
-        "is_active": {
-          "description": "The active status of the invitation. is_active of true indicates that the invitation is still waiting to be accepted. Invitations are considered inactive when accepted or revoked.\n",
-          "example": true,
-          "type": "boolean"
-        },
-        "role": {
-          "description": "The role public ID that will be granted to to invitee on acceptance.",
-          "example": "f1968726-1dca-42d4-a4dc-80cab99e2b6c",
-          "format": "uuid",
-          "type": "string"
-        }
-      },
-      "required": [
-        "email",
-        "is_active",
-        "role"
-      ],
-      "type": "object"
-    },
-    "OrgInvitation": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/OrgInvitationAttributes"
-        },
-        "id": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "relationships": {
-          "properties": {
-            "org": {
-              "$ref": "#/components/schemas/Relationship"
-            }
-          },
-          "type": "object"
-        },
-        "type": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "OrgInvitationPostData": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/OrgInvitationPostAttributes"
-        },
-        "type": {
-          "enum": [
-            "org_invitation"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "OrgInvitationAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "email": {
-          "description": "The email address of the invitee.",
-          "example": "example@email.com",
-          "type": "string"
-        },
-        "is_active": {
-          "description": "The active status of the invitation. is_active of true indicates that the invitation is still waiting to be accepted. Invitations are considered inactive when accepted or revoked.\n",
-          "example": true,
-          "type": "boolean"
-        },
-        "role": {
-          "description": "The role assigned to the invitee on acceptance.",
-          "example": "Developer",
-          "type": "string"
-        }
-      },
-      "required": [
-        "email",
-        "is_active",
-        "role"
-      ],
-      "type": "object"
-    },
     "Relationship": {
       "example": {
         "data": {
@@ -541,12 +440,113 @@
         "attributes"
       ],
       "type": "object"
+    },
+    "OrgInvitationPostData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/OrgInvitationPostAttributes"
+        },
+        "type": {
+          "enum": [
+            "org_invitation"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "OrgInvitationAttributes20230828": {
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "description": "The email address of the invitee.",
+          "example": "example@email.com",
+          "type": "string"
+        },
+        "is_active": {
+          "description": "The active status of the invitation. is_active of true indicates that the invitation is still waiting to be accepted. Invitations are considered inactive when accepted or revoked.\n",
+          "example": true,
+          "type": "boolean"
+        },
+        "role": {
+          "description": "The role public ID that will be granted to to invitee on acceptance.",
+          "example": "f1968726-1dca-42d4-a4dc-80cab99e2b6c",
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "is_active",
+        "role"
+      ],
+      "type": "object"
+    },
+    "OrgInvitation": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/OrgInvitationAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "properties": {
+            "org": {
+              "$ref": "#/components/schemas/Relationship"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "OrgInvitationAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "email": {
+          "description": "The email address of the invitee.",
+          "example": "example@email.com",
+          "type": "string"
+        },
+        "is_active": {
+          "description": "The active status of the invitation. is_active of true indicates that the invitation is still waiting to be accepted. Invitations are considered inactive when accepted or revoked.\n",
+          "example": true,
+          "type": "boolean"
+        },
+        "role": {
+          "description": "The role assigned to the invitee on acceptance.",
+          "example": "Developer",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "is_active",
+        "role"
+      ],
+      "type": "object"
     }
   },
   "referenced_common_schemas": [
-    "JsonApi",
-    "Links",
     "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "JsonApi",
+    "Links"
   ]
 }

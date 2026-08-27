@@ -463,6 +463,13 @@
     }
   ],
   "schemas": {
+    "InheritFromParent": {
+      "description": "Which parent to inherit settings from.",
+      "enum": [
+        "group"
+      ],
+      "type": "string"
+    },
     "GroupIacSettingsRequest": {
       "description": "The Infrastructure as Code settings for a group.",
       "properties": {
@@ -540,6 +547,22 @@
       },
       "type": "object"
     },
+    "OciRegistryUrl": {
+      "description": "The URL to an OCI registry.",
+      "example": "https://registry-1.docker.io/account/bundle",
+      "type": "string"
+    },
+    "OciRegistryTag": {
+      "description": "The tag for an OCI artifact inside an OCI registry.",
+      "example": "latest",
+      "type": "string"
+    },
+    "Updated": {
+      "description": "The last time the settings were updated.",
+      "example": "2021-11-12T10:31:06.026Z",
+      "format": "date-time",
+      "type": "string"
+    },
     "OrgIacSettingsRequest": {
       "description": "The Infrastructure as Code settings for an org.",
       "properties": {
@@ -579,11 +602,6 @@
         "attributes"
       ],
       "type": "object"
-    },
-    "OciRegistryUrl": {
-      "description": "The URL to an OCI registry.",
-      "example": "https://registry-1.docker.io/account/bundle",
-      "type": "string"
     },
     "OrgIacSettingsResponse": {
       "description": "The Infrastructure as Code settings for an org.",
@@ -658,34 +676,15 @@
       },
       "type": "object"
     },
-    "InheritFromParent": {
-      "description": "Which parent to inherit settings from.",
-      "enum": [
-        "group"
-      ],
-      "type": "string"
-    },
     "IsEnabled": {
       "description": "Whether the custom rules feature is enabled or not.",
       "example": true,
       "type": "boolean"
-    },
-    "Updated": {
-      "description": "The last time the settings were updated.",
-      "example": "2021-11-12T10:31:06.026Z",
-      "format": "date-time",
-      "type": "string"
-    },
-    "OciRegistryTag": {
-      "description": "The tag for an OCI artifact inside an OCI registry.",
-      "example": "latest",
-      "type": "string"
     }
   },
   "referenced_common_schemas": [
+    "LinkProperty",
     "JsonApi",
-    "Links",
-    "Meta",
-    "LinkProperty"
+    "Links"
   ]
 }

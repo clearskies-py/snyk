@@ -1363,187 +1363,100 @@
     }
   ],
   "schemas": {
-    "EnvironmentAttributes": {
-      "description": "Environment attributes",
-      "example": {
-        "created_at": "2022-05-06T12:25:15-04:00",
-        "kind": "aws",
-        "name": "Demo AWS Environment",
-        "native_id": "12345678910",
-        "options": {
-          "role_arn": "arn:aws:iam::123456789012:role/SnykCloud1234"
-        },
-        "properties": {
-          "account_id": "123456789012"
-        },
-        "revision": 1,
-        "status": "success",
-        "updated_at": "2022-05-06T12:25:15-04:00"
-      },
-      "properties": {
-        "created_at": {
-          "description": "When the environment was created",
-          "example": "2022-05-06T12:25:15-04:00",
-          "format": "date-time",
-          "type": "string"
-        },
-        "deleted_at": {
-          "format": "date-time",
-          "nullable": true,
-          "type": "string"
-        },
-        "kind": {
-          "$ref": "#/components/schemas/EnvironmentKind"
-        },
-        "name": {
-          "$ref": "#/components/schemas/EnvironmentName"
-        },
-        "options": {
-          "type": "object"
-        },
-        "properties": {
-          "type": "object"
-        },
-        "revision": {
-          "description": "Increment for each change to an environment",
-          "example": 1,
-          "type": "integer"
-        },
-        "updated_at": {
-          "description": "When the environment was last updated",
-          "example": "2022-05-07T12:25:15-04:00",
-          "format": "date-time",
-          "nullable": true,
-          "type": "string"
-        }
-      },
-      "required": [
-        "kind",
-        "name",
-        "created_at"
-      ],
-      "type": "object"
-    },
-    "EnvironmentOptions": {
-      "oneOf": [
-        {
-          "$ref": "#/components/schemas/AwsOptions"
-        },
-        {
-          "$ref": "#/components/schemas/GoogleOptions"
-        },
-        {
-          "$ref": "#/components/schemas/AzureOptions__0"
-        }
-      ]
-    },
-    "ResourceRelationships": {
+    "EnvironmentRelationships": {
       "additionalProperties": true,
-      "description": "Resource relationships",
+      "description": "Environment relationships",
       "example": {
-        "environment": {
-          "data": {
-            "id": "11000000-0000-0000-0000-000000000000",
-            "type": "environment"
-          },
-          "links": {
-            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
-          }
-        },
         "organization": {
           "data": {
-            "id": "10000000-0000-0000-0000-000000000000",
+            "id": "00000000-0000-0000-0000-000000000000",
             "type": "organization"
           },
           "links": {
             "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
           }
         },
-        "scan": {
+        "project": {
           "data": {
-            "id": "12000000-0000-0000-0000-000000000000",
-            "type": "scan"
-          },
-          "links": {
-            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
+            "id": "11111111-1111-11111-1111-111111111111",
+            "type": "project"
           }
         }
       },
       "type": "object"
     },
-    "ScanType": {
-      "example": "scan",
-      "type": "string"
-    },
-    "EnvironmentKind": {
-      "description": "Environment kind: aws",
-      "enum": [
-        "aws",
-        "google",
-        "azure",
-        "scm",
-        "tfc",
-        "cli"
-      ],
-      "type": "string"
-    },
-    "EnvironmentType": {
-      "example": "environment",
-      "type": "string"
-    },
-    "EnvironmentCreateAttributes": {
-      "example": {
-        "kind": "aws",
-        "options": {
-          "role_arn": "arn:aws:iam::336447867772:role/SnykCloud1234"
+    "ScanCreateRelationships": {
+      "description": "Scan create relationships",
+      "properties": {
+        "environment": {
+          "properties": {
+            "data": {
+              "example": {
+                "id": "12000000-0000-0000-0000-000000000000",
+                "type": "environment"
+              },
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "id"
+              ],
+              "type": "object"
+            }
+          },
+          "type": "object"
         }
       },
+      "type": "object"
+    },
+    "ResourceKind": {
+      "description": "Kind of resource: cloud",
+      "example": "cloud - cloud - iac",
+      "type": "string"
+    },
+    "ScanCreateAttributes": {
+      "additionalProperties": false,
+      "description": "Scan create attributes",
+      "type": "object"
+    },
+    "AwsOptions": {
+      "additionalProperties": false,
+      "description": "Options for creating an AWS environment",
+      "example": {
+        "role_arn": "arn:aws:iam::12345678910:role/SnykCloud1234"
+      },
       "properties": {
-        "kind": {
-          "$ref": "#/components/schemas/EnvironmentKind"
-        },
-        "name": {
-          "$ref": "#/components/schemas/EnvironmentName"
-        },
-        "options": {
-          "$ref": "#/components/schemas/EnvironmentOptions"
+        "role_arn": {
+          "description": "AWS IAM role ARN for Snyk",
+          "example": "arn:aws:iam::12345678910:role/SnykCloud1234",
+          "type": "string"
         }
       },
       "required": [
-        "kind",
-        "options"
+        "role_arn"
       ],
       "type": "object"
     },
-    "ScanRelationships": {
-      "additionalProperties": true,
-      "description": "Scan relationships",
-      "example": {
-        "environment": {
-          "data": {
-            "id": "12000000-0000-0000-0000-000000000000",
-            "type": "environment"
-          },
-          "links": {
-            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
-          }
+    "PermissionsAttributes": {
+      "properties": {
+        "data": {
+          "type": "string"
         },
-        "organization": {
-          "data": {
-            "id": "10000000-0000-0000-0000-000000000000",
-            "type": "organization"
-          },
-          "links": {
-            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
-          }
+        "type": {
+          "$ref": "#/components/schemas/PermissionType"
         }
       },
+      "required": [
+        "data",
+        "type"
+      ],
       "type": "object"
-    },
-    "EnvironmentName": {
-      "description": "Environment name",
-      "example": "Demo AWS Environment",
-      "type": "string"
     },
     "ResourceAttributes": {
       "example": {
@@ -1687,155 +1600,39 @@
       ],
       "type": "object"
     },
-    "ScanCreateAttributes": {
-      "additionalProperties": false,
-      "description": "Scan create attributes",
-      "type": "object"
-    },
-    "ResourceKind": {
-      "description": "Kind of resource: cloud",
-      "example": "cloud - cloud - iac",
-      "type": "string"
-    },
-    "EnvironmentRelationships": {
+    "ScanRelationships": {
       "additionalProperties": true,
-      "description": "Environment relationships",
+      "description": "Scan relationships",
       "example": {
-        "organization": {
+        "environment": {
           "data": {
-            "id": "00000000-0000-0000-0000-000000000000",
-            "type": "organization"
+            "id": "12000000-0000-0000-0000-000000000000",
+            "type": "environment"
           },
           "links": {
             "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
           }
         },
-        "project": {
+        "organization": {
           "data": {
-            "id": "11111111-1111-11111-1111-111111111111",
-            "type": "project"
+            "id": "10000000-0000-0000-0000-000000000000",
+            "type": "organization"
+          },
+          "links": {
+            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
           }
         }
       },
       "type": "object"
     },
-    "AzureOptions": {
-      "description": "Options for generating an Azure environment permissions script",
-      "example": {
-        "subscription_id": "6884d000-8dd4-11ed-a1eb-0242ac120002",
-        "tenant_id": "51627f08-8dd4-11ed-a1eb-0242ac120002"
-      },
-      "properties": {
-        "subscription_id": {
-          "description": "ID of the Azure subscription to be scanned",
-          "example": "6884d000-8dd4-11ed-a1eb-0242ac120002",
-          "type": "string"
-        },
-        "tenant_id": {
-          "description": "Azure Tenant (directory) ID",
-          "example": "51627f08-8dd4-11ed-a1eb-0242ac120002",
-          "type": "string"
-        }
-      },
-      "required": [
-        "tenant_id",
-        "subscription_id"
-      ],
-      "type": "object"
-    },
-    "AwsOptions": {
-      "additionalProperties": false,
-      "description": "Options for creating an AWS environment",
-      "example": {
-        "role_arn": "arn:aws:iam::12345678910:role/SnykCloud1234"
-      },
-      "properties": {
-        "role_arn": {
-          "description": "AWS IAM role ARN for Snyk",
-          "example": "arn:aws:iam::12345678910:role/SnykCloud1234",
-          "type": "string"
-        }
-      },
-      "required": [
-        "role_arn"
-      ],
-      "type": "object"
-    },
-    "GoogleOptions": {
-      "additionalProperties": false,
-      "description": "Options for creating a Google environment",
-      "example": {
-        "identity_provider": "https://iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/snyk-workload-identity-123/providers/snyk-identity-provider-123",
-        "project_id": "demo-project",
-        "service_account_email": "snyk-demo@demo-project.iam.gserviceaccount.com"
-      },
-      "properties": {
-        "identity_provider": {
-          "description": "The full resource name of the workload identity provider",
-          "example": "https://iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/snyk-workload-identity-123/providers/snyk-identity-provider-123",
-          "format": "uri",
-          "type": "string"
-        },
-        "project_id": {
-          "description": "Google project ID",
-          "example": "demo-project",
-          "type": "string"
-        },
-        "service_account_email": {
-          "description": "Google service account email",
-          "example": "snyk-demo@demo-project.iam.gserviceaccount.com",
-          "format": "email",
-          "type": "string"
-        }
-      },
-      "required": [
-        "service_account_email",
-        "identity_provider"
-      ],
-      "type": "object"
-    },
-    "PlatformType": {
-      "enum": [
-        "aws",
-        "azure",
-        "google"
-      ],
+    "ScanType": {
+      "example": "scan",
       "type": "string"
     },
-    "PermissionsAttributes": {
-      "properties": {
-        "data": {
-          "type": "string"
-        },
-        "type": {
-          "$ref": "#/components/schemas/PermissionType"
-        }
-      },
-      "required": [
-        "data",
-        "type"
-      ],
-      "type": "object"
-    },
-    "EnvironmentUpdateAttributes": {
-      "description": "Environment update attributes. Only the AWS role ARN can be updated; new ARN must have the same account ID as the old ARN.",
-      "example": {
-        "options": {
-          "role_arn": "arn:aws:iam::123456789012:role/SnykCloud1234"
-        }
-      },
-      "properties": {
-        "name": {
-          "$ref": "#/components/schemas/EnvironmentName"
-        },
-        "options": {
-          "$ref": "#/components/schemas/EnvironmentOptions"
-        }
-      },
-      "required": [
-        "options"
-      ],
-      "type": "object"
+    "EnvironmentName": {
+      "description": "Environment name",
+      "example": "Demo AWS Environment",
+      "type": "string"
     },
     "PermissionType": {
       "enum": [
@@ -1843,6 +1640,143 @@
         "tf",
         "bash"
       ],
+      "type": "string"
+    },
+    "ResourceRelationships": {
+      "additionalProperties": true,
+      "description": "Resource relationships",
+      "example": {
+        "environment": {
+          "data": {
+            "id": "11000000-0000-0000-0000-000000000000",
+            "type": "environment"
+          },
+          "links": {
+            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
+          }
+        },
+        "organization": {
+          "data": {
+            "id": "10000000-0000-0000-0000-000000000000",
+            "type": "organization"
+          },
+          "links": {
+            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
+          }
+        },
+        "scan": {
+          "data": {
+            "id": "12000000-0000-0000-0000-000000000000",
+            "type": "scan"
+          },
+          "links": {
+            "related": "/path/to/<related resource>/<related-id>?version=<resolved version>&..."
+          }
+        }
+      },
+      "type": "object"
+    },
+    "EnvironmentAttributes": {
+      "description": "Environment attributes",
+      "example": {
+        "created_at": "2022-05-06T12:25:15-04:00",
+        "kind": "aws",
+        "name": "Demo AWS Environment",
+        "native_id": "12345678910",
+        "options": {
+          "role_arn": "arn:aws:iam::123456789012:role/SnykCloud1234"
+        },
+        "properties": {
+          "account_id": "123456789012"
+        },
+        "revision": 1,
+        "status": "success",
+        "updated_at": "2022-05-06T12:25:15-04:00"
+      },
+      "properties": {
+        "created_at": {
+          "description": "When the environment was created",
+          "example": "2022-05-06T12:25:15-04:00",
+          "format": "date-time",
+          "type": "string"
+        },
+        "deleted_at": {
+          "format": "date-time",
+          "nullable": true,
+          "type": "string"
+        },
+        "kind": {
+          "$ref": "#/components/schemas/EnvironmentKind"
+        },
+        "name": {
+          "$ref": "#/components/schemas/EnvironmentName"
+        },
+        "options": {
+          "type": "object"
+        },
+        "properties": {
+          "type": "object"
+        },
+        "revision": {
+          "description": "Increment for each change to an environment",
+          "example": 1,
+          "type": "integer"
+        },
+        "updated_at": {
+          "description": "When the environment was last updated",
+          "example": "2022-05-07T12:25:15-04:00",
+          "format": "date-time",
+          "nullable": true,
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "name",
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "EnvironmentKind": {
+      "description": "Environment kind: aws",
+      "enum": [
+        "aws",
+        "google",
+        "azure",
+        "scm",
+        "tfc",
+        "cli"
+      ],
+      "type": "string"
+    },
+    "CreatePermissionsAttributes": {
+      "example": {
+        "platform": "aws",
+        "type": "cf"
+      },
+      "properties": {
+        "options": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/AzureOptions"
+            }
+          ]
+        },
+        "platform": {
+          "$ref": "#/components/schemas/PlatformType"
+        },
+        "type": {
+          "$ref": "#/components/schemas/PermissionType"
+        }
+      },
+      "required": [
+        "type",
+        "platform"
+      ],
+      "type": "object"
+    },
+    "EnvironmentType": {
+      "example": "environment",
       "type": "string"
     },
     "ScanAttributes": {
@@ -1954,6 +1888,19 @@
       ],
       "type": "object"
     },
+    "EnvironmentOptions": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/AwsOptions"
+        },
+        {
+          "$ref": "#/components/schemas/GoogleOptions"
+        },
+        {
+          "$ref": "#/components/schemas/AzureOptions__0"
+        }
+      ]
+    },
     "AzureOptions__0": {
       "additionalProperties": false,
       "description": "Options for creating an Azure environment",
@@ -1985,59 +1932,112 @@
       ],
       "type": "object"
     },
-    "ScanCreateRelationships": {
-      "description": "Scan create relationships",
-      "properties": {
-        "environment": {
-          "properties": {
-            "data": {
-              "example": {
-                "id": "12000000-0000-0000-0000-000000000000",
-                "type": "environment"
-              },
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "type": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "type",
-                "id"
-              ],
-              "type": "object"
-            }
-          },
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
-    "CreatePermissionsAttributes": {
+    "AzureOptions": {
+      "description": "Options for generating an Azure environment permissions script",
       "example": {
-        "platform": "aws",
-        "type": "cf"
+        "subscription_id": "6884d000-8dd4-11ed-a1eb-0242ac120002",
+        "tenant_id": "51627f08-8dd4-11ed-a1eb-0242ac120002"
       },
       "properties": {
-        "options": {
-          "anyOf": [
-            {
-              "$ref": "#/components/schemas/AzureOptions"
-            }
-          ]
+        "subscription_id": {
+          "description": "ID of the Azure subscription to be scanned",
+          "example": "6884d000-8dd4-11ed-a1eb-0242ac120002",
+          "type": "string"
         },
-        "platform": {
-          "$ref": "#/components/schemas/PlatformType"
-        },
-        "type": {
-          "$ref": "#/components/schemas/PermissionType"
+        "tenant_id": {
+          "description": "Azure Tenant (directory) ID",
+          "example": "51627f08-8dd4-11ed-a1eb-0242ac120002",
+          "type": "string"
         }
       },
       "required": [
-        "type",
-        "platform"
+        "tenant_id",
+        "subscription_id"
+      ],
+      "type": "object"
+    },
+    "PlatformType": {
+      "enum": [
+        "aws",
+        "azure",
+        "google"
+      ],
+      "type": "string"
+    },
+    "GoogleOptions": {
+      "additionalProperties": false,
+      "description": "Options for creating a Google environment",
+      "example": {
+        "identity_provider": "https://iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/snyk-workload-identity-123/providers/snyk-identity-provider-123",
+        "project_id": "demo-project",
+        "service_account_email": "snyk-demo@demo-project.iam.gserviceaccount.com"
+      },
+      "properties": {
+        "identity_provider": {
+          "description": "The full resource name of the workload identity provider",
+          "example": "https://iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/snyk-workload-identity-123/providers/snyk-identity-provider-123",
+          "format": "uri",
+          "type": "string"
+        },
+        "project_id": {
+          "description": "Google project ID",
+          "example": "demo-project",
+          "type": "string"
+        },
+        "service_account_email": {
+          "description": "Google service account email",
+          "example": "snyk-demo@demo-project.iam.gserviceaccount.com",
+          "format": "email",
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_account_email",
+        "identity_provider"
+      ],
+      "type": "object"
+    },
+    "EnvironmentUpdateAttributes": {
+      "description": "Environment update attributes. Only the AWS role ARN can be updated; new ARN must have the same account ID as the old ARN.",
+      "example": {
+        "options": {
+          "role_arn": "arn:aws:iam::123456789012:role/SnykCloud1234"
+        }
+      },
+      "properties": {
+        "name": {
+          "$ref": "#/components/schemas/EnvironmentName"
+        },
+        "options": {
+          "$ref": "#/components/schemas/EnvironmentOptions"
+        }
+      },
+      "required": [
+        "options"
+      ],
+      "type": "object"
+    },
+    "EnvironmentCreateAttributes": {
+      "example": {
+        "kind": "aws",
+        "options": {
+          "role_arn": "arn:aws:iam::336447867772:role/SnykCloud1234"
+        }
+      },
+      "properties": {
+        "kind": {
+          "$ref": "#/components/schemas/EnvironmentKind"
+        },
+        "name": {
+          "$ref": "#/components/schemas/EnvironmentName"
+        },
+        "options": {
+          "$ref": "#/components/schemas/EnvironmentOptions"
+        }
+      },
+      "required": [
+        "kind",
+        "options"
       ],
       "type": "object"
     }
@@ -2045,7 +2045,6 @@
   "referenced_common_schemas": [
     "PaginatedLinks",
     "LinkProperty",
-    "Meta",
     "JsonApi"
   ]
 }

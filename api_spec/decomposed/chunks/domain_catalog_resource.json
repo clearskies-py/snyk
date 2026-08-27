@@ -7,7 +7,7 @@
       "method": "GET",
       "path": "/learn/catalog",
       "operation_id": "listLearnCatalog",
-      "summary": "List Snyk Learn's resources (Early Access)"
+      "summary": "List and filter Snyk Learn catalog resources (Early Access)"
     }
   ],
   "endpoints": [
@@ -15,9 +15,9 @@
       "path": "/learn/catalog",
       "method": "GET",
       "operation_id": "listLearnCatalog",
-      "summary": "List Snyk Learn's resources (Early Access)",
+      "summary": "List and filter Snyk Learn catalog resources (Early Access)",
       "details": {
-        "description": "List Snyk Learn's catalog resources",
+        "description": "Returns lessons and learning paths. Optional filters narrow lessons by\nCWE, CVE, Snyk rule, and/or ecosystem.\n\nMultiple identifier params are ANDed by default. Set `best_match=true` for\npriority match: `rules`, then `cves`, then `cwes` (first bucket with\nhits wins). `ecosystem` is applied after identifier matching.\n\nWith filters active, a learning path is returned only if it contains a\nmatching lesson; `attributes.lesson_ids` lists those lessons only.\n\nFor `cwes`, `cves`, and `rules`, pass multiple values comma-separated in\none parameter (e.g. `?cwes=CWE-79,CWE-89`). Repeated parameters\n(e.g. `?cwes=CWE-79&cwes=CWE-89`) are not accepted.\n",
         "operationId": "listLearnCatalog",
         "parameters": [
           {
@@ -25,6 +25,24 @@
           },
           {
             "$ref": "#/components/parameters/ContentSource"
+          },
+          {
+            "$ref": "#/components/parameters/Source"
+          },
+          {
+            "$ref": "#/components/parameters/CatalogCwes"
+          },
+          {
+            "$ref": "#/components/parameters/CatalogCves"
+          },
+          {
+            "$ref": "#/components/parameters/Rules"
+          },
+          {
+            "$ref": "#/components/parameters/LessonEcosystem"
+          },
+          {
+            "$ref": "#/components/parameters/BestMatch"
           },
           {
             "$ref": "#/components/parameters/Limit"
@@ -64,7 +82,7 @@
                 }
               }
             },
-            "description": "Returns a list of catalog resources",
+            "description": "Catalog resources for this request. Filtered responses may omit\nlessons and trim learning-path `lesson_ids`.\n",
             "headers": {
               "deprecation": {
                 "$ref": "#/components/headers/DeprecationHeader"
@@ -86,6 +104,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
           "404": {
             "$ref": "#/components/responses/404"
           },
@@ -93,7 +114,7 @@
             "$ref": "#/components/responses/500"
           }
         },
-        "summary": "List Snyk Learn's resources (Early Access)",
+        "summary": "List and filter Snyk Learn catalog resources (Early Access)",
         "tags": [
           "Catalog Resource"
         ],
@@ -117,9 +138,16 @@
     "Tag": {
       "properties": {
         "tag_type": {
+          "description": "The classification type for this tag. Possible values: ecosystem - programming language or platform (e.g. java, python, javascript, golang, cpp, csharp, kubernetes, docker, aiml, rust, ruby, swift, general). topic - security or product training topic (freeform string). cwe - Common Weakness Enumeration identifier (format: CWE-{id}, e.g. CWE-79). cve - Common Vulnerabilities and Exposures identifier (format: CVE-{year}-{id}, e.g. CVE-2021-44228). snyk_vuln_id - Snyk vulnerability rule identifier (format: SNYK-{LANG}-{PKG}-{ID}, e.g. SNYK-JAVA-ORGAPACHELOGGINGLOG4J-2314720).",
+          "example": "cwe",
           "type": "string"
         },
         "tag_values": {
+          "description": "Array of values associated with this tag type. Values follow the format described by the corresponding tag_type.",
+          "example": [
+            "CWE-79",
+            "CWE-89"
+          ],
           "items": {
             "type": "string"
           },
@@ -217,9 +245,8 @@
     }
   },
   "referenced_common_schemas": [
-    "JsonApi",
     "PaginatedLinks",
-    "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "JsonApi"
   ]
 }

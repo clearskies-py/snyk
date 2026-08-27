@@ -1,0 +1,275 @@
+{
+  "tag": "PersonalAccessToken",
+  "endpoint_count": 2,
+  "schema_count": 6,
+  "endpoints_summary": [
+    {
+      "method": "GET",
+      "path": "/self/personal_access_tokens",
+      "operation_id": "listPersonalAccessToken",
+      "summary": "List personal access tokens"
+    },
+    {
+      "method": "DELETE",
+      "path": "/self/personal_access_tokens/{personal_access_token_id}",
+      "operation_id": "deletePersonalAccessToken",
+      "summary": "Deletes a personal access token"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/self/personal_access_tokens",
+      "method": "GET",
+      "operation_id": "listPersonalAccessToken",
+      "summary": "List personal access tokens",
+      "details": {
+        "description": "List personal access tokens",
+        "operationId": "listPersonalAccessToken",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/EndingBefore"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfter"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "attributes": {
+                            "properties": {
+                              "created_at": {
+                                "$ref": "#/components/schemas/PersonalAccessTokenCreatedAt"
+                              },
+                              "expires_at": {
+                                "$ref": "#/components/schemas/PersonalAccessTokenExpiresAt"
+                              },
+                              "label": {
+                                "$ref": "#/components/schemas/PersonalAccessTokenLabel"
+                              },
+                              "tenant_id": {
+                                "$ref": "#/components/schemas/PatTenantId"
+                              }
+                            },
+                            "required": [
+                              "created_at",
+                              "expires_at",
+                              "label"
+                            ],
+                            "type": "object"
+                          },
+                          "id": {
+                            "$ref": "#/components/schemas/PersonalAccessTokenId"
+                          },
+                          "type": {
+                            "$ref": "#/components/schemas/PersonalAccessTokenType"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "attributes",
+                          "type"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "jsonapi": {
+                      "$ref": "#/components/schemas/JsonApi"
+                    },
+                    "links": {
+                      "$ref": "#/components/schemas/PaginatedLinks"
+                    },
+                    "meta": {
+                      "properties": {
+                        "max_active_tokens": {
+                          "type": "integer"
+                        },
+                        "max_expiry_days": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "max_active_tokens",
+                        "max_expiry_days"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Return the personal access tokens associated with the calling principal",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "$ref": "#/components/headers/LocationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List personal access tokens",
+        "tags": [
+          "PersonalAccessToken"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-03-19"
+        ],
+        "x-snyk-api-resource": "pats",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-03-19",
+        "x-stability-level": "stable"
+      }
+    },
+    {
+      "path": "/self/personal_access_tokens/{personal_access_token_id}",
+      "method": "DELETE",
+      "operation_id": "deletePersonalAccessToken",
+      "summary": "Deletes a personal access token",
+      "details": {
+        "description": "Delete a personal access token",
+        "operationId": "deletePersonalAccessToken",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PersonalAccessTokenId"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/components/responses/204"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Deletes a personal access token",
+        "tags": [
+          "PersonalAccessToken"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-03-19"
+        ],
+        "x-snyk-api-resource": "pats",
+        "x-snyk-api-stability": "ga",
+        "x-snyk-api-version": "2024-03-19",
+        "x-stability-level": "stable"
+      }
+    }
+  ],
+  "schemas": {
+    "PersonalAccessTokenExpiresAt": {
+      "description": "Date/Time when the token expires",
+      "example": "2021-07-01T00:00:00Z",
+      "format": "date-time",
+      "type": "string"
+    },
+    "PersonalAccessTokenId": {
+      "description": "The personal access token id",
+      "example": "01HSBP9DKDK39KWZQV84PSPRHY",
+      "format": "ulid",
+      "type": "string"
+    },
+    "PatTenantId": {
+      "description": "Identifier of the tenant to which the Personal Access Token is scoped.",
+      "example": "550e8400-e29b-41d4-a716-446655440000",
+      "format": "uuid",
+      "nullable": true,
+      "type": "string"
+    },
+    "PersonalAccessTokenCreatedAt": {
+      "description": "Date/Time when the token was created",
+      "example": "2021-07-01T00:00:00Z",
+      "format": "date-time",
+      "type": "string"
+    },
+    "PersonalAccessTokenType": {
+      "description": "Type of the resource.",
+      "enum": [
+        "personal_access_token"
+      ],
+      "type": "string"
+    },
+    "PersonalAccessTokenLabel": {
+      "description": "A human-friendly name for the personal access token",
+      "example": "my token",
+      "format": "string",
+      "type": "string"
+    }
+  },
+  "referenced_common_schemas": [
+    "PaginatedLinks",
+    "LinkProperty",
+    "JsonApi"
+  ]
+}

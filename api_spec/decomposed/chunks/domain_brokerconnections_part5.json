@@ -2161,6 +2161,53 @@
     }
   ],
   "schemas": {
+    "SecretAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "encrypted": {
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "nonce": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "nonce",
+        "encrypted",
+        "expires_at"
+      ],
+      "type": "object"
+    },
+    "ConnectionRelationship": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "properties": {
+            "id": {
+              "description": "Associated item id",
+              "type": "string"
+            },
+            "type": {
+              "description": "Associated item type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
     "GetBrokerConnectionResponse": {
       "additionalProperties": false,
       "properties": {
@@ -2179,24 +2226,49 @@
       ],
       "type": "object"
     },
-    "ConnectionRelationships__0": {
-      "additionalProperties": true,
+    "BrokerConnectionResponseResource": {
+      "additionalProperties": false,
       "properties": {
-        "broker_connections": {
+        "attributes": {
+          "$ref": "#/components/schemas/CommonConnectionResponseAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "readOnly": true,
+          "type": "string"
+        },
+        "relationships": {
           "items": {
-            "$ref": "#/components/schemas/ConnectionRelationship"
+            "$ref": "#/components/schemas/BrokerContextResource"
           },
           "type": "array"
         },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
+        "type": {
+          "enum": [
+            "broker_connection"
+          ],
+          "type": "string"
         }
       },
       "required": [
-        "broker_connections"
+        "attributes",
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "BrokerContextAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "context": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "context"
       ],
       "type": "object"
     },
@@ -2231,21 +2303,6 @@
       ],
       "type": "object"
     },
-    "BrokerContextAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "context": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
-        }
-      },
-      "required": [
-        "context"
-      ],
-      "type": "object"
-    },
     "CommonConnectionResponseAttributes": {
       "allOf": [
         {
@@ -2255,27 +2312,6 @@
           "$ref": "#/components/schemas/ConfigurationResponseAttributes"
         }
       ]
-    },
-    "AppliedIntegrationsRelationships": {
-      "additionalProperties": true,
-      "properties": {
-        "applied_integrations": {
-          "items": {
-            "$ref": "#/components/schemas/AppliedIntegrationRelationship"
-          },
-          "type": "array"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
-        }
-      },
-      "required": [
-        "applied_integrations"
-      ],
-      "type": "object"
     },
     "BrokerContextResource": {
       "additionalProperties": true,
@@ -2309,6 +2345,59 @@
         "attributes",
         "id",
         "type"
+      ],
+      "type": "object"
+    },
+    "AppliedIntegrationsRelationships": {
+      "additionalProperties": true,
+      "properties": {
+        "applied_integrations": {
+          "items": {
+            "$ref": "#/components/schemas/AppliedIntegrationRelationship"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "applied_integrations"
+      ],
+      "type": "object"
+    },
+    "GenericConfigurationAttributes": {
+      "properties": {
+        "configuration": {
+          "properties": {
+            "required": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": {
+              "type": "string"
+            },
+            "validations": {
+              "items": {
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "type",
+            "required"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "configuration"
       ],
       "type": "object"
     },
@@ -2350,56 +2439,24 @@
       ],
       "type": "object"
     },
-    "SecretAttributes": {
-      "additionalProperties": false,
+    "ConnectionRelationships__0": {
+      "additionalProperties": true,
       "properties": {
-        "encrypted": {
-          "type": "string"
-        },
-        "expires_at": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "nonce": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "nonce",
-        "encrypted",
-        "expires_at"
-      ],
-      "type": "object"
-    },
-    "GenericConfigurationAttributes": {
-      "properties": {
-        "configuration": {
-          "properties": {
-            "required": {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
-            },
-            "type": {
-              "type": "string"
-            },
-            "validations": {
-              "items": {
-                "type": "object"
-              },
-              "type": "array"
-            }
+        "broker_connections": {
+          "items": {
+            "$ref": "#/components/schemas/ConnectionRelationship"
           },
-          "required": [
-            "type",
-            "required"
-          ],
-          "type": "object"
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
         }
       },
       "required": [
-        "configuration"
+        "broker_connections"
       ],
       "type": "object"
     },
@@ -2409,69 +2466,11 @@
           "$ref": "#/components/schemas/GenericConfigurationAttributes"
         }
       ]
-    },
-    "ConnectionRelationship": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "properties": {
-            "id": {
-              "description": "Associated item id",
-              "type": "string"
-            },
-            "type": {
-              "description": "Associated item type",
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "type"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
-    },
-    "BrokerConnectionResponseResource": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/CommonConnectionResponseAttributes"
-        },
-        "id": {
-          "format": "uuid",
-          "readOnly": true,
-          "type": "string"
-        },
-        "relationships": {
-          "items": {
-            "$ref": "#/components/schemas/BrokerContextResource"
-          },
-          "type": "array"
-        },
-        "type": {
-          "enum": [
-            "broker_connection"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "attributes",
-        "id",
-        "type"
-      ],
-      "type": "object"
     }
   },
   "referenced_common_schemas": [
     "PaginatedLinks",
     "LinkProperty",
-    "Meta",
     "JsonApi"
   ]
 }

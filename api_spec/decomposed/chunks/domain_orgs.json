@@ -1,7 +1,7 @@
 {
   "tag": "Orgs",
   "endpoint_count": 8,
-  "schema_count": 20,
+  "schema_count": 21,
   "endpoints_summary": [
     {
       "method": "GET",
@@ -82,6 +82,9 @@
           },
           {
             "$ref": "#/components/parameters/QuerySlugFilter"
+          },
+          {
+            "$ref": "#/components/parameters/QueryExpand"
           }
         ],
         "responses": {
@@ -102,6 +105,9 @@
                     },
                     "links": {
                       "$ref": "#/components/schemas/PaginatedLinks"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ListOrgsInGroupMeta"
                     }
                   },
                   "required": [
@@ -221,6 +227,7 @@
             "name": "name",
             "schema": {
               "maxLength": 100,
+              "minLength": 1,
               "type": "string"
             }
           },
@@ -1048,29 +1055,74 @@
     }
   ],
   "schemas": {
-    "OrgWithRelationships": {
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "example": "https://example.com/api/resource",
+          "oneOf": [
+            {
+              "description": "A string containing the link\u2019s URL.",
+              "example": "https://example.com/api/resource",
+              "type": "string"
+            },
+            {
+              "additionalProperties": false,
+              "example": {
+                "href": "https://example.com/api/resource"
+              },
+              "properties": {
+                "href": {
+                  "description": "A string containing the link\u2019s URL.",
+                  "example": "https://example.com/api/resource",
+                  "type": "string"
+                },
+                "meta": {
+                  "additionalProperties": true,
+                  "description": "Free-form object that may contain non-standard information.",
+                  "example": {
+                    "key1": "value1",
+                    "key2": {
+                      "sub_key": "sub_value"
+                    },
+                    "key3": [
+                      "array_value1",
+                      "array_value2"
+                    ]
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "href"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "OrgMembershipRelationships": {
       "additionalProperties": false,
       "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/OrgAttributes"
+        "org": {
+          "$ref": "#/components/schemas/OrgMembershipOrgData"
         },
-        "id": {
-          "description": "The Snyk ID of the organization.",
-          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
-          "format": "uuid",
-          "type": "string"
+        "role": {
+          "$ref": "#/components/schemas/OrgMembershipRoleData"
         },
-        "relationships": {
-          "$ref": "#/components/schemas/OrgRelationships"
-        },
-        "type": {
-          "$ref": "#/components/schemas/Types"
+        "user": {
+          "$ref": "#/components/schemas/OrgMembershipUserData"
         }
       },
       "required": [
-        "type",
-        "id",
-        "attributes"
+        "role",
+        "org",
+        "user"
       ],
       "type": "object"
     },
@@ -1150,286 +1202,44 @@
       ],
       "type": "object"
     },
-    "OrgAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "access_requests_enabled": {
-          "description": "Whether the organization permits access requests from users who are not members of the organization.",
-          "example": false,
-          "type": "boolean"
-        },
-        "created_at": {
-          "description": "The time the organization was created.",
-          "example": "2022-03-16T00:00:00Z",
-          "format": "date-time",
-          "type": "string"
-        },
-        "group_id": {
-          "description": "The Snyk ID of the group to which the organization belongs.",
-          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
-          "format": "uuid",
-          "type": "string"
-        },
-        "is_personal": {
-          "description": "Whether the organization is independent (that is, not part of a group).",
-          "example": true,
-          "type": "boolean"
-        },
-        "name": {
-          "description": "The display name of the organization.",
-          "example": "My Org",
-          "type": "string"
-        },
-        "slug": {
-          "description": "The canonical (unique and URL-friendly) name of the organization.",
-          "example": "my-org",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "The time the organization was last modified.",
-          "example": "2022-03-16T00:00:00Z",
-          "format": "date-time",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "slug",
-        "is_personal"
-      ],
-      "type": "object"
-    },
-    "OrgMembershipRelationships": {
-      "additionalProperties": false,
-      "properties": {
-        "org": {
-          "$ref": "#/components/schemas/OrgMembershipOrgData"
-        },
-        "role": {
-          "$ref": "#/components/schemas/OrgMembershipRoleData"
-        },
-        "user": {
-          "$ref": "#/components/schemas/OrgMembershipUserData"
-        }
-      },
-      "required": [
-        "role",
-        "org",
-        "user"
-      ],
-      "type": "object"
-    },
-    "OrgAttributes20230529": {
-      "additionalProperties": false,
-      "properties": {
-        "created_at": {
-          "description": "The time the organization was created.",
-          "example": "2022-03-16T00:00:00Z",
-          "format": "date-time",
-          "type": "string"
-        },
-        "group_id": {
-          "description": "The Snyk ID of the group to which the organization belongs.",
-          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
-          "format": "uuid",
-          "type": "string"
-        },
-        "is_personal": {
-          "description": "Whether the organization is independent (that is, not part of a group).",
-          "example": true,
-          "type": "boolean"
-        },
-        "name": {
-          "description": "The display name of the organization.",
-          "example": "My Org",
-          "type": "string"
-        },
-        "slug": {
-          "description": "The canonical (unique and URL-friendly) name of the organization.",
-          "example": "my-org",
-          "type": "string"
-        },
-        "updated_at": {
-          "description": "The time the organization was last modified.",
-          "example": "2022-03-16T00:00:00Z",
-          "format": "date-time",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "slug",
-        "is_personal"
-      ],
-      "type": "object"
-    },
-    "SelfLink": {
-      "additionalProperties": false,
-      "example": {
-        "self": "https://example.com/api/this_resource"
-      },
-      "properties": {
-        "self": {
-          "$ref": "#/components/schemas/LinkProperty"
-        }
-      },
-      "type": "object"
-    },
-    "OrgMembershipAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "created_at": {
-          "description": "The time when this Org membership was created",
-          "example": "2022-03-16T00:00:00Z",
-          "format": "date-time",
-          "type": "string"
-        }
-      },
-      "required": [
-        "created_at"
-      ],
-      "type": "object"
-    },
-    "OrgMembershipResponseData": {
-      "additionalProperties": false,
-      "items": {
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/OrgMembershipAttributes"
-          },
-          "id": {
-            "example": "331ede0a-de94-456f-b788-166caeca58bf",
-            "format": "uuid",
-            "type": "string"
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/OrgMembershipRelationships"
-          },
-          "type": {
-            "description": "Content type",
-            "example": "org_memberships",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "type": "array"
-    },
-    "OrgMembershipRoleData": {
-      "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "properties": {
-                "name": {
-                  "description": "The name of the role",
-                  "example": "Admin role",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name"
-              ],
-              "type": "object"
-            },
-            "id": {
-              "example": "331ede0a-de94-456f-b788-166caeca58bf",
-              "format": "uuid",
-              "type": "string"
-            },
-            "type": {
-              "example": "org_role",
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "attributes"
-          ],
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
-    "OrgMembershipUserData": {
-      "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "properties": {
-                "email": {
-                  "description": "The email of the user",
-                  "example": "user@test.com",
-                  "type": "string"
-                },
-                "login_method": {
-                  "description": "The login method of the user",
-                  "type": "string"
-                },
-                "name": {
-                  "description": "The name of the user",
-                  "example": "User2",
-                  "type": "string"
-                },
-                "username": {
-                  "description": "The username of the user",
-                  "example": "User name 2",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name",
-                "username",
-                "email"
-              ],
-              "type": "object"
-            },
-            "id": {
-              "example": "331ede0a-de94-456f-b788-166caeca58bf",
-              "format": "uuid",
-              "type": "string"
-            },
-            "type": {
-              "example": "user",
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "attributes"
-          ],
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
-    "OrgRelationships": {
-      "additionalProperties": false,
-      "properties": {
-        "member_role": {
-          "$ref": "#/components/schemas/MemberRoleRelationship"
-        }
-      },
-      "type": "object"
-    },
-    "Types": {
-      "example": "resource",
-      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
-      "type": "string"
-    },
-    "Org": {
+    "Org20230529": {
       "additionalProperties": false,
       "properties": {
         "attributes": {
-          "$ref": "#/components/schemas/OrgAttributes"
+          "$ref": "#/components/schemas/OrgAttributes20230529"
         },
         "id": {
           "description": "The Snyk ID of the organization.",
           "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
           "format": "uuid",
           "type": "string"
+        },
+        "relationships": {
+          "properties": {
+            "tenant": {
+              "properties": {
+                "data": {
+                  "properties": {
+                    "id": {
+                      "example": "00000000-0000-0000-0000-000000000000",
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "The type of the resource for tenant operations",
+                      "enum": [
+                        "tenant"
+                      ],
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
         },
         "type": {
           "$ref": "#/components/schemas/Types"
@@ -1439,38 +1249,6 @@
         "type",
         "id",
         "attributes"
-      ],
-      "type": "object"
-    },
-    "MemberRoleRelationship": {
-      "additionalProperties": false,
-      "nullable": true,
-      "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "$ref": "#/components/schemas/OrgRoleAttributes"
-            },
-            "id": {
-              "description": "The Snyk ID of the organization role.",
-              "example": "f60ff965-6889-4db2-8c86-0285d62f35ab",
-              "format": "uuid",
-              "type": "string"
-            },
-            "type": {
-              "$ref": "#/components/schemas/Types"
-            }
-          },
-          "required": [
-            "type",
-            "id"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "data"
       ],
       "type": "object"
     },
@@ -1604,56 +1382,253 @@
       ],
       "type": "object"
     },
-    "OrgMembership": {
+    "OrgAttributes": {
       "additionalProperties": false,
       "properties": {
-        "attributes": {
-          "properties": {
-            "created_at": {
-              "description": "The date that the org membership was created on",
-              "example": "2021-05-29T09:50:54.014Z",
-              "format": "date-time"
-            }
-          },
-          "type": "object"
+        "access_requests_enabled": {
+          "description": "Whether the organization permits access requests from users who are not members of the organization.",
+          "example": false,
+          "type": "boolean"
         },
-        "id": {
-          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+        "created_at": {
+          "description": "The time the organization was created.",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "group_id": {
+          "description": "The Snyk ID of the group to which the organization belongs.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
           "format": "uuid",
           "type": "string"
         },
-        "relationships": {
-          "$ref": "#/components/schemas/OrgMembershipRelationships"
+        "is_personal": {
+          "description": "Whether the organization is independent (that is, not part of a group).",
+          "example": true,
+          "type": "boolean"
         },
-        "type": {
-          "description": "Content type.",
-          "example": "org_membership",
+        "name": {
+          "description": "The display name of the organization.",
+          "example": "My Org",
+          "type": "string"
+        },
+        "slug": {
+          "description": "The canonical (unique and URL-friendly) name of the organization.",
+          "example": "my-org",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "The time the organization was last modified.",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
           "type": "string"
         }
       },
       "required": [
-        "type",
-        "id",
-        "attributes",
-        "relationships"
+        "name",
+        "slug",
+        "is_personal"
       ],
       "type": "object"
     },
-    "OrgRoleAttributes": {
+    "OrgRelationships": {
+      "additionalProperties": false,
       "properties": {
-        "name": {
-          "description": "The display name of the organization role.",
-          "example": "Collaborator",
-          "type": "string"
+        "member_role": {
+          "$ref": "#/components/schemas/MemberRoleRelationship"
         }
       },
       "type": "object"
     },
-    "Org20230529": {
+    "OrgMembershipAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "description": "The time when this Org membership was created",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "created_at"
+      ],
+      "type": "object"
+    },
+    "ListOrgsInGroupMeta": {
+      "additionalProperties": false,
+      "description": "Additional information about the list of organizations. Only populated when `expand=count` is supplied as a query parameter.",
+      "properties": {
+        "total_count": {
+          "description": "The total number of organizations in the group, ignoring any filters applied to the original query. Excludes soft-deleted organizations.",
+          "example": 42,
+          "format": "int64",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "total_count"
+      ],
+      "type": "object"
+    },
+    "Types": {
+      "example": "resource",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+      "type": "string"
+    },
+    "MemberRoleRelationship": {
+      "additionalProperties": false,
+      "nullable": true,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/OrgRoleAttributes"
+            },
+            "id": {
+              "description": "The Snyk ID of the organization role.",
+              "example": "f60ff965-6889-4db2-8c86-0285d62f35ab",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "$ref": "#/components/schemas/Types"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "OrgMembershipRoleData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "name": {
+                  "description": "The name of the role",
+                  "example": "Admin role",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "org_role",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "OrgMembershipUserData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "email": {
+                  "description": "The email of the user",
+                  "example": "user@test.com",
+                  "type": "string"
+                },
+                "login_method": {
+                  "description": "The login method of the user",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The name of the user",
+                  "example": "User2",
+                  "type": "string"
+                },
+                "username": {
+                  "description": "The username of the user",
+                  "example": "User name 2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "username",
+                "email"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "user",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "OrgMembershipResponseData": {
+      "additionalProperties": false,
+      "items": {
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/OrgMembershipAttributes"
+          },
+          "id": {
+            "example": "331ede0a-de94-456f-b788-166caeca58bf",
+            "format": "uuid",
+            "type": "string"
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/OrgMembershipRelationships"
+          },
+          "type": {
+            "description": "Content type",
+            "example": "org_memberships",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "OrgWithRelationships": {
       "additionalProperties": false,
       "properties": {
         "attributes": {
-          "$ref": "#/components/schemas/OrgAttributes20230529"
+          "$ref": "#/components/schemas/OrgAttributes"
         },
         "id": {
           "description": "The Snyk ID of the organization.",
@@ -1662,31 +1637,7 @@
           "type": "string"
         },
         "relationships": {
-          "properties": {
-            "tenant": {
-              "properties": {
-                "data": {
-                  "properties": {
-                    "id": {
-                      "example": "00000000-0000-0000-0000-000000000000",
-                      "format": "uuid",
-                      "type": "string"
-                    },
-                    "type": {
-                      "description": "The type of the resource for tenant operations",
-                      "enum": [
-                        "tenant"
-                      ],
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
-                }
-              },
-              "type": "object"
-            }
-          },
-          "type": "object"
+          "$ref": "#/components/schemas/OrgRelationships"
         },
         "type": {
           "$ref": "#/components/schemas/Types"
@@ -1735,13 +1686,124 @@
         }
       },
       "type": "object"
+    },
+    "Org": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/OrgAttributes"
+        },
+        "id": {
+          "description": "The Snyk ID of the organization.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Types"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "OrgRoleAttributes": {
+      "properties": {
+        "name": {
+          "description": "The display name of the organization role.",
+          "example": "Collaborator",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "OrgMembership": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "properties": {
+            "created_at": {
+              "description": "The date that the org membership was created on",
+              "example": "2021-05-29T09:50:54.014Z",
+              "format": "date-time"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/OrgMembershipRelationships"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "org_membership",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "OrgAttributes20230529": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "description": "The time the organization was created.",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "group_id": {
+          "description": "The Snyk ID of the group to which the organization belongs.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+          "format": "uuid",
+          "type": "string"
+        },
+        "is_personal": {
+          "description": "Whether the organization is independent (that is, not part of a group).",
+          "example": true,
+          "type": "boolean"
+        },
+        "name": {
+          "description": "The display name of the organization.",
+          "example": "My Org",
+          "type": "string"
+        },
+        "slug": {
+          "description": "The canonical (unique and URL-friendly) name of the organization.",
+          "example": "my-org",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "The time the organization was last modified.",
+          "example": "2022-03-16T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "slug",
+        "is_personal"
+      ],
+      "type": "object"
     }
   },
   "referenced_common_schemas": [
-    "JsonApi",
-    "Meta",
-    "LinkProperty",
     "PaginatedLinks",
+    "LinkProperty",
+    "JsonApi",
     "Links"
   ]
 }

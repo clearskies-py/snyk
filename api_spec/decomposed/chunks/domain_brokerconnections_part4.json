@@ -1087,6 +1087,833 @@
     }
   ],
   "schemas": {
+    "GithubCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "github-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "SecretAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "encrypted": {
+          "type": "string"
+        },
+        "expires_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "nonce": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "nonce",
+        "encrypted",
+        "expires_at"
+      ],
+      "type": "object"
+    },
+    "GetBrokerConnectionResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/BrokerConnectionResponseResource"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "BrokerContextAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "context": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "context"
+      ],
+      "type": "object"
+    },
+    "JiraBearerAuth": {
+      "properties": {
+        "jira_hostname": {
+          "example": "jira.yourdomain.com",
+          "type": "string"
+        },
+        "jira_pat": {
+          "format": "uuid",
+          "type": "string"
+        }
+      },
+      "required": [
+        "jira_hostname",
+        "jira_pat"
+      ],
+      "type": "object"
+    },
+    "DigitalOceanCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_token": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "cr_agent_url",
+            "cr_base",
+            "cr_token"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "digitalocean-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "ArtifactoryCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "artifactory-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "DockerHubAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "docker-hub"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "SonarqubeAttributes": {
+      "properties": {
+        "sonarqube_api_token": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "sonarqube_host_url": {
+          "example": "sonarqube.customer.com",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sonarqube_host_url",
+        "sonarqube_api_token"
+      ],
+      "type": "object"
+    },
+    "GenericConfigurationAttributes": {
+      "properties": {
+        "configuration": {
+          "properties": {
+            "required": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": {
+              "type": "string"
+            },
+            "validations": {
+              "items": {
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "type",
+            "required"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "configuration"
+      ],
+      "type": "object"
+    },
+    "ConnectionAttributes": {
+      "properties": {
+        "deployment_id": {
+          "description": "Associated Deployment ID",
+          "format": "uuid",
+          "type": "string"
+        },
+        "identifier": {
+          "description": "Broker identifier",
+          "format": "uuid",
+          "type": "string"
+        },
+        "name": {
+          "description": "Associated name",
+          "type": "string"
+        },
+        "secrets": {
+          "properties": {
+            "primary": {
+              "$ref": "#/components/schemas/SecretAttributes"
+            },
+            "secondary": {
+              "$ref": "#/components/schemas/SecretAttributes"
+            }
+          },
+          "required": [
+            "primary",
+            "secondary"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "deployment_id",
+        "name"
+      ],
+      "type": "object"
+    },
+    "NexusCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "nexus-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "ConfigurationResponseAttributes": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/GenericConfigurationAttributes"
+        }
+      ]
+    },
+    "AppRiskAttributes": {
+      "properties": {
+        "required": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/CheckmarxAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/SonarqubeAttributes"
+            },
+            {
+              "$ref": "#/components/schemas/AllAppRiskAttributes"
+            }
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "apprisk"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "BitbucketServerBearerAuth": {
+      "properties": {
+        "bitbucket": {
+          "example": "bitbucket.yourdomain.com",
+          "type": "string"
+        },
+        "bitbucket_pat": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "broker_client_url": {
+          "example": "https://<broker.client.hostname>:<port>",
+          "type": "string"
+        }
+      },
+      "required": [
+        "bitbucket",
+        "bitbucket_pat",
+        "broker_client_url"
+      ],
+      "type": "object"
+    },
+    "BrokerConnectionResponseResource": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/CommonConnectionResponseAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "readOnly": true,
+          "type": "string"
+        },
+        "relationships": {
+          "items": {
+            "$ref": "#/components/schemas/BrokerContextResource"
+          },
+          "type": "array"
+        },
+        "type": {
+          "enum": [
+            "broker_connection"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "attributes",
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "NexusAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "base_nexus_url": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "base_nexus_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "nexus"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "AppliedIntegrationRelationship": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "properties": {
+            "id": {
+              "description": "Associated item id",
+              "type": "string"
+            },
+            "org_id": {
+              "description": "Associated org id",
+              "type": "string"
+            },
+            "type": {
+              "description": "Associated item type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "org_id",
+            "type"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "EcrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_external_id": {
+              "type": "string"
+            },
+            "cr_region": {
+              "type": "string"
+            },
+            "cr_role_arn": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "cr_agent_url",
+            "cr_base",
+            "cr_role_arn",
+            "cr_region",
+            "cr_external_id"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "ecr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "QuayCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "quay-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "ConnectionRelationship": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "properties": {
+            "id": {
+              "description": "Associated item id",
+              "type": "string"
+            },
+            "type": {
+              "description": "Associated item type",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "type"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "Jira": {
+      "properties": {
+        "jira_hostname": {
+          "example": "jira.yourdomain.com",
+          "type": "string"
+        },
+        "jira_password": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "jira_username": {
+          "example": "<jira-username>",
+          "type": "string"
+        }
+      },
+      "required": [
+        "jira_hostname",
+        "jira_password",
+        "jira_username"
+      ],
+      "type": "object"
+    },
+    "CommonConnectionAttributes": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/ConnectionAttributes"
+        },
+        {
+          "$ref": "#/components/schemas/ConfigurationAttributes"
+        }
+      ]
+    },
+    "ArtifactoryAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "artifactory_url": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "artifactory_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "artifactory"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "GitHubServerAppAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "github": {
+              "example": "ghe.yourdomain.com",
+              "type": "string"
+            },
+            "github_api": {
+              "example": "api.ghe.yourdomain.com",
+              "type": "string"
+            },
+            "github_app_client_id": {
+              "example": "<app-client-id>",
+              "type": "string"
+            },
+            "github_app_id": {
+              "example": "<app-id>",
+              "type": "string"
+            },
+            "github_app_installation_id": {
+              "example": "<app-installation-id>",
+              "type": "string"
+            },
+            "github_app_private_pem_path": {
+              "example": "<path-to-private-pem-file>",
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "github",
+            "github_api",
+            "github_app_client_id",
+            "github_app_id",
+            "github_app_installation_id",
+            "github_app_private_pem_path"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "github-server-app"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
     "GoogleArtifactCrAttributes": {
       "properties": {
         "required": {
@@ -1122,6 +1949,254 @@
         "type": {
           "enum": [
             "google-artifact-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "WorkloadAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "workload_internal_uri": {
+              "type": "string"
+            },
+            "workload_type_id": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "workload_type_id",
+            "workload_internal_uri"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "workload"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "BrokerContextResource": {
+      "additionalProperties": true,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/BrokerContextAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "readOnly": true,
+          "type": "string"
+        },
+        "relationships": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/ConnectionRelationships__0"
+            },
+            {
+              "$ref": "#/components/schemas/AppliedIntegrationsRelationships"
+            }
+          ]
+        },
+        "type": {
+          "enum": [
+            "broker_context"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "attributes",
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "AppliedIntegrationsRelationships": {
+      "additionalProperties": true,
+      "properties": {
+        "applied_integrations": {
+          "items": {
+            "$ref": "#/components/schemas/AppliedIntegrationRelationship"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "applied_integrations"
+      ],
+      "type": "object"
+    },
+    "HarborCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "harbor-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "GitlabCrAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
+              "type": "string"
+            },
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "cr_username": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "gitlab-cr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "AllAppRiskAttributes": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/CheckmarxAttributes"
+        },
+        {
+          "$ref": "#/components/schemas/SonarqubeAttributes"
+        }
+      ]
+    },
+    "GitLabAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            },
+            "gitlab": {
+              "example": "gitlab.yourdomain.com",
+              "type": "string"
+            },
+            "gitlab_token": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "broker_client_url",
+            "gitlab",
+            "gitlab_token"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "gitlab"
           ],
           "type": "string"
         },
@@ -1251,7 +2326,7 @@
       ],
       "type": "object"
     },
-    "GithubCrAttributes": {
+    "AcrAttributes": {
       "properties": {
         "required": {
           "properties": {
@@ -1285,7 +2360,7 @@
         },
         "type": {
           "enum": [
-            "github-cr"
+            "acr"
           ],
           "type": "string"
         },
@@ -1302,453 +2377,107 @@
       ],
       "type": "object"
     },
-    "ArtifactoryCrAttributes": {
+    "BitbucketServer": {
       "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "cr_agent_url": {
-              "example": "https://<agent-host>:<agent-port>",
-              "type": "string"
-            },
-            "cr_base": {
-              "type": "string"
-            },
-            "cr_password": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "cr_username": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cr_base",
-            "cr_username",
-            "cr_password",
-            "broker_client_url",
-            "cr_agent_url"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "artifactory-cr"
-          ],
+        "bitbucket": {
+          "example": "bitbucket.yourdomain.com",
           "type": "string"
         },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "GcrAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "cr_agent_url": {
-              "example": "https://<agent-host>:<agent-port>",
-              "type": "string"
-            },
-            "cr_base": {
-              "type": "string"
-            },
-            "cr_password": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "cr_username": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cr_base",
-            "cr_username",
-            "cr_password",
-            "broker_client_url",
-            "cr_agent_url"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "gcr"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "CheckmarxAttributes": {
-      "properties": {
-        "checkmarx": {
-          "example": "checkmarx.customer.com",
-          "type": "string"
-        },
-        "checkmarx_password": {
+        "bitbucket_password": {
           "format": "uuid",
           "type": "string"
         },
-        "checkmarx_username": {
+        "bitbucket_username": {
           "example": "<username>",
           "type": "string"
+        },
+        "broker_client_url": {
+          "example": "https://<broker.client.hostname>:<port>",
+          "type": "string"
         }
       },
       "required": [
-        "checkmarx",
-        "checkmarx_password",
-        "checkmarx_username"
+        "bitbucket",
+        "bitbucket_password",
+        "bitbucket_username",
+        "broker_client_url"
       ],
       "type": "object"
     },
-    "ConnectionRelationships__0": {
-      "additionalProperties": true,
-      "properties": {
-        "broker_connections": {
-          "items": {
-            "$ref": "#/components/schemas/ConnectionRelationship"
-          },
-          "type": "array"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
-        }
-      },
-      "required": [
-        "broker_connections"
-      ],
-      "type": "object"
-    },
-    "GitHubAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "github_token": {
-              "format": "uuid",
-              "type": "string"
-            }
-          },
-          "required": [
-            "broker_client_url",
-            "github_token"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "github"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "DockerHubAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "cr_agent_url": {
-              "example": "https://<agent-host>:<agent-port>",
-              "type": "string"
-            },
-            "cr_base": {
-              "type": "string"
-            },
-            "cr_password": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "cr_username": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cr_base",
-            "cr_username",
-            "cr_password",
-            "broker_client_url",
-            "cr_agent_url"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "docker-hub"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "HarborCrAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "cr_agent_url": {
-              "example": "https://<agent-host>:<agent-port>",
-              "type": "string"
-            },
-            "cr_base": {
-              "type": "string"
-            },
-            "cr_password": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "cr_username": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cr_base",
-            "cr_username",
-            "cr_password",
-            "broker_client_url",
-            "cr_agent_url"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "harbor-cr"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "CommonConnectionResponseAttributes": {
-      "allOf": [
-        {
-          "$ref": "#/components/schemas/ConnectionAttributes"
-        },
-        {
-          "$ref": "#/components/schemas/ConfigurationResponseAttributes"
-        }
-      ]
-    },
-    "DigitalOceanCrAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "cr_agent_url": {
-              "example": "https://<agent-host>:<agent-port>",
-              "type": "string"
-            },
-            "cr_base": {
-              "type": "string"
-            },
-            "cr_token": {
-              "format": "uuid",
-              "type": "string"
-            }
-          },
-          "required": [
-            "broker_client_url",
-            "cr_agent_url",
-            "cr_base",
-            "cr_token"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "digitalocean-cr"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "WorkloadAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "workload_internal_uri": {
-              "type": "string"
-            },
-            "workload_type_id": {
-              "format": "uuid",
-              "type": "string"
-            }
-          },
-          "required": [
-            "workload_type_id",
-            "workload_internal_uri"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "workload"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "ConnectionAttributes": {
-      "properties": {
-        "deployment_id": {
-          "description": "Associated Deployment ID",
-          "format": "uuid",
-          "type": "string"
-        },
-        "identifier": {
-          "description": "Broker identifier",
-          "format": "uuid",
-          "type": "string"
-        },
-        "name": {
-          "description": "Associated name",
-          "type": "string"
-        },
-        "secrets": {
-          "properties": {
-            "primary": {
-              "$ref": "#/components/schemas/SecretAttributes"
-            },
-            "secondary": {
-              "$ref": "#/components/schemas/SecretAttributes"
-            }
-          },
-          "required": [
-            "primary",
-            "secondary"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "deployment_id",
-        "name"
-      ],
-      "type": "object"
-    },
-    "SecretAttributes": {
+    "CreateBrokerConnectionRequest": {
       "additionalProperties": false,
       "properties": {
-        "encrypted": {
-          "type": "string"
-        },
-        "expires_at": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "nonce": {
-          "type": "string"
+        "data": {
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/CommonConnectionAttributes"
+            },
+            "type": {
+              "enum": [
+                "broker_connection"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "attributes",
+            "type"
+          ],
+          "type": "object"
         }
       },
       "required": [
-        "nonce",
-        "encrypted",
-        "expires_at"
+        "data"
       ],
       "type": "object"
     },
-    "AllAppRiskAttributes": {
-      "allOf": [
-        {
-          "$ref": "#/components/schemas/CheckmarxAttributes"
+    "AzureReposAttributes": {
+      "properties": {
+        "required": {
+          "properties": {
+            "azure_repos_host": {
+              "example": "my-azure-repos-host/tfs",
+              "type": "string"
+            },
+            "azure_repos_org": {
+              "example": "<username>:<password>@<yourdomain.artifactory.com>/artifactory",
+              "type": "string"
+            },
+            "azure_repos_token": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
+              "type": "string"
+            }
+          },
+          "required": [
+            "azure_repos_host",
+            "azure_repos_org",
+            "azure_repos_token",
+            "broker_client_url"
+          ],
+          "type": "object"
         },
-        {
-          "$ref": "#/components/schemas/SonarqubeAttributes"
+        "type": {
+          "enum": [
+            "azure-repos"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
         }
-      ]
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
     },
     "GitHubCloudAppAttributes": {
       "properties": {
@@ -1813,837 +2542,6 @@
       ],
       "type": "object"
     },
-    "BitbucketServerAttributes": {
-      "properties": {
-        "required": {
-          "oneOf": [
-            {
-              "$ref": "#/components/schemas/BitbucketServer"
-            },
-            {
-              "$ref": "#/components/schemas/BitbucketServerBearerAuth"
-            }
-          ]
-        },
-        "type": {
-          "enum": [
-            "bitbucket-server"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "QuayCrAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "cr_agent_url": {
-              "example": "https://<agent-host>:<agent-port>",
-              "type": "string"
-            },
-            "cr_base": {
-              "type": "string"
-            },
-            "cr_password": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "cr_username": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cr_base",
-            "cr_username",
-            "cr_password",
-            "broker_client_url",
-            "cr_agent_url"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "quay-cr"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "GitlabCrAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "cr_agent_url": {
-              "example": "https://<agent-host>:<agent-port>",
-              "type": "string"
-            },
-            "cr_base": {
-              "type": "string"
-            },
-            "cr_password": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "cr_username": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cr_base",
-            "cr_username",
-            "cr_password",
-            "broker_client_url",
-            "cr_agent_url"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "gitlab-cr"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "NexusCrAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "cr_agent_url": {
-              "example": "https://<agent-host>:<agent-port>",
-              "type": "string"
-            },
-            "cr_base": {
-              "type": "string"
-            },
-            "cr_password": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "cr_username": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cr_base",
-            "cr_username",
-            "cr_password",
-            "broker_client_url",
-            "cr_agent_url"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "nexus-cr"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "NexusAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "base_nexus_url": {
-              "format": "uuid",
-              "type": "string"
-            }
-          },
-          "required": [
-            "base_nexus_url"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "nexus"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "AcrAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "cr_agent_url": {
-              "example": "https://<agent-host>:<agent-port>",
-              "type": "string"
-            },
-            "cr_base": {
-              "type": "string"
-            },
-            "cr_password": {
-              "format": "uuid",
-              "type": "string"
-            },
-            "cr_username": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "cr_base",
-            "cr_username",
-            "cr_password",
-            "broker_client_url",
-            "cr_agent_url"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "acr"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "CreateBrokerConnectionRequest": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "properties": {
-            "attributes": {
-              "$ref": "#/components/schemas/CommonConnectionAttributes"
-            },
-            "type": {
-              "enum": [
-                "broker_connection"
-              ],
-              "type": "string"
-            }
-          },
-          "required": [
-            "attributes",
-            "type"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
-    },
-    "GetBrokerConnectionResponse": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "$ref": "#/components/schemas/BrokerConnectionResponseResource"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
-    },
-    "JiraAttributes": {
-      "properties": {
-        "required": {
-          "oneOf": [
-            {
-              "$ref": "#/components/schemas/Jira"
-            },
-            {
-              "$ref": "#/components/schemas/JiraBearerAuth"
-            }
-          ]
-        },
-        "type": {
-          "enum": [
-            "jira"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "AppliedIntegrationRelationship": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "properties": {
-            "id": {
-              "description": "Associated item id",
-              "type": "string"
-            },
-            "org_id": {
-              "description": "Associated org id",
-              "type": "string"
-            },
-            "type": {
-              "description": "Associated item type",
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "org_id",
-            "type"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
-    },
-    "GitHubServerAppAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "github": {
-              "example": "ghe.yourdomain.com",
-              "type": "string"
-            },
-            "github_api": {
-              "example": "api.ghe.yourdomain.com",
-              "type": "string"
-            },
-            "github_app_client_id": {
-              "example": "<app-client-id>",
-              "type": "string"
-            },
-            "github_app_id": {
-              "example": "<app-id>",
-              "type": "string"
-            },
-            "github_app_installation_id": {
-              "example": "<app-installation-id>",
-              "type": "string"
-            },
-            "github_app_private_pem_path": {
-              "example": "<path-to-private-pem-file>",
-              "type": "string"
-            }
-          },
-          "required": [
-            "broker_client_url",
-            "github",
-            "github_api",
-            "github_app_client_id",
-            "github_app_id",
-            "github_app_installation_id",
-            "github_app_private_pem_path"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "github-server-app"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "GenericConfigurationAttributes": {
-      "properties": {
-        "configuration": {
-          "properties": {
-            "required": {
-              "additionalProperties": {
-                "type": "string"
-              },
-              "type": "object"
-            },
-            "type": {
-              "type": "string"
-            },
-            "validations": {
-              "items": {
-                "type": "object"
-              },
-              "type": "array"
-            }
-          },
-          "required": [
-            "type",
-            "required"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "configuration"
-      ],
-      "type": "object"
-    },
-    "CommonConnectionAttributes": {
-      "allOf": [
-        {
-          "$ref": "#/components/schemas/ConnectionAttributes"
-        },
-        {
-          "$ref": "#/components/schemas/ConfigurationAttributes"
-        }
-      ]
-    },
-    "BitbucketServer": {
-      "properties": {
-        "bitbucket": {
-          "example": "bitbucket.yourdomain.com",
-          "type": "string"
-        },
-        "bitbucket_password": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "bitbucket_username": {
-          "example": "<username>",
-          "type": "string"
-        },
-        "broker_client_url": {
-          "example": "https://<broker.client.hostname>:<port>",
-          "type": "string"
-        }
-      },
-      "required": [
-        "bitbucket",
-        "bitbucket_password",
-        "bitbucket_username",
-        "broker_client_url"
-      ],
-      "type": "object"
-    },
-    "BrokerContextResource": {
-      "additionalProperties": true,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/BrokerContextAttributes"
-        },
-        "id": {
-          "format": "uuid",
-          "readOnly": true,
-          "type": "string"
-        },
-        "relationships": {
-          "allOf": [
-            {
-              "$ref": "#/components/schemas/ConnectionRelationships__0"
-            },
-            {
-              "$ref": "#/components/schemas/AppliedIntegrationsRelationships"
-            }
-          ]
-        },
-        "type": {
-          "enum": [
-            "broker_context"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "attributes",
-        "id",
-        "type"
-      ],
-      "type": "object"
-    },
-    "BitbucketServerBearerAuth": {
-      "properties": {
-        "bitbucket": {
-          "example": "bitbucket.yourdomain.com",
-          "type": "string"
-        },
-        "bitbucket_pat": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "broker_client_url": {
-          "example": "https://<broker.client.hostname>:<port>",
-          "type": "string"
-        }
-      },
-      "required": [
-        "bitbucket",
-        "bitbucket_pat",
-        "broker_client_url"
-      ],
-      "type": "object"
-    },
-    "Jira": {
-      "properties": {
-        "jira_hostname": {
-          "example": "jira.yourdomain.com",
-          "type": "string"
-        },
-        "jira_password": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "jira_username": {
-          "example": "<jira-username>",
-          "type": "string"
-        }
-      },
-      "required": [
-        "jira_hostname",
-        "jira_password",
-        "jira_username"
-      ],
-      "type": "object"
-    },
-    "ConfigurationResponseAttributes": {
-      "allOf": [
-        {
-          "$ref": "#/components/schemas/GenericConfigurationAttributes"
-        }
-      ]
-    },
-    "BrokerContextAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "context": {
-          "additionalProperties": {
-            "type": "string"
-          },
-          "type": "object"
-        }
-      },
-      "required": [
-        "context"
-      ],
-      "type": "object"
-    },
-    "BrokerConnectionResponseResource": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/CommonConnectionResponseAttributes"
-        },
-        "id": {
-          "format": "uuid",
-          "readOnly": true,
-          "type": "string"
-        },
-        "relationships": {
-          "items": {
-            "$ref": "#/components/schemas/BrokerContextResource"
-          },
-          "type": "array"
-        },
-        "type": {
-          "enum": [
-            "broker_connection"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "attributes",
-        "id",
-        "type"
-      ],
-      "type": "object"
-    },
-    "ArtifactoryAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "artifactory_url": {
-              "format": "uuid",
-              "type": "string"
-            }
-          },
-          "required": [
-            "artifactory_url"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "artifactory"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "ConnectionRelationship": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "properties": {
-            "id": {
-              "description": "Associated item id",
-              "type": "string"
-            },
-            "type": {
-              "description": "Associated item type",
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "type"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
-    },
-    "JiraBearerAuth": {
-      "properties": {
-        "jira_hostname": {
-          "example": "jira.yourdomain.com",
-          "type": "string"
-        },
-        "jira_pat": {
-          "format": "uuid",
-          "type": "string"
-        }
-      },
-      "required": [
-        "jira_hostname",
-        "jira_pat"
-      ],
-      "type": "object"
-    },
-    "AppliedIntegrationsRelationships": {
-      "additionalProperties": true,
-      "properties": {
-        "applied_integrations": {
-          "items": {
-            "$ref": "#/components/schemas/AppliedIntegrationRelationship"
-          },
-          "type": "array"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
-        }
-      },
-      "required": [
-        "applied_integrations"
-      ],
-      "type": "object"
-    },
-    "SonarqubeAttributes": {
-      "properties": {
-        "sonarqube_api_token": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "sonarqube_host_url": {
-          "example": "sonarqube.customer.com",
-          "type": "string"
-        }
-      },
-      "required": [
-        "sonarqube_host_url",
-        "sonarqube_api_token"
-      ],
-      "type": "object"
-    },
-    "GitLabAttributes": {
-      "properties": {
-        "required": {
-          "properties": {
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
-              "type": "string"
-            },
-            "gitlab": {
-              "example": "gitlab.yourdomain.com",
-              "type": "string"
-            },
-            "gitlab_token": {
-              "format": "uuid",
-              "type": "string"
-            }
-          },
-          "required": [
-            "broker_client_url",
-            "gitlab",
-            "gitlab_token"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "gitlab"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
-    "AppRiskAttributes": {
-      "properties": {
-        "required": {
-          "oneOf": [
-            {
-              "$ref": "#/components/schemas/CheckmarxAttributes"
-            },
-            {
-              "$ref": "#/components/schemas/SonarqubeAttributes"
-            },
-            {
-              "$ref": "#/components/schemas/AllAppRiskAttributes"
-            }
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "apprisk"
-          ],
-          "type": "string"
-        },
-        "validations": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "type",
-        "required"
-      ],
-      "type": "object"
-    },
     "GitHubEnterpriseAttributes": {
       "properties": {
         "required": {
@@ -2687,7 +2585,17 @@
       ],
       "type": "object"
     },
-    "EcrAttributes": {
+    "CommonConnectionResponseAttributes": {
+      "allOf": [
+        {
+          "$ref": "#/components/schemas/ConnectionAttributes"
+        },
+        {
+          "$ref": "#/components/schemas/ConfigurationResponseAttributes"
+        }
+      ]
+    },
+    "GitHubAttributes": {
       "properties": {
         "required": {
           "properties": {
@@ -2695,36 +2603,20 @@
               "example": "https://<broker.client.hostname>:<port>",
               "type": "string"
             },
-            "cr_agent_url": {
-              "example": "https://<agent-host>:<agent-port>",
-              "type": "string"
-            },
-            "cr_base": {
-              "type": "string"
-            },
-            "cr_external_id": {
-              "type": "string"
-            },
-            "cr_region": {
-              "type": "string"
-            },
-            "cr_role_arn": {
+            "github_token": {
+              "format": "uuid",
               "type": "string"
             }
           },
           "required": [
             "broker_client_url",
-            "cr_agent_url",
-            "cr_base",
-            "cr_role_arn",
-            "cr_region",
-            "cr_external_id"
+            "github_token"
           ],
           "type": "object"
         },
         "type": {
           "enum": [
-            "ecr"
+            "github"
           ],
           "type": "string"
         },
@@ -2741,38 +2633,146 @@
       ],
       "type": "object"
     },
-    "AzureReposAttributes": {
+    "JiraAttributes": {
+      "properties": {
+        "required": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/Jira"
+            },
+            {
+              "$ref": "#/components/schemas/JiraBearerAuth"
+            }
+          ]
+        },
+        "type": {
+          "enum": [
+            "jira"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "ConnectionRelationships__0": {
+      "additionalProperties": true,
+      "properties": {
+        "broker_connections": {
+          "items": {
+            "$ref": "#/components/schemas/ConnectionRelationship"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "broker_connections"
+      ],
+      "type": "object"
+    },
+    "CheckmarxAttributes": {
+      "properties": {
+        "checkmarx": {
+          "example": "checkmarx.customer.com",
+          "type": "string"
+        },
+        "checkmarx_password": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "checkmarx_username": {
+          "example": "<username>",
+          "type": "string"
+        }
+      },
+      "required": [
+        "checkmarx",
+        "checkmarx_password",
+        "checkmarx_username"
+      ],
+      "type": "object"
+    },
+    "GcrAttributes": {
       "properties": {
         "required": {
           "properties": {
-            "azure_repos_host": {
-              "example": "my-azure-repos-host/tfs",
+            "broker_client_url": {
+              "example": "https://<broker.client.hostname>:<port>",
               "type": "string"
             },
-            "azure_repos_org": {
-              "example": "<username>:<password>@<yourdomain.artifactory.com>/artifactory",
+            "cr_agent_url": {
+              "example": "https://<agent-host>:<agent-port>",
               "type": "string"
             },
-            "azure_repos_token": {
+            "cr_base": {
+              "type": "string"
+            },
+            "cr_password": {
               "format": "uuid",
               "type": "string"
             },
-            "broker_client_url": {
-              "example": "https://<broker.client.hostname>:<port>",
+            "cr_username": {
               "type": "string"
             }
           },
           "required": [
-            "azure_repos_host",
-            "azure_repos_org",
-            "azure_repos_token",
-            "broker_client_url"
+            "cr_base",
+            "cr_username",
+            "cr_password",
+            "broker_client_url",
+            "cr_agent_url"
           ],
           "type": "object"
         },
         "type": {
           "enum": [
-            "azure-repos"
+            "gcr"
+          ],
+          "type": "string"
+        },
+        "validations": {
+          "items": {
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "required"
+      ],
+      "type": "object"
+    },
+    "BitbucketServerAttributes": {
+      "properties": {
+        "required": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/BitbucketServer"
+            },
+            {
+              "$ref": "#/components/schemas/BitbucketServerBearerAuth"
+            }
+          ]
+        },
+        "type": {
+          "enum": [
+            "bitbucket-server"
           ],
           "type": "string"
         },
@@ -2793,7 +2793,6 @@
   "referenced_common_schemas": [
     "PaginatedLinks",
     "LinkProperty",
-    "Meta",
     "JsonApi"
   ]
 }

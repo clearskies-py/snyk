@@ -1,7 +1,7 @@
 {
   "tag": "BrokerDeployments",
   "endpoint_count": 2,
-  "schema_count": 4,
+  "schema_count": 6,
   "endpoints_summary": [
     {
       "method": "POST",
@@ -2145,17 +2145,11 @@
     }
   ],
   "schemas": {
-    "GetBrokerDeploymentResponse": {
+    "CreateBrokerDeploymentRequest": {
       "additionalProperties": false,
       "properties": {
         "data": {
-          "$ref": "#/components/schemas/BrokerDeploymentResource"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
+          "$ref": "#/components/schemas/BrokerDeploymentCreateResource"
         }
       },
       "required": [
@@ -2163,34 +2157,28 @@
       ],
       "type": "object"
     },
-    "CreateBrokerDeploymentRequest": {
+    "BrokerDeploymentCreateAttributes": {
       "additionalProperties": false,
       "properties": {
-        "data": {
-          "properties": {
-            "attributes": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/BrokerDeploymentAttributes"
-                }
-              ]
-            },
-            "type": {
-              "enum": [
-                "broker_deployment"
-              ],
-              "type": "string"
-            }
-          },
-          "required": [
-            "attributes",
-            "type"
-          ],
+        "broker_app_installed_in_org_id": {
+          "description": "Org Id in which the Broker App is installed",
+          "format": "uuid",
+          "type": "string"
+        },
+        "install_id": {
+          "description": "Associated Install ID",
+          "format": "uuid",
+          "readOnly": true,
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Metadata information such user/org id or metrics",
           "type": "object"
         }
       },
       "required": [
-        "data"
+        "broker_app_installed_in_org_id",
+        "metadata"
       ],
       "type": "object"
     },
@@ -2219,12 +2207,55 @@
       ],
       "type": "object"
     },
+    "GetBrokerDeploymentResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/BrokerDeploymentResource"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "BrokerDeploymentCreateResource": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/BrokerDeploymentCreateAttributes"
+        },
+        "type": {
+          "enum": [
+            "broker_deployment"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "attributes",
+        "type"
+      ],
+      "type": "object"
+    },
     "BrokerDeploymentAttributes": {
       "additionalProperties": false,
       "properties": {
         "broker_app_installed_in_org_id": {
           "description": "Org Id in which the Broker App is installed",
           "format": "uuid",
+          "type": "string"
+        },
+        "created_at": {
+          "description": "Deployment creation time in UTC",
+          "format": "date-time",
+          "readOnly": true,
           "type": "string"
         },
         "install_id": {
@@ -2236,19 +2267,26 @@
         "metadata": {
           "description": "Metadata information such user/org id or metrics",
           "type": "object"
+        },
+        "updated_at": {
+          "description": "Deployment last update time in UTC",
+          "format": "date-time",
+          "readOnly": true,
+          "type": "string"
         }
       },
       "required": [
         "broker_app_installed_in_org_id",
-        "metadata"
+        "metadata",
+        "created_at",
+        "updated_at"
       ],
       "type": "object"
     }
   },
   "referenced_common_schemas": [
     "PaginatedLinks",
-    "JsonApi",
-    "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "JsonApi"
   ]
 }

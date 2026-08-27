@@ -2138,158 +2138,56 @@
     }
   ],
   "schemas": {
-    "ClientId": {
-      "description": "The OAuth2 client id for the app installation. Only provided for installations of non-interactive Snyk Apps.",
-      "example": "941b423a-e0a0-4a33-a7ca-dd9e9e6bd8cf",
-      "format": "uuid",
-      "type": "string"
-    },
-    "RedirectUris": {
-      "description": "List of allowed redirect URIs (OAuth callbacks) where Snyk will redirect users after authorization.\n\nThese are URLs controlled by your application that Snyk will send the user to after they authorize your app. \nThe redirect URI used in your authorization request must exactly match one of the URIs registered here.\n\n**Important:** The redirect URI in your OAuth authorization request must be an exact match (including protocol, domain, path, and query parameters) to one of the URIs specified in this list.\n\n**Example valid redirect URI:** `https://example.com/callback` or `https://myapp.example.com/auth/snyk/callback`\n\nFor more information on the complete OAuth workflow, see the [Snyk Apps API tutorial](https://docs.snyk.io/snyk-api/using-specific-snyk-apis/snyk-apps-apis/tutorial-create-a-snyk-app).\n",
-      "example": [
-        "https://example.com/callback",
-        "https://example.com/auth/snyk/callback"
-      ],
-      "items": {
-        "format": "uri",
-        "type": "string"
-      },
-      "minItems": 1,
-      "type": "array"
-    },
-    "AppBot": {
+    "SelfLink": {
       "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "type": "object"
-        },
-        "id": {
-          "$ref": "#/components/schemas/Id"
-        },
-        "links": {
-          "$ref": "#/components/schemas/Links"
-        },
-        "relationships": {
-          "properties": {
-            "app": {
-              "properties": {
-                "data": {
-                  "$ref": "#/components/schemas/PublicApp"
-                }
-              },
-              "type": "object"
-            }
-          },
-          "required": [
-            "app"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "$ref": "#/components/schemas/Type"
-        }
+      "example": {
+        "self": "https://example.com/api/this_resource"
       },
-      "required": [
-        "type",
-        "id",
-        "relationships"
-      ],
-      "type": "object"
-    },
-    "AppPatchRequest": {
       "properties": {
-        "data": {
-          "properties": {
-            "attributes": {
-              "additionalProperties": false,
-              "minProperties": 1,
-              "properties": {
-                "access_token_ttl_seconds": {
-                  "$ref": "#/components/schemas/AccessTokenTtlSeconds"
-                },
-                "name": {
-                  "$ref": "#/components/schemas/AppName"
-                },
-                "redirect_uris": {
-                  "$ref": "#/components/schemas/RedirectUris"
-                }
-              },
-              "type": "object"
-            },
-            "type": {
-              "enum": [
-                "app"
-              ],
+        "self": {
+          "example": "https://example.com/api/resource",
+          "oneOf": [
+            {
+              "description": "A string containing the link\u2019s URL.",
+              "example": "https://example.com/api/resource",
               "type": "string"
+            },
+            {
+              "additionalProperties": false,
+              "example": {
+                "href": "https://example.com/api/resource"
+              },
+              "properties": {
+                "href": {
+                  "description": "A string containing the link\u2019s URL.",
+                  "example": "https://example.com/api/resource",
+                  "type": "string"
+                },
+                "meta": {
+                  "additionalProperties": true,
+                  "description": "Free-form object that may contain non-standard information.",
+                  "example": {
+                    "key1": "value1",
+                    "key2": {
+                      "sub_key": "sub_value"
+                    },
+                    "key3": [
+                      "array_value1",
+                      "array_value2"
+                    ]
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "href"
+              ],
+              "type": "object"
             }
-          },
-          "type": "object"
+          ]
         }
       },
-      "required": [
-        "data"
-      ],
       "type": "object"
-    },
-    "ClientSecret": {
-      "description": "The oauth2 client secret for the app. This is the only time this secret will be returned, store it securely and don\u2019t lose it.",
-      "example": "snyk_cs_ctZW0JsWG^Bm`*oPo=mnV26qU_6pjxht<]S_v1",
-      "minLength": 1,
-      "type": "string"
-    },
-    "AppName": {
-      "description": "New name of the app to display to users during authorization flow.",
-      "example": "My App",
-      "minLength": 1,
-      "type": "string"
-    },
-    "PublicAppData": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/PublicAppAttributes"
-        },
-        "id": {
-          "$ref": "#/components/schemas/Uuid"
-        },
-        "links": {
-          "$ref": "#/components/schemas/Links"
-        },
-        "type": {
-          "$ref": "#/components/schemas/Type"
-        }
-      },
-      "required": [
-        "type",
-        "id"
-      ],
-      "type": "object"
-    },
-    "AppDataWithSecret20220311": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/AppResourceAttributesWithSecret20220311"
-        },
-        "id": {
-          "$ref": "#/components/schemas/Id"
-        },
-        "type": {
-          "$ref": "#/components/schemas/Type"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "ClientId__1": {
-      "description": "The OAuth2 client id for the app when available. If an app can have multiple OAuth2 clients then this field with return all zeros. This field is not present for such apps in future versions of this api.",
-      "example": "941b423a-e0a0-4a33-a7ca-dd9e9e6bd8cf",
-      "format": "uuid",
-      "type": "string"
     },
     "AppPostRequest20220311": {
       "additionalProperties": false,
@@ -2317,145 +2215,56 @@
       ],
       "type": "object"
     },
-    "IsConfidential20220311": {
-      "description": "A boolean to indicate if an app is confidential or not as per the OAuth2 RFC.",
-      "example": true,
-      "type": "boolean"
-    },
-    "GrantType20220311": {
-      "description": "An authorization grant is a credential representing the resource owner's authorization (to access its protected resources) used by the client to obtain an access token.",
-      "enum": [
-        "authorization_code",
-        "client_credentials"
-      ],
-      "type": "string"
-    },
-    "AppData": {
+    "AppResourceAttributesWithSecret20220311": {
       "additionalProperties": false,
       "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/AppResourceAttributes"
+        "access_token_ttl_seconds": {
+          "$ref": "#/components/schemas/AccessTokenTtlSeconds"
         },
-        "id": {
-          "$ref": "#/components/schemas/Id"
+        "client_id": {
+          "$ref": "#/components/schemas/ClientId__1"
         },
-        "type": {
-          "$ref": "#/components/schemas/Type"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "AppInstallDataWithSecret": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "properties": {
-            "client_id": {
-              "$ref": "#/components/schemas/ClientId"
-            },
-            "client_secret": {
-              "$ref": "#/components/schemas/ClientSecret20240523"
-            },
-            "installed_at": {
-              "$ref": "#/components/schemas/InstalledAt"
-            }
-          },
-          "required": [
-            "client_id",
-            "client_secret"
-          ],
-          "type": "object"
+        "client_secret": {
+          "$ref": "#/components/schemas/ClientSecret"
         },
-        "id": {
+        "context": {
+          "$ref": "#/components/schemas/Context"
+        },
+        "grant_type": {
+          "$ref": "#/components/schemas/GrantType20220311"
+        },
+        "is_confidential": {
+          "$ref": "#/components/schemas/IsConfidential20220311"
+        },
+        "is_public": {
+          "$ref": "#/components/schemas/IsPublic"
+        },
+        "name": {
+          "$ref": "#/components/schemas/AppName"
+        },
+        "org_public_id": {
           "$ref": "#/components/schemas/Uuid"
         },
-        "links": {
-          "$ref": "#/components/schemas/Links"
+        "redirect_uris": {
+          "$ref": "#/components/schemas/RedirectUris"
         },
-        "relationships": {
-          "properties": {
-            "app": {
-              "properties": {
-                "data": {
-                  "$ref": "#/components/schemas/PublicAppData"
-                }
-              },
-              "type": "object"
-            }
-          },
-          "type": "object"
-        },
-        "type": {
-          "$ref": "#/components/schemas/Type"
+        "scopes": {
+          "$ref": "#/components/schemas/Scopes"
         }
       },
       "required": [
-        "type",
-        "id",
-        "attributes"
+        "client_id",
+        "name",
+        "redirect_uris",
+        "scopes",
+        "access_token_ttl_seconds",
+        "is_public",
+        "is_confidential",
+        "client_secret",
+        "context",
+        "grant_type"
       ],
       "type": "object"
-    },
-    "AppInstallData": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "properties": {
-            "client_id": {
-              "$ref": "#/components/schemas/ClientId"
-            },
-            "installed_at": {
-              "$ref": "#/components/schemas/InstalledAt"
-            }
-          },
-          "type": "object"
-        },
-        "id": {
-          "$ref": "#/components/schemas/Uuid"
-        },
-        "links": {
-          "$ref": "#/components/schemas/Links"
-        },
-        "relationships": {
-          "properties": {
-            "app": {
-              "properties": {
-                "data": {
-                  "$ref": "#/components/schemas/PublicAppData"
-                }
-              },
-              "type": "object"
-            }
-          },
-          "type": "object"
-        },
-        "type": {
-          "$ref": "#/components/schemas/Type"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "RedirectUrisNoMin": {
-      "description": "List of allowed redirect URIs (OAuth callbacks) where Snyk will redirect users after authorization.\n\nThese are URLs controlled by your application that Snyk will send the user to after they authorize your app. \nThe redirect URI used in your authorization request must exactly match one of the URIs registered here.\n\n**Important:** The redirect URI in your OAuth authorization request must be an exact match (including protocol, domain, path, and query parameters) to one of the URIs specified in this list.\n\n**Example valid redirect URI:** `https://example.com/callback` or `https://myapp.example.com/auth/snyk/callback`\n\nFor more information on the complete OAuth workflow, see the [Snyk Apps API tutorial](https://docs.snyk.io/snyk-api/using-specific-snyk-apis/snyk-apps-apis/tutorial-create-a-snyk-app).\n",
-      "example": [
-        "https://example.com/callback",
-        "https://example.com/auth/snyk/callback"
-      ],
-      "items": {
-        "format": "uri",
-        "type": "string"
-      },
-      "type": "array"
     },
     "AppResourceAttributes20220311": {
       "additionalProperties": false,
@@ -2504,14 +2313,20 @@
       ],
       "type": "object"
     },
-    "PublicApp": {
+    "ClientId": {
+      "description": "The OAuth2 client id for the app installation. Only provided for installations of non-interactive Snyk Apps.",
+      "example": "941b423a-e0a0-4a33-a7ca-dd9e9e6bd8cf",
+      "format": "uuid",
+      "type": "string"
+    },
+    "PublicAppData": {
       "additionalProperties": false,
       "properties": {
         "attributes": {
-          "$ref": "#/components/schemas/PublicAppAttributes__0"
+          "$ref": "#/components/schemas/PublicAppAttributes"
         },
         "id": {
-          "$ref": "#/components/schemas/Id"
+          "$ref": "#/components/schemas/Uuid"
         },
         "links": {
           "$ref": "#/components/schemas/Links"
@@ -2526,17 +2341,13 @@
       ],
       "type": "object"
     },
-    "SelfLink": {
-      "additionalProperties": false,
-      "example": {
-        "self": "https://example.com/api/this_resource"
-      },
-      "properties": {
-        "self": {
-          "$ref": "#/components/schemas/LinkProperty"
-        }
-      },
-      "type": "object"
+    "GrantType": {
+      "description": "An authorization grant is a credential representing the resource owner's authorization (to access its protected resources) used by the client to obtain an access token. The grant type represents the way your app will get the access token.",
+      "enum": [
+        "authorization_code",
+        "client_credentials"
+      ],
+      "type": "string"
     },
     "AppInstallWithClient": {
       "additionalProperties": false,
@@ -2601,57 +2412,6 @@
       ],
       "type": "object"
     },
-    "AppResourceAttributesWithSecret20220311": {
-      "additionalProperties": false,
-      "properties": {
-        "access_token_ttl_seconds": {
-          "$ref": "#/components/schemas/AccessTokenTtlSeconds"
-        },
-        "client_id": {
-          "$ref": "#/components/schemas/ClientId__1"
-        },
-        "client_secret": {
-          "$ref": "#/components/schemas/ClientSecret"
-        },
-        "context": {
-          "$ref": "#/components/schemas/Context"
-        },
-        "grant_type": {
-          "$ref": "#/components/schemas/GrantType20220311"
-        },
-        "is_confidential": {
-          "$ref": "#/components/schemas/IsConfidential20220311"
-        },
-        "is_public": {
-          "$ref": "#/components/schemas/IsPublic"
-        },
-        "name": {
-          "$ref": "#/components/schemas/AppName"
-        },
-        "org_public_id": {
-          "$ref": "#/components/schemas/Uuid"
-        },
-        "redirect_uris": {
-          "$ref": "#/components/schemas/RedirectUris"
-        },
-        "scopes": {
-          "$ref": "#/components/schemas/Scopes"
-        }
-      },
-      "required": [
-        "client_id",
-        "name",
-        "redirect_uris",
-        "scopes",
-        "access_token_ttl_seconds",
-        "is_public",
-        "is_confidential",
-        "client_secret",
-        "context",
-        "grant_type"
-      ],
-      "type": "object"
-    },
     "PublicAppAttributes__0": {
       "properties": {
         "client_id": {
@@ -2673,172 +2433,49 @@
       ],
       "type": "object"
     },
-    "Type": {
-      "type": "string"
-    },
-    "GrantType": {
-      "description": "An authorization grant is a credential representing the resource owner's authorization (to access its protected resources) used by the client to obtain an access token. The grant type represents the way your app will get the access token.",
-      "enum": [
-        "authorization_code",
-        "client_credentials"
-      ],
-      "type": "string"
-    },
-    "AppPostResponse20220311": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "$ref": "#/components/schemas/AppDataWithSecret20220311"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/SelfLink"
-        }
-      },
-      "type": "object"
-    },
-    "Scopes": {
-      "description": "The scopes this app is allowed to request during authorization.",
-      "items": {
-        "minLength": 1,
-        "type": "string"
-      },
-      "minItems": 1,
-      "type": "array"
-    },
-    "AppDataWithSecret": {
+    "AppInstallData": {
       "additionalProperties": false,
       "properties": {
         "attributes": {
-          "$ref": "#/components/schemas/AppResourceAttributesWithSecret"
+          "properties": {
+            "client_id": {
+              "$ref": "#/components/schemas/ClientId"
+            },
+            "installed_at": {
+              "$ref": "#/components/schemas/InstalledAt"
+            }
+          },
+          "type": "object"
         },
         "id": {
-          "$ref": "#/components/schemas/Id"
-        },
-        "type": {
-          "$ref": "#/components/schemas/Type"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "Context": {
-      "description": "Allow installing the app to a org/group or to a user, default tenant.",
-      "enum": [
-        "tenant",
-        "user"
-      ],
-      "type": "string"
-    },
-    "AppPostResponse": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "$ref": "#/components/schemas/AppDataWithSecret"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/SelfLink"
-        }
-      },
-      "type": "object"
-    },
-    "InstalledAt": {
-      "description": "Timestamp at which this app was first installed at.",
-      "example": "2024-04-30T16:07:46.230044Z",
-      "format": "date-time",
-      "type": "string"
-    },
-    "AppData20220311": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/AppResourceAttributes20220311"
-        },
-        "id": {
-          "$ref": "#/components/schemas/Id"
-        },
-        "type": {
-          "$ref": "#/components/schemas/Type"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "Id": {
-      "format": "uuid",
-      "type": "string"
-    },
-    "AppResourceAttributesWithSecret": {
-      "additionalProperties": false,
-      "properties": {
-        "access_token_ttl_seconds": {
-          "$ref": "#/components/schemas/AccessTokenTtlSeconds"
-        },
-        "client_id": {
-          "$ref": "#/components/schemas/ClientId__0"
-        },
-        "client_secret": {
-          "$ref": "#/components/schemas/ClientSecret"
-        },
-        "context": {
-          "$ref": "#/components/schemas/Context__0"
-        },
-        "grant_type": {
-          "$ref": "#/components/schemas/GrantType"
-        },
-        "is_confidential": {
-          "$ref": "#/components/schemas/IsConfidential"
-        },
-        "is_public": {
-          "$ref": "#/components/schemas/IsPublic"
-        },
-        "name": {
-          "$ref": "#/components/schemas/AppName"
-        },
-        "org_public_id": {
           "$ref": "#/components/schemas/Uuid"
         },
-        "redirect_uris": {
-          "$ref": "#/components/schemas/RedirectUris"
+        "links": {
+          "$ref": "#/components/schemas/Links"
         },
-        "scopes": {
-          "$ref": "#/components/schemas/Scopes"
+        "relationships": {
+          "properties": {
+            "app": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/PublicAppData"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
         }
       },
       "required": [
-        "client_id",
-        "name",
-        "redirect_uris",
-        "scopes",
-        "access_token_ttl_seconds",
-        "is_public",
-        "is_confidential",
-        "client_secret",
-        "context",
-        "grant_type"
+        "type",
+        "id",
+        "attributes"
       ],
       "type": "object"
-    },
-    "Context__0": {
-      "description": "Allow installing the app to at  org/group level or user level. Defaults to tenant.",
-      "enum": [
-        "tenant",
-        "user"
-      ],
-      "type": "string"
     },
     "AppResourceAttributes": {
       "additionalProperties": false,
@@ -2885,6 +2522,41 @@
       ],
       "type": "object"
     },
+    "ClientId__1": {
+      "description": "The OAuth2 client id for the app when available. If an app can have multiple OAuth2 clients then this field with return all zeros. This field is not present for such apps in future versions of this api.",
+      "example": "941b423a-e0a0-4a33-a7ca-dd9e9e6bd8cf",
+      "format": "uuid",
+      "type": "string"
+    },
+    "Scopes": {
+      "description": "The scopes this app is allowed to request during authorization.",
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "Context": {
+      "description": "Allow installing the app to a org/group or to a user, default tenant.",
+      "enum": [
+        "tenant",
+        "user"
+      ],
+      "type": "string"
+    },
+    "RedirectUrisNoMin": {
+      "description": "List of allowed redirect URIs (OAuth callbacks) where Snyk will redirect users after authorization.\n\nThese are URLs controlled by your application that Snyk will send the user to after they authorize your app. \nThe redirect URI used in your authorization request must exactly match one of the URIs registered here.\n\n**Important:** The redirect URI in your OAuth authorization request must be an exact match (including protocol, domain, path, and query parameters) to one of the URIs specified in this list.\n\n**Example valid redirect URI:** `https://example.com/callback` or `https://myapp.example.com/auth/snyk/callback`\n\nFor more information on the complete OAuth workflow, see the [Snyk Apps API tutorial](https://docs.snyk.io/snyk-api/using-specific-snyk-apis/snyk-apps-apis/tutorial-create-a-snyk-app).\n",
+      "example": [
+        "https://example.com/callback",
+        "https://example.com/auth/snyk/callback"
+      ],
+      "items": {
+        "format": "uri",
+        "type": "string"
+      },
+      "type": "array"
+    },
     "PublicAppAttributes": {
       "additionalProperties": false,
       "properties": {
@@ -2907,6 +2579,45 @@
       ],
       "type": "object"
     },
+    "AppPatchRequest": {
+      "properties": {
+        "data": {
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "minProperties": 1,
+              "properties": {
+                "access_token_ttl_seconds": {
+                  "$ref": "#/components/schemas/AccessTokenTtlSeconds"
+                },
+                "name": {
+                  "$ref": "#/components/schemas/AppName"
+                },
+                "redirect_uris": {
+                  "$ref": "#/components/schemas/RedirectUris"
+                }
+              },
+              "type": "object"
+            },
+            "type": {
+              "enum": [
+                "app"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "Id": {
+      "format": "uuid",
+      "type": "string"
+    },
     "AccessTokenTtlSeconds": {
       "description": "The access token time to live for your app, in seconds. It only affects the newly generated access tokens, existing access token will  continue to have their previous time to live as expiration.",
       "example": 3600,
@@ -2914,10 +2625,135 @@
       "minimum": 3600,
       "type": "number"
     },
-    "IsPublic": {
-      "description": "A boolean to indicate if an app is publicly available or not.",
-      "example": false,
-      "type": "boolean"
+    "AppData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AppResourceAttributes"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "ClientSecret20240523": {
+      "description": "The OAuth2 client secret for the app. This is the only time this secret will be returned, store it securely and don\u2019t lose it. Only provided for installations of non-interactive Snyk Apps.",
+      "example": "snyk_cs_ctZW0JsWG^Bm`*oPo=mnV26qU_6pjxht<]S_v1",
+      "minLength": 1,
+      "type": "string"
+    },
+    "AppPostResponse20220311": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/AppDataWithSecret20220311"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/SelfLink"
+        }
+      },
+      "type": "object"
+    },
+    "Type": {
+      "type": "string"
+    },
+    "AppData20220311": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AppResourceAttributes20220311"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "AppPostResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/AppDataWithSecret"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/SelfLink"
+        }
+      },
+      "type": "object"
+    },
+    "AppInstallDataWithSecret": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "properties": {
+            "client_id": {
+              "$ref": "#/components/schemas/ClientId"
+            },
+            "client_secret": {
+              "$ref": "#/components/schemas/ClientSecret20240523"
+            },
+            "installed_at": {
+              "$ref": "#/components/schemas/InstalledAt"
+            }
+          },
+          "required": [
+            "client_id",
+            "client_secret"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "links": {
+          "$ref": "#/components/schemas/Links"
+        },
+        "relationships": {
+          "properties": {
+            "app": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/PublicAppData"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
     },
     "AppPostRequest": {
       "properties": {
@@ -2970,11 +2806,162 @@
       ],
       "type": "object"
     },
-    "ClientSecret20240523": {
-      "description": "The OAuth2 client secret for the app. This is the only time this secret will be returned, store it securely and don\u2019t lose it. Only provided for installations of non-interactive Snyk Apps.",
+    "AppDataWithSecret20220311": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AppResourceAttributesWithSecret20220311"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "InstalledAt": {
+      "description": "Timestamp at which this app was first installed at.",
+      "example": "2024-04-30T16:07:46.230044Z",
+      "format": "date-time",
+      "type": "string"
+    },
+    "IsConfidential20220311": {
+      "description": "A boolean to indicate if an app is confidential or not as per the OAuth2 RFC.",
+      "example": true,
+      "type": "boolean"
+    },
+    "ClientSecret": {
+      "description": "The oauth2 client secret for the app. This is the only time this secret will be returned, store it securely and don\u2019t lose it.",
       "example": "snyk_cs_ctZW0JsWG^Bm`*oPo=mnV26qU_6pjxht<]S_v1",
       "minLength": 1,
       "type": "string"
+    },
+    "AppBot": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "links": {
+          "$ref": "#/components/schemas/Links"
+        },
+        "relationships": {
+          "properties": {
+            "app": {
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/PublicApp"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "required": [
+            "app"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "AppResourceAttributesWithSecret": {
+      "additionalProperties": false,
+      "properties": {
+        "access_token_ttl_seconds": {
+          "$ref": "#/components/schemas/AccessTokenTtlSeconds"
+        },
+        "client_id": {
+          "$ref": "#/components/schemas/ClientId__0"
+        },
+        "client_secret": {
+          "$ref": "#/components/schemas/ClientSecret"
+        },
+        "context": {
+          "$ref": "#/components/schemas/Context__0"
+        },
+        "grant_type": {
+          "$ref": "#/components/schemas/GrantType"
+        },
+        "is_confidential": {
+          "$ref": "#/components/schemas/IsConfidential"
+        },
+        "is_public": {
+          "$ref": "#/components/schemas/IsPublic"
+        },
+        "name": {
+          "$ref": "#/components/schemas/AppName"
+        },
+        "org_public_id": {
+          "$ref": "#/components/schemas/Uuid"
+        },
+        "redirect_uris": {
+          "$ref": "#/components/schemas/RedirectUris"
+        },
+        "scopes": {
+          "$ref": "#/components/schemas/Scopes"
+        }
+      },
+      "required": [
+        "client_id",
+        "name",
+        "redirect_uris",
+        "scopes",
+        "access_token_ttl_seconds",
+        "is_public",
+        "is_confidential",
+        "client_secret",
+        "context",
+        "grant_type"
+      ],
+      "type": "object"
+    },
+    "IsConfidential": {
+      "description": "A boolean to indicate if an app is confidential or not as per the OAuth2 RFC. Confidential apps can securely store secrets. Examples of non-confidential apps are full web-based or CLIs.",
+      "example": true,
+      "type": "boolean"
+    },
+    "IsPublic": {
+      "description": "A boolean to indicate if an app is publicly available or not.",
+      "example": false,
+      "type": "boolean"
+    },
+    "AppDataWithSecret": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AppResourceAttributesWithSecret"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
     },
     "ClientId__0": {
       "description": "The oauth2 client id for the app.",
@@ -2982,18 +2969,69 @@
       "format": "uuid",
       "type": "string"
     },
-    "IsConfidential": {
-      "description": "A boolean to indicate if an app is confidential or not as per the OAuth2 RFC. Confidential apps can securely store secrets. Examples of non-confidential apps are full web-based or CLIs.",
-      "example": true,
-      "type": "boolean"
+    "RedirectUris": {
+      "description": "List of allowed redirect URIs (OAuth callbacks) where Snyk will redirect users after authorization.\n\nThese are URLs controlled by your application that Snyk will send the user to after they authorize your app. \nThe redirect URI used in your authorization request must exactly match one of the URIs registered here.\n\n**Important:** The redirect URI in your OAuth authorization request must be an exact match (including protocol, domain, path, and query parameters) to one of the URIs specified in this list.\n\n**Example valid redirect URI:** `https://example.com/callback` or `https://myapp.example.com/auth/snyk/callback`\n\nFor more information on the complete OAuth workflow, see the [Snyk Apps API tutorial](https://docs.snyk.io/snyk-api/using-specific-snyk-apis/snyk-apps-apis/tutorial-create-a-snyk-app).\n",
+      "example": [
+        "https://example.com/callback",
+        "https://example.com/auth/snyk/callback"
+      ],
+      "items": {
+        "format": "uri",
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "GrantType20220311": {
+      "description": "An authorization grant is a credential representing the resource owner's authorization (to access its protected resources) used by the client to obtain an access token.",
+      "enum": [
+        "authorization_code",
+        "client_credentials"
+      ],
+      "type": "string"
+    },
+    "PublicApp": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/PublicAppAttributes__0"
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "links": {
+          "$ref": "#/components/schemas/Links"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Type"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "type": "object"
+    },
+    "AppName": {
+      "description": "New name of the app to display to users during authorization flow.",
+      "example": "My App",
+      "minLength": 1,
+      "type": "string"
+    },
+    "Context__0": {
+      "description": "Allow installing the app to at  org/group level or user level. Defaults to tenant.",
+      "enum": [
+        "tenant",
+        "user"
+      ],
+      "type": "string"
     }
   },
   "referenced_common_schemas": [
-    "Uuid",
-    "JsonApi",
-    "Meta",
     "LinkProperty",
+    "JsonApi",
+    "Links",
     "PaginatedLinks",
-    "Links"
+    "Uuid"
   ]
 }

@@ -314,6 +314,45 @@
     }
   ],
   "schemas": {
+    "Principal20240422": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/User20240422"
+            },
+            {
+              "$ref": "#/components/schemas/ServiceAccount20240422"
+            },
+            {
+              "$ref": "#/components/schemas/AppInstance"
+            }
+          ]
+        },
+        "id": {
+          "description": "The Snyk ID corresponding to this user, service account or app",
+          "example": "55a348e2-c3ad-4bbc-b40e-9b232d1f4121",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type.",
+          "enum": [
+            "user",
+            "service_account",
+            "app_instance"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
     "UserPatchRequestBody": {
       "additionalProperties": false,
       "properties": {
@@ -355,79 +394,22 @@
       ],
       "type": "object"
     },
-    "Principal20240422": {
+    "AppInstance": {
       "additionalProperties": false,
       "properties": {
-        "attributes": {
-          "anyOf": [
-            {
-              "$ref": "#/components/schemas/User20240422"
-            },
-            {
-              "$ref": "#/components/schemas/ServiceAccount20240422"
-            },
-            {
-              "$ref": "#/components/schemas/AppInstance"
-            }
-          ]
-        },
-        "id": {
-          "description": "The Snyk ID corresponding to this user, service account or app",
-          "example": "55a348e2-c3ad-4bbc-b40e-9b232d1f4121",
-          "format": "uuid",
-          "type": "string"
-        },
-        "type": {
-          "description": "Content type.",
-          "enum": [
-            "user",
-            "service_account",
-            "app_instance"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "User20240422": {
-      "additionalProperties": false,
-      "properties": {
-        "avatar_url": {
-          "description": "The avatar url of the user.",
-          "example": "https://snyk.io/avatar.png",
-          "format": "uri",
-          "type": "string"
-        },
         "default_org_context": {
-          "description": "ID of the default org for the user.",
+          "description": "ID of the default org for the service account.",
           "format": "uuid",
-          "type": "string"
-        },
-        "email": {
-          "description": "The email of the user.",
-          "example": "user@someorg.com",
           "type": "string"
         },
         "name": {
-          "description": "The name of the user.",
+          "description": "The name of the service account.",
           "example": "user",
-          "type": "string"
-        },
-        "username": {
-          "description": "The username of the user.",
-          "example": "username",
           "type": "string"
         }
       },
       "required": [
-        "name",
-        "email",
-        "avatar_url"
+        "name"
       ],
       "type": "object"
     },
@@ -499,26 +481,44 @@
       ],
       "type": "object"
     },
-    "ServiceAccount20240422": {
+    "User20240422": {
       "additionalProperties": false,
       "properties": {
+        "avatar_url": {
+          "description": "The avatar url of the user.",
+          "example": "https://snyk.io/avatar.png",
+          "format": "uri",
+          "type": "string"
+        },
         "default_org_context": {
-          "description": "ID of the default org for the service account.",
+          "description": "ID of the default org for the user.",
           "format": "uuid",
           "type": "string"
         },
+        "email": {
+          "description": "The email of the user.",
+          "example": "user@someorg.com",
+          "type": "string"
+        },
         "name": {
-          "description": "The name of the service account.",
+          "description": "The name of the user.",
           "example": "user",
+          "type": "string"
+        },
+        "username": {
+          "description": "The username of the user.",
+          "example": "username",
           "type": "string"
         }
       },
       "required": [
-        "name"
+        "name",
+        "email",
+        "avatar_url"
       ],
       "type": "object"
     },
-    "AppInstance": {
+    "ServiceAccount20240422": {
       "additionalProperties": false,
       "properties": {
         "default_org_context": {
@@ -539,9 +539,8 @@
     }
   },
   "referenced_common_schemas": [
+    "LinkProperty",
     "JsonApi",
-    "Links",
-    "Meta",
-    "LinkProperty"
+    "Links"
   ]
 }

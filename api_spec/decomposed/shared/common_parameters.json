@@ -8,6 +8,96 @@
         "type": "string"
       }
     },
+    "AggregateGroupValues": {
+      "description": "Per-field aggregate function override for meta fields.\nAll fields default to `last` when not specified.\n`max`/`min` compute the SQL MAX/MIN across all assets in the group (scalar fields only).\n`first`/`last` returns the value from the single asset with the earliest/latest\nupdated_at in the group (all field types).\n`sum` computes the total across all assets (numeric fields, issues, labels, tags).\n",
+      "explode": true,
+      "in": "query",
+      "name": "aggregate",
+      "schema": {
+        "properties": {
+          "built_at": {
+            "default": "last",
+            "enum": [
+              "max",
+              "min",
+              "first",
+              "last"
+            ],
+            "type": "string"
+          },
+          "created_at": {
+            "default": "last",
+            "enum": [
+              "max",
+              "min",
+              "first",
+              "last"
+            ],
+            "type": "string"
+          },
+          "issues": {
+            "default": "last",
+            "enum": [
+              "first",
+              "last",
+              "sum"
+            ],
+            "type": "string"
+          },
+          "labels": {
+            "default": "last",
+            "enum": [
+              "first",
+              "last",
+              "sum"
+            ],
+            "type": "string"
+          },
+          "last_seen_at": {
+            "default": "last",
+            "enum": [
+              "max",
+              "min",
+              "first",
+              "last"
+            ],
+            "type": "string"
+          },
+          "risk_score": {
+            "default": "last",
+            "enum": [
+              "max",
+              "min",
+              "first",
+              "last",
+              "sum"
+            ],
+            "type": "string"
+          },
+          "tags": {
+            "default": "last",
+            "enum": [
+              "first",
+              "last",
+              "sum"
+            ],
+            "type": "string"
+          },
+          "updated_at": {
+            "default": "last",
+            "enum": [
+              "max",
+              "min",
+              "first",
+              "last"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "style": "deepObject"
+    },
     "AiBomIdParam": {
       "description": "The ai_bom id",
       "in": "path",
@@ -71,6 +161,15 @@
         "$ref": "#/components/schemas/AssignableByMe"
       }
     },
+    "BestMatch": {
+      "description": "When true, match identifier filters in order `rules`, `cves`, `cwes` and\nreturn lessons from the first non-empty bucket (V1 lookup-for-cta\nbehaviour). `ecosystem` still applies. When false (default), AND all\nidentifier filters. Ignored when `cwes`, `cves`, and `rules` are all\nomitted.\n",
+      "in": "query",
+      "name": "best_match",
+      "schema": {
+        "default": false,
+        "type": "boolean"
+      }
+    },
     "BotId": {
       "description": "Bot ID",
       "in": "path",
@@ -87,6 +186,34 @@
       "schema": {
         "type": "boolean"
       }
+    },
+    "CatalogCves": {
+      "description": "Filter lessons tagged with at least one listed CVE.\nExample: `?cves=CVE-2021-44228` or `?cves=CVE-2021-44228,CVE-2021-45046`.\n",
+      "example": [
+        "CVE-2021-44228",
+        "CVE-2021-45046"
+      ],
+      "explode": false,
+      "in": "query",
+      "name": "cves",
+      "schema": {
+        "$ref": "#/components/schemas/CatalogCves"
+      },
+      "style": "form"
+    },
+    "CatalogCwes": {
+      "description": "Filter lessons tagged with at least one listed CWE.\nExample: `?cwes=CWE-79` or `?cwes=CWE-79,CWE-89`.\n",
+      "example": [
+        "CWE-79",
+        "CWE-89"
+      ],
+      "explode": false,
+      "in": "query",
+      "name": "cwes",
+      "schema": {
+        "$ref": "#/components/schemas/Cwes"
+      },
+      "style": "form"
     },
     "ChannelId": {
       "description": "Slack Channel ID",
@@ -166,6 +293,16 @@
           "source-preview",
           "cache"
         ],
+        "type": "string"
+      }
+    },
+    "ContextId": {
+      "description": "Context ID",
+      "in": "path",
+      "name": "context_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
         "type": "string"
       }
     },
@@ -252,11 +389,18 @@
       }
     },
     "Ecosystem": {
-      "description": "Ecosystem name (e.g., npm, maven, pypi)",
+      "description": "The package ecosystem",
       "in": "path",
       "name": "ecosystem",
       "required": true,
       "schema": {
+        "enum": [
+          "npm",
+          "pypi",
+          "maven",
+          "nuget",
+          "golang"
+        ],
         "example": "npm",
         "type": "string"
       }
@@ -313,11 +457,29 @@
       }
     },
     "EndingBeforeCursor": {
+      "description": "Return records before the record identified by this cursor",
+      "example": "v1.MTIzNDU2Nzg5MHxhYmNkZWY=",
+      "in": "query",
+      "name": "ending_before",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "EndingBeforeCursor__0": {
       "description": "Return records before the record identified by cursor position ending_before",
       "in": "query",
       "name": "ending_before",
       "schema": {
         "type": "string"
+      }
+    },
+    "EnrichedParam": {
+      "description": "When true, runs additional slower enrichment steps on the AI-BOM.\n",
+      "in": "query",
+      "name": "enriched",
+      "schema": {
+        "default": false,
+        "type": "boolean"
       }
     },
     "EnvironmentId": {
@@ -426,7 +588,7 @@
     "GoModuleLevel": {
       "description": "When true, consolidate Go package-level dependencies into module-level components in the SBOM. Only applies to gomodules graphs; default is false.",
       "in": "query",
-      "name": "go-module-level",
+      "name": "go_module_level",
       "schema": {
         "default": false,
         "type": "boolean"
@@ -514,6 +676,16 @@
       },
       "style": "form"
     },
+    "IncludeCodeFlows": {
+      "description": "A filter to include data flows for Code issues.",
+      "in": "query",
+      "name": "include_code_flows",
+      "schema": {
+        "default": false,
+        "type": "boolean"
+      },
+      "style": "form"
+    },
     "IncludeGroupMembershipCount": {
       "description": "indicates whether the count of group memberships is included",
       "in": "query",
@@ -590,6 +762,14 @@
         "$ref": "#/components/schemas/EnvironmentKind"
       }
     },
+    "LessonEcosystem": {
+      "description": "Filter lessons by ecosystem. `all` has no effect. `npm` matches\n`javascript`. Values not in the enum (e.g. `maven`) are rejected.\n",
+      "in": "query",
+      "name": "ecosystem",
+      "schema": {
+        "$ref": "#/components/schemas/LessonEcosystem"
+      }
+    },
     "Limit": {
       "description": "Number of results to return per page",
       "example": 10,
@@ -602,6 +782,17 @@
         "minimum": 10,
         "multipleOf": 10,
         "type": "integer"
+      }
+    },
+    "Limit__0": {
+      "description": "Number of records to return",
+      "in": "query",
+      "name": "limit",
+      "schema": {
+        "default": 10,
+        "maximum": 100,
+        "minimum": 10,
+        "type": "number"
       }
     },
     "Location": {
@@ -623,6 +814,50 @@
       "schema": {
         "$ref": "#/components/schemas/TenantMembershipId"
       }
+    },
+    "MetaCount": {
+      "description": "Provide summary count in the response meta object when requested.\nWhen `with` is provided, the count will be included in the response meta object.\nWhen `only` is provided, the count will be included in the response meta object and no data will be returned.\n",
+      "example": "with",
+      "in": "query",
+      "name": "meta_count",
+      "schema": {
+        "enum": [
+          "with",
+          "only"
+        ],
+        "type": "string"
+      }
+    },
+    "MetaFieldsGroupValues": {
+      "description": "Meta fields to include in the response. Multiple fields can be specified.\n\nAvailable fields:\n  - `count` - Number of assets with this value\n  - `created_at` - Aggregated asset creation timestamp (default aggregation: last)\n  - `last_seen_at` - Aggregated last_seen_at timestamp (default aggregation: last)\n  - `updated_at` - Aggregated updated_at timestamp (default aggregation: last)\n  - `risk_score` - Aggregated risk score from discovery sources (default aggregation: last)\n  - `issues` - Aggregated issue counts (critical, high, medium, low, total) (default aggregation: last)\n  - `labels` - Labels across assets (default aggregation: last)\n  - `tags` - Tags across assets (default aggregation: last)\n  - `built_at` - Aggregated container image build timestamp (default aggregation: last)\n  - `all` - Include all available meta fields\n\nAll fields default to the `last` aggregation function, which returns the value\nfrom the asset with the most recent updated_at in the group. Use the `aggregate`\nparameter to override the aggregation function per field.\n\nIf not specified, the meta object is not included in the response.\n\nNote: Requesting meta fields may impact response time as aggregations\nrequire additional computation.\n",
+      "example": [
+        "count",
+        "risk_score",
+        "issues",
+        "labels"
+      ],
+      "explode": false,
+      "in": "query",
+      "name": "meta_fields",
+      "schema": {
+        "items": {
+          "enum": [
+            "count",
+            "created_at",
+            "last_seen_at",
+            "updated_at",
+            "risk_score",
+            "issues",
+            "labels",
+            "tags",
+            "built_at",
+            "all"
+          ],
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "style": "form"
     },
     "Name": {
       "description": "Filter resources by name (multi-value, comma-separated)",
@@ -747,7 +982,8 @@
       "name": "org_id",
       "required": true,
       "schema": {
-        "$ref": "#/components/schemas/Uuid"
+        "format": "uuid",
+        "type": "string"
       }
     },
     "OrgMembershipId": {
@@ -791,7 +1027,7 @@
       }
     },
     "PackageVersion": {
-      "description": "Package version (URL encoded if needed)",
+      "description": "Package version (URL encoded if needed). Accepts semantic versioning formats (e.g., 1.2.3, v1.2.3).\nNote: Golang commit hashes are NOT supported.\n",
       "in": "path",
       "name": "package_version",
       "required": true,
@@ -833,6 +1069,50 @@
         "type": "string"
       }
     },
+    "PathRuleExtensionId": {
+      "description": "Unique identifier for a rule extension in request path",
+      "in": "path",
+      "name": "rule_extension_id",
+      "required": true,
+      "schema": {
+        "example": "4a994d3b-d15e-45c3-bf24-6a26a02ed9ea",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "PathSastRuleExtensionId": {
+      "description": "Unique identifier for SAST rule extension in request path",
+      "in": "path",
+      "name": "rule_extension_id",
+      "required": true,
+      "schema": {
+        "example": "4a994d3b-d15e-45c3-bf24-6a26a02ed9ea",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "PathTestId": {
+      "description": "Unique identifier for a test result",
+      "in": "path",
+      "name": "test_id",
+      "required": true,
+      "schema": {
+        "example": "2e31dbe3-2f5f-432c-aab8-d7d51e1078cd",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "PersonalAccessTokenId": {
+      "description": "The personal access token id",
+      "in": "path",
+      "name": "personal_access_token_id",
+      "required": true,
+      "schema": {
+        "example": "01HSBP9DKDK39KWZQV84PSPRHY",
+        "format": "ulid",
+        "type": "string"
+      }
+    },
     "Platform": {
       "description": "Filter resources by platform (multi-value, comma-separated): aws",
       "example": "aws",
@@ -864,6 +1144,61 @@
         "type": "string"
       }
     },
+    "ProjectSortParam": {
+      "description": "Sort field with optional direction prefix. Prefix with `-` for descending order.\n\n**Supported fields:**\n- `snapshot_created_at` - Snapshot creation timestamp\n- `issues` - Issue counts by severity (critical, high, medium, low)\n\nWhen omitted, results are ordered by `snapshot_created_at` ascending.\n",
+      "example": "-snapshot_created_at",
+      "in": "query",
+      "name": "sort",
+      "schema": {
+        "enum": [
+          "snapshot_created_at",
+          "-snapshot_created_at",
+          "issues",
+          "-issues"
+        ],
+        "type": "string"
+      }
+    },
+    "QueryExpand": {
+      "description": "Expand the response with additional fields. When set to `count`, the response will include a `meta` object containing a `total_count` field with the total number of organizations in the group, ignoring any filters applied to the original query.",
+      "in": "query",
+      "name": "expand",
+      "schema": {
+        "enum": [
+          "count"
+        ],
+        "example": "count",
+        "type": "string"
+      }
+    },
+    "QueryGroupId": {
+      "description": "Filter by group ID",
+      "in": "query",
+      "name": "group_id",
+      "schema": {
+        "example": "b667f176-df52-4b0a-9954-117af6b05ab7",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "QueryIds": {
+      "description": "Filter by IDs",
+      "explode": false,
+      "in": "query",
+      "name": "id",
+      "schema": {
+        "items": {
+          "example": "b667f176-df52-4b0a-9954-117af6b05ab7",
+          "format": "uuid",
+          "type": "string"
+        },
+        "maxItems": 100,
+        "minItems": 1,
+        "type": "array",
+        "uniqueItems": true
+      },
+      "style": "form"
+    },
     "QueryNameFilter": {
       "description": "Only return organizations whose name contains this value. Case insensitive.",
       "in": "query",
@@ -871,6 +1206,46 @@
       "schema": {
         "type": "string"
       }
+    },
+    "QueryOrgId": {
+      "description": "Filter by organization ID",
+      "in": "query",
+      "name": "org_id",
+      "schema": {
+        "example": "b667f176-df52-4b0a-9954-117af6b05ab7",
+        "format": "uuid",
+        "type": "string"
+      }
+    },
+    "QueryRuleExtensionId": {
+      "description": "Filter by rule extension ID",
+      "explode": true,
+      "in": "query",
+      "name": "rule_extension_id",
+      "schema": {
+        "example": "b667f176-df52-4b0a-9954-117af6b05ab7",
+        "format": "uuid",
+        "type": "string"
+      },
+      "style": "form"
+    },
+    "QueryRuleExtensionIds": {
+      "description": "Filter by rule extension IDs",
+      "explode": false,
+      "in": "query",
+      "name": "rule_extension_id",
+      "schema": {
+        "example": [
+          "b667f176-df52-4b0a-9954-117af6b05ab7"
+        ],
+        "items": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "maxItems": 100,
+        "type": "array"
+      },
+      "style": "form"
     },
     "QuerySlugFilter": {
       "description": "Only return organizations whose slug exactly matches this value. Case sensitive.",
@@ -895,6 +1270,14 @@
       "description": "The image repository",
       "in": "query",
       "name": "repository",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "RepositoryUrlQuery": {
+      "description": "Optional repository URL filter \u2014 restricts results to the canonical document containing this URL",
+      "in": "query",
+      "name": "url",
       "schema": {
         "type": "string"
       }
@@ -951,6 +1334,36 @@
         "$ref": "#/components/schemas/RoleId"
       }
     },
+    "RsqlFilter": {
+      "description": "RSQL filter expression for filtering results. See schema for full documentation.",
+      "in": "query",
+      "name": "filter",
+      "schema": {
+        "$ref": "#/components/schemas/RsqlFilterString"
+      }
+    },
+    "RsqlFilterGroupValues": {
+      "description": "RSQL filter expression for filtering which assets are included in aggregation.\nSupports the same syntax as the main search filter including full text search with the `q` field.\nSee the RsqlFilterString schema for complete documentation.\n",
+      "in": "query",
+      "name": "filter",
+      "schema": {
+        "$ref": "#/components/schemas/RsqlFilterString"
+      }
+    },
+    "Rules": {
+      "description": "Filter lessons tagged with at least one listed Snyk rule (`snyk_vuln_id`).\nExample: `?rules=SNYK-JS-AXIOS-16298058` or comma-separated for several.\n",
+      "example": [
+        "SNYK-JS-AXIOS-16298058",
+        "SNYK-JAVA-COMSQUAREUPOKHTTP3-1038737"
+      ],
+      "explode": false,
+      "in": "query",
+      "name": "rules",
+      "schema": {
+        "$ref": "#/components/schemas/Rules"
+      },
+      "style": "form"
+    },
     "ScanId": {
       "description": "Scan ID",
       "example": "56465b1d-8764-458c-1234-0987abcd6543",
@@ -987,6 +1400,16 @@
       "in": "query",
       "name": "search",
       "schema": {
+        "type": "string"
+      }
+    },
+    "SearchId": {
+      "description": "The unique identifier of the search operation",
+      "in": "path",
+      "name": "search_id",
+      "required": true,
+      "schema": {
+        "format": "uuid",
         "type": "string"
       }
     },
@@ -1047,6 +1470,15 @@
         "type": "string"
       }
     },
+    "SortGroupValues": {
+      "description": "Comma-separated sort fields for group values. Prefix with `-` for descending order.\nMultiple sort fields are supported (e.g., `-issues,count`).\nDefaults to `created_at` (ascending) when not specified.\nResults are always tie-broken by `value` for deterministic ordering.\n\nAvailable sort fields:\n  - `value` - Sort by the group value string (alphabetical)\n  - `count` - Sort by the number of assets in each group\n  - `created_at` - Sort by the aggregated created_at timestamp\n  - `last_seen_at` - Sort by the aggregated last_seen_at timestamp\n  - `updated_at` - Sort by the aggregated updated_at timestamp\n  - `risk_score` - Sort by the aggregated risk score\n  - `built_at` - Sort by the aggregated container image build timestamp\n  - `issues` - Sort by issue severity (critical \u2192 high \u2192 medium \u2192 low)\n",
+      "example": "-count",
+      "in": "query",
+      "name": "sort",
+      "schema": {
+        "type": "string"
+      }
+    },
     "SortOrder": {
       "description": "Order in which results are returned.",
       "example": "ASC",
@@ -1075,6 +1507,32 @@
         "type": "string"
       }
     },
+    "Source": {
+      "description": "Optional caller-attribution string for Snyk-internal telemetry. When\nthe value is on Snyk's internal allowlist, it is echoed back into each\nreturned resource URL as `?source=<value>`; otherwise the value is\nsilently dropped. Third-party consumers can omit this parameter.\n",
+      "in": "query",
+      "name": "source",
+      "schema": {
+        "maxLength": 64,
+        "type": "string"
+      },
+      "x-snyk-internal": true
+    },
+    "SparseFieldsets": {
+      "description": "Sparse fieldsets allow clients to request only specific fields for a given resource type.\nUse the format `fields[<type>]=field1,field2` where `<type>` is the JSON:API resource type.\n\n**Container image fields** (use with `fields[container_images]`):\n- `class` - Classification of the asset\n- `registry` - Container registry hostname\n- `repository` - Repository path\n- `config_digest` - Image config digest\n- `distribution_digests` - Distribution digests (manifest/index pairs)\n- `image_tags` - Distinct image tags across all discovery sources\n- `built_at` - When the image was built\n- `size_bytes` - Size of the image in bytes\n- `author` - Image author\n- `architecture` - CPU architecture\n- `os` - Operating system\n- `variant` - CPU architecture variant\n- `os_version` - Operating system version\n- `os_features` - OS features\n- `config` - Image runtime configuration (OCI config)\n- `root_fs` - Root filesystem information\n- `history` - Image build history\n- `inferred_base_images` - Inferred base images\n- `teams` - Teams associated with the asset\n- `labels` - Labels associated with the asset\n- `tags` - Key-value tags for the asset\n- `risk_score` - Risk score for the asset\n- `test_surfaces` - Test surfaces for the asset\n- `issues` - Issue counts by severity\n- `created_at` - When the asset was created\n- `updated_at` - When the asset was last updated\n- `last_scan` - When the asset was last scanned\n- `scan_engines` - Scan engines applied to the asset\n\nNote: `type` and `id` are always included regardless of field selection.\n",
+      "example": {
+        "container_images": "registry,repository,config_digest"
+      },
+      "explode": true,
+      "in": "query",
+      "name": "fields",
+      "schema": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "style": "deepObject"
+    },
     "SsoId": {
       "description": "The ID of the SSO",
       "in": "path",
@@ -1095,6 +1553,15 @@
       }
     },
     "StartingAfterCursor": {
+      "description": "Return records after the record identified by this cursor",
+      "example": "v1.MTIzNDU2Nzg5MHxhYmNkZWY=",
+      "in": "query",
+      "name": "starting_after",
+      "schema": {
+        "type": "string"
+      }
+    },
+    "StartingAfterCursor__0": {
       "description": "Return records after the record identified by cursor position starting_after",
       "in": "query",
       "name": "starting_after",
@@ -1284,7 +1751,7 @@
     },
     "Version": {
       "description": "The requested version of the endpoint to process the request",
-      "example": "2025-11-05",
+      "example": "2026-03-25",
       "in": "query",
       "name": "version",
       "required": true,

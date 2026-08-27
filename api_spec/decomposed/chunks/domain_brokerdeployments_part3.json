@@ -1084,48 +1084,6 @@
     }
   ],
   "schemas": {
-    "BrokerDeploymentUpdateAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "broker_app_installed_in_org_id": {
-          "description": "Org Id in which the Broker App is installed",
-          "format": "uuid",
-          "type": "string"
-        },
-        "install_id": {
-          "description": "Associated Install ID",
-          "format": "uuid",
-          "type": "string"
-        },
-        "metadata": {
-          "description": "Metadata information such user/org id or metrics",
-          "type": "object"
-        }
-      },
-      "required": [
-        "broker_app_installed_in_org_id",
-        "install_id"
-      ],
-      "type": "object"
-    },
-    "GetBrokerDeploymentResponse": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "$ref": "#/components/schemas/BrokerDeploymentResource"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
-    },
     "UpdateBrokerDeploymentRequest": {
       "additionalProperties": false,
       "properties": {
@@ -1163,6 +1121,87 @@
       ],
       "type": "object"
     },
+    "GetBrokerDeploymentResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/BrokerDeploymentResource"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "BrokerDeploymentAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "broker_app_installed_in_org_id": {
+          "description": "Org Id in which the Broker App is installed",
+          "format": "uuid",
+          "type": "string"
+        },
+        "created_at": {
+          "description": "Deployment creation time in UTC",
+          "format": "date-time",
+          "readOnly": true,
+          "type": "string"
+        },
+        "install_id": {
+          "description": "Associated Install ID",
+          "format": "uuid",
+          "readOnly": true,
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Metadata information such user/org id or metrics",
+          "type": "object"
+        },
+        "updated_at": {
+          "description": "Deployment last update time in UTC",
+          "format": "date-time",
+          "readOnly": true,
+          "type": "string"
+        }
+      },
+      "required": [
+        "broker_app_installed_in_org_id",
+        "metadata",
+        "created_at",
+        "updated_at"
+      ],
+      "type": "object"
+    },
+    "BrokerDeploymentUpdateAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "broker_app_installed_in_org_id": {
+          "description": "Org Id in which the Broker App is installed",
+          "format": "uuid",
+          "type": "string"
+        },
+        "install_id": {
+          "description": "Associated Install ID",
+          "format": "uuid",
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Metadata information such user/org id or metrics",
+          "type": "object"
+        }
+      },
+      "required": [
+        "broker_app_installed_in_org_id",
+        "install_id"
+      ],
+      "type": "object"
+    },
     "BrokerDeploymentUpdateResource": {
       "additionalProperties": false,
       "properties": {
@@ -1187,37 +1226,11 @@
         "type"
       ],
       "type": "object"
-    },
-    "BrokerDeploymentAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "broker_app_installed_in_org_id": {
-          "description": "Org Id in which the Broker App is installed",
-          "format": "uuid",
-          "type": "string"
-        },
-        "install_id": {
-          "description": "Associated Install ID",
-          "format": "uuid",
-          "readOnly": true,
-          "type": "string"
-        },
-        "metadata": {
-          "description": "Metadata information such user/org id or metrics",
-          "type": "object"
-        }
-      },
-      "required": [
-        "broker_app_installed_in_org_id",
-        "metadata"
-      ],
-      "type": "object"
     }
   },
   "referenced_common_schemas": [
-    "JsonApi",
     "PaginatedLinks",
-    "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "JsonApi"
   ]
 }

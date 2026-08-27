@@ -590,6 +590,11 @@
     }
   ],
   "schemas": {
+    "Types": {
+      "example": "resource",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+      "type": "string"
+    },
     "SbomResource": {
       "additionalProperties": false,
       "properties": {
@@ -623,10 +628,9 @@
       ],
       "type": "object"
     },
-    "Types": {
-      "example": "resource",
-      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
-      "type": "string"
+    "SbomDocument": {
+      "additionalProperties": true,
+      "type": "object"
     },
     "SbomTestResultsAttributes": {
       "additionalProperties": true,
@@ -646,10 +650,6 @@
         "jsonapi",
         "data"
       ],
-      "type": "object"
-    },
-    "SbomDocument": {
-      "additionalProperties": true,
       "type": "object"
     },
     "ResourceReference": {
@@ -675,9 +675,8 @@
     }
   },
   "referenced_common_schemas": [
+    "LinkProperty",
     "JsonApi",
-    "Links",
-    "Meta",
-    "LinkProperty"
+    "Links"
   ]
 }

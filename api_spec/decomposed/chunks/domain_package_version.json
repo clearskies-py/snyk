@@ -17,7 +17,7 @@
       "operation_id": "getPackageVersion",
       "summary": "Get a package version (Early Access)",
       "details": {
-        "description": "Get package version metadata for a specific version of a package from an ecosystem\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "description": "Get package version metadata for a specific version of a package from an ecosystem.\n\n**Important:** The security section of `package_health` refers to the **specific version in the request**, not the latest version. Since the `overall_rating` is computed from all health sections (including security), it is also influenced by this version's security data.\n\n**Supported Ecosystems:** npm, pypi, maven, nuget, golang\n\n**Version Format:** Accepts standard semantic versioning formats (e.g., `1.2.3`, `v1.2.3`). **Note:** Golang commit hashes are NOT supported as version identifiers. Use tagged versions only.\n\n#### Required permissions\n\n- `View Organization (org.read)`",
         "operationId": "getPackageVersion",
         "parameters": [
           {
@@ -58,15 +58,18 @@
                           "$ref": "#/components/schemas/PackageVersionAttributes"
                         },
                         "id": {
+                          "description": "Package version identifier in PURL format (e.g., pkg:npm/express@4.19.2)",
                           "example": "pkg:npm/express@4.19.2",
                           "format": "uri",
                           "type": "string"
                         },
                         "package_version": {
+                          "description": "The specific version string of this package",
                           "example": "4.19.2",
                           "type": "string"
                         },
                         "type": {
+                          "description": "Resource type identifier",
                           "example": "package_version",
                           "type": "string"
                         }
@@ -154,42 +157,78 @@
     }
   ],
   "schemas": {
-    "SecurityDetails": {
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "direct_vulnerabilities": {
-          "type": "boolean"
-        },
-        "direct_vulnerabilities_counts": {
-          "$ref": "#/components/schemas/DirectVulnerabilitiesCounts"
-        },
-        "direct_vulnerabilities_total": {
-          "type": "integer"
-        },
-        "rating": {
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
     "PopularityDetails": {
+      "additionalProperties": false,
+      "description": "Popularity signals for the package",
       "properties": {
         "dependent_packages_count": {
+          "description": "Number of packages that depend on this package (>= 0)",
+          "minimum": 0,
           "type": "integer"
         },
         "dependent_repos_count": {
+          "description": "Number of repositories that depend on this package (>= 0)",
+          "minimum": 0,
           "type": "integer"
         },
         "description": {
+          "description": "Human-readable explanation of the popularity rating",
           "type": "string"
         },
         "downloads": {
+          "description": "Download count (>= 0)",
+          "minimum": 0,
           "type": "integer"
         },
         "rating": {
+          "description": "Popularity rating based on downloads and ecosystem usage",
+          "enum": [
+            "Limited",
+            "Small",
+            "Recognized",
+            "Popular",
+            "Influential project",
+            "Key ecosystem project"
+          ],
           "type": "string"
+        }
+      },
+      "required": [
+        "dependent_packages_count",
+        "dependent_repos_count",
+        "downloads"
+      ],
+      "type": "object"
+    },
+    "PackageHealth": {
+      "additionalProperties": false,
+      "description": "Overall health assessment of the package based on multiple signals",
+      "properties": {
+        "community": {
+          "$ref": "#/components/schemas/CommunityDetails"
+        },
+        "description": {
+          "description": "Human-readable explanation of the overall rating",
+          "type": "string"
+        },
+        "maintenance": {
+          "$ref": "#/components/schemas/MaintenanceDetails"
+        },
+        "overall_rating": {
+          "description": "Overall health assessment of the package based on security, maintenance, community, and popularity signals",
+          "enum": [
+            "Healthy",
+            "Review recommended",
+            "Not recommended",
+            "Not enough data to compute health status"
+          ],
+          "type": "string"
+        },
+        "popularity": {
+          "$ref": "#/components/schemas/PopularityDetails"
+        },
+        "security": {
+          "$ref": "#/components/schemas/SecurityDetails"
         }
       },
       "type": "object"
@@ -198,18 +237,69 @@
       "description": "Base package details with URLs",
       "properties": {
         "homepage_url": {
+          "description": "Package homepage URL",
           "example": "https://expressjs.com",
           "type": "string"
         },
         "registry_url": {
+          "description": "Package registry URL",
           "example": "https://www.npmjs.com/package/express",
           "type": "string"
         },
         "repository_url": {
+          "description": "Source repository URL",
           "example": "https://github.com/expressjs/express",
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "CommunityDetails": {
+      "additionalProperties": false,
+      "description": "Community health signals for the package",
+      "properties": {
+        "description": {
+          "description": "Human-readable explanation of the community rating",
+          "type": "string"
+        },
+        "has_code_of_conduct_file": {
+          "description": "Whether the repository has a CODE_OF_CONDUCT file",
+          "type": "boolean"
+        },
+        "has_contributing_file": {
+          "description": "Whether the repository has a CONTRIBUTING file",
+          "type": "boolean"
+        },
+        "has_funding_file": {
+          "description": "Whether the repository has a FUNDING file",
+          "type": "boolean"
+        },
+        "has_readme_file": {
+          "description": "Whether the repository has a README file",
+          "type": "boolean"
+        },
+        "rating": {
+          "description": "Overall community health level, reflecting how active and engaged the package's community appears to be",
+          "enum": [
+            "Active",
+            "Sustainable",
+            "Limited"
+          ],
+          "type": "string"
+        },
+        "stargazers_count": {
+          "description": "Number of GitHub stars (>= 0)",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "has_code_of_conduct_file",
+        "has_contributing_file",
+        "has_funding_file",
+        "has_readme_file",
+        "stargazers_count"
+      ],
       "type": "object"
     },
     "PackageVersionAttributes": {
@@ -220,6 +310,7 @@
         {
           "properties": {
             "latest_version_indicator": {
+              "description": "Whether this is the latest version of the package",
               "example": true,
               "type": "boolean"
             },
@@ -227,14 +318,17 @@
               "$ref": "#/components/schemas/PackageVersionDetails"
             },
             "package_version": {
+              "description": "The specific version string of this package",
               "example": "4.19.2",
               "type": "string"
             },
             "package_version_id": {
+              "description": "Package version identifier in PURL format (e.g., pkg:npm/express@4.19.2)",
               "example": "pkg:npm/express@4.19.2",
               "type": "string"
             },
             "published_at": {
+              "description": "Timestamp when this version was published",
               "example": "2024-10-08T00:00:00Z",
               "format": "date-time",
               "type": "string"
@@ -242,7 +336,8 @@
           },
           "required": [
             "package_version_id",
-            "package_version"
+            "package_version",
+            "latest_version_indicator"
           ],
           "type": "object"
         }
@@ -295,13 +390,13 @@
             "dependent_repos_count": 65000,
             "description": "...",
             "downloads": 12000,
-            "rating": "Influential"
+            "rating": "Influential project"
           },
           "security": {
             "description": "...",
             "direct_vulnerabilities": true,
             "direct_vulnerabilities_total": 3,
-            "rating": "Security review needed"
+            "rating": "Security issues found"
           }
         },
         "package_id": "pkg:npm/express",
@@ -311,38 +406,201 @@
         "published_at": "2024-10-08T00:00:00Z"
       }
     },
-    "OwnerDetails": {
+    "DirectVulnerabilitiesCounts": {
+      "additionalProperties": false,
+      "description": "Breakdown of direct vulnerabilities by Snyk severity level",
       "properties": {
-        "followers_count": {
+        "critical": {
+          "description": "Number of critical severity vulnerabilities (>= 0)",
+          "minimum": 0,
           "type": "integer"
         },
-        "location": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "repositories_count": {
+        "high": {
+          "description": "Number of high severity vulnerabilities (>= 0)",
+          "minimum": 0,
           "type": "integer"
         },
-        "total_stars": {
+        "low": {
+          "description": "Number of low severity vulnerabilities (>= 0)",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "medium": {
+          "description": "Number of medium severity vulnerabilities (>= 0)",
+          "minimum": 0,
           "type": "integer"
         }
       },
+      "required": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "type": "object"
+    },
+    "OwnerDetails": {
+      "additionalProperties": false,
+      "description": "Details about the package owner/maintainer",
+      "properties": {
+        "followers_count": {
+          "description": "Number of followers the package owner has on the source platform (e.g., GitHub) (>= 0)",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "location": {
+          "description": "Owner location",
+          "type": "string"
+        },
+        "name": {
+          "description": "Owner/maintainer name",
+          "type": "string"
+        },
+        "repositories_count": {
+          "description": "Number of repositories owned by the package owner on the source platform (>= 0)",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "total_stars": {
+          "description": "Total number of stars across all repositories owned by the package owner (>= 0)",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "followers_count",
+        "repositories_count",
+        "total_stars"
+      ],
+      "type": "object"
+    },
+    "MaintenanceDetails": {
+      "additionalProperties": false,
+      "description": "Maintenance health signals for the package as a whole, based on repository-level activity. These signals reflect the overall project status. They do not represent the maintenance state of specific versions or version lines.",
+      "properties": {
+        "description": {
+          "description": "Human-readable explanation of the maintenance rating",
+          "type": "string"
+        },
+        "first_release_published_at": {
+          "description": "Timestamp of the first release",
+          "format": "date-time",
+          "type": "string"
+        },
+        "forks_count": {
+          "description": "Number of repository forks (>= 0)",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "is_archived": {
+          "description": "Whether the source repository is archived. This is a repository-level signal. It does not represent the maintenance state of specific versions or version lines.",
+          "type": "boolean"
+        },
+        "is_forked": {
+          "description": "Whether the repository is a fork",
+          "type": "boolean"
+        },
+        "latest_release_number": {
+          "description": "Latest release version string",
+          "type": "string"
+        },
+        "latest_release_published_at": {
+          "description": "Timestamp of the latest release",
+          "format": "date-time",
+          "type": "string"
+        },
+        "lifecycle": {
+          "description": "Package-level lifecycle status as reported by the registry. Reflects the overall package state. It does not represent the maintenance state of specific versions or version lines.",
+          "enum": [
+            "active",
+            "archived",
+            "deprecated",
+            "removed",
+            "unpublished"
+          ],
+          "type": "string"
+        },
+        "rating": {
+          "description": "Package-level maintenance health, reflecting how actively the package repository is being developed and updated. This applies to the project as a whole. It does not represent the maintenance state of specific versions or version lines.",
+          "enum": [
+            "Healthy",
+            "Sustainable",
+            "Inactive"
+          ],
+          "type": "string"
+        },
+        "total_versions_count": {
+          "description": "Total number of versions published (>= 0)",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "is_archived",
+        "is_forked",
+        "total_versions_count",
+        "forks_count"
+      ],
+      "type": "object"
+    },
+    "SecurityDetails": {
+      "additionalProperties": false,
+      "description": "Security signals for the package",
+      "properties": {
+        "description": {
+          "description": "Human-readable explanation of the security rating",
+          "type": "string"
+        },
+        "direct_vulnerabilities": {
+          "description": "Whether the package has direct vulnerabilities",
+          "type": "boolean"
+        },
+        "direct_vulnerabilities_counts": {
+          "$ref": "#/components/schemas/DirectVulnerabilitiesCounts"
+        },
+        "direct_vulnerabilities_total": {
+          "description": "Total count of direct vulnerabilities (>= 0)",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "rating": {
+          "description": "Security rating based on known vulnerabilities",
+          "enum": [
+            "No known security issues",
+            "Minor security issues found",
+            "Security issues found"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "direct_vulnerabilities",
+        "direct_vulnerabilities_total"
+      ],
       "type": "object"
     },
     "BasePackageAttributes": {
       "description": "Common attributes shared between package and package version resources",
       "properties": {
         "description": {
+          "description": "Package description from the registry (max 255 characters)",
           "example": "Fast, unopinionated, minimalist web framework",
           "type": "string"
         },
         "ecosystem": {
+          "description": "The package ecosystem",
+          "enum": [
+            "npm",
+            "pypi",
+            "maven",
+            "nuget",
+            "golang"
+          ],
           "example": "npm",
           "type": "string"
         },
         "keywords": {
+          "description": "Searchable terms defined by the package maintainer in the registry (e.g., in package.json for npm). Used for package discovery (max 20 keywords).",
           "example": [
             "node",
             "javascript",
@@ -355,6 +613,7 @@
           "type": "array"
         },
         "language": {
+          "description": "Primary programming language of the package",
           "example": "JavaScript",
           "type": "string"
         },
@@ -365,10 +624,12 @@
           "$ref": "#/components/schemas/PackageHealth"
         },
         "package_id": {
+          "description": "Package identifier in PURL format",
           "example": "pkg:npm/express",
           "type": "string"
         },
         "package_name": {
+          "description": "Name of the package",
           "example": "express",
           "type": "string"
         }
@@ -381,72 +642,6 @@
       ],
       "type": "object"
     },
-    "CommunityDetails": {
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "has_code_of_conduct_file": {
-          "type": "boolean"
-        },
-        "has_contributing_file": {
-          "type": "boolean"
-        },
-        "has_funding_file": {
-          "type": "boolean"
-        },
-        "has_readme_file": {
-          "type": "boolean"
-        },
-        "rating": {
-          "type": "string"
-        },
-        "stargazers_count": {
-          "type": "integer"
-        }
-      },
-      "type": "object"
-    },
-    "PackageHealth": {
-      "properties": {
-        "community": {
-          "$ref": "#/components/schemas/CommunityDetails"
-        },
-        "description": {
-          "type": "string"
-        },
-        "maintenance": {
-          "$ref": "#/components/schemas/MaintenanceDetails"
-        },
-        "overall_rating": {
-          "type": "string"
-        },
-        "popularity": {
-          "$ref": "#/components/schemas/PopularityDetails"
-        },
-        "security": {
-          "$ref": "#/components/schemas/SecurityDetails"
-        }
-      },
-      "type": "object"
-    },
-    "DirectVulnerabilitiesCounts": {
-      "properties": {
-        "critical": {
-          "type": "integer"
-        },
-        "high": {
-          "type": "integer"
-        },
-        "low": {
-          "type": "integer"
-        },
-        "medium": {
-          "type": "integer"
-        }
-      },
-      "type": "object"
-    },
     "PackageVersionDetails": {
       "allOf": [
         {
@@ -455,10 +650,12 @@
         {
           "properties": {
             "download_url": {
+              "description": "Direct download URL for this version",
               "example": "https://registry.npmjs.org/express/-/express-4.19.2.tgz",
               "type": "string"
             },
             "registry_version_url": {
+              "description": "Registry URL for this specific version",
               "example": "https://www.npmjs.com/package/express/v/4.19.2",
               "type": "string"
             }
@@ -466,43 +663,6 @@
           "type": "object"
         }
       ]
-    },
-    "MaintenanceDetails": {
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "first_release_published_at": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "forks_count": {
-          "type": "integer"
-        },
-        "is_archived": {
-          "type": "boolean"
-        },
-        "is_forked": {
-          "type": "boolean"
-        },
-        "latest_release_number": {
-          "type": "string"
-        },
-        "latest_release_published_at": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "lifecycle": {
-          "type": "string"
-        },
-        "rating": {
-          "type": "string"
-        },
-        "total_versions_count": {
-          "type": "integer"
-        }
-      },
-      "type": "object"
     }
   },
   "referenced_common_schemas": [

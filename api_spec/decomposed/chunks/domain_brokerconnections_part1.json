@@ -1944,24 +1944,51 @@
     }
   ],
   "schemas": {
-    "GetBrokerConnectionIntegrationsResponse": {
+    "OrgIntegrationResource": {
       "additionalProperties": false,
       "properties": {
-        "data": {
-          "items": {
-            "$ref": "#/components/schemas/OrgIntegrationResource"
-          },
-          "type": "array"
+        "id": {
+          "format": "uuid",
+          "type": "string"
         },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
+        "integration_type": {
+          "type": "string"
         },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
+        "org_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ConnectionSummaryAttributes": {
+      "properties": {
+        "connection_type": {
+          "description": "Connection type",
+          "type": "string"
+        },
+        "context": {
+          "description": "Broker Context",
+          "format": "uuid",
+          "type": "string"
+        },
+        "deployment_id": {
+          "description": "Associated Deployment ID",
+          "format": "uuid",
+          "type": "string"
+        },
+        "name": {
+          "description": "Associated name",
+          "type": "string"
         }
       },
       "required": [
-        "data"
+        "deployment_id",
+        "name",
+        "connection_type"
       ],
       "type": "object"
     },
@@ -2011,59 +2038,31 @@
       ],
       "type": "object"
     },
-    "ConnectionSummaryAttributes": {
+    "GetBrokerConnectionIntegrationsResponse": {
+      "additionalProperties": false,
       "properties": {
-        "connection_type": {
-          "description": "Connection type",
-          "type": "string"
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/OrgIntegrationResource"
+          },
+          "type": "array"
         },
-        "context": {
-          "description": "Broker Context",
-          "format": "uuid",
-          "type": "string"
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
         },
-        "deployment_id": {
-          "description": "Associated Deployment ID",
-          "format": "uuid",
-          "type": "string"
-        },
-        "name": {
-          "description": "Associated name",
-          "type": "string"
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
         }
       },
       "required": [
-        "deployment_id",
-        "name",
-        "connection_type"
+        "data"
       ],
-      "type": "object"
-    },
-    "OrgIntegrationResource": {
-      "additionalProperties": false,
-      "properties": {
-        "id": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "integration_type": {
-          "type": "string"
-        },
-        "org_id": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "type": {
-          "type": "string"
-        }
-      },
       "type": "object"
     }
   },
   "referenced_common_schemas": [
-    "JsonApi",
     "PaginatedLinks",
-    "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "JsonApi"
   ]
 }

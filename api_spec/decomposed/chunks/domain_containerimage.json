@@ -448,26 +448,6 @@
     }
   ],
   "schemas": {
-    "ImageTargetRef": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/ImageTargetRefAttributes"
-        },
-        "id": {
-          "example": "3cd4af4c-fb15-45c4-9acd-8e8fcc6690af",
-          "format": "uuid",
-          "type": "string"
-        },
-        "type": {
-          "enum": [
-            "image_target_reference"
-          ],
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
     "SelfLink": {
       "additionalProperties": false,
       "example": {
@@ -475,7 +455,46 @@
       },
       "properties": {
         "self": {
-          "$ref": "#/components/schemas/LinkProperty"
+          "example": "https://example.com/api/resource",
+          "oneOf": [
+            {
+              "description": "A string containing the link\u2019s URL.",
+              "example": "https://example.com/api/resource",
+              "type": "string"
+            },
+            {
+              "additionalProperties": false,
+              "example": {
+                "href": "https://example.com/api/resource"
+              },
+              "properties": {
+                "href": {
+                  "description": "A string containing the link\u2019s URL.",
+                  "example": "https://example.com/api/resource",
+                  "type": "string"
+                },
+                "meta": {
+                  "additionalProperties": true,
+                  "description": "Free-form object that may contain non-standard information.",
+                  "example": {
+                    "key1": "value1",
+                    "key2": {
+                      "sub_key": "sub_value"
+                    },
+                    "key3": [
+                      "array_value1",
+                      "array_value2"
+                    ]
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "href"
+              ],
+              "type": "object"
+            }
+          ]
         }
       },
       "type": "object"
@@ -485,47 +504,51 @@
       "pattern": "^((?:(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])(?:(?:\\.(?:[a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]))+)?(?::[0-9]+)?\\/)?[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?(?:(?:\\/[a-z0-9]+(?:(?:(?:[._]|__|[-]*)[a-z0-9]+)+)?)+)?)(?::([\\w][\\w.-]{0,127}))?(?:@([A-Za-z][A-Za-z0-9]*(?:[-_+.][A-Za-z][A-Za-z0-9]*)*[:][A-Fa-f0-9]{32,}))?$",
       "type": "string"
     },
-    "Image": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/ImageAttributes"
-        },
-        "id": {
-          "$ref": "#/components/schemas/ImageDigest"
-        },
-        "relationships": {
-          "properties": {
-            "image_target_refs": {
-              "properties": {
-                "links": {
-                  "$ref": "#/components/schemas/SelfLink"
-                }
-              },
-              "type": "object"
-            }
-          },
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "container_image"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
     "ImageDigest": {
       "example": "sha256:2bd864580926b790a22c8b96fd74496fe87b3c59c0774fe144bab2788e78e676",
       "format": "uri",
       "pattern": "^sha256(:|%3A)[a-f0-9]{64}$",
       "type": "string"
+    },
+    "ImageAttributes": {
+      "properties": {
+        "layers": {
+          "items": {
+            "$ref": "#/components/schemas/ImageDigest"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "names": {
+          "items": {
+            "$ref": "#/components/schemas/ImageName"
+          },
+          "type": "array"
+        },
+        "platform": {
+          "$ref": "#/components/schemas/Platform"
+        }
+      },
+      "required": [
+        "platform",
+        "layers"
+      ],
+      "type": "object"
+    },
+    "ImageTargetRefAttributes": {
+      "properties": {
+        "platform": {
+          "$ref": "#/components/schemas/Platform"
+        },
+        "target_id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "target_reference": {
+          "type": "string"
+        }
+      },
+      "type": "object"
     },
     "Platform": {
       "enum": [
@@ -607,43 +630,59 @@
       "example": "linux/amd64",
       "type": "string"
     },
-    "ImageTargetRefAttributes": {
+    "ImageTargetRef": {
+      "additionalProperties": false,
       "properties": {
-        "platform": {
-          "$ref": "#/components/schemas/Platform"
+        "attributes": {
+          "$ref": "#/components/schemas/ImageTargetRefAttributes"
         },
-        "target_id": {
+        "id": {
+          "example": "3cd4af4c-fb15-45c4-9acd-8e8fcc6690af",
           "format": "uuid",
           "type": "string"
         },
-        "target_reference": {
+        "type": {
+          "enum": [
+            "image_target_reference"
+          ],
           "type": "string"
         }
       },
       "type": "object"
     },
-    "ImageAttributes": {
+    "Image": {
+      "additionalProperties": false,
       "properties": {
-        "layers": {
-          "items": {
-            "$ref": "#/components/schemas/ImageDigest"
-          },
-          "minItems": 1,
-          "type": "array"
+        "attributes": {
+          "$ref": "#/components/schemas/ImageAttributes"
         },
-        "names": {
-          "items": {
-            "$ref": "#/components/schemas/ImageName"
-          },
-          "type": "array"
+        "id": {
+          "$ref": "#/components/schemas/ImageDigest"
         },
-        "platform": {
-          "$ref": "#/components/schemas/Platform"
+        "relationships": {
+          "properties": {
+            "image_target_refs": {
+              "properties": {
+                "links": {
+                  "$ref": "#/components/schemas/SelfLink"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "container_image"
+          ],
+          "type": "string"
         }
       },
       "required": [
-        "platform",
-        "layers"
+        "type",
+        "id",
+        "attributes"
       ],
       "type": "object"
     }
@@ -651,7 +690,6 @@
   "referenced_common_schemas": [
     "PaginatedLinks",
     "LinkProperty",
-    "Meta",
     "JsonApi"
   ]
 }

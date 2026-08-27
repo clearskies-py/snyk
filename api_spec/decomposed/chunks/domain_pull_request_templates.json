@@ -76,7 +76,7 @@
           "2023-10-13~beta",
           "2024-05-08"
         ],
-        "x-snyk-api-resource": "pull-request-templates",
+        "x-snyk-api-resource": "pullRequestTemplates",
         "x-snyk-api-stability": "ga",
         "x-snyk-api-version": "2024-05-08",
         "x-stability-level": "stable"
@@ -120,6 +120,7 @@
             "content": {
               "application/vnd.api+json": {
                 "schema": {
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "additionalProperties": false,
@@ -203,7 +204,7 @@
           "2023-10-13~beta",
           "2024-05-08"
         ],
-        "x-snyk-api-resource": "pull-request-templates",
+        "x-snyk-api-resource": "pullRequestTemplates",
         "x-snyk-api-stability": "ga",
         "x-snyk-api-version": "2024-05-08",
         "x-stability-level": "stable"
@@ -269,6 +270,7 @@
             "content": {
               "application/vnd.api+json": {
                 "schema": {
+                  "additionalProperties": false,
                   "properties": {
                     "data": {
                       "additionalProperties": false,
@@ -352,7 +354,7 @@
           "2023-10-13~beta",
           "2024-05-08"
         ],
-        "x-snyk-api-resource": "pull-request-templates",
+        "x-snyk-api-resource": "pullRequestTemplates",
         "x-snyk-api-stability": "ga",
         "x-snyk-api-version": "2024-05-08",
         "x-stability-level": "stable"
@@ -397,9 +399,8 @@
     }
   },
   "referenced_common_schemas": [
-    "JsonApi",
     "PaginatedLinks",
-    "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "JsonApi"
   ]
 }

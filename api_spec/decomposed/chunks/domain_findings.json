@@ -1,7 +1,7 @@
 {
   "tag": "Findings",
   "endpoint_count": 1,
-  "schema_count": 40,
+  "schema_count": 41,
   "endpoints_summary": [
     {
       "method": "GET",
@@ -182,6 +182,32 @@
     }
   ],
   "schemas": {
+    "Rating": {
+      "description": "Rating represents qualitative metrics on a finding.",
+      "properties": {
+        "severity": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/Severity"
+            }
+          ],
+          "description": "Severity level of the finding."
+        }
+      },
+      "required": [
+        "severity"
+      ],
+      "type": "object"
+    },
+    "SuppressionStatus": {
+      "description": "Status of a suppression on a finding.",
+      "enum": [
+        "ignored",
+        "pending_ignore_approval",
+        "other"
+      ],
+      "type": "string"
+    },
     "UpgradePackageAdvice": {
       "description": "Upgrade a package from one version to another.",
       "example": {
@@ -229,6 +255,315 @@
       ],
       "type": "object"
     },
+    "Evidence": {
+      "description": "Supporting evidence for (rather than representative of) the finding in other\nsecurity domains and systems, lacking a well-known identifier.\n\nMore detailed attributes may also be included inline, especially when this\ninformation is not yet generally available in a well-known public APIs.\n\nExamples include:\n- Detailed enumeration of dependency paths\n- Execution flows leading to a code rule violation",
+      "discriminator": {
+        "mapping": {
+          "dependency_path": "#/components/schemas/DependencyPathEvidence",
+          "execution_flow": "#/components/schemas/ExecutionFlowEvidence",
+          "other": "#/components/schemas/OtherEvidence",
+          "reachability": "#/components/schemas/ReachabilityEvidence"
+        },
+        "propertyName": "source"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/DependencyPathEvidence"
+        },
+        {
+          "$ref": "#/components/schemas/ExecutionFlowEvidence"
+        },
+        {
+          "$ref": "#/components/schemas/ReachabilityEvidence"
+        },
+        {
+          "$ref": "#/components/schemas/OtherEvidence"
+        }
+      ]
+    },
+    "FixAttributes": {
+      "description": "FixAttributes is the main payload modelling a fix",
+      "properties": {
+        "action": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/FixAction"
+            }
+          ],
+          "description": "Applying the steps specified by the action within the fix leads to resolving either completely or partially this finding.\nAn action may be a simple upgrade, a code swap, or may model sets of boolean operations.\n\nFor now only simple actions are modelled but could be extended to include more complex actions in the future.\nSee doc for more info: https://docs.google.com/document/d/151vAXurvX4k8fNOWspSI2Ou9OF1G5fj8LHa-NuKOfgw"
+        },
+        "outcome": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/FixAppliedOutcome"
+            }
+          ],
+          "description": "Indicates whether applying these actions will address the finding or not"
+        }
+      },
+      "required": [
+        "outcome"
+      ],
+      "type": "object"
+    },
+    "String256": {
+      "maxLength": 256,
+      "type": "string"
+    },
+    "FixAction": {
+      "description": "Different fix formats in which the fix action is represented. We distinguish between advice and diff formats.\n\nAdvice - Fix advice in a display only / informational format. These are highly product line specific, so they have their own model.\n- upgradePackageAdvice: Upgrade a direct package from one version to a newer one that resolves the vulnerability.\n- pinPackageAdvice: Pin a package at a specific version.\n\nDiff - Fix suggestions in the unified diff format that introduce code changes\nto remediate the vulnerability. Can be used to represent fix actions for any product line.",
+      "discriminator": {
+        "mapping": {
+          "diff": "#/components/schemas/Diff",
+          "pin_package_advice": "#/components/schemas/PinPackageAdvice",
+          "upgrade_package_advice": "#/components/schemas/UpgradePackageAdvice"
+        },
+        "propertyName": "format"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/UpgradePackageAdvice"
+        },
+        {
+          "$ref": "#/components/schemas/PinPackageAdvice"
+        },
+        {
+          "$ref": "#/components/schemas/Diff"
+        }
+      ]
+    },
+    "OtherEvidence": {
+      "description": "Evidence which this API version is not capable of expressing.\n\nMore information may be available in a newer version of this API.",
+      "properties": {
+        "source": {
+          "enum": [
+            "other"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "source"
+      ],
+      "type": "object"
+    },
+    "PolicyRef": {
+      "description": "Reference to a single policy.",
+      "oneOf": [
+        {
+          "enum": [
+            "local_policy"
+          ],
+          "type": "string"
+        },
+        {
+          "$ref": "#/components/schemas/ManagedPolicyRef"
+        }
+      ]
+    },
+    "PinPackageAdvice": {
+      "description": "Pin a package at a specific version. Pinning is a capability not supported\nby all ecosystems, which causes a transitive dependency to be pinned at\na specific version with an override.\n\nFor example, the `replace` go.mod directive can override package dependency\nconstraints, forcing a specific version to be used in the application.\n\nPinning could break an application.\n\nNote: In practice pin actions today are solely used in python pip's packages as pip does not calculate upgrade paths",
+      "example": {
+        "format": "pin_package_advice",
+        "package_name": "requests",
+        "pin_version": "2.25.1"
+      },
+      "properties": {
+        "format": {
+          "enum": [
+            "pin_package_advice"
+          ],
+          "type": "string"
+        },
+        "package_name": {
+          "type": "string"
+        },
+        "pin_version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "format",
+        "package_name",
+        "pin_version"
+      ],
+      "type": "object"
+    },
+    "OtherLocation": {
+      "description": "Finding locations which this API version is not capable of expressing.\n\nThis location may be available in a newer version of this API.",
+      "properties": {
+        "type": {
+          "enum": [
+            "other"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "FileRegion": {
+      "description": "FileRegion models a location where vulnerable code is found.",
+      "properties": {
+        "file_path": {
+          "description": "File path for the code snippet.",
+          "type": "string"
+        },
+        "from_column": {
+          "description": "Column on which the snippet starts.",
+          "type": "integer"
+        },
+        "from_line": {
+          "description": "Line in the file where the code snippet starts.",
+          "type": "integer"
+        },
+        "to_column": {
+          "description": "Column at which the code snippet ends.",
+          "type": "integer"
+        },
+        "to_line": {
+          "description": "Line on which the code snippet ends.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file_path",
+        "from_line"
+      ],
+      "type": "object"
+    },
+    "FindingType": {
+      "description": "Type of Finding which was discovered.",
+      "enum": [
+        "sca",
+        "sast",
+        "dast",
+        "other",
+        "config",
+        "secret",
+        "secrets"
+      ],
+      "type": "string"
+    },
+    "io.snyk.api.common.PaginatedLinks": {
+      "properties": {
+        "first": {
+          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        },
+        "last": {
+          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        },
+        "next": {
+          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        },
+        "prev": {
+          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        },
+        "self": {
+          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "io.snyk.api.common.JsonApi": {
+      "properties": {
+        "version": {
+          "description": "Version of the JSON API specification this server supports.",
+          "enum": [
+            "1.0"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "version"
+      ],
+      "type": "object"
+    },
+    "io.snyk.api.common.LinkObject": {
+      "properties": {
+        "href": {
+          "$ref": "#/components/schemas/io.snyk.api.common.LinkString"
+        },
+        "meta": {
+          "$ref": "#/components/schemas/io.snyk.api.common.Meta"
+        }
+      },
+      "required": [
+        "href"
+      ],
+      "type": "object"
+    },
+    "Severity": {
+      "description": "Indicate the severity of a finding discovered by a Test.",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "none",
+        "other"
+      ],
+      "type": "string"
+    },
+    "ReachabilityEvidence": {
+      "description": "Indicate the reachability signals as additional evidence for the finding.",
+      "properties": {
+        "paths": {
+          "description": "Paths by which the vulnerable code can be reached.\n\nIncludes the name of the function, the path through the\nsource code that reaches the function, and the location\nat which the vulnerable function is called.",
+          "items": {
+            "$ref": "#/components/schemas/ReachablePath"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "reachability": {
+          "$ref": "#/components/schemas/ReachabilityType"
+        },
+        "source": {
+          "enum": [
+            "reachability"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "reachability"
+      ],
+      "type": "object"
+    },
+    "ReachablePath": {
+      "description": "ReachablePath represents the paths to a vulnerable function.",
+      "properties": {
+        "call_paths": {
+          "description": "Paths in code bundle that call the vulnerable function.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "function_name": {
+          "description": "Vulnerable function name.",
+          "type": "string"
+        },
+        "location": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/FileRegion"
+            }
+          ],
+          "description": "Location in a file where the vulnerability can be found."
+        }
+      },
+      "required": [
+        "function_name",
+        "call_paths"
+      ],
+      "type": "object"
+    },
     "Diff": {
       "description": "Fix suggestions in the unified diff format that introduce code changes\nto remediate the vulnerability.",
       "example": {
@@ -267,144 +602,6 @@
       ],
       "type": "object"
     },
-    "io.snyk.api.common.LinkObject": {
-      "properties": {
-        "href": {
-          "$ref": "#/components/schemas/io.snyk.api.common.LinkString"
-        },
-        "meta": {
-          "$ref": "#/components/schemas/io.snyk.api.common.Meta"
-        }
-      },
-      "required": [
-        "href"
-      ],
-      "type": "object"
-    },
-    "io.snyk.api.common.LinkString": {
-      "format": "uri",
-      "type": "string"
-    },
-    "io.snyk.api.common.ErrorDocument": {
-      "properties": {
-        "errors": {
-          "items": {
-            "$ref": "#/components/schemas/io.snyk.api.common.Error"
-          },
-          "minItems": 1,
-          "type": "array"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/io.snyk.api.common.JsonApi"
-        }
-      },
-      "required": [
-        "jsonapi",
-        "errors"
-      ],
-      "type": "object"
-    },
-    "PinPackageAdvice": {
-      "description": "Pin a package at a specific version. Pinning is a capability not supported\nby all ecosystems, which causes a transitive dependency to be pinned at\na specific version with an override.\n\nFor example, the `replace` go.mod directive can override package dependency\nconstraints, forcing a specific version to be used in the application.\n\nPinning could break an application.\n\nNote: In practice pin actions today are solely used in python pip's packages as pip does not calculate upgrade paths",
-      "example": {
-        "format": "pin_package_advice",
-        "package_name": "requests",
-        "pin_version": "2.25.1"
-      },
-      "properties": {
-        "format": {
-          "enum": [
-            "pin_package_advice"
-          ],
-          "type": "string"
-        },
-        "package_name": {
-          "type": "string"
-        },
-        "pin_version": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "format",
-        "package_name",
-        "pin_version"
-      ],
-      "type": "object"
-    },
-    "DependencyPathEvidence": {
-      "description": "Dependency path to a software component within an SBOM dependency graph.\n\nFinding types: SCA",
-      "properties": {
-        "path": {
-          "description": "Series of component identifiers starting from the top-level component tested,\nand ending in the vulnerable software component.\n\nThe identifiers are domain-specific and determined by the test subject.",
-          "items": {
-            "$ref": "#/components/schemas/Package"
-          },
-          "type": "array"
-        },
-        "source": {
-          "enum": [
-            "dependency_path"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "source",
-        "path"
-      ],
-      "type": "object"
-    },
-    "DiffSuggestion": {
-      "description": "A suggestion in unified diff format representing the code changes to fix the vulnerability.",
-      "properties": {
-        "diff": {
-          "description": "Unified diff that contains changes for one or multiple files.\nIt already contains file path, but this can be extracted as a separate field if needed.",
-          "maxLength": 10485760,
-          "type": "string"
-        },
-        "external_id": {
-          "description": "The fix suggestion identifier from an external source.",
-          "format": "uuid",
-          "type": "string"
-        },
-        "rank": {
-          "format": "uint8",
-          "type": "integer"
-        }
-      },
-      "required": [
-        "diff"
-      ],
-      "type": "object"
-    },
-    "ReachabilityEvidence": {
-      "description": "Indicate the reachability signals as additional evidence for the finding.",
-      "properties": {
-        "paths": {
-          "description": "Paths by which the vulnerable code can be reached.\n\nIncludes the name of the function, the path through the\nsource code that reaches the function, and the location\nat which the vulnerable function is called.",
-          "items": {
-            "$ref": "#/components/schemas/ReachablePath"
-          },
-          "minItems": 1,
-          "type": "array"
-        },
-        "reachability": {
-          "$ref": "#/components/schemas/ReachabilityType"
-        },
-        "source": {
-          "enum": [
-            "reachability"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "source",
-        "reachability"
-      ],
-      "type": "object"
-    },
     "ManagedPolicyRef": {
       "description": "Reference to a managed policy.",
       "properties": {
@@ -417,50 +614,648 @@
       ],
       "type": "object"
     },
-    "PackageLocation": {
-      "description": "Package dependency version.\n\nFinding type: SCA",
-      "example": {
-        "package": {
-          "name": "log4j",
-          "version": "2.4.1"
-        },
-        "type": "package"
+    "io.snyk.api.common.LinkString": {
+      "format": "uri",
+      "type": "string"
+    },
+    "io.snyk.api.common.ErrorLink": {
+      "additionalProperties": {
+        "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
       },
+      "description": "A link that leads to further details about this particular occurrance of the problem.",
       "properties": {
-        "package": {
-          "$ref": "#/components/schemas/Package"
+        "about": {
+          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        }
+      },
+      "type": "object"
+    },
+    "FindingData": {
+      "description": "FindingData represents a Finding resource object.",
+      "properties": {
+        "attributes": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/FindingAttributes"
+            }
+          ],
+          "readOnly": true
+        },
+        "id": {
+          "format": "uuid",
+          "readOnly": true,
+          "type": "string"
+        },
+        "links": {
+          "description": "Links to external resources outside this API.\n\nBecause these are not REST API resources, they are expressed here as links,\nrather than as relationships.",
+          "properties": {
+            "snyk_advisory": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+                }
+              ],
+              "description": "Link to Snyk's vulnerability advisory for more information on the\nfinding, if applicable.",
+              "example": "https://security.snyk.io/vuln/SNYK-JAVA-ORGAPACHELOGGINGLOG4J-2314720"
+            },
+            "snyk_learn": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+                }
+              ],
+              "description": "Link to a Snyk Learn lesson relevant to the finding, if applicable.",
+              "example": "https://learn.snyk.io/lesson/csrf-attack/"
+            }
+          },
+          "type": "object"
+        },
+        "relationships": {
+          "properties": {
+            "asset": {
+              "description": "Originating asset in which this finding was discovered.",
+              "properties": {
+                "data": {
+                  "properties": {
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id"
+                  ],
+                  "type": "object"
+                },
+                "links": {
+                  "$ref": "#/components/schemas/io.snyk.api.common.RelatedLink"
+                },
+                "meta": {
+                  "$ref": "#/components/schemas/io.snyk.api.common.Meta"
+                }
+              },
+              "required": [
+                "links"
+              ],
+              "type": "object"
+            },
+            "fix": {
+              "description": "Fix for this finding, it comes expanded with all data preloaded",
+              "properties": {
+                "data": {
+                  "properties": {
+                    "attributes": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/FixAttributes"
+                        }
+                      ],
+                      "description": "Inlined attributes included in the relationship, if it is expanded.\n\nExpansion is a Snyk variation on JSON API. See\nhttps://snyk.roadie.so/docs/default/component/sweater-comb/standards/rest/#expansion"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id"
+                  ],
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "org": {
+              "description": "Snyk organization scope in which the finding was discovered.",
+              "properties": {
+                "data": {
+                  "properties": {
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id"
+                  ],
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "policy": {
+              "description": "Relate to the policy or policies applied to this finding.",
+              "properties": {
+                "data": {
+                  "properties": {
+                    "attributes": {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "policies": {
+                              "items": {
+                                "properties": {
+                                  "applied_policy": {
+                                    "anyOf": [
+                                      {
+                                        "properties": {
+                                          "action_type": {
+                                            "enum": [
+                                              "severity-change"
+                                            ],
+                                            "type": "string"
+                                          },
+                                          "policy_ref": {
+                                            "description": "Reference to a policy, serving as a container for a set of policy-rules and can be owned by the group or the org.",
+                                            "properties": {
+                                              "id": {
+                                                "format": "uuid",
+                                                "type": "string"
+                                              },
+                                              "owner": {
+                                                "enum": [
+                                                  "org",
+                                                  "group"
+                                                ],
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "id",
+                                              "owner"
+                                            ],
+                                            "type": "object"
+                                          },
+                                          "rule": {
+                                            "description": "A policy rule is the central entity of a policy, including an action as well as conditions\nwhen this policy applies.\nOnly a subset of fields are included, for more details see the API documentation\nhttps://apidocs.snyk.io/?version=2024-10-15#get-/orgs/-org_id-/policies/-policy_id-",
+                                            "properties": {
+                                              "created": {
+                                                "format": "date-time",
+                                                "type": "string"
+                                              },
+                                              "id": {
+                                                "format": "uuid",
+                                                "type": "string"
+                                              },
+                                              "modified": {
+                                                "format": "date-time",
+                                                "type": "string"
+                                              },
+                                              "name": {
+                                                "type": "string"
+                                              },
+                                              "review": {
+                                                "enum": [
+                                                  "approved",
+                                                  "rejected",
+                                                  "pending",
+                                                  "cancelled",
+                                                  "not-required",
+                                                  "unknown"
+                                                ],
+                                                "type": "string"
+                                              },
+                                              "reviewed_at": {
+                                                "format": "date-time",
+                                                "type": "string"
+                                              },
+                                              "reviewed_by": {
+                                                "properties": {
+                                                  "email": {
+                                                    "description": "Email of the reviewer",
+                                                    "type": "string"
+                                                  },
+                                                  "id": {
+                                                    "description": "User ID of the reviewer",
+                                                    "format": "uuid",
+                                                    "type": "string"
+                                                  },
+                                                  "name": {
+                                                    "description": "Name of the reviewer",
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "id",
+                                                  "name"
+                                                ],
+                                                "type": "object"
+                                              }
+                                            },
+                                            "required": [
+                                              "id",
+                                              "name",
+                                              "modified",
+                                              "created",
+                                              "review"
+                                            ],
+                                            "type": "object"
+                                          },
+                                          "severity_change": {
+                                            "properties": {
+                                              "new_severity": {
+                                                "description": "Indicate the severity of a finding discovered by a Test.",
+                                                "enum": [
+                                                  "critical",
+                                                  "high",
+                                                  "medium",
+                                                  "low",
+                                                  "none",
+                                                  "other"
+                                                ],
+                                                "type": "string"
+                                              },
+                                              "original_severity": {
+                                                "description": "Indicate the severity of a finding discovered by a Test.",
+                                                "enum": [
+                                                  "critical",
+                                                  "high",
+                                                  "medium",
+                                                  "low",
+                                                  "none",
+                                                  "other"
+                                                ],
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "original_severity",
+                                              "new_severity"
+                                            ],
+                                            "type": "object"
+                                          }
+                                        },
+                                        "required": [
+                                          "action_type",
+                                          "policy_ref",
+                                          "rule",
+                                          "severity_change"
+                                        ],
+                                        "type": "object"
+                                      },
+                                      {
+                                        "properties": {
+                                          "action_type": {
+                                            "enum": [
+                                              "ignore"
+                                            ],
+                                            "type": "string"
+                                          },
+                                          "ignore": {
+                                            "properties": {
+                                              "created": {
+                                                "format": "date-time",
+                                                "type": "string"
+                                              },
+                                              "disregard_if_fixable": {
+                                                "description": "Disregards the policy if set to true and the finding this policy is applied to is fixable",
+                                                "type": "boolean"
+                                              },
+                                              "expires": {
+                                                "format": "date-time",
+                                                "type": "string"
+                                              },
+                                              "ignored_by": {
+                                                "properties": {
+                                                  "email": {
+                                                    "description": "Email of the user who created the ignore",
+                                                    "type": "string"
+                                                  },
+                                                  "id": {
+                                                    "description": "User ID of the author of the ignore",
+                                                    "format": "uuid",
+                                                    "type": "string"
+                                                  },
+                                                  "name": {
+                                                    "description": "Name of the user who created the ignore",
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "id",
+                                                  "name"
+                                                ],
+                                                "type": "object"
+                                              },
+                                              "path": {
+                                                "items": {
+                                                  "type": "string"
+                                                },
+                                                "maxItems": 10,
+                                                "type": "array"
+                                              },
+                                              "reason": {
+                                                "type": "string"
+                                              },
+                                              "reason_type": {
+                                                "enum": [
+                                                  "wont-fix",
+                                                  "not-vulnerable",
+                                                  "temporary-ignore"
+                                                ],
+                                                "type": "string"
+                                              },
+                                              "source": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "reason",
+                                              "source"
+                                            ],
+                                            "type": "object"
+                                          },
+                                          "policy_ref": {
+                                            "description": "Reference to a policy, serving as a container for a set of policy-rules and can be owned by the group or the org.",
+                                            "properties": {
+                                              "id": {
+                                                "format": "uuid",
+                                                "type": "string"
+                                              },
+                                              "owner": {
+                                                "enum": [
+                                                  "org",
+                                                  "group"
+                                                ],
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "id",
+                                              "owner"
+                                            ],
+                                            "type": "object"
+                                          },
+                                          "rule": {
+                                            "description": "A policy rule is the central entity of a policy, including an action as well as conditions\nwhen this policy applies.\nOnly a subset of fields are included, for more details see the API documentation\nhttps://apidocs.snyk.io/?version=2024-10-15#get-/orgs/-org_id-/policies/-policy_id-",
+                                            "properties": {
+                                              "created": {
+                                                "format": "date-time",
+                                                "type": "string"
+                                              },
+                                              "id": {
+                                                "format": "uuid",
+                                                "type": "string"
+                                              },
+                                              "modified": {
+                                                "format": "date-time",
+                                                "type": "string"
+                                              },
+                                              "name": {
+                                                "type": "string"
+                                              },
+                                              "review": {
+                                                "enum": [
+                                                  "approved",
+                                                  "rejected",
+                                                  "pending",
+                                                  "cancelled",
+                                                  "not-required",
+                                                  "unknown"
+                                                ],
+                                                "type": "string"
+                                              },
+                                              "reviewed_at": {
+                                                "format": "date-time",
+                                                "type": "string"
+                                              },
+                                              "reviewed_by": {
+                                                "properties": {
+                                                  "email": {
+                                                    "description": "Email of the reviewer",
+                                                    "type": "string"
+                                                  },
+                                                  "id": {
+                                                    "description": "User ID of the reviewer",
+                                                    "format": "uuid",
+                                                    "type": "string"
+                                                  },
+                                                  "name": {
+                                                    "description": "Name of the reviewer",
+                                                    "type": "string"
+                                                  }
+                                                },
+                                                "required": [
+                                                  "id",
+                                                  "name"
+                                                ],
+                                                "type": "object"
+                                              }
+                                            },
+                                            "required": [
+                                              "id",
+                                              "name",
+                                              "modified",
+                                              "created",
+                                              "review"
+                                            ],
+                                            "type": "object"
+                                          }
+                                        },
+                                        "required": [
+                                          "action_type",
+                                          "ignore"
+                                        ],
+                                        "type": "object"
+                                      }
+                                    ],
+                                    "discriminator": {
+                                      "propertyName": "action_type"
+                                    }
+                                  },
+                                  "id": {
+                                    "format": "uuid",
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "enum": [
+                                      "legacy_policy_snapshot"
+                                    ],
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "id",
+                                  "applied_policy"
+                                ],
+                                "type": "object"
+                              },
+                              "type": "array"
+                            }
+                          },
+                          "required": [
+                            "policies"
+                          ],
+                          "type": "object"
+                        }
+                      ],
+                      "description": "Inlined attributes included in the relationship, if it is expanded.\n\nExpansion is a Snyk variation on JSON API. See\nhttps://snyk.roadie.so/docs/default/component/sweater-comb/standards/rest/#expansion"
+                    },
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id"
+                  ],
+                  "type": "object"
+                },
+                "links": {
+                  "$ref": "#/components/schemas/io.snyk.api.common.RelatedLink"
+                },
+                "meta": {
+                  "$ref": "#/components/schemas/io.snyk.api.common.Meta"
+                }
+              },
+              "required": [
+                "links"
+              ],
+              "type": "object"
+            },
+            "project": {
+              "description": "Snyk Project in which the Finding was discovered",
+              "properties": {
+                "data": {
+                  "properties": {
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id"
+                  ],
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            },
+            "test": {
+              "description": "Test in which this finding was discovered.",
+              "properties": {
+                "data": {
+                  "properties": {
+                    "id": {
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "id"
+                  ],
+                  "type": "object"
+                },
+                "links": {
+                  "$ref": "#/components/schemas/io.snyk.api.common.RelatedLink"
+                },
+                "meta": {
+                  "$ref": "#/components/schemas/io.snyk.api.common.Meta"
+                }
+              },
+              "required": [
+                "links"
+              ],
+              "type": "object"
+            }
+          },
+          "readOnly": true,
+          "type": "object"
         },
         "type": {
           "enum": [
-            "package"
+            "findings"
           ],
+          "readOnly": true,
           "type": "string"
         }
       },
       "required": [
+        "id",
         "type",
-        "package"
+        "attributes"
       ],
       "type": "object"
     },
-    "io.snyk.api.common.PaginatedLinks": {
+    "Suppression": {
+      "description": "Details about a finding's suppression in test results.\n\nSuppressed findings do not contribute to the test outcome, but they are still\nprovided in the results.",
       "properties": {
-        "first": {
-          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        "created_at": {
+          "description": "When the suppression was first created.",
+          "format": "date-time",
+          "type": "string"
         },
-        "last": {
-          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        "expires_at": {
+          "description": "When the suppression will expire.",
+          "format": "date-time",
+          "type": "string"
         },
-        "next": {
-          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        "justification": {
+          "description": "Reason given for an ignore pending approval.",
+          "type": "string"
         },
-        "prev": {
-          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        "path": {
+          "description": "Dependency path to the vulnerable package to be suppressed.\n\nIf not provided, the suppression will apply to all packages with the given\nvulnerability ID.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
-        "self": {
-          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
+        "policy": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/PolicyRef"
+            }
+          ],
+          "description": "Policy responsible for the state of suppression represented here, if available."
+        },
+        "skipIfFixable": {
+          "description": "Skip the suppression if an actual fix is available.",
+          "type": "boolean"
+        },
+        "status": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/SuppressionStatus"
+            }
+          ],
+          "description": "Status of the suppression."
         }
       },
+      "required": [
+        "status"
+      ],
       "type": "object"
     },
     "PolicyModification": {
@@ -495,44 +1290,24 @@
       ],
       "type": "object"
     },
-    "ReachabilityType": {
-      "description": "Reachability enum for reachability signal.",
-      "enum": [
-        "none",
-        "function",
-        "no_info",
-        "not_applicable"
-      ],
-      "type": "string"
-    },
-    "OtherEvidence": {
-      "description": "Evidence which this API version is not capable of expressing.\n\nMore information may be available in a newer version of this API.",
+    "io.snyk.api.common.ErrorDocument": {
       "properties": {
-        "source": {
-          "enum": [
-            "other"
-          ],
-          "type": "string"
+        "errors": {
+          "items": {
+            "$ref": "#/components/schemas/io.snyk.api.common.Error"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/io.snyk.api.common.JsonApi"
         }
       },
       "required": [
-        "source"
+        "jsonapi",
+        "errors"
       ],
       "type": "object"
-    },
-    "PolicyRef": {
-      "description": "Reference to a single policy.",
-      "oneOf": [
-        {
-          "enum": [
-            "local_policy"
-          ],
-          "type": "string"
-        },
-        {
-          "$ref": "#/components/schemas/ManagedPolicyRef"
-        }
-      ]
     },
     "UpgradePath": {
       "description": "Upgrade path model all known dependency paths that will change when applying an upgrade action.",
@@ -555,35 +1330,83 @@
       ],
       "type": "object"
     },
-    "FixAction": {
-      "description": "Different fix formats in which the fix action is represented. We distinguish between advice and diff formats.\n\nAdvice - Fix advice in a display only / informational format. These are highly product line specific, so they have their own model.\n- upgradePackageAdvice: Upgrade a direct package from one version to a newer one that resolves the vulnerability.\n- pinPackageAdvice: Pin a package at a specific version.\n\nDiff - Fix suggestions in the unified diff format that introduce code changes\nto remediate the vulnerability. Can be used to represent fix actions for any product line.",
-      "discriminator": {
-        "mapping": {
-          "diff": "#/components/schemas/Diff",
-          "pin_package_advice": "#/components/schemas/PinPackageAdvice",
-          "upgrade_package_advice": "#/components/schemas/UpgradePackageAdvice"
+    "DependencyPathEvidence": {
+      "description": "Dependency path to a software component within an SBOM dependency graph.\n\nFinding types: SCA",
+      "properties": {
+        "path": {
+          "description": "Series of component identifiers starting from the top-level component tested,\nand ending in the vulnerable software component.\n\nThe identifiers are domain-specific and determined by the test subject.",
+          "items": {
+            "$ref": "#/components/schemas/Package"
+          },
+          "type": "array"
         },
-        "propertyName": "format"
-      },
-      "oneOf": [
-        {
-          "$ref": "#/components/schemas/UpgradePackageAdvice"
-        },
-        {
-          "$ref": "#/components/schemas/PinPackageAdvice"
-        },
-        {
-          "$ref": "#/components/schemas/Diff"
+        "source": {
+          "enum": [
+            "dependency_path"
+          ],
+          "type": "string"
         }
-      ]
+      },
+      "required": [
+        "source",
+        "path"
+      ],
+      "type": "object"
+    },
+    "io.snyk.api.common.Error": {
+      "properties": {
+        "code": {
+          "description": "An application-specific error code, expressed as a string value.",
+          "type": "string"
+        },
+        "detail": {
+          "description": "A human-readable explanation specific to this occurrence of the problem.",
+          "type": "string"
+        },
+        "id": {
+          "description": "A unique identifier for this particular occurrence of the problem.",
+          "format": "uuid",
+          "type": "string"
+        },
+        "links": {
+          "$ref": "#/components/schemas/io.snyk.api.common.ErrorLink"
+        },
+        "meta": {
+          "type": "object"
+        },
+        "source": {
+          "properties": {
+            "parameter": {
+              "type": "string"
+            },
+            "pointer": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "status": {
+          "description": "The HTTP status code applicable to this problem, expressed as a string value.",
+          "pattern": "^[45]\\d\\d$",
+          "type": "string"
+        },
+        "title": {
+          "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "detail"
+      ],
+      "type": "object"
     },
     "FindingLocation": {
       "description": "Location within an Subject's contents where the finding was discovered.",
       "discriminator": {
         "mapping": {
           "other": "#/components/schemas/OtherLocation",
-          "package": "#/components/schemas/PackageLocation",
-          "source": "#/components/schemas/SourceLocation"
+          "package": "#/components/schemas/PackageLocation"
         },
         "propertyName": "type"
       },
@@ -641,13 +1464,86 @@
         }
       ]
     },
-    "io.snyk.api.common.ErrorLink": {
-      "additionalProperties": {
-        "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
-      },
-      "description": "A link that leads to further details about this particular occurrance of the problem.",
+    "io.snyk.api.common.Meta": {
+      "additionalProperties": {},
+      "description": "Free-form object that may contain non-standard information.",
+      "type": "object"
+    },
+    "ReachabilityType": {
+      "description": "Reachability enum for reachability signal.",
+      "enum": [
+        "none",
+        "function",
+        "no_info",
+        "not_applicable"
+      ],
+      "type": "string"
+    },
+    "FixAppliedOutcome": {
+      "description": "Indicates the outcome of a fix in terms of resolving the finding at hand",
+      "enum": [
+        "fully_resolved",
+        "partially_resolved",
+        "unresolved"
+      ],
+      "type": "string"
+    },
+    "Package": {
+      "description": "Dependency models a package dependency.",
       "properties": {
-        "about": {
+        "name": {
+          "description": "Name is the name of the package.",
+          "example": "lodash",
+          "type": "string"
+        },
+        "version": {
+          "description": "Version is the version of the named package.",
+          "example": "1.2.3",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "type": "object"
+    },
+    "io.snyk.api.common.LinkProperty": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/io.snyk.api.common.LinkString"
+        },
+        {
+          "$ref": "#/components/schemas/io.snyk.api.common.LinkObject"
+        }
+      ]
+    },
+    "DiffSuggestion": {
+      "description": "A suggestion in unified diff format representing the code changes to fix the vulnerability.",
+      "properties": {
+        "diff": {
+          "description": "Unified diff that contains changes for one or multiple files.\nIt already contains file path, but this can be extracted as a separate field if needed.",
+          "maxLength": 10485760,
+          "type": "string"
+        },
+        "external_id": {
+          "description": "The fix suggestion identifier from an external source.",
+          "format": "uuid",
+          "type": "string"
+        },
+        "rank": {
+          "format": "uint8",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "diff"
+      ],
+      "type": "object"
+    },
+    "io.snyk.api.common.RelatedLink": {
+      "properties": {
+        "related": {
           "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
         }
       },
@@ -660,6 +1556,14 @@
           "default": false,
           "description": "Did this finding cause the test outcome to fail?",
           "type": "boolean"
+        },
+        "component_key": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/String256"
+            }
+          ],
+          "description": "A test-scoped key referring to the component in which the Finding\noriginated.\n\nComponent keys are unique only within a Test."
         },
         "description": {
           "description": "A longer human-readable text description for this finding.",
@@ -750,17 +1654,6 @@
           "items": {
             "description": "Problems are representative of the finding in other security domains and\nsystems with a well-known identifier.\n\nMore detailed attributes for the problem may be included, especially when\nthis information is not yet readily available in a relatable public API.\n\nProblems are defined in industry standard taxonomies such as:\n- MITRE's Common Weakness Enumeration (CWE)\n- Common Vulnerability Exposures (CVE)\n\nSnyk systems also define problems, such as:\n- Code SAST rules\n- VulnDB vulnerabilities\n- Software licenses\n- Secret leaks",
             "discriminator": {
-              "mapping": {
-                "cve": "#/components/schemas/CveProblem",
-                "cwe": "#/components/schemas/CweProblem",
-                "ghsa": "#/components/schemas/GithubSecurityAdvisoryProblem",
-                "other": "#/components/schemas/OtherProblem",
-                "secret": "#/components/schemas/SecretsRuleProblem",
-                "snyk_cloud_rule": "#/components/schemas/SnykCloudRuleProblem",
-                "snyk_code_rule": "#/components/schemas/SnykCodeRuleProblem",
-                "snyk_license": "#/components/schemas/SnykLicenseProblem",
-                "snyk_vuln": "#/components/schemas/SnykVulnProblem"
-              },
               "propertyName": "source"
             },
             "oneOf": [
@@ -1131,11 +2024,6 @@
                       {
                         "description": "Describe a software package ecosystem.",
                         "discriminator": {
-                          "mapping": {
-                            "build": "#/components/schemas/snykvulndb.BuildPackageEcosystem",
-                            "os": "#/components/schemas/snykvulndb.OsPackageEcosystem",
-                            "other": "#/components/schemas/snykvulndb.OtherPackageEcosystem"
-                          },
                           "propertyName": "type"
                         },
                         "oneOf": [
@@ -1546,11 +2434,6 @@
                       {
                         "description": "Describe a software package ecosystem.",
                         "discriminator": {
-                          "mapping": {
-                            "build": "#/components/schemas/snykvulndb.BuildPackageEcosystem",
-                            "os": "#/components/schemas/snykvulndb.OsPackageEcosystem",
-                            "other": "#/components/schemas/snykvulndb.OtherPackageEcosystem"
-                          },
                           "propertyName": "type"
                         },
                         "oneOf": [
@@ -1962,850 +2845,31 @@
       ],
       "type": "object"
     },
-    "SuppressionStatus": {
-      "description": "Status of a suppression on a finding.",
-      "enum": [
-        "ignored",
-        "pending_ignore_approval",
-        "other"
-      ],
-      "type": "string"
-    },
-    "ReachablePath": {
-      "description": "ReachablePath represents the paths to a vulnerable function.",
-      "properties": {
-        "call_paths": {
-          "description": "Paths in code bundle that call the vulnerable function.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
+    "PackageLocation": {
+      "description": "Package dependency version.\n\nFinding type: SCA",
+      "example": {
+        "package": {
+          "name": "log4j",
+          "version": "2.4.1"
         },
-        "function_name": {
-          "description": "Vulnerable function name.",
-          "type": "string"
-        },
-        "location": {
-          "allOf": [
-            {
-              "$ref": "#/components/schemas/FileRegion"
-            }
-          ],
-          "description": "Location in a file where the vulnerability can be found."
-        }
+        "type": "package"
       },
-      "required": [
-        "function_name",
-        "call_paths"
-      ],
-      "type": "object"
-    },
-    "io.snyk.api.common.JsonApi": {
       "properties": {
-        "version": {
-          "description": "Version of the JSON API specification this server supports.",
-          "enum": [
-            "1.0"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "version"
-      ],
-      "type": "object"
-    },
-    "Package": {
-      "description": "Dependency models a package dependency.",
-      "properties": {
-        "name": {
-          "description": "Name is the name of the package.",
-          "example": "lodash",
-          "type": "string"
-        },
-        "version": {
-          "description": "Version is the version of the named package.",
-          "example": "1.2.3",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "version"
-      ],
-      "type": "object"
-    },
-    "io.snyk.api.common.RelatedLink": {
-      "properties": {
-        "related": {
-          "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
-        }
-      },
-      "type": "object"
-    },
-    "FindingData": {
-      "description": "FindingData represents a Finding resource object.",
-      "properties": {
-        "attributes": {
-          "allOf": [
-            {
-              "$ref": "#/components/schemas/FindingAttributes"
-            }
-          ],
-          "readOnly": true
-        },
-        "id": {
-          "format": "uuid",
-          "readOnly": true,
-          "type": "string"
-        },
-        "links": {
-          "description": "Links to external resources outside this API.\n\nBecause these are not REST API resources, they are expressed here as links,\nrather than as relationships.",
-          "properties": {
-            "snyk_advisory": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
-                }
-              ],
-              "description": "Link to Snyk's vulnerability advisory for more information on the\nfinding, if applicable.",
-              "example": "https://security.snyk.io/vuln/SNYK-JAVA-ORGAPACHELOGGINGLOG4J-2314720"
-            },
-            "snyk_learn": {
-              "allOf": [
-                {
-                  "$ref": "#/components/schemas/io.snyk.api.common.LinkProperty"
-                }
-              ],
-              "description": "Link to a Snyk Learn lesson relevant to the finding, if applicable.",
-              "example": "https://learn.snyk.io/lesson/csrf-attack/"
-            }
-          },
-          "type": "object"
-        },
-        "relationships": {
-          "properties": {
-            "asset": {
-              "description": "Originating asset in which this finding was discovered.",
-              "properties": {
-                "data": {
-                  "properties": {
-                    "id": {
-                      "format": "uuid",
-                      "type": "string"
-                    },
-                    "type": {
-                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "type",
-                    "id"
-                  ],
-                  "type": "object"
-                },
-                "links": {
-                  "$ref": "#/components/schemas/io.snyk.api.common.RelatedLink"
-                },
-                "meta": {
-                  "$ref": "#/components/schemas/io.snyk.api.common.Meta"
-                }
-              },
-              "required": [
-                "links"
-              ],
-              "type": "object"
-            },
-            "fix": {
-              "description": "Fix for this finding, it comes expanded with all data preloaded",
-              "properties": {
-                "data": {
-                  "properties": {
-                    "attributes": {
-                      "allOf": [
-                        {
-                          "$ref": "#/components/schemas/FixAttributes"
-                        }
-                      ],
-                      "description": "Inlined attributes included in the relationship, if it is expanded.\n\nExpansion is a Snyk variation on JSON API. See\nhttps://snyk.roadie.so/docs/default/component/sweater-comb/standards/rest/#expansion"
-                    },
-                    "id": {
-                      "format": "uuid",
-                      "type": "string"
-                    },
-                    "type": {
-                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "type",
-                    "id"
-                  ],
-                  "type": "object"
-                }
-              },
-              "type": "object"
-            },
-            "org": {
-              "description": "Snyk organization scope in which the finding was discovered.",
-              "properties": {
-                "data": {
-                  "properties": {
-                    "id": {
-                      "format": "uuid",
-                      "type": "string"
-                    },
-                    "type": {
-                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "type",
-                    "id"
-                  ],
-                  "type": "object"
-                }
-              },
-              "type": "object"
-            },
-            "policy": {
-              "description": "Relate to the policy or policies applied to this finding.",
-              "properties": {
-                "data": {
-                  "properties": {
-                    "attributes": {
-                      "allOf": [
-                        {
-                          "properties": {
-                            "policies": {
-                              "items": {
-                                "properties": {
-                                  "applied_policy": {
-                                    "anyOf": [
-                                      {
-                                        "properties": {
-                                          "action_type": {
-                                            "enum": [
-                                              "severity-change"
-                                            ],
-                                            "type": "string"
-                                          },
-                                          "policy_ref": {
-                                            "description": "Reference to a policy, serving as a container for a set of policy-rules and can be owned by the group or the org.",
-                                            "properties": {
-                                              "id": {
-                                                "format": "uuid",
-                                                "type": "string"
-                                              },
-                                              "owner": {
-                                                "enum": [
-                                                  "org",
-                                                  "group"
-                                                ],
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "id",
-                                              "owner"
-                                            ],
-                                            "type": "object"
-                                          },
-                                          "rule": {
-                                            "description": "A policy rule is the central entity of a policy, including an action as well as conditions\nwhen this policy applies.\nOnly a subset of fields are included, for more details see the API documentation\nhttps://apidocs.snyk.io/?version=2024-10-15#get-/orgs/-org_id-/policies/-policy_id-",
-                                            "properties": {
-                                              "created": {
-                                                "format": "date-time",
-                                                "type": "string"
-                                              },
-                                              "id": {
-                                                "format": "uuid",
-                                                "type": "string"
-                                              },
-                                              "modified": {
-                                                "format": "date-time",
-                                                "type": "string"
-                                              },
-                                              "name": {
-                                                "type": "string"
-                                              },
-                                              "review": {
-                                                "enum": [
-                                                  "approved",
-                                                  "rejected",
-                                                  "pending",
-                                                  "cancelled",
-                                                  "not-required"
-                                                ],
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "id",
-                                              "name",
-                                              "modified",
-                                              "created",
-                                              "review"
-                                            ],
-                                            "type": "object"
-                                          },
-                                          "severity_change": {
-                                            "properties": {
-                                              "new_severity": {
-                                                "description": "Indicate the severity of a finding discovered by a Test.",
-                                                "enum": [
-                                                  "critical",
-                                                  "high",
-                                                  "medium",
-                                                  "low",
-                                                  "none",
-                                                  "other"
-                                                ],
-                                                "type": "string"
-                                              },
-                                              "original_severity": {
-                                                "description": "Indicate the severity of a finding discovered by a Test.",
-                                                "enum": [
-                                                  "critical",
-                                                  "high",
-                                                  "medium",
-                                                  "low",
-                                                  "none",
-                                                  "other"
-                                                ],
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "original_severity",
-                                              "new_severity"
-                                            ],
-                                            "type": "object"
-                                          }
-                                        },
-                                        "required": [
-                                          "action_type",
-                                          "policy_ref",
-                                          "rule",
-                                          "severity_change"
-                                        ],
-                                        "type": "object"
-                                      },
-                                      {
-                                        "properties": {
-                                          "action_type": {
-                                            "enum": [
-                                              "ignore"
-                                            ],
-                                            "type": "string"
-                                          },
-                                          "ignore": {
-                                            "properties": {
-                                              "created": {
-                                                "format": "date-time",
-                                                "type": "string"
-                                              },
-                                              "disregard_if_fixable": {
-                                                "description": "Disregards the policy if set to true and the finding this policy is applied to is fixable",
-                                                "type": "boolean"
-                                              },
-                                              "expires": {
-                                                "format": "date-time",
-                                                "type": "string"
-                                              },
-                                              "ignored_by": {
-                                                "properties": {
-                                                  "email": {
-                                                    "description": "Email of the user who created the ignore",
-                                                    "type": "string"
-                                                  },
-                                                  "id": {
-                                                    "description": "User ID of the author of the ignore",
-                                                    "format": "uuid",
-                                                    "type": "string"
-                                                  },
-                                                  "name": {
-                                                    "description": "Name of the user who created the ignore",
-                                                    "type": "string"
-                                                  }
-                                                },
-                                                "required": [
-                                                  "id",
-                                                  "name"
-                                                ],
-                                                "type": "object"
-                                              },
-                                              "path": {
-                                                "items": {
-                                                  "type": "string"
-                                                },
-                                                "maxItems": 10,
-                                                "type": "array"
-                                              },
-                                              "reason": {
-                                                "type": "string"
-                                              },
-                                              "reason_type": {
-                                                "enum": [
-                                                  "wont-fix",
-                                                  "not-vulnerable",
-                                                  "temporary-ignore"
-                                                ],
-                                                "type": "string"
-                                              },
-                                              "source": {
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "reason",
-                                              "source"
-                                            ],
-                                            "type": "object"
-                                          },
-                                          "policy_ref": {
-                                            "description": "Reference to a policy, serving as a container for a set of policy-rules and can be owned by the group or the org.",
-                                            "properties": {
-                                              "id": {
-                                                "format": "uuid",
-                                                "type": "string"
-                                              },
-                                              "owner": {
-                                                "enum": [
-                                                  "org",
-                                                  "group"
-                                                ],
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "id",
-                                              "owner"
-                                            ],
-                                            "type": "object"
-                                          },
-                                          "rule": {
-                                            "description": "A policy rule is the central entity of a policy, including an action as well as conditions\nwhen this policy applies.\nOnly a subset of fields are included, for more details see the API documentation\nhttps://apidocs.snyk.io/?version=2024-10-15#get-/orgs/-org_id-/policies/-policy_id-",
-                                            "properties": {
-                                              "created": {
-                                                "format": "date-time",
-                                                "type": "string"
-                                              },
-                                              "id": {
-                                                "format": "uuid",
-                                                "type": "string"
-                                              },
-                                              "modified": {
-                                                "format": "date-time",
-                                                "type": "string"
-                                              },
-                                              "name": {
-                                                "type": "string"
-                                              },
-                                              "review": {
-                                                "enum": [
-                                                  "approved",
-                                                  "rejected",
-                                                  "pending",
-                                                  "cancelled",
-                                                  "not-required"
-                                                ],
-                                                "type": "string"
-                                              }
-                                            },
-                                            "required": [
-                                              "id",
-                                              "name",
-                                              "modified",
-                                              "created",
-                                              "review"
-                                            ],
-                                            "type": "object"
-                                          }
-                                        },
-                                        "required": [
-                                          "action_type",
-                                          "ignore"
-                                        ],
-                                        "type": "object"
-                                      }
-                                    ],
-                                    "discriminator": {
-                                      "mapping": {
-                                        "ignore": "#/components/schemas/Ignore",
-                                        "severity-change": "#/components/schemas/SeverityChange"
-                                      },
-                                      "propertyName": "action_type"
-                                    }
-                                  },
-                                  "id": {
-                                    "format": "uuid",
-                                    "type": "string"
-                                  },
-                                  "type": {
-                                    "enum": [
-                                      "legacy_policy_snapshot"
-                                    ],
-                                    "type": "string"
-                                  }
-                                },
-                                "required": [
-                                  "type",
-                                  "id",
-                                  "applied_policy"
-                                ],
-                                "type": "object"
-                              },
-                              "type": "array"
-                            }
-                          },
-                          "required": [
-                            "policies"
-                          ],
-                          "type": "object"
-                        }
-                      ],
-                      "description": "Inlined attributes included in the relationship, if it is expanded.\n\nExpansion is a Snyk variation on JSON API. See\nhttps://snyk.roadie.so/docs/default/component/sweater-comb/standards/rest/#expansion"
-                    },
-                    "id": {
-                      "format": "uuid",
-                      "type": "string"
-                    },
-                    "type": {
-                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "type",
-                    "id"
-                  ],
-                  "type": "object"
-                },
-                "links": {
-                  "$ref": "#/components/schemas/io.snyk.api.common.RelatedLink"
-                },
-                "meta": {
-                  "$ref": "#/components/schemas/io.snyk.api.common.Meta"
-                }
-              },
-              "required": [
-                "links"
-              ],
-              "type": "object"
-            },
-            "test": {
-              "description": "Test in which this finding was discovered.",
-              "properties": {
-                "data": {
-                  "properties": {
-                    "id": {
-                      "format": "uuid",
-                      "type": "string"
-                    },
-                    "type": {
-                      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "type",
-                    "id"
-                  ],
-                  "type": "object"
-                },
-                "links": {
-                  "$ref": "#/components/schemas/io.snyk.api.common.RelatedLink"
-                },
-                "meta": {
-                  "$ref": "#/components/schemas/io.snyk.api.common.Meta"
-                }
-              },
-              "required": [
-                "links"
-              ],
-              "type": "object"
-            }
-          },
-          "readOnly": true,
-          "type": "object"
+        "package": {
+          "$ref": "#/components/schemas/Package"
         },
         "type": {
           "enum": [
-            "findings"
+            "package"
           ],
-          "readOnly": true,
           "type": "string"
         }
       },
       "required": [
-        "id",
         "type",
-        "attributes"
+        "package"
       ],
       "type": "object"
-    },
-    "io.snyk.api.common.Error": {
-      "properties": {
-        "code": {
-          "description": "An application-specific error code, expressed as a string value.",
-          "type": "string"
-        },
-        "detail": {
-          "description": "A human-readable explanation specific to this occurrence of the problem.",
-          "type": "string"
-        },
-        "id": {
-          "description": "A unique identifier for this particular occurrence of the problem.",
-          "format": "uuid",
-          "type": "string"
-        },
-        "links": {
-          "$ref": "#/components/schemas/io.snyk.api.common.ErrorLink"
-        },
-        "meta": {
-          "type": "object"
-        },
-        "source": {
-          "properties": {
-            "parameter": {
-              "type": "string"
-            },
-            "pointer": {
-              "type": "string"
-            }
-          },
-          "type": "object"
-        },
-        "status": {
-          "description": "The HTTP status code applicable to this problem, expressed as a string value.",
-          "pattern": "^[45]\\d\\d$",
-          "type": "string"
-        },
-        "title": {
-          "description": "A short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem, except for purposes of localization.",
-          "type": "string"
-        }
-      },
-      "required": [
-        "status",
-        "detail"
-      ],
-      "type": "object"
-    },
-    "FixAttributes": {
-      "description": "FixAttributes is the main payload modelling a fix",
-      "properties": {
-        "action": {
-          "allOf": [
-            {
-              "$ref": "#/components/schemas/FixAction"
-            }
-          ],
-          "description": "Applying the steps specified by the action within the fix leads to resolving either completely or partially this finding.\nAn action may be a simple upgrade, a code swap, or may model sets of boolean operations.\n\nFor now only simple actions are modelled but could be extended to include more complex actions in the future.\nSee doc for more info: https://docs.google.com/document/d/151vAXurvX4k8fNOWspSI2Ou9OF1G5fj8LHa-NuKOfgw"
-        },
-        "outcome": {
-          "allOf": [
-            {
-              "$ref": "#/components/schemas/FixAppliedOutcome"
-            }
-          ],
-          "description": "Indicates whether applying these actions will address the finding or not"
-        }
-      },
-      "required": [
-        "outcome"
-      ],
-      "type": "object"
-    },
-    "FixAppliedOutcome": {
-      "description": "Indicates the outcome of a fix in terms of resolving the finding at hand",
-      "enum": [
-        "fully_resolved",
-        "partially_resolved",
-        "unresolved"
-      ],
-      "type": "string"
-    },
-    "FileRegion": {
-      "description": "FileRegion models a location where vulnerable code is found.",
-      "properties": {
-        "file_path": {
-          "description": "File path for the code snippet.",
-          "type": "string"
-        },
-        "from_column": {
-          "description": "Column on which the snippet starts.",
-          "type": "integer"
-        },
-        "from_line": {
-          "description": "Line in the file where the code snippet starts.",
-          "type": "integer"
-        },
-        "to_column": {
-          "description": "Column at which the code snippet ends.",
-          "type": "integer"
-        },
-        "to_line": {
-          "description": "Line on which the code snippet ends.",
-          "type": "integer"
-        }
-      },
-      "required": [
-        "file_path",
-        "from_line"
-      ],
-      "type": "object"
-    },
-    "Suppression": {
-      "description": "Details about a finding's suppression in test results.\n\nSuppressed findings do not contribute to the test outcome, but they are still\nprovided in the results.",
-      "properties": {
-        "created_at": {
-          "description": "When the suppression was first created.",
-          "format": "date-time",
-          "type": "string"
-        },
-        "expires_at": {
-          "description": "When the suppression will expire.",
-          "format": "date-time",
-          "type": "string"
-        },
-        "justification": {
-          "description": "Reason given for an ignore pending approval.",
-          "type": "string"
-        },
-        "path": {
-          "description": "Dependency path to the vulnerable package to be suppressed.\n\nIf not provided, the suppression will apply to all packages with the given\nvulnerability ID.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "policy": {
-          "allOf": [
-            {
-              "$ref": "#/components/schemas/PolicyRef"
-            }
-          ],
-          "description": "Policy responsible for the state of suppression represented here, if available."
-        },
-        "skipIfFixable": {
-          "description": "Skip the suppression if an actual fix is available.",
-          "type": "boolean"
-        },
-        "status": {
-          "allOf": [
-            {
-              "$ref": "#/components/schemas/SuppressionStatus"
-            }
-          ],
-          "description": "Status of the suppression."
-        }
-      },
-      "required": [
-        "status"
-      ],
-      "type": "object"
-    },
-    "io.snyk.api.common.Meta": {
-      "additionalProperties": {},
-      "description": "Free-form object that may contain non-standard information.",
-      "type": "object"
-    },
-    "FindingType": {
-      "description": "Type of Finding which was discovered.",
-      "enum": [
-        "sca",
-        "sast",
-        "dast",
-        "other",
-        "config",
-        "secret"
-      ],
-      "type": "string"
-    },
-    "Evidence": {
-      "description": "Supporting evidence for (rather than representative of) the finding in other\nsecurity domains and systems, lacking a well-known identifier.\n\nMore detailed attributes may also be included inline, especially when this\ninformation is not yet generally available in a well-known public APIs.\n\nExamples include:\n- Detailed enumeration of dependency paths\n- Execution flows leading to a code rule violation",
-      "discriminator": {
-        "mapping": {
-          "dependency_path": "#/components/schemas/DependencyPathEvidence",
-          "execution_flow": "#/components/schemas/ExecutionFlowEvidence",
-          "other": "#/components/schemas/OtherEvidence",
-          "reachability": "#/components/schemas/ReachabilityEvidence"
-        },
-        "propertyName": "source"
-      },
-      "oneOf": [
-        {
-          "$ref": "#/components/schemas/DependencyPathEvidence"
-        },
-        {
-          "$ref": "#/components/schemas/ExecutionFlowEvidence"
-        },
-        {
-          "$ref": "#/components/schemas/ReachabilityEvidence"
-        },
-        {
-          "$ref": "#/components/schemas/OtherEvidence"
-        }
-      ]
-    },
-    "OtherLocation": {
-      "description": "Finding locations which this API version is not capable of expressing.\n\nThis location may be available in a newer version of this API.",
-      "properties": {
-        "type": {
-          "enum": [
-            "other"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "io.snyk.api.common.LinkProperty": {
-      "oneOf": [
-        {
-          "$ref": "#/components/schemas/io.snyk.api.common.LinkString"
-        },
-        {
-          "$ref": "#/components/schemas/io.snyk.api.common.LinkObject"
-        }
-      ]
-    },
-    "Rating": {
-      "description": "Rating represents qualitative metrics on a finding.",
-      "properties": {
-        "severity": {
-          "allOf": [
-            {
-              "$ref": "#/components/schemas/Severity"
-            }
-          ],
-          "description": "Severity level of the finding."
-        }
-      },
-      "required": [
-        "severity"
-      ],
-      "type": "object"
-    },
-    "Severity": {
-      "description": "Indicate the severity of a finding discovered by a Test.",
-      "enum": [
-        "critical",
-        "high",
-        "medium",
-        "low",
-        "none",
-        "other"
-      ],
-      "type": "string"
     }
   },
   "referenced_common_schemas": [

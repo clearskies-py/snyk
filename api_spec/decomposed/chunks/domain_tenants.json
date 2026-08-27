@@ -61,6 +61,14 @@
           },
           {
             "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "description": "Only return tenants whose name contains this value.",
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -700,6 +708,155 @@
     }
   ],
   "schemas": {
+    "SelfLink": {
+      "additionalProperties": false,
+      "example": {
+        "self": "https://example.com/api/this_resource"
+      },
+      "properties": {
+        "self": {
+          "example": "https://example.com/api/resource",
+          "oneOf": [
+            {
+              "description": "A string containing the link\u2019s URL.",
+              "example": "https://example.com/api/resource",
+              "type": "string"
+            },
+            {
+              "additionalProperties": false,
+              "example": {
+                "href": "https://example.com/api/resource"
+              },
+              "properties": {
+                "href": {
+                  "description": "A string containing the link\u2019s URL.",
+                  "example": "https://example.com/api/resource",
+                  "type": "string"
+                },
+                "meta": {
+                  "additionalProperties": true,
+                  "description": "Free-form object that may contain non-standard information.",
+                  "example": {
+                    "key1": "value1",
+                    "key2": {
+                      "sub_key": "sub_value"
+                    },
+                    "key3": [
+                      "array_value1",
+                      "array_value2"
+                    ]
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "href"
+              ],
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "TenantMembershipId": {
+      "description": "Unique identifier for a tenant membership.",
+      "example": "00000000-0000-0000-0000-000000000000",
+      "format": "uuid",
+      "type": "string"
+    },
+    "TenantId__0": {
+      "description": "Unique identifier for a tenant.",
+      "example": "00000000-0000-0000-0000-000000000000",
+      "format": "uuid",
+      "type": "string"
+    },
+    "TenantMembershipTenantRelationshipFull": {
+      "additionalProperties": false,
+      "description": "The tenant to which the membership applies.",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRelationshipDataFull"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "ReadTenantMembershipResponseRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRoleRelationshipFull"
+        },
+        "tenant": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRelationshipFull"
+        },
+        "user": {
+          "$ref": "#/components/schemas/TenantMembershipUserRelationshipFullWithMeta"
+        }
+      },
+      "required": [
+        "role",
+        "tenant",
+        "user"
+      ],
+      "type": "object"
+    },
+    "CreatedAt": {
+      "description": "The time at which the resource was created.",
+      "example": "2022-03-16T00:00:00Z",
+      "format": "date-time",
+      "type": "string"
+    },
+    "TenantRoleId": {
+      "description": "Unique identifier for a tenant role.",
+      "example": "00000000-0000-0000-0000-000000000000",
+      "format": "uuid",
+      "type": "string"
+    },
+    "UpdateTenantMembershipRequestRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRoleRelationshipBasic"
+        }
+      },
+      "required": [
+        "role"
+      ],
+      "type": "object"
+    },
+    "TenantMembershipUserRelationshipDataAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "account_type": {
+          "$ref": "#/components/schemas/UserAccountType"
+        },
+        "active": {
+          "$ref": "#/components/schemas/UserIsActive"
+        },
+        "email": {
+          "$ref": "#/components/schemas/UserEmail"
+        },
+        "login_method": {
+          "$ref": "#/components/schemas/UserLoginMethod"
+        },
+        "name": {
+          "$ref": "#/components/schemas/UserName"
+        },
+        "username": {
+          "$ref": "#/components/schemas/UserUsername"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "login_method"
+      ],
+      "type": "object"
+    },
     "TenantMembershipTenantRoleRelationshipFull": {
       "additionalProperties": false,
       "description": "The role held by the user in the tenant.",
@@ -710,6 +867,34 @@
       },
       "required": [
         "data"
+      ],
+      "type": "object"
+    },
+    "TenantUpdateAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "The display name of the tenant.",
+          "example": "My Tenant",
+          "maxLength": 60,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "TenantMembershipResponseAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "$ref": "#/components/schemas/CreatedAt"
+        }
+      },
+      "required": [
+        "created_at"
       ],
       "type": "object"
     },
@@ -729,25 +914,169 @@
       ],
       "type": "object"
     },
-    "TenantId__0": {
-      "description": "Unique identifier for a tenant.",
+    "TenantResponseData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/TenantAttributes"
+        },
+        "id": {
+          "description": "The Snyk ID of the tenant.",
+          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/TenantRelationships"
+        },
+        "type": {
+          "$ref": "#/components/schemas/Types"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "TenantMembershipTenantRelationshipDataFull": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "$ref": "#/components/schemas/TenantName"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/TenantId__0"
+        },
+        "type": {
+          "$ref": "#/components/schemas/TenantType"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "Types": {
+      "example": "resource",
+      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
+      "type": "string"
+    },
+    "UserId": {
+      "description": "Unique identifier for a user.",
       "example": "00000000-0000-0000-0000-000000000000",
       "format": "uuid",
       "type": "string"
     },
-    "ListTenantMembershipResponseData": {
-      "additionalProperties": false,
-      "items": {
-        "$ref": "#/components/schemas/TenantMembershipResponseDataObject"
-      },
-      "type": "array"
-    },
-    "TenantMembershipType": {
-      "description": "Resource type for tenant memberships.",
+    "TenantType": {
+      "description": "Resource type for tenants.",
       "enum": [
-        "tenant_membership"
+        "tenant"
       ],
       "type": "string"
+    },
+    "TenantRoleName": {
+      "description": "The display name of the role.",
+      "example": "Role name",
+      "type": "string"
+    },
+    "TenantMembershipTenantRoleRelationshipBasic": {
+      "additionalProperties": false,
+      "description": "The role held by the user in the tenant.",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/TenantMembershipTenantRoleRelationshipDataBasic"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "TenantMembershipResponseDataObject": {
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/TenantMembershipResponseAttributes"
+        },
+        "id": {
+          "$ref": "#/components/schemas/TenantMembershipId"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/ReadTenantMembershipResponseRelationships"
+        },
+        "type": {
+          "$ref": "#/components/schemas/TenantMembershipType"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "TenantRoleType": {
+      "description": "Resource type for tenant roles.",
+      "enum": [
+        "tenant_role"
+      ],
+      "type": "string"
+    },
+    "TenantMembershipUserRelationshipFullWithMeta": {
+      "additionalProperties": false,
+      "description": "The user to which the membership belongs.",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/TenantMembershipUserRelationshipDataFullWithMeta"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "TenantMembershipUserRelationshipDataFullWithMeta": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/TenantMembershipUserRelationshipDataAttributes"
+        },
+        "id": {
+          "$ref": "#/components/schemas/UserId"
+        },
+        "meta": {
+          "additionalProperties": false,
+          "properties": {
+            "tenant_owner": {
+              "description": "Whether the user is the owner of the tenant.",
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "$ref": "#/components/schemas/UserType"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "type": "object"
     },
     "TenantAttributes": {
       "properties": {
@@ -782,228 +1111,6 @@
       ],
       "type": "object"
     },
-    "TenantType": {
-      "description": "Resource type for tenants.",
-      "enum": [
-        "tenant"
-      ],
-      "type": "string"
-    },
-    "UpdateTenantMembershipRequestData": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "additionalProperties": false,
-          "type": "object"
-        },
-        "id": {
-          "$ref": "#/components/schemas/TenantMembershipId"
-        },
-        "relationships": {
-          "$ref": "#/components/schemas/UpdateTenantMembershipRequestRelationships"
-        },
-        "type": {
-          "$ref": "#/components/schemas/TenantMembershipType"
-        }
-      },
-      "required": [
-        "id",
-        "type",
-        "relationships"
-      ],
-      "type": "object"
-    },
-    "UserType": {
-      "description": "Resource type for users.",
-      "enum": [
-        "user"
-      ],
-      "type": "string"
-    },
-    "TenantUpdateAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "name": {
-          "description": "The display name of the tenant.",
-          "example": "My Tenant",
-          "maxLength": 60,
-          "minLength": 1,
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "type": "object"
-    },
-    "TenantMembershipUserRelationshipDataAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "account_type": {
-          "$ref": "#/components/schemas/UserAccountType"
-        },
-        "active": {
-          "$ref": "#/components/schemas/UserIsActive"
-        },
-        "email": {
-          "$ref": "#/components/schemas/UserEmail"
-        },
-        "login_method": {
-          "$ref": "#/components/schemas/UserLoginMethod"
-        },
-        "name": {
-          "$ref": "#/components/schemas/UserName"
-        },
-        "username": {
-          "$ref": "#/components/schemas/UserUsername"
-        }
-      },
-      "required": [
-        "name",
-        "email",
-        "login_method"
-      ],
-      "type": "object"
-    },
-    "TenantRoleId": {
-      "description": "Unique identifier for a tenant role.",
-      "example": "00000000-0000-0000-0000-000000000000",
-      "format": "uuid",
-      "type": "string"
-    },
-    "TenantMembershipId": {
-      "description": "Unique identifier for a tenant membership.",
-      "example": "00000000-0000-0000-0000-000000000000",
-      "format": "uuid",
-      "type": "string"
-    },
-    "TenantMembershipResponseAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "created_at": {
-          "$ref": "#/components/schemas/CreatedAt"
-        }
-      },
-      "required": [
-        "created_at"
-      ],
-      "type": "object"
-    },
-    "TenantMembershipTenantRelationshipFull": {
-      "additionalProperties": false,
-      "description": "The tenant to which the membership applies.",
-      "properties": {
-        "data": {
-          "$ref": "#/components/schemas/TenantMembershipTenantRelationshipDataFull"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
-    },
-    "CreatedAt": {
-      "description": "The time at which the resource was created.",
-      "example": "2022-03-16T00:00:00Z",
-      "format": "date-time",
-      "type": "string"
-    },
-    "UpdateTenantMembershipRequestRelationships": {
-      "additionalProperties": false,
-      "properties": {
-        "role": {
-          "$ref": "#/components/schemas/TenantMembershipTenantRoleRelationshipBasic"
-        }
-      },
-      "required": [
-        "role"
-      ],
-      "type": "object"
-    },
-    "TenantRoleName": {
-      "description": "The display name of the role.",
-      "example": "Role name",
-      "type": "string"
-    },
-    "TenantMembershipTenantRelationshipDataFull": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "additionalProperties": false,
-          "properties": {
-            "name": {
-              "$ref": "#/components/schemas/TenantName"
-            }
-          },
-          "required": [
-            "name"
-          ],
-          "type": "object"
-        },
-        "id": {
-          "$ref": "#/components/schemas/TenantId__0"
-        },
-        "type": {
-          "$ref": "#/components/schemas/TenantType"
-        }
-      },
-      "required": [
-        "id",
-        "type",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "SelfLink": {
-      "additionalProperties": false,
-      "example": {
-        "self": "https://example.com/api/this_resource"
-      },
-      "properties": {
-        "self": {
-          "$ref": "#/components/schemas/LinkProperty"
-        }
-      },
-      "type": "object"
-    },
-    "ReadTenantMembershipResponseRelationships": {
-      "additionalProperties": false,
-      "properties": {
-        "role": {
-          "$ref": "#/components/schemas/TenantMembershipTenantRoleRelationshipFull"
-        },
-        "tenant": {
-          "$ref": "#/components/schemas/TenantMembershipTenantRelationshipFull"
-        },
-        "user": {
-          "$ref": "#/components/schemas/TenantMembershipUserRelationshipFullWithMeta"
-        }
-      },
-      "required": [
-        "role",
-        "tenant",
-        "user"
-      ],
-      "type": "object"
-    },
-    "TenantName": {
-      "description": "The display name of the tenant.",
-      "example": "My Tenant",
-      "type": "string"
-    },
-    "UserId": {
-      "description": "Unique identifier for a user.",
-      "example": "00000000-0000-0000-0000-000000000000",
-      "format": "uuid",
-      "type": "string"
-    },
-    "TenantRoleType": {
-      "description": "Resource type for tenant roles.",
-      "enum": [
-        "tenant_role"
-      ],
-      "type": "string"
-    },
     "TenantMembershipTenantRoleRelationshipDataFull": {
       "additionalProperties": false,
       "properties": {
@@ -1030,6 +1137,42 @@
         "id",
         "type",
         "attributes"
+      ],
+      "type": "object"
+    },
+    "TenantName": {
+      "description": "The display name of the tenant.",
+      "example": "My Tenant",
+      "type": "string"
+    },
+    "TenantMembershipType": {
+      "description": "Resource type for tenant memberships.",
+      "enum": [
+        "tenant_membership"
+      ],
+      "type": "string"
+    },
+    "UpdateTenantMembershipRequestData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "additionalProperties": false,
+          "type": "object"
+        },
+        "id": {
+          "$ref": "#/components/schemas/TenantMembershipId"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/UpdateTenantMembershipRequestRelationships"
+        },
+        "type": {
+          "$ref": "#/components/schemas/TenantMembershipType"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "relationships"
       ],
       "type": "object"
     },
@@ -1065,122 +1208,25 @@
       },
       "type": "object"
     },
-    "TenantMembershipTenantRoleRelationshipBasic": {
-      "additionalProperties": false,
-      "description": "The role held by the user in the tenant.",
-      "properties": {
-        "data": {
-          "$ref": "#/components/schemas/TenantMembershipTenantRoleRelationshipDataBasic"
-        }
-      },
-      "required": [
-        "data"
+    "UserType": {
+      "description": "Resource type for users.",
+      "enum": [
+        "user"
       ],
-      "type": "object"
-    },
-    "TenantResponseData": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/TenantAttributes"
-        },
-        "id": {
-          "description": "The Snyk ID of the tenant.",
-          "example": "59d6d97e-3106-4ebb-b608-352fad9c5b34",
-          "format": "uuid",
-          "type": "string"
-        },
-        "relationships": {
-          "$ref": "#/components/schemas/TenantRelationships"
-        },
-        "type": {
-          "$ref": "#/components/schemas/Types"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "Types": {
-      "example": "resource",
-      "pattern": "^[a-z][a-z0-9]*(_[a-z][a-z0-9]*)*$",
       "type": "string"
     },
-    "TenantMembershipUserRelationshipDataFullWithMeta": {
+    "ListTenantMembershipResponseData": {
       "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/TenantMembershipUserRelationshipDataAttributes"
-        },
-        "id": {
-          "$ref": "#/components/schemas/UserId"
-        },
-        "meta": {
-          "additionalProperties": false,
-          "properties": {
-            "tenant_owner": {
-              "description": "Whether the user is the owner of the tenant.",
-              "type": "boolean"
-            }
-          },
-          "type": "object"
-        },
-        "type": {
-          "$ref": "#/components/schemas/UserType"
-        }
+      "items": {
+        "$ref": "#/components/schemas/TenantMembershipResponseDataObject"
       },
-      "required": [
-        "id",
-        "type",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "TenantMembershipResponseDataObject": {
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/TenantMembershipResponseAttributes"
-        },
-        "id": {
-          "$ref": "#/components/schemas/TenantMembershipId"
-        },
-        "relationships": {
-          "$ref": "#/components/schemas/ReadTenantMembershipResponseRelationships"
-        },
-        "type": {
-          "$ref": "#/components/schemas/TenantMembershipType"
-        }
-      },
-      "required": [
-        "id",
-        "type",
-        "attributes",
-        "relationships"
-      ],
-      "type": "object"
-    },
-    "TenantMembershipUserRelationshipFullWithMeta": {
-      "additionalProperties": false,
-      "description": "The user to which the membership belongs.",
-      "properties": {
-        "data": {
-          "$ref": "#/components/schemas/TenantMembershipUserRelationshipDataFullWithMeta"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
+      "type": "array"
     }
   },
   "referenced_common_schemas": [
-    "JsonApi",
-    "Meta",
-    "LinkProperty",
     "PaginatedLinks",
+    "LinkProperty",
+    "JsonApi",
     "Links"
   ]
 }

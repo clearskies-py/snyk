@@ -1035,6 +1035,43 @@
     }
   ],
   "schemas": {
+    "GroupMembershipGroupData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "name": {
+                  "description": "The name of the group",
+                  "example": "Example group",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "group",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
     "CreateGroupMembershipRequestBody": {
       "properties": {
         "data": {
@@ -1137,171 +1174,7 @@
       },
       "type": "object"
     },
-    "GroupMembershipUserData": {
-      "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "properties": {
-                "email": {
-                  "description": "The email of the user",
-                  "example": "user@test.com",
-                  "type": "string"
-                },
-                "login_method": {
-                  "description": "The login method of the user",
-                  "type": "string"
-                },
-                "name": {
-                  "description": "The name of the user",
-                  "example": "User2",
-                  "type": "string"
-                },
-                "username": {
-                  "description": "The username of the user",
-                  "example": "User name 2",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name",
-                "username",
-                "email"
-              ],
-              "type": "object"
-            },
-            "id": {
-              "example": "331ede0a-de94-456f-b788-166caeca58bf",
-              "format": "uuid",
-              "type": "string"
-            },
-            "type": {
-              "example": "user",
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "attributes"
-          ],
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
-    "Group": {
-      "additionalProperties": true,
-      "properties": {
-        "attributes": {
-          "additionalProperties": true,
-          "properties": {
-            "name": {
-              "description": "The name of the group.",
-              "example": "My Group",
-              "type": "string"
-            }
-          },
-          "required": [
-            "name"
-          ],
-          "type": "object"
-        },
-        "id": {
-          "example": "331ede0a-de94-456f-b788-166caeca58bf",
-          "format": "uuid",
-          "type": "string"
-        },
-        "type": {
-          "description": "Content type.",
-          "example": "group",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "GroupMembershipResponseData": {
-      "additionalProperties": false,
-      "items": {
-        "properties": {
-          "attributes": {
-            "$ref": "#/components/schemas/GroupMembershipAttributes"
-          },
-          "id": {
-            "example": "331ede0a-de94-456f-b788-166caeca58bf",
-            "format": "uuid",
-            "type": "string"
-          },
-          "meta": {
-            "$ref": "#/components/schemas/GroupMembershipMeta"
-          },
-          "relationships": {
-            "$ref": "#/components/schemas/GroupMembershipRelationships"
-          },
-          "type": {
-            "description": "Content type",
-            "example": "group_membership",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "type": "array"
-    },
-    "GroupMembershipMeta": {
-      "additionalProperties": false,
-      "properties": {
-        "group_membership_count": {
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
-    "GroupMembershipOrgMembership": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "properties": {
-            "created_at": {
-              "description": "The date that the org membership was created on",
-              "example": "2021-05-29T09:50:54.014Z",
-              "format": "date-time"
-            }
-          },
-          "type": "object"
-        },
-        "id": {
-          "example": "331ede0a-de94-456f-b788-166caeca58bf",
-          "format": "uuid",
-          "type": "string"
-        },
-        "org_membership_count": {
-          "description": "Org memberships for this user within this group.",
-          "type": "number"
-        },
-        "relationships": {
-          "$ref": "#/components/schemas/GroupMembershipOrgMembershipRelationships"
-        },
-        "type": {
-          "description": "Content type.",
-          "example": "org_membership",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes",
-        "relationships"
-      ],
-      "type": "object"
-    },
-    "GroupMembershipRoleData": {
+    "GroupMembershipOrgMembershipOrgData": {
       "properties": {
         "data": {
           "additionalProperties": false,
@@ -1309,8 +1182,8 @@
             "attributes": {
               "properties": {
                 "name": {
-                  "description": "The name of the role",
-                  "example": "Admin role",
+                  "description": "The name of the prg",
+                  "example": "Example org",
                   "type": "string"
                 }
               },
@@ -1325,256 +1198,7 @@
               "type": "string"
             },
             "type": {
-              "example": "group_role",
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "attributes"
-          ],
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
-    "GroupMembershipOrgMembershipRelationships": {
-      "additionalProperties": false,
-      "properties": {
-        "org": {
-          "$ref": "#/components/schemas/GroupMembershipOrgMembershipOrgData"
-        },
-        "role": {
-          "$ref": "#/components/schemas/GroupMembershipOrgMembershipRoleData"
-        },
-        "user": {
-          "$ref": "#/components/schemas/GroupMembershipOrgMembershipUserData"
-        }
-      },
-      "required": [
-        "role",
-        "org",
-        "user"
-      ],
-      "type": "object"
-    },
-    "GroupMembershipRelationships": {
-      "additionalProperties": false,
-      "properties": {
-        "group": {
-          "$ref": "#/components/schemas/GroupMembershipGroupData"
-        },
-        "role": {
-          "$ref": "#/components/schemas/GroupMembershipRoleData"
-        },
-        "user": {
-          "$ref": "#/components/schemas/GroupMembershipUserData"
-        }
-      },
-      "required": [
-        "role",
-        "group",
-        "user"
-      ],
-      "type": "object"
-    },
-    "MembershipPatchRequestBody": {
-      "properties": {
-        "attributes": {
-          "type": "object"
-        },
-        "id": {
-          "example": "331ede0a-de94-456f-b788-166caeca58bf",
-          "format": "uuid",
-          "type": "string"
-        },
-        "relationships": {
-          "additionalProperties": false,
-          "properties": {
-            "role": {
-              "additionalProperties": false,
-              "properties": {
-                "data": {
-                  "properties": {
-                    "id": {
-                      "example": "331ede0a-de94-456f-b788-166caeca58bf",
-                      "format": "uuid",
-                      "type": "string"
-                    },
-                    "type": {
-                      "description": "Always \"group_role\"",
-                      "example": "Always \"group_role\"",
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
-                }
-              },
-              "type": "object"
-            }
-          },
-          "required": [
-            "role"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "description": "type of membership according to its entity",
-          "example": "group_membership",
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "SSOConnection": {
-      "additionalProperties": false,
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/SSOConnectionAttributes"
-        },
-        "id": {
-          "example": "331ede0a-de94-456f-b788-166caeca58bf",
-          "format": "uuid",
-          "type": "string"
-        },
-        "type": {
-          "description": "Content type.",
-          "example": "sso_connection",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "id",
-        "attributes"
-      ],
-      "type": "object"
-    },
-    "GroupMembershipGroupData": {
-      "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "properties": {
-                "name": {
-                  "description": "The name of the group",
-                  "example": "Example group",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name"
-              ],
-              "type": "object"
-            },
-            "id": {
-              "example": "331ede0a-de94-456f-b788-166caeca58bf",
-              "format": "uuid",
-              "type": "string"
-            },
-            "type": {
-              "example": "group",
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "attributes"
-          ],
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
-    "GroupMembershipOrgMembershipUserData": {
-      "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "properties": {
-                "email": {
-                  "description": "The eamil of the user",
-                  "example": "user@test.com",
-                  "type": "string"
-                },
-                "name": {
-                  "description": "The name of the user",
-                  "example": "User2",
-                  "type": "string"
-                },
-                "username": {
-                  "description": "The username of the user",
-                  "example": "User name 2",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name",
-                "username",
-                "email"
-              ],
-              "type": "object"
-            },
-            "id": {
-              "example": "331ede0a-de94-456f-b788-166caeca58bf",
-              "format": "uuid",
-              "type": "string"
-            },
-            "type": {
-              "example": "user",
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "attributes"
-          ],
-          "type": "object"
-        }
-      },
-      "type": "object"
-    },
-    "SSOConnectionAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "name": {
-          "description": "The display name of the sso connection.",
-          "example": "My SSO",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name"
-      ],
-      "type": "object"
-    },
-    "GroupMembershipOrgMembershipRoleData": {
-      "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "properties": {
-                "name": {
-                  "description": "The name of the role",
-                  "example": "Admin role",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name"
-              ],
-              "type": "object"
-            },
-            "id": {
-              "example": "331ede0a-de94-456f-b788-166caeca58bf",
-              "format": "uuid",
-              "type": "string"
-            },
-            "type": {
-              "example": "org_role",
+              "example": "org",
               "type": "string"
             }
           },
@@ -1655,39 +1279,11 @@
       ],
       "type": "object"
     },
-    "GroupMembershipOrgMembershipOrgData": {
+    "GroupMembershipMeta": {
+      "additionalProperties": false,
       "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "properties": {
-                "name": {
-                  "description": "The name of the prg",
-                  "example": "Example org",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name"
-              ],
-              "type": "object"
-            },
-            "id": {
-              "example": "331ede0a-de94-456f-b788-166caeca58bf",
-              "format": "uuid",
-              "type": "string"
-            },
-            "type": {
-              "example": "org",
-              "type": "string"
-            }
-          },
-          "required": [
-            "id",
-            "attributes"
-          ],
-          "type": "object"
+        "group_membership_count": {
+          "type": "number"
         }
       },
       "type": "object"
@@ -1727,6 +1323,373 @@
       ],
       "type": "object"
     },
+    "GroupMembershipOrgMembershipUserData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "email": {
+                  "description": "The eamil of the user",
+                  "example": "user@test.com",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The name of the user",
+                  "example": "User2",
+                  "type": "string"
+                },
+                "username": {
+                  "description": "The username of the user",
+                  "example": "User name 2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "username",
+                "email"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "user",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "GroupMembershipOrgMembershipRoleData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "name": {
+                  "description": "The name of the role",
+                  "example": "Admin role",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "org_role",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "Group": {
+      "additionalProperties": true,
+      "properties": {
+        "attributes": {
+          "additionalProperties": true,
+          "properties": {
+            "name": {
+              "description": "The name of the group.",
+              "example": "My Group",
+              "type": "string"
+            }
+          },
+          "required": [
+            "name"
+          ],
+          "type": "object"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "group",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipResponseData": {
+      "additionalProperties": false,
+      "items": {
+        "properties": {
+          "attributes": {
+            "$ref": "#/components/schemas/GroupMembershipAttributes"
+          },
+          "id": {
+            "example": "331ede0a-de94-456f-b788-166caeca58bf",
+            "format": "uuid",
+            "type": "string"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/GroupMembershipMeta"
+          },
+          "relationships": {
+            "$ref": "#/components/schemas/GroupMembershipRelationships"
+          },
+          "type": {
+            "description": "Content type",
+            "example": "group_membership",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "GroupMembershipOrgMembershipRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "org": {
+          "$ref": "#/components/schemas/GroupMembershipOrgMembershipOrgData"
+        },
+        "role": {
+          "$ref": "#/components/schemas/GroupMembershipOrgMembershipRoleData"
+        },
+        "user": {
+          "$ref": "#/components/schemas/GroupMembershipOrgMembershipUserData"
+        }
+      },
+      "required": [
+        "role",
+        "org",
+        "user"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipUserData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "email": {
+                  "description": "The email of the user",
+                  "example": "user@test.com",
+                  "type": "string"
+                },
+                "login_method": {
+                  "description": "The login method of the user",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The name of the user",
+                  "example": "User2",
+                  "type": "string"
+                },
+                "username": {
+                  "description": "The username of the user",
+                  "example": "User name 2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "username",
+                "email"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "user",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "MembershipPatchRequestBody": {
+      "properties": {
+        "attributes": {
+          "type": "object"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "additionalProperties": false,
+          "properties": {
+            "role": {
+              "additionalProperties": false,
+              "properties": {
+                "data": {
+                  "properties": {
+                    "id": {
+                      "example": "331ede0a-de94-456f-b788-166caeca58bf",
+                      "format": "uuid",
+                      "type": "string"
+                    },
+                    "type": {
+                      "description": "Always \"group_role\"",
+                      "example": "Always \"group_role\"",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "required": [
+            "role"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "description": "type of membership according to its entity",
+          "example": "group_membership",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SSOConnectionAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "description": "The display name of the sso connection.",
+          "example": "My SSO",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "SSOConnection": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/SSOConnectionAttributes"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "sso_connection",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipRelationships": {
+      "additionalProperties": false,
+      "properties": {
+        "group": {
+          "$ref": "#/components/schemas/GroupMembershipGroupData"
+        },
+        "role": {
+          "$ref": "#/components/schemas/GroupMembershipRoleData"
+        },
+        "user": {
+          "$ref": "#/components/schemas/GroupMembershipUserData"
+        }
+      },
+      "required": [
+        "role",
+        "group",
+        "user"
+      ],
+      "type": "object"
+    },
+    "GroupMembershipOrgMembership": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "properties": {
+            "created_at": {
+              "description": "The date that the org membership was created on",
+              "example": "2021-05-29T09:50:54.014Z",
+              "format": "date-time"
+            }
+          },
+          "type": "object"
+        },
+        "id": {
+          "example": "331ede0a-de94-456f-b788-166caeca58bf",
+          "format": "uuid",
+          "type": "string"
+        },
+        "org_membership_count": {
+          "description": "Org memberships for this user within this group.",
+          "type": "number"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/GroupMembershipOrgMembershipRelationships"
+        },
+        "type": {
+          "description": "Content type.",
+          "example": "org_membership",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
     "GroupMembershipAttributes": {
       "additionalProperties": false,
       "properties": {
@@ -1741,12 +1704,48 @@
         "created_at"
       ],
       "type": "object"
+    },
+    "GroupMembershipRoleData": {
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "properties": {
+                "name": {
+                  "description": "The name of the role",
+                  "example": "Admin role",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ],
+              "type": "object"
+            },
+            "id": {
+              "example": "331ede0a-de94-456f-b788-166caeca58bf",
+              "format": "uuid",
+              "type": "string"
+            },
+            "type": {
+              "example": "group_role",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "object"
     }
   },
   "referenced_common_schemas": [
+    "LinkProperty",
     "JsonApi",
-    "Links",
-    "Meta",
-    "LinkProperty"
+    "Links"
   ]
 }

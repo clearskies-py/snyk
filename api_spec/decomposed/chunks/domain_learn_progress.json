@@ -264,6 +264,21 @@
     }
   ],
   "schemas": {
+    "ProgressRelationships": {
+      "properties": {
+        "catalog": {
+          "$ref": "#/components/schemas/CatalogRelationship"
+        },
+        "user": {
+          "$ref": "#/components/schemas/UserRelationship"
+        }
+      },
+      "required": [
+        "user",
+        "catalog"
+      ],
+      "type": "object"
+    },
     "CatalogProgressAttributes": {
       "properties": {
         "completed_count": {
@@ -331,6 +346,115 @@
         "type",
         "attributes",
         "relationships"
+      ],
+      "type": "object"
+    },
+    "CatalogProgress": {
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/CatalogProgressAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "properties": {
+            "catalog": {
+              "$ref": "#/components/schemas/CatalogRelationship"
+            }
+          },
+          "required": [
+            "catalog"
+          ],
+          "type": "object"
+        },
+        "type": {
+          "enum": [
+            "progress"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes",
+        "relationships"
+      ],
+      "type": "object"
+    },
+    "CatalogProgressResponse": {
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/CatalogProgress"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
+        },
+        "meta": {
+          "properties": {
+            "total_org_members": {
+              "description": "Total number of organization members for which the progress report is generated",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "total_org_members"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "jsonapi",
+        "links",
+        "data"
+      ],
+      "type": "object"
+    },
+    "UsersProgressAttributes": {
+      "properties": {
+        "completion_date": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "completion_history": {
+          "items": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "is_expired": {
+          "type": "boolean"
+        },
+        "resource": {
+          "enum": [
+            "learning_path",
+            "lesson"
+          ],
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "completed",
+            "inProgress",
+            "todo"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "resource",
+        "completion_history"
       ],
       "type": "object"
     },
@@ -425,95 +549,6 @@
       ],
       "type": "object"
     },
-    "ProgressRelationships": {
-      "properties": {
-        "catalog": {
-          "$ref": "#/components/schemas/CatalogRelationship"
-        },
-        "user": {
-          "$ref": "#/components/schemas/UserRelationship"
-        }
-      },
-      "required": [
-        "user",
-        "catalog"
-      ],
-      "type": "object"
-    },
-    "CatalogProgressResponse": {
-      "properties": {
-        "data": {
-          "items": {
-            "$ref": "#/components/schemas/CatalogProgress"
-          },
-          "type": "array"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
-        },
-        "meta": {
-          "properties": {
-            "total_org_members": {
-              "description": "Total number of organization members for which the progress report is generated",
-              "minimum": 0,
-              "type": "integer"
-            }
-          },
-          "required": [
-            "total_org_members"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "jsonapi",
-        "links",
-        "data"
-      ],
-      "type": "object"
-    },
-    "UsersProgressAttributes": {
-      "properties": {
-        "completion_date": {
-          "format": "date-time",
-          "type": "string"
-        },
-        "completion_history": {
-          "items": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "is_expired": {
-          "type": "boolean"
-        },
-        "resource": {
-          "enum": [
-            "learning_path",
-            "lesson"
-          ],
-          "type": "string"
-        },
-        "status": {
-          "enum": [
-            "completed",
-            "inProgress",
-            "todo"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "status",
-        "resource",
-        "completion_history"
-      ],
-      "type": "object"
-    },
     "UserRelationship": {
       "properties": {
         "data": {
@@ -559,47 +594,11 @@
         "data"
       ],
       "type": "object"
-    },
-    "CatalogProgress": {
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/CatalogProgressAttributes"
-        },
-        "id": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "relationships": {
-          "properties": {
-            "catalog": {
-              "$ref": "#/components/schemas/CatalogRelationship"
-            }
-          },
-          "required": [
-            "catalog"
-          ],
-          "type": "object"
-        },
-        "type": {
-          "enum": [
-            "progress"
-          ],
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "type",
-        "attributes",
-        "relationships"
-      ],
-      "type": "object"
     }
   },
   "referenced_common_schemas": [
     "PaginatedLinks",
     "LinkProperty",
-    "Meta",
     "JsonApi"
   ]
 }

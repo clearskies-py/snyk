@@ -167,8 +167,7 @@
   },
   "referenced_common_schemas": [
     "JsonApi",
-    "Links",
-    "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "Links"
   ]
 }

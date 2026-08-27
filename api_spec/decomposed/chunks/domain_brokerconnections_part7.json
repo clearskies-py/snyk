@@ -1708,6 +1708,29 @@
     }
   ],
   "schemas": {
+    "CreateBulkMigrationRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "properties": {
+            "type": {
+              "enum": [
+                "broker_migration"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
     "OrganizationResource": {
       "additionalProperties": false,
       "properties": {
@@ -1723,27 +1746,6 @@
           "type": "string"
         }
       },
-      "type": "object"
-    },
-    "GetBrokerOrganizationsForBulkMigrationResponse": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "items": {
-            "$ref": "#/components/schemas/OrganizationResource"
-          },
-          "type": "array"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
-        }
-      },
-      "required": [
-        "data"
-      ],
       "type": "object"
     },
     "BulkMigrationCreateResponse": {
@@ -1789,22 +1791,20 @@
       ],
       "type": "object"
     },
-    "CreateBulkMigrationRequest": {
+    "GetBrokerOrganizationsForBulkMigrationResponse": {
       "additionalProperties": false,
       "properties": {
         "data": {
-          "properties": {
-            "type": {
-              "enum": [
-                "broker_migration"
-              ],
-              "type": "string"
-            }
+          "items": {
+            "$ref": "#/components/schemas/OrganizationResource"
           },
-          "required": [
-            "type"
-          ],
-          "type": "object"
+          "type": "array"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
         }
       },
       "required": [
@@ -1814,9 +1814,8 @@
     }
   },
   "referenced_common_schemas": [
-    "JsonApi",
     "PaginatedLinks",
-    "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "JsonApi"
   ]
 }

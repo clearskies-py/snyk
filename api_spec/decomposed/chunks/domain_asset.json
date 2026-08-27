@@ -1,8 +1,26 @@
 {
   "tag": "Asset",
-  "endpoint_count": 5,
-  "schema_count": 17,
+  "endpoint_count": 11,
+  "schema_count": 25,
   "endpoints_summary": [
+    {
+      "method": "DELETE",
+      "path": "/groups/{group_id}/assets/repository/aliases",
+      "operation_id": "deleteAliasesInGroup",
+      "summary": "Bulk remove aliases from repository assets in group (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/groups/{group_id}/assets/repository/aliases",
+      "operation_id": "listRepositoryAliasesInGroup",
+      "summary": "List repository aliases in group (Early Access)"
+    },
+    {
+      "method": "POST",
+      "path": "/groups/{group_id}/assets/repository/aliases",
+      "operation_id": "createAliasInGroup",
+      "summary": "Add alias for a repository asset in group (Early Access)"
+    },
     {
       "method": "POST",
       "path": "/groups/{group_id}/assets/search",
@@ -32,9 +50,333 @@
       "path": "/groups/{group_id}/assets/{asset_id}/relationships/projects",
       "operation_id": "listAssetProjects",
       "summary": "List asset projects with pagination (Early Access)"
+    },
+    {
+      "method": "DELETE",
+      "path": "/orgs/{org_id}/assets/repository/aliases",
+      "operation_id": "deleteAliasesInOrg",
+      "summary": "Bulk remove aliases from repository assets in org (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/assets/repository/aliases",
+      "operation_id": "listRepositoryAliasesInOrg",
+      "summary": "List repository aliases in org (Early Access)"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/assets/repository/aliases",
+      "operation_id": "createAliasInOrg",
+      "summary": "Add alias for a repository asset in org (Early Access)"
     }
   ],
   "endpoints": [
+    {
+      "path": "/groups/{group_id}/assets/repository/aliases",
+      "method": "DELETE",
+      "operation_id": "deleteAliasesInGroup",
+      "summary": "Bulk remove aliases from repository assets in group (Early Access)",
+      "details": {
+        "description": "Detach one or more aliased URLs from their canonical repository assets within a group. Each removed URL gets a new standalone asset document.\n\n#### Required permissions\n\n- `Edit Group Details (group.edit)`",
+        "operationId": "deleteAliasesInGroup",
+        "parameters": [
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "items": {
+                      "$ref": "#/components/schemas/RemoveRepositoryAliasRequestData"
+                    },
+                    "maxItems": 100,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Aliases removed successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Bulk remove aliases from repository assets in group (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "refs",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/assets/repository/aliases",
+      "method": "GET",
+      "operation_id": "listRepositoryAliasesInGroup",
+      "summary": "List repository aliases in group (Early Access)",
+      "details": {
+        "description": "Returns a paginated list of alias URL entries for repository assets within a group. Use the optional url filter to restrict results to a specific canonical document.\n\n#### Required permissions\n\n- `View Groups (group.read)`",
+        "operationId": "listRepositoryAliasesInGroup",
+        "parameters": [
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RepositoryUrlQuery"
+          },
+          {
+            "description": "Maximum number of alias items to return per page. A single canonical document with multiple aliases may span more than one page.",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 10,
+              "type": "integer"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfterCursor"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBeforeCursor"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListRepositoryAliasesResponse"
+                }
+              }
+            },
+            "description": "Paginated list of repository alias entries",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List repository aliases in group (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "refs",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/groups/{group_id}/assets/repository/aliases",
+      "method": "POST",
+      "operation_id": "createAliasInGroup",
+      "summary": "Add alias for a repository asset in group (Early Access)",
+      "details": {
+        "description": "Link one or more alternate repository URLs to a canonical repository asset within a group, enabling alias-aware asset lookup.\n\n#### Required permissions\n\n- `Edit Group Details (group.edit)`",
+        "operationId": "createAliasInGroup",
+        "parameters": [
+          {
+            "description": "Group ID",
+            "in": "path",
+            "name": "group_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "items": {
+                      "$ref": "#/components/schemas/AddRepositoryAliasRequestData"
+                    },
+                    "maxItems": 100,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Aliases created successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Add alias for a repository asset in group (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "refs",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
+    },
     {
       "path": "/groups/{group_id}/assets/search",
       "method": "POST",
@@ -129,10 +471,10 @@
                                 ]
                               },
                               {
-                                "attribute": "risk_factors",
+                                "attribute": "sources",
                                 "operator": "in",
                                 "values": [
-                                  "Deployed"
+                                  "github"
                                 ]
                               }
                             ]
@@ -190,8 +532,7 @@
               }
             }
           },
-          "description": "Filter criteria for listing assets. Can be empty or contain query filters.",
-          "required": true
+          "description": "Filter criteria for listing assets. Can be empty or contain query filters."
         },
         "responses": {
           "200": {
@@ -544,21 +885,13 @@
             "$ref": "#/components/parameters/AssetId"
           },
           {
-            "$ref": "#/components/parameters/StartingAfterCursor"
+            "$ref": "#/components/parameters/StartingAfterCursor__0"
           },
           {
-            "$ref": "#/components/parameters/EndingBeforeCursor"
+            "$ref": "#/components/parameters/EndingBeforeCursor__0"
           },
           {
-            "description": "Number of records to return",
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "default": 10,
-              "maximum": 100,
-              "minimum": 10,
-              "type": "number"
-            }
+            "$ref": "#/components/parameters/Limit__0"
           },
           {
             "$ref": "#/components/parameters/Version"
@@ -676,21 +1009,13 @@
             "$ref": "#/components/parameters/AssetId"
           },
           {
-            "$ref": "#/components/parameters/StartingAfterCursor"
+            "$ref": "#/components/parameters/StartingAfterCursor__0"
           },
           {
-            "$ref": "#/components/parameters/EndingBeforeCursor"
+            "$ref": "#/components/parameters/EndingBeforeCursor__0"
           },
           {
-            "description": "Number of records to return",
-            "in": "query",
-            "name": "limit",
-            "schema": {
-              "default": 10,
-              "maximum": 100,
-              "minimum": 10,
-              "type": "number"
-            }
+            "$ref": "#/components/parameters/Limit__0"
           },
           {
             "$ref": "#/components/parameters/Version"
@@ -784,125 +1109,315 @@
         "x-snyk-api-version": "2025-09-28~beta",
         "x-stability-level": "beta"
       }
+    },
+    {
+      "path": "/orgs/{org_id}/assets/repository/aliases",
+      "method": "DELETE",
+      "operation_id": "deleteAliasesInOrg",
+      "summary": "Bulk remove aliases from repository assets in org (Early Access)",
+      "details": {
+        "description": "Detach one or more aliased URLs from their canonical repository assets within an organisation. Each removed URL gets a new standalone asset document.\n\n#### Required permissions\n\n- `Edit Organization (org.edit)`",
+        "operationId": "deleteAliasesInOrg",
+        "parameters": [
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "items": {
+                      "$ref": "#/components/schemas/RemoveRepositoryAliasRequestData"
+                    },
+                    "maxItems": 100,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Aliases removed successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Bulk remove aliases from repository assets in org (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "refs",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/assets/repository/aliases",
+      "method": "GET",
+      "operation_id": "listRepositoryAliasesInOrg",
+      "summary": "List repository aliases in org (Early Access)",
+      "details": {
+        "description": "Returns a paginated list of alias URL entries for repository assets within an organisation. Use the optional url filter to restrict results to a specific canonical document.\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "operationId": "listRepositoryAliasesInOrg",
+        "parameters": [
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RepositoryUrlQuery"
+          },
+          {
+            "description": "Maximum number of alias items to return per page. A single canonical document with multiple aliases may span more than one page.",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 10,
+              "type": "integer"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/StartingAfterCursor"
+          },
+          {
+            "$ref": "#/components/parameters/EndingBeforeCursor"
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListRepositoryAliasesResponse"
+                }
+              }
+            },
+            "description": "Paginated list of repository alias entries",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "List repository aliases in org (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "refs",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/assets/repository/aliases",
+      "method": "POST",
+      "operation_id": "createAliasInOrg",
+      "summary": "Add alias for a repository asset in org (Early Access)",
+      "details": {
+        "description": "Link one or more alternate repository URLs to a canonical repository asset within an organisation, enabling alias-aware asset lookup.\n\n#### Required permissions\n\n- `Edit Organization (org.edit)`",
+        "operationId": "createAliasInOrg",
+        "parameters": [
+          {
+            "description": "Org ID",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Version"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "items": {
+                      "$ref": "#/components/schemas/AddRepositoryAliasRequestData"
+                    },
+                    "maxItems": 100,
+                    "minItems": 1,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Aliases created successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Add alias for a repository asset in org (Early Access)",
+        "tags": [
+          "Asset"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2025-09-28~beta"
+        ],
+        "x-snyk-api-resource": "refs",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2025-09-28~beta",
+        "x-stability-level": "beta"
+      }
     }
   ],
   "schemas": {
-    "SearchAttributesObject": {
-      "properties": {
-        "attribute": {
-          "description": "Name of the Asset attribute to filter on, not required if a logical operator is used.\n\n**Tags Filtering:**\n\nThe API supports filtering on tags using dot notation:\n\n- **Tags**: `tags.{tagName}` - Filter by tag keys (e.g., `tags.environment`, `tags.team`, `tags.owner`)\n",
-          "oneOf": [
-            {
-              "enum": [
-                "id",
-                "type",
-                "removed",
-                "name",
-                "repository_url",
-                "file_path",
-                "sources",
-                "risk_factors",
-                "repository_freshness",
-                "browse_url",
-                "image_id",
-                "image_digests",
-                "image_tags",
-                "image_repositories",
-                "image_registries",
-                "labels",
-                "class",
-                "organizations",
-                "created_at",
-                "updated_at"
-              ],
-              "type": "string"
-            },
-            {
-              "description": "Tag attribute in the format `tags.{tagName}`",
-              "pattern": "^tags\\.[a-zA-Z0-9_-]{1,30}$",
-              "type": "string"
-            }
-          ]
-        },
-        "operator": {
-          "description": "Required, name of the Operator for the query",
-          "enum": [
-            "and",
-            "or",
-            "equal",
-            "not_equal",
-            "contains",
-            "not_contains",
-            "starts_with",
-            "ends_with",
-            "in",
-            "not_in",
-            "greater_than",
-            "lower_than",
-            "equal_or_greater_than",
-            "equal_or_lower_than"
-          ],
-          "type": "string"
-        },
-        "values": {
-          "description": "Required values, which can be strings, dates, integers, booleans, or nested attributes",
-          "items": {
-            "oneOf": [
-              {
-                "description": "A string value",
-                "type": "string"
-              },
-              {
-                "description": "A date value in ISO 8601 format",
-                "format": "date",
-                "type": "string"
-              },
-              {
-                "description": "An integer value",
-                "type": "integer"
-              },
-              {
-                "$ref": "#/components/schemas/SearchAttributesObject"
-              },
-              {
-                "description": "A boolean value",
-                "type": "boolean"
-              }
-            ]
-          },
-          "type": "array"
-        }
-      },
-      "required": [
-        "operator",
-        "values"
-      ],
-      "type": "object"
-    },
-    "AssetClassAttributes": {
-      "additionalProperties": false,
-      "description": "Mandated, hierarchical attribute that provides a standardized measure of an asset's importance to the business. It can be a number from 1-4 or a display name (e.g \"A\", \"B\", \"C\" or \"D\").\nThe locked status is a boolean flag that, when true, prevents automated policy-driven actions from overriding the manually set Business Criticality (Class) value.\n",
-      "example": {
-        "display_name": "A",
-        "locked": true,
-        "rank": 1
-      },
-      "properties": {
-        "display_name": {
-          "description": "class name of the asset",
-          "type": "string"
-        },
-        "locked": {
-          "description": "Whether the asset class is locked",
-          "type": "boolean"
-        },
-        "rank": {
-          "description": "Rank associated with the asset class",
-          "type": "integer"
-        }
-      },
-      "type": "object"
-    },
     "SelfLink": {
       "additionalProperties": false,
       "example": {
@@ -910,61 +1425,112 @@
       },
       "properties": {
         "self": {
-          "$ref": "#/components/schemas/LinkProperty"
+          "example": "https://example.com/api/resource",
+          "oneOf": [
+            {
+              "description": "A string containing the link\u2019s URL.",
+              "example": "https://example.com/api/resource",
+              "type": "string"
+            },
+            {
+              "additionalProperties": false,
+              "example": {
+                "href": "https://example.com/api/resource"
+              },
+              "properties": {
+                "href": {
+                  "description": "A string containing the link\u2019s URL.",
+                  "example": "https://example.com/api/resource",
+                  "type": "string"
+                },
+                "meta": {
+                  "additionalProperties": true,
+                  "description": "Free-form object that may contain non-standard information.",
+                  "example": {
+                    "key1": "value1",
+                    "key2": {
+                      "sub_key": "sub_value"
+                    },
+                    "key3": [
+                      "array_value1",
+                      "array_value2"
+                    ]
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "href"
+              ],
+              "type": "object"
+            }
+          ]
         }
       },
       "type": "object"
     },
-    "AssetProjectAttributes": {
+    "AssetTagsUpdate": {
+      "additionalProperties": false,
+      "description": "Updates the asset's custom tags by adding or removing tag key-value pairs.\n",
       "properties": {
-        "issues_counts": {
-          "properties": {
-            "critical": {
-              "type": "number"
-            },
-            "high": {
-              "type": "number"
-            },
-            "low": {
-              "type": "number"
-            },
-            "medium": {
-              "type": "number"
-            }
+        "add": {
+          "additionalProperties": {
+            "maxLength": 40,
+            "pattern": "^[a-zA-Z0-9_/:?#@&=+%~-]+$",
+            "type": "string"
           },
+          "description": "Tags to add to the asset (key-value pairs). Tag keys must be 1-30 characters long and contain only alphanumeric characters, underscores, and hyphens.\n",
           "type": "object"
         },
-        "last_scan": {
+        "remove": {
+          "description": "Tag keys to remove from the asset",
+          "items": {
+            "maxLength": 30,
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "UpdateAssetAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "$ref": "#/components/schemas/AssetClass"
+        },
+        "labels": {
+          "$ref": "#/components/schemas/AssetLabelsUpdate"
+        },
+        "tags": {
+          "$ref": "#/components/schemas/AssetTagsUpdate"
+        }
+      },
+      "type": "object"
+    },
+    "RemoveRepositoryAliasRequestData": {
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/RemoveRepositoryAliasAttributes"
+        },
+        "id": {
+          "description": "The _id of the canonical reference document in the asset-reference collection",
+          "format": "uuid",
           "type": "string"
         },
-        "name": {
-          "type": "string"
-        },
-        "organization_id": {
-          "type": "string"
-        },
-        "organization_name": {
-          "type": "string"
-        },
-        "project_type": {
-          "type": "string"
-        },
-        "target_file": {
-          "type": "string"
-        },
-        "target_id": {
-          "type": "string"
-        },
-        "target_reference": {
-          "type": "string"
-        },
-        "test_surface": {
-          "type": "string"
-        },
-        "url": {
+        "type": {
+          "enum": [
+            "asset_aliases"
+          ],
           "type": "string"
         }
       },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
       "type": "object"
     },
     "AssetLabelsUpdate": {
@@ -1138,6 +1704,7 @@
           "type": "string"
         },
         "risk_factors": {
+          "deprecated": true,
           "description": "Runtime context that indicates increased asset risk",
           "items": {
             "type": "string"
@@ -1164,6 +1731,24 @@
           "type": "string"
         }
       },
+      "type": "object"
+    },
+    "RepositoryAliasItemAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "new_url": {
+          "description": "The alias URL on the canonical document",
+          "type": "string"
+        },
+        "url": {
+          "description": "The primary URL of the canonical document",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "new_url"
+      ],
       "type": "object"
     },
     "AssetClass": {
@@ -1207,6 +1792,398 @@
           "type": "integer"
         }
       },
+      "type": "object"
+    },
+    "IssuesCountAttributes": {
+      "example": {
+        "critical": 5,
+        "high": 12,
+        "low": 3,
+        "medium": 7
+      },
+      "properties": {
+        "critical": {
+          "description": "Number of critical issues",
+          "type": "integer"
+        },
+        "high": {
+          "description": "Number of high-severity issues",
+          "type": "integer"
+        },
+        "low": {
+          "description": "Number of low-severity issues",
+          "type": "integer"
+        },
+        "medium": {
+          "description": "Number of medium-severity issues",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "DeveloperAttributes": {
+      "example": {
+        "discovered_by": "github",
+        "email": "john.doe@example.com",
+        "url": "https://github.com/johndoe",
+        "username": "johndoe"
+      },
+      "properties": {
+        "discovered_by": {
+          "description": "The SCM integration that was discovered by the developer",
+          "nullable": true,
+          "type": "string"
+        },
+        "email": {
+          "description": "Email address of the developer",
+          "format": "email",
+          "nullable": true,
+          "type": "string"
+        },
+        "url": {
+          "description": "URL of the developer's profile",
+          "format": "uri",
+          "nullable": true,
+          "type": "string"
+        },
+        "username": {
+          "description": "Username of the developer",
+          "nullable": true,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "RemoveRepositoryAliasAttributes": {
+      "properties": {
+        "new_url": {
+          "description": "The aliased URL to detach from its canonical asset",
+          "example": "https://github.com/org/repo-renamed.git",
+          "type": "string"
+        },
+        "url": {
+          "description": "The primary URL of the canonical document that owns the alias. Used to verify the request targets the correct document.",
+          "example": "https://github.com/org/repo.git",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "new_url"
+      ],
+      "type": "object"
+    },
+    "SearchAttributesObject": {
+      "properties": {
+        "attribute": {
+          "description": "Name of the Asset attribute to filter on, not required if a logical operator is used.\n\n**Tags Filtering:**\n\nThe API supports filtering on tags using dot notation:\n\n- **Tags**: `tags.{tagName}` - Filter by tag keys (e.g., `tags.environment`, `tags.team`, `tags.owner`)\n",
+          "oneOf": [
+            {
+              "enum": [
+                "id",
+                "type",
+                "removed",
+                "name",
+                "repository_url",
+                "file_path",
+                "sources",
+                "risk_factors",
+                "repository_freshness",
+                "browse_url",
+                "image_id",
+                "image_digests",
+                "image_tags",
+                "image_repositories",
+                "image_registries",
+                "labels",
+                "class",
+                "organizations",
+                "created_at",
+                "updated_at"
+              ],
+              "type": "string"
+            },
+            {
+              "description": "Tag attribute in the format `tags.{tagName}`",
+              "pattern": "^tags\\.[a-zA-Z0-9_-]{1,30}$",
+              "type": "string"
+            }
+          ]
+        },
+        "operator": {
+          "description": "Required, name of the Operator for the query",
+          "enum": [
+            "and",
+            "or",
+            "equal",
+            "not_equal",
+            "contains",
+            "not_contains",
+            "starts_with",
+            "ends_with",
+            "in",
+            "not_in",
+            "greater_than",
+            "lower_than",
+            "equal_or_greater_than",
+            "equal_or_lower_than"
+          ],
+          "type": "string"
+        },
+        "values": {
+          "description": "Required values, which can be strings, dates, integers, booleans, or nested attributes",
+          "items": {
+            "oneOf": [
+              {
+                "description": "A string value",
+                "type": "string"
+              },
+              {
+                "description": "A date value in ISO 8601 format",
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "description": "An integer value",
+                "type": "integer"
+              },
+              {
+                "$ref": "#/components/schemas/SearchAttributesObject"
+              },
+              {
+                "description": "A boolean value",
+                "type": "boolean"
+              }
+            ]
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "operator",
+        "values"
+      ],
+      "type": "object"
+    },
+    "AssetProjectResponseData": {
+      "description": "asset project resource object",
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AssetProjectAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "project"
+          ],
+          "example": "project",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "AddRepositoryAliasRequestData": {
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AddRepositoryAliasAttributes"
+        },
+        "type": {
+          "enum": [
+            "asset_aliases"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "PaginationLinks": {
+      "description": "Cursor-based pagination links",
+      "properties": {
+        "first": {
+          "description": "Link to the first page",
+          "format": "uri",
+          "type": "string"
+        },
+        "next": {
+          "description": "Link to the next page (if available)",
+          "format": "uri",
+          "type": "string"
+        },
+        "prev": {
+          "description": "Link to the previous page (if available)",
+          "format": "uri",
+          "type": "string"
+        },
+        "self": {
+          "description": "Link to the current page",
+          "format": "uri",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "ListRepositoryAliasesResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/RepositoryAliasesData"
+          },
+          "type": "array"
+        },
+        "jsonapi": {
+          "additionalProperties": false,
+          "properties": {
+            "version": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "links": {
+          "$ref": "#/components/schemas/PaginationLinks"
+        }
+      },
+      "type": "object"
+    },
+    "SearchObject": {
+      "description": "The request body can be empty or include query parameters.",
+      "properties": {
+        "query": {
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/SearchAttributesObject"
+            }
+          },
+          "required": [
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "query"
+      ],
+      "type": "object"
+    },
+    "AssetProjectAttributes": {
+      "properties": {
+        "issues_counts": {
+          "properties": {
+            "critical": {
+              "type": "number"
+            },
+            "high": {
+              "type": "number"
+            },
+            "low": {
+              "type": "number"
+            },
+            "medium": {
+              "type": "number"
+            }
+          },
+          "type": "object"
+        },
+        "last_scan": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "organization_id": {
+          "type": "string"
+        },
+        "organization_name": {
+          "type": "string"
+        },
+        "project_type": {
+          "type": "string"
+        },
+        "target_file": {
+          "type": "string"
+        },
+        "target_id": {
+          "type": "string"
+        },
+        "target_reference": {
+          "type": "string"
+        },
+        "test_surface": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "AssetResponseData": {
+      "description": "asset resource object",
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AssetAttributes"
+        },
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "$ref": "#/components/schemas/AssetRelationships"
+        },
+        "removed": {
+          "type": "boolean"
+        },
+        "type": {
+          "enum": [
+            "repository",
+            "image",
+            "package"
+          ],
+          "example": "repository",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "RepositoryAliasesData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/RepositoryAliasItemAttributes"
+        },
+        "id": {
+          "description": "The _id of the canonical reference document in the asset-reference collection",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "asset_aliases"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
       "type": "object"
     },
     "AssetRelationships": {
@@ -1270,6 +2247,30 @@
       },
       "type": "object"
     },
+    "AssetClassAttributes": {
+      "additionalProperties": false,
+      "description": "Mandated, hierarchical attribute that provides a standardized measure of an asset's importance to the business. It can be a number from 1-4 or a display name (e.g \"A\", \"B\", \"C\" or \"D\").\nThe locked status is a boolean flag that, when true, prevents automated policy-driven actions from overriding the manually set Business Criticality (Class) value.\n",
+      "example": {
+        "display_name": "A",
+        "locked": true,
+        "rank": 1
+      },
+      "properties": {
+        "display_name": {
+          "description": "class name of the asset",
+          "type": "string"
+        },
+        "locked": {
+          "description": "Whether the asset class is locked",
+          "type": "boolean"
+        },
+        "rank": {
+          "description": "Rank associated with the asset class",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
     "UpdateAssetRequestData": {
       "description": "Asset update request data",
       "properties": {
@@ -1296,70 +2297,23 @@
       ],
       "type": "object"
     },
-    "AssetProjectResponseData": {
-      "description": "asset project resource object",
+    "AddRepositoryAliasAttributes": {
       "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/AssetProjectAttributes"
-        },
-        "id": {
-          "format": "uuid",
+        "new_url": {
+          "description": "The alias URL to link to the canonical URL",
+          "example": "https://github.com/org/repo-renamed.git",
           "type": "string"
         },
-        "type": {
-          "enum": [
-            "project"
-          ],
-          "example": "project",
+        "url": {
+          "description": "The canonical URL",
+          "example": "https://github.com/org/repo.git",
           "type": "string"
         }
       },
       "required": [
-        "id",
-        "type"
+        "url",
+        "new_url"
       ],
-      "type": "object"
-    },
-    "IssuesCountAttributes": {
-      "example": {
-        "critical": 5,
-        "high": 12,
-        "low": 3,
-        "medium": 7
-      },
-      "properties": {
-        "critical": {
-          "description": "Number of critical issues",
-          "type": "integer"
-        },
-        "high": {
-          "description": "Number of high-severity issues",
-          "type": "integer"
-        },
-        "low": {
-          "description": "Number of low-severity issues",
-          "type": "integer"
-        },
-        "medium": {
-          "description": "Number of medium-severity issues",
-          "type": "integer"
-        }
-      },
-      "type": "object"
-    },
-    "UpdateAssetAttributes": {
-      "additionalProperties": false,
-      "properties": {
-        "class": {
-          "$ref": "#/components/schemas/AssetClass"
-        },
-        "labels": {
-          "$ref": "#/components/schemas/AssetLabelsUpdate"
-        },
-        "tags": {
-          "$ref": "#/components/schemas/AssetTagsUpdate"
-        }
-      },
       "type": "object"
     },
     "CoverageControlAttributes": {
@@ -1398,121 +2352,10 @@
         }
       },
       "type": "object"
-    },
-    "AssetTagsUpdate": {
-      "additionalProperties": false,
-      "description": "Updates the asset's custom tags by adding or removing tag key-value pairs.\n",
-      "properties": {
-        "add": {
-          "additionalProperties": {
-            "maxLength": 40,
-            "pattern": "^[a-zA-Z0-9_/:?#@&=+%~-]+$",
-            "type": "string"
-          },
-          "description": "Tags to add to the asset (key-value pairs). Tag keys must be 1-30 characters long and contain only alphanumeric characters, underscores, and hyphens.\n",
-          "type": "object"
-        },
-        "remove": {
-          "description": "Tag keys to remove from the asset",
-          "items": {
-            "maxLength": 30,
-            "pattern": "^[a-zA-Z0-9_-]+$",
-            "type": "string"
-          },
-          "type": "array"
-        }
-      },
-      "type": "object"
-    },
-    "AssetResponseData": {
-      "description": "asset resource object",
-      "properties": {
-        "attributes": {
-          "$ref": "#/components/schemas/AssetAttributes"
-        },
-        "id": {
-          "format": "uuid",
-          "type": "string"
-        },
-        "relationships": {
-          "$ref": "#/components/schemas/AssetRelationships"
-        },
-        "removed": {
-          "type": "boolean"
-        },
-        "type": {
-          "enum": [
-            "repository",
-            "image",
-            "package"
-          ],
-          "example": "repository",
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "type"
-      ],
-      "type": "object"
-    },
-    "DeveloperAttributes": {
-      "example": {
-        "discovered_by": "github",
-        "email": "john.doe@example.com",
-        "url": "https://github.com/johndoe",
-        "username": "johndoe"
-      },
-      "properties": {
-        "discovered_by": {
-          "description": "The SCM integration that was discovered by the developer",
-          "nullable": true,
-          "type": "string"
-        },
-        "email": {
-          "description": "Email address of the developer",
-          "format": "email",
-          "nullable": true,
-          "type": "string"
-        },
-        "url": {
-          "description": "URL of the developer's profile",
-          "format": "uri",
-          "nullable": true,
-          "type": "string"
-        },
-        "username": {
-          "description": "Username of the developer",
-          "nullable": true,
-          "type": "string"
-        }
-      },
-      "type": "object"
-    },
-    "SearchObject": {
-      "description": "The request body can be empty or include query parameters.",
-      "properties": {
-        "query": {
-          "properties": {
-            "attributes": {
-              "$ref": "#/components/schemas/SearchAttributesObject"
-            }
-          },
-          "required": [
-            "attributes"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "query"
-      ],
-      "type": "object"
     }
   },
   "referenced_common_schemas": [
-    "Links",
-    "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "Links"
   ]
 }

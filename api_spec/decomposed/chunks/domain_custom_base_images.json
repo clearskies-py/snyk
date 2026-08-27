@@ -505,33 +505,6 @@
     }
   ],
   "schemas": {
-    "CustomBaseImagePostRequest": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "additionalProperties": false,
-          "properties": {
-            "attributes": {
-              "$ref": "#/components/schemas/CustomBaseImageAttributes"
-            },
-            "type": {
-              "description": "This should always be \"custom_base_image\"",
-              "example": "custom_base_image",
-              "type": "string"
-            }
-          },
-          "required": [
-            "type",
-            "attributes"
-          ],
-          "type": "object"
-        }
-      },
-      "required": [
-        "data"
-      ],
-      "type": "object"
-    },
     "SelfLink": {
       "additionalProperties": false,
       "example": {
@@ -539,9 +512,94 @@
       },
       "properties": {
         "self": {
-          "$ref": "#/components/schemas/LinkProperty"
+          "example": "https://example.com/api/resource",
+          "oneOf": [
+            {
+              "description": "A string containing the link\u2019s URL.",
+              "example": "https://example.com/api/resource",
+              "type": "string"
+            },
+            {
+              "additionalProperties": false,
+              "example": {
+                "href": "https://example.com/api/resource"
+              },
+              "properties": {
+                "href": {
+                  "description": "A string containing the link\u2019s URL.",
+                  "example": "https://example.com/api/resource",
+                  "type": "string"
+                },
+                "meta": {
+                  "additionalProperties": true,
+                  "description": "Free-form object that may contain non-standard information.",
+                  "example": {
+                    "key1": "value1",
+                    "key2": {
+                      "sub_key": "sub_value"
+                    },
+                    "key3": [
+                      "array_value1",
+                      "array_value2"
+                    ]
+                  },
+                  "type": "object"
+                }
+              },
+              "required": [
+                "href"
+              ],
+              "type": "object"
+            }
+          ]
         }
       },
+      "type": "object"
+    },
+    "VersioningSchemaCustomType": {
+      "additionalProperties": false,
+      "description": "The Custom Schema type is a way for Snyk to understand your company\u2019s container image tag versioning scheme,\nenabling Snyk to give more accurate base image upgrade recommendations.\n\nThis schema type is essentially a regular expression that groups the different parts of an image\u2019s tag into comparable sections.\n\nIf your container image's tags follow a versioning scheme other than Semantic Versioning (SemVer), \nit is highly recommended that you select the \"Custom Versioning\" schema for your image repositories.\n",
+      "properties": {
+        "expression": {
+          "description": "The regular expression used to describe the format of tags.\nKeep in mind that backslashes in the expression need to be escaped due to being encompassed in a JSON string.\n",
+          "example": "(?<C0>.)\\-(?<M2>.*)",
+          "type": "string"
+        },
+        "label": {
+          "description": "A customizable string that can be set for a custom versioning schema to describe its meaning.\nThis label has no function.\n",
+          "example": "calendar with flavor schema",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "custom"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "expression"
+      ],
+      "type": "object"
+    },
+    "CustomBaseImageResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/CustomBaseImageResource"
+        },
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
+        },
+        "links": {
+          "$ref": "#/components/schemas/SelfLink"
+        }
+      },
+      "required": [
+        "data",
+        "jsonapi"
+      ],
       "type": "object"
     },
     "CustomBaseImageResource": {
@@ -564,6 +622,30 @@
         "id",
         "type",
         "attributes"
+      ],
+      "type": "object"
+    },
+    "CustomBaseImageAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "include_in_recommendations": {
+          "description": "Whether this image should be recommended as a base image upgrade. \nIf set to true, this image could be shown as a base image upgrade to other projects.\nIf set to false this image will never be recommended as an upgrade.\n",
+          "example": true,
+          "type": "boolean"
+        },
+        "project_id": {
+          "description": "The ID of the container project that the custom base image is based off of.\nThe attributes of this custom base image are taken from the latest snapshot at the time of creation.\nThis means that no changes should be made to the original project after the creation of the custom base image,\nas new snapshots created from any changes will NOT be picked up.\n",
+          "example": "2cab3939-d112-4ef0-836d-e09c87cbe69b",
+          "format": "uuid",
+          "type": "string"
+        },
+        "versioning_schema": {
+          "$ref": "#/components/schemas/VersioningSchema"
+        }
+      },
+      "required": [
+        "project_id",
+        "include_in_recommendations"
       ],
       "type": "object"
     },
@@ -607,45 +689,6 @@
       },
       "required": [
         "data"
-      ],
-      "type": "object"
-    },
-    "VersioningSchemaSemverType": {
-      "additionalProperties": false,
-      "properties": {
-        "type": {
-          "enum": [
-            "semver"
-          ],
-          "example": "semver",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "VersioningSchemaSingleSelectionType": {
-      "additionalProperties": false,
-      "description": "The Single Selection Versioning Schema allows manual setting of which image should be given as a recommendation.\n\nOnly one image can be set as the current recommendation. If no images are set as the current selection, \nno recommendation will be given.\n\nIt is recommended to use this versioning schema if your repository's tags aren't supported by the other schemas.\n",
-      "properties": {
-        "is_selected": {
-          "description": "Whether this image should be the recommendation. Only one image can be selected at a given time. Setting this\nas true will remove previous selection.\n",
-          "example": true,
-          "type": "boolean"
-        },
-        "type": {
-          "enum": [
-            "single-selection"
-          ],
-          "example": "single-selection",
-          "type": "string"
-        }
-      },
-      "required": [
-        "type",
-        "is_selected"
       ],
       "type": "object"
     },
@@ -709,6 +752,49 @@
       ],
       "type": "object"
     },
+    "VersioningSchemaSemverType": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "semver"
+          ],
+          "example": "semver",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "CustomBaseImagePostRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "$ref": "#/components/schemas/CustomBaseImageAttributes"
+            },
+            "type": {
+              "description": "This should always be \"custom_base_image\"",
+              "example": "custom_base_image",
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "attributes"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
     "VersioningSchema": {
       "allOf": [
         {
@@ -727,73 +813,26 @@
       ],
       "description": "The versioning scheme used by images in the repository.\n\nA versioning schema is a system for identifying and organizing different versions of a project. \nIt is used to track changes and updates to the project over time, and to help users identify which version they are using. \nA versioning schema typically consists of a series of numbers or labels that are incremented to reflect the progression of versions. \nFor example, a versioning schema might use a series of numbers, such as \"1.0\", \"1.1\", \"2.0\", and so on, to indicate major and minor releases of a product. \nA consistent and well-defined versioning schema helps users and tools understand and track the development of a project.\n"
     },
-    "CustomBaseImageAttributes": {
+    "VersioningSchemaSingleSelectionType": {
       "additionalProperties": false,
+      "description": "The Single Selection Versioning Schema allows manual setting of which image should be given as a recommendation.\n\nOnly one image can be set as the current recommendation. If no images are set as the current selection, \nno recommendation will be given.\n\nIt is recommended to use this versioning schema if your repository's tags aren't supported by the other schemas.\n",
       "properties": {
-        "include_in_recommendations": {
-          "description": "Whether this image should be recommended as a base image upgrade. \nIf set to true, this image could be shown as a base image upgrade to other projects.\nIf set to false this image will never be recommended as an upgrade.\n",
+        "is_selected": {
+          "description": "Whether this image should be the recommendation. Only one image can be selected at a given time. Setting this\nas true will remove previous selection.\n",
           "example": true,
           "type": "boolean"
         },
-        "project_id": {
-          "description": "The ID of the container project that the custom base image is based off of.\nThe attributes of this custom base image are taken from the latest snapshot at the time of creation.\nThis means that no changes should be made to the original project after the creation of the custom base image,\nas new snapshots created from any changes will NOT be picked up.\n",
-          "example": "2cab3939-d112-4ef0-836d-e09c87cbe69b",
-          "format": "uuid",
-          "type": "string"
-        },
-        "versioning_schema": {
-          "$ref": "#/components/schemas/VersioningSchema"
-        }
-      },
-      "required": [
-        "project_id",
-        "include_in_recommendations"
-      ],
-      "type": "object"
-    },
-    "VersioningSchemaCustomType": {
-      "additionalProperties": false,
-      "description": "The Custom Schema type is a way for Snyk to understand your company\u2019s container image tag versioning scheme,\nenabling Snyk to give more accurate base image upgrade recommendations.\n\nThis schema type is essentially a regular expression that groups the different parts of an image\u2019s tag into comparable sections.\n\nIf your container image's tags follow a versioning scheme other than Semantic Versioning (SemVer), \nit is highly recommended that you select the \"Custom Versioning\" schema for your image repositories.\n",
-      "properties": {
-        "expression": {
-          "description": "The regular expression used to describe the format of tags.\nKeep in mind that backslashes in the expression need to be escaped due to being encompassed in a JSON string.\n",
-          "example": "(?<C0>.)\\-(?<M2>.*)",
-          "type": "string"
-        },
-        "label": {
-          "description": "A customizable string that can be set for a custom versioning schema to describe its meaning.\nThis label has no function.\n",
-          "example": "calendar with flavor schema",
-          "type": "string"
-        },
         "type": {
           "enum": [
-            "custom"
+            "single-selection"
           ],
+          "example": "single-selection",
           "type": "string"
         }
       },
       "required": [
         "type",
-        "expression"
-      ],
-      "type": "object"
-    },
-    "CustomBaseImageResponse": {
-      "additionalProperties": false,
-      "properties": {
-        "data": {
-          "$ref": "#/components/schemas/CustomBaseImageResource"
-        },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
-        },
-        "links": {
-          "$ref": "#/components/schemas/SelfLink"
-        }
-      },
-      "required": [
-        "data",
-        "jsonapi"
+        "is_selected"
       ],
       "type": "object"
     }
@@ -801,7 +840,6 @@
   "referenced_common_schemas": [
     "PaginatedLinks",
     "LinkProperty",
-    "Meta",
     "JsonApi"
   ]
 }

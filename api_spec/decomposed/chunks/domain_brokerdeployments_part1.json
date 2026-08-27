@@ -2172,24 +2172,42 @@
     }
   ],
   "schemas": {
-    "ListBrokerDeploymentsResponse": {
+    "BrokerDeploymentAttributes": {
       "additionalProperties": false,
       "properties": {
-        "data": {
-          "items": {
-            "$ref": "#/components/schemas/BrokerDeploymentResource"
-          },
-          "type": "array"
+        "broker_app_installed_in_org_id": {
+          "description": "Org Id in which the Broker App is installed",
+          "format": "uuid",
+          "type": "string"
         },
-        "jsonapi": {
-          "$ref": "#/components/schemas/JsonApi"
+        "created_at": {
+          "description": "Deployment creation time in UTC",
+          "format": "date-time",
+          "readOnly": true,
+          "type": "string"
         },
-        "links": {
-          "$ref": "#/components/schemas/PaginatedLinks"
+        "install_id": {
+          "description": "Associated Install ID",
+          "format": "uuid",
+          "readOnly": true,
+          "type": "string"
+        },
+        "metadata": {
+          "description": "Metadata information such user/org id or metrics",
+          "type": "object"
+        },
+        "updated_at": {
+          "description": "Deployment last update time in UTC",
+          "format": "date-time",
+          "readOnly": true,
+          "type": "string"
         }
       },
       "required": [
-        "data"
+        "broker_app_installed_in_org_id",
+        "metadata",
+        "created_at",
+        "updated_at"
       ],
       "type": "object"
     },
@@ -2218,36 +2236,31 @@
       ],
       "type": "object"
     },
-    "BrokerDeploymentAttributes": {
+    "ListBrokerDeploymentsResponse": {
       "additionalProperties": false,
       "properties": {
-        "broker_app_installed_in_org_id": {
-          "description": "Org Id in which the Broker App is installed",
-          "format": "uuid",
-          "type": "string"
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/BrokerDeploymentResource"
+          },
+          "type": "array"
         },
-        "install_id": {
-          "description": "Associated Install ID",
-          "format": "uuid",
-          "readOnly": true,
-          "type": "string"
+        "jsonapi": {
+          "$ref": "#/components/schemas/JsonApi"
         },
-        "metadata": {
-          "description": "Metadata information such user/org id or metrics",
-          "type": "object"
+        "links": {
+          "$ref": "#/components/schemas/PaginatedLinks"
         }
       },
       "required": [
-        "broker_app_installed_in_org_id",
-        "metadata"
+        "data"
       ],
       "type": "object"
     }
   },
   "referenced_common_schemas": [
-    "JsonApi",
     "PaginatedLinks",
-    "Meta",
-    "LinkProperty"
+    "LinkProperty",
+    "JsonApi"
   ]
 }

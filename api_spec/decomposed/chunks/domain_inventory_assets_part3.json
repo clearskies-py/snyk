@@ -1,0 +1,1508 @@
+{
+  "tag": "Inventory Assets",
+  "endpoint_count": 6,
+  "schema_count": 23,
+  "endpoints_summary": [
+    {
+      "method": "PATCH",
+      "path": "/orgs/{org_id}/inventory/assets",
+      "operation_id": "updateAssetsBulkOrg",
+      "summary": "Bulk update asset attributes - Org scope (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/inventory/assets/filters",
+      "operation_id": "getFilterFieldsOrg",
+      "summary": "Get available filter fields - Org scope (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/inventory/assets/filters/{filter_id}/values",
+      "operation_id": "getFilterValuesOrg",
+      "summary": "Get filter value suggestions (autocomplete) - Org scope (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/inventory/assets/groups",
+      "operation_id": "getGroupFieldsOrg",
+      "summary": "Get available group fields - Org scope (Early Access)"
+    },
+    {
+      "method": "GET",
+      "path": "/orgs/{org_id}/inventory/assets/groups/{group_field_id}/values",
+      "operation_id": "getGroupValuesOrg",
+      "summary": "Get group value aggregation - Org scope (Early Access)"
+    },
+    {
+      "method": "POST",
+      "path": "/orgs/{org_id}/inventory/assets/searches",
+      "operation_id": "createAssetSearchOrg",
+      "summary": "Create an asset search (asynchronous) - Org scope (Early Access)"
+    }
+  ],
+  "endpoints": [
+    {
+      "path": "/orgs/{org_id}/inventory/assets",
+      "method": "PATCH",
+      "operation_id": "updateAssetsBulkOrg",
+      "summary": "Bulk update asset attributes - Org scope (Early Access)",
+      "details": {
+        "description": "Partially updates multiple assets within an org context.\nMaximum of 100 assets can be updated per request.\nThe operation is transactional - all updates succeed or all fail.\n\n#### Required permissions\n\n- `Edit Organization (org.edit)`",
+        "operationId": "updateAssetsBulkOrg",
+        "parameters": [
+          {
+            "description": "The unique identifier of the organization",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The requested API version",
+            "in": "query",
+            "name": "version",
+            "schema": {
+              "example": "2024-10-15",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssetBulkPatchRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Assets updated successfully",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Bulk update asset attributes - Org scope (Early Access)",
+        "tags": [
+          "Inventory Assets"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "asset",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/inventory/assets/filters",
+      "method": "GET",
+      "operation_id": "getFilterFieldsOrg",
+      "summary": "Get available filter fields - Org scope (Early Access)",
+      "details": {
+        "description": "Returns a list of valid field names that can be used for filtering assets using RSQL.\nEach field includes its name, data type, and which asset types it applies to.\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "operationId": "getFilterFieldsOrg",
+        "parameters": [
+          {
+            "description": "The unique identifier of the organization",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The requested API version",
+            "in": "query",
+            "name": "version",
+            "schema": {
+              "example": "2024-10-15",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Comma-separated list of asset types to filter the available filter fields",
+            "example": "container_images",
+            "in": "query",
+            "name": "asset_types",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of results to return",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 10,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Cursor for fetching the next page of results",
+            "in": "query",
+            "name": "starting_after",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Cursor for fetching the previous page of results",
+            "in": "query",
+            "name": "ending_before",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilterFieldsResponse"
+                }
+              }
+            },
+            "description": "List of available filter fields",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get available filter fields - Org scope (Early Access)",
+        "tags": [
+          "Inventory Assets"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "asset",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/inventory/assets/filters/{filter_id}/values",
+      "method": "GET",
+      "operation_id": "getFilterValuesOrg",
+      "summary": "Get filter value suggestions (autocomplete) - Org scope (Early Access)",
+      "details": {
+        "description": "Returns a list of distinct values for a specific filter field.\nUseful for building autocomplete functionality in filter UIs.\n\nUse the UUID from the filter fields list endpoint to identify which field to query.\n\nFor object filter values, both the keys and values are returned.\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "operationId": "getFilterValuesOrg",
+        "parameters": [
+          {
+            "description": "The unique identifier of the organization",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The requested API version",
+            "in": "query",
+            "name": "version",
+            "schema": {
+              "example": "2024-10-15",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The UUID of the filter field to get values for (from the filter fields list endpoint)",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "in": "path",
+            "name": "filter_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Full text search term to filter the list of values. If keys_only is true, this will filter the keys of the object filter values. If key is provided, this will filter the value for the specific key of the object filter values.",
+            "example": "prod",
+            "in": "query",
+            "name": "q",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of results to return",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 10,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Cursor for fetching the next page of results",
+            "in": "query",
+            "name": "starting_after",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Cursor for fetching the previous page of results",
+            "in": "query",
+            "name": "ending_before",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Return only the keys of the object filter values",
+            "in": "query",
+            "name": "keys_only",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "Return only the value for a specific key of the object filter values",
+            "in": "query",
+            "name": "key",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FilterValuesResponse"
+                }
+              }
+            },
+            "description": "List of filter values",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get filter value suggestions (autocomplete) - Org scope (Early Access)",
+        "tags": [
+          "Inventory Assets"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "asset",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/inventory/assets/groups",
+      "method": "GET",
+      "operation_id": "getGroupFieldsOrg",
+      "summary": "Get available group fields - Org scope (Early Access)",
+      "details": {
+        "description": "Returns a list of valid group field names that can be used for grouping assets within an org context.\nCommon fields such as `class` and `org_id` (the Snyk organization that discovered the asset) apply to\nevery asset type; within a single org, grouping by `org_id` returns a single bucket.\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "operationId": "getGroupFieldsOrg",
+        "parameters": [
+          {
+            "description": "The unique identifier of the organization",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The requested API version",
+            "in": "query",
+            "name": "version",
+            "schema": {
+              "example": "2024-10-15",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Comma-separated list of asset types to filter group fields",
+            "in": "query",
+            "name": "asset_types",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Maximum number of results to return",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 10,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Cursor for forward pagination",
+            "in": "query",
+            "name": "starting_after",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Cursor for backward pagination",
+            "in": "query",
+            "name": "ending_before",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupFieldsResponse"
+                }
+              }
+            },
+            "description": "List of available group fields",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get available group fields - Org scope (Early Access)",
+        "tags": [
+          "Inventory Assets"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "asset",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/inventory/assets/groups/{group_field_id}/values",
+      "method": "GET",
+      "operation_id": "getGroupValuesOrg",
+      "summary": "Get group value aggregation - Org scope (Early Access)",
+      "details": {
+        "description": "Returns aggregated values for a specific group field id, showing the count of assets\nfor each distinct value.\n\nUse the UUID from the group fields list endpoint to identify which field to query.\n\nGrouping by `org_id` buckets assets by the Snyk organization that discovered them:\none bucket per organization at group or tenant scope, and a single bucket at org scope.\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "operationId": "getGroupValuesOrg",
+        "parameters": [
+          {
+            "description": "The unique identifier of the organization",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The requested API version",
+            "in": "query",
+            "name": "version",
+            "schema": {
+              "example": "2024-10-15",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The UUID of the group field to get values for (from the group fields list endpoint)",
+            "example": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "in": "path",
+            "name": "group_field_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Comma-separated list of asset types to filter the aggregation",
+            "example": "container_images",
+            "in": "query",
+            "name": "asset_types",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/RsqlFilterGroupValues"
+          },
+          {
+            "$ref": "#/components/parameters/SortGroupValues"
+          },
+          {
+            "description": "Maximum number of group values to return",
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 10,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Cursor for forward pagination",
+            "in": "query",
+            "name": "starting_after",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Cursor for backward pagination",
+            "in": "query",
+            "name": "ending_before",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/MetaFieldsGroupValues"
+          },
+          {
+            "$ref": "#/components/parameters/AggregateGroupValues"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupValuesResponse"
+                }
+              }
+            },
+            "description": "List of group values with aggregated metadata",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Get group value aggregation - Org scope (Early Access)",
+        "tags": [
+          "Inventory Assets"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "asset",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    },
+    {
+      "path": "/orgs/{org_id}/inventory/assets/searches",
+      "method": "POST",
+      "operation_id": "createAssetSearchOrg",
+      "summary": "Create an asset search (asynchronous) - Org scope (Early Access)",
+      "details": {
+        "description": "Initiates an asynchronous search for assets within an org context.\n\n#### Required permissions\n\n- `View Organization (org.read)`",
+        "operationId": "createAssetSearchOrg",
+        "parameters": [
+          {
+            "description": "The unique identifier of the organization",
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "description": "The requested API version",
+            "in": "query",
+            "name": "version",
+            "schema": {
+              "example": "2024-10-15",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/vnd.api+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSearchRequestBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "content": {
+              "application/vnd.api+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "jsonapi": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Found - Redirects to search results endpoint",
+            "headers": {
+              "deprecation": {
+                "$ref": "#/components/headers/DeprecationHeader"
+              },
+              "location": {
+                "description": "URL to retrieve search results",
+                "schema": {
+                  "format": "uri",
+                  "type": "string"
+                }
+              },
+              "snyk-request-id": {
+                "$ref": "#/components/headers/RequestIdResponseHeader"
+              },
+              "snyk-version-lifecycle-stage": {
+                "$ref": "#/components/headers/VersionStageResponseHeader"
+              },
+              "snyk-version-requested": {
+                "$ref": "#/components/headers/VersionRequestedResponseHeader"
+              },
+              "snyk-version-served": {
+                "$ref": "#/components/headers/VersionServedResponseHeader"
+              },
+              "sunset": {
+                "$ref": "#/components/headers/SunsetHeader"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          }
+        },
+        "summary": "Create an asset search (asynchronous) - Org scope (Early Access)",
+        "tags": [
+          "Inventory Assets"
+        ],
+        "x-snyk-api-lifecycle": "released",
+        "x-snyk-api-releases": [
+          "2024-10-15~beta"
+        ],
+        "x-snyk-api-resource": "asset",
+        "x-snyk-api-stability": "beta",
+        "x-snyk-api-version": "2024-10-15~beta",
+        "x-stability-level": "beta"
+      }
+    }
+  ],
+  "schemas": {
+    "FilterFieldData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/FilterFieldAttributes"
+        },
+        "id": {
+          "description": "UUID identifier for the filter field",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "description": "Relationships for this filter field (only present for fields supporting autocomplete)",
+          "properties": {
+            "values": {
+              "properties": {
+                "links": {
+                  "properties": {
+                    "related": {
+                      "description": "Relative path to get autocomplete values for this filter field",
+                      "format": "uri-reference",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "related"
+                  ],
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "description": "The JSON:API resource type",
+          "enum": [
+            "filter_fields"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "type": "object"
+    },
+    "LabelsReplace": {
+      "description": "Full replacement of all labels on the asset.\nAll existing labels will be removed and replaced with the provided labels.\n",
+      "items": {
+        "maxLength": 40,
+        "minLength": 1,
+        "pattern": "^[a-zA-Z0-9_/:?#@&=+%~-]+$",
+        "type": "string"
+      },
+      "maxItems": 50,
+      "type": "array"
+    },
+    "GroupValueIssuesAggregation": {
+      "additionalProperties": false,
+      "description": "Aggregated issue counts from discovery sources across all assets in this group.\nCounts are summed from all project-type discovery sources.\n",
+      "properties": {
+        "critical": {
+          "description": "Total count of critical severity issues",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "high": {
+          "description": "Total count of high severity issues",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "low": {
+          "description": "Total count of low severity issues",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "medium": {
+          "description": "Total count of medium severity issues",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "total": {
+          "description": "Sum of all issue counts (critical + high + medium + low)",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "GroupFieldsResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "description": "List of available group fields",
+          "items": {
+            "$ref": "#/components/schemas/GroupFieldData"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "Self-referencing link",
+          "properties": {
+            "self": {
+              "description": "Link to the current resource",
+              "format": "uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "self"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data",
+        "links"
+      ],
+      "type": "object"
+    },
+    "FilterFieldAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_types": {
+          "description": "List of asset types this field applies to",
+          "items": {
+            "enum": [
+              "container_images",
+              "sboms",
+              "repositories"
+            ],
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "The field name used in RSQL filters (e.g., \"class\", \"registry\")",
+          "type": "string"
+        },
+        "type": {
+          "description": "Data type of the field (string, boolean, datetime, array, object)",
+          "enum": [
+            "string",
+            "boolean",
+            "datetime",
+            "array",
+            "object"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "asset_types"
+      ],
+      "type": "object"
+    },
+    "FilterValuesResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "description": "List of filter values",
+          "items": {
+            "$ref": "#/components/schemas/FilterValueData"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "Self-referencing link",
+          "properties": {
+            "self": {
+              "description": "Link to the current resource",
+              "format": "uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "self"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data",
+        "links"
+      ],
+      "type": "object"
+    },
+    "LabelsUpdate": {
+      "additionalProperties": false,
+      "description": "Updates the asset's labels by adding or removing label values.\nAt least one of 'add' or 'remove' must be provided.\n",
+      "minProperties": 1,
+      "properties": {
+        "add": {
+          "description": "Labels to add to the asset.\nLabels must be 1-40 characters and contain only alphanumeric characters and _/:?#@&=+%~- symbols.\n",
+          "items": {
+            "maxLength": 40,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9_/:?#@&=+%~-]+$",
+            "type": "string"
+          },
+          "maxItems": 50,
+          "type": "array"
+        },
+        "remove": {
+          "description": "Labels to remove from the asset.\nLabels must be 1-40 characters and contain only alphanumeric characters and _/:?#@&=+%~- symbols\n",
+          "items": {
+            "maxLength": 40,
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9_/:?#@&=+%~-]+$",
+            "type": "string"
+          },
+          "maxItems": 50,
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "CreateSearchRequestBody": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "additionalProperties": false,
+          "properties": {
+            "attributes": {
+              "additionalProperties": false,
+              "properties": {
+                "filter": {
+                  "$ref": "#/components/schemas/RsqlFilterString"
+                },
+                "limit": {
+                  "default": 10,
+                  "description": "Number of results to return per page",
+                  "maximum": 100,
+                  "minimum": 10,
+                  "type": "integer"
+                },
+                "meta_count": {
+                  "description": "Whether to include the total count of results in the response meta object.\nWhen `with` is provided, the count will be included in the response meta object.\nWhen `only` is provided, the count will be included in the response meta object and no data will be returned.\n",
+                  "enum": [
+                    "with",
+                    "only"
+                  ],
+                  "example": "with",
+                  "type": "string"
+                },
+                "sort": {
+                  "description": "Comma-separated sort fields. Prefix with `-` for descending order.\n\n**Supported fields:**\n- `created_at` - Asset creation timestamp\n- `updated_at` - Asset last update timestamp\n- `type` - Asset type (container_images)\n- `class` - Asset class\n- `risk_score` - Asset risk score (max across project sources)\n- `issues` - Issue counts by severity (critical, high, medium, low)\n- `built_at` - Image build timestamp (container images only)\n- `last_scan` - Last scan timestamp\n",
+                  "example": "-created_at",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": {
+              "enum": [
+                "searches"
+              ],
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "GroupFieldData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/GroupFieldAttributes"
+        },
+        "id": {
+          "description": "UUID identifier for the group field",
+          "format": "uuid",
+          "type": "string"
+        },
+        "relationships": {
+          "description": "Relationships for this group field",
+          "properties": {
+            "values": {
+              "properties": {
+                "links": {
+                  "properties": {
+                    "related": {
+                      "description": "Relative path to get aggregated values for this group field",
+                      "format": "uri-reference",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "related"
+                  ],
+                  "type": "object"
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "type": {
+          "description": "The JSON:API resource type",
+          "enum": [
+            "group_fields"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "type": "object"
+    },
+    "GroupValueData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/GroupValueAttributes"
+        },
+        "id": {
+          "description": "UUID identifier for the group value",
+          "format": "uuid",
+          "type": "string"
+        },
+        "meta": {
+          "$ref": "#/components/schemas/GroupValueMeta"
+        },
+        "type": {
+          "description": "The JSON:API resource type",
+          "enum": [
+            "group_values"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "TagsUpdate": {
+      "additionalProperties": false,
+      "description": "Updates the asset's tags by adding or removing key-value pairs.\nBoth add and remove can be specified in the same request.\nIf a tag key appears in both add and remove, the request will fail.\n",
+      "minProperties": 1,
+      "properties": {
+        "add": {
+          "additionalProperties": {
+            "maxLength": 40,
+            "pattern": "^[a-zA-Z0-9_/:?#@&=+%~-]+$",
+            "type": "string"
+          },
+          "description": "Tags to add to the asset (key-value pairs).\nTag keys must be 1-30 characters and contain only alphanumeric characters, underscores, and hyphens.\nTag values must be up to 40 characters and contain only alphanumeric characters and _/:?#@&=+%~- symbols.\n",
+          "maxProperties": 100,
+          "type": "object"
+        },
+        "remove": {
+          "description": "Tag keys to remove from the asset.\nTag keys must be 1-30 characters and contain only alphanumeric characters, underscores, and hyphens.\n",
+          "items": {
+            "maxLength": 30,
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "type": "string"
+          },
+          "maxItems": 100,
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "GroupValuesResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "description": "List of group values with their aggregated metadata",
+          "items": {
+            "$ref": "#/components/schemas/GroupValueData"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "Self-referencing link",
+          "properties": {
+            "self": {
+              "description": "Link to the current resource",
+              "format": "uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "self"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data",
+        "links"
+      ],
+      "type": "object"
+    },
+    "AssetPatchData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/AssetPatchAttributes"
+        },
+        "id": {
+          "description": "The unique identifier of the asset",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "The JSON:API resource type",
+          "enum": [
+            "container_images",
+            "sboms",
+            "repositories"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "attributes"
+      ],
+      "type": "object"
+    },
+    "TagsReplace": {
+      "additionalProperties": {
+        "maxLength": 40,
+        "pattern": "^[a-zA-Z0-9_/:?#@&=+%~-]+$",
+        "type": "string"
+      },
+      "description": "Full replacement of all tags on the asset.\nAll existing tags will be removed and replaced with the provided tags.\n",
+      "maxProperties": 100,
+      "type": "object"
+    },
+    "RsqlFilterString": {
+      "description": "RSQL filter expression for filtering results.\n\n**Supported operators:**\n- `==` (equal), `!=` (not equal)\n- `<` or `=lt=` (less than), `>` or `=gt=` (greater than)\n- `<=` or `=le=` (less than or equal), `>=` or `=ge=` (greater than or equal)\n- `=in=(val1,val2)` (IN list), `=out=(val1,val2)` (NOT IN list)\n- `;` or ` and ` (logical AND), `,` or ` or ` (logical OR) - word operators are case-insensitive\n\n**Wildcard pattern matching:**\nUse `*` (asterisk) for flexible string matching with `==` and `!=` operators:\n- `*value*` - Contains (e.g., `registry==*docker*` matches \"docker.io\")\n- `value*` - Starts with (e.g., `registry==docker*` matches \"docker.io\")\n- `*value` - Ends with (e.g., `name==*nginx` matches \"library/nginx\")\n- `!=*value*` - Does not contain (e.g., `class!=*test*`)\n\nNote: Special SQL characters (%, _) are automatically escaped for security.\n\n**Quoted values:**\nValues can optionally be wrapped in single quotes (`'...'`) or double quotes (`\"...\"`).\nQuotes are stripped before comparison, so `registry=='docker.io'` is equivalent to `registry==docker.io`.\nEscaped quotes inside quoted values are supported (e.g., `name==\"O\\\"Reilly\"`).\nQuoting is required when filtering for empty values (see below).\n\n**Filtering for empty values:**\nUse empty quotes (`''` or `\"\"`) with `==` or `!=` to filter by empty fields:\n- `registry==''` - Matches assets where registry is empty\n- `registry!=''` - Matches assets where registry has a value\n\n**Multi-field substring search:**\nUse the special `q` field to search across multiple fields simultaneously using case-insensitive substring matching:\n- `q==<search_term>` - Searches across all searchable string fields (labels, tags, registry, repository, name, config_digest, manifest_digest, index_digest, image_tag)\n- Only supports the `==` operator (no wildcards needed - automatically searches for substring matches)\n- Uses case-insensitive pattern matching (PostgreSQL ILIKE)\n- Does not support linguistic features like stemming or ranking\n- Special characters are automatically escaped for security\n- Can be combined with other filters: `q==nginx;type==container_images`\n\n**Supported fields:**\n\nCommon fields (apply to all asset types):\n- `q` (string) - Multi-field substring search (see above)\n- `id` (UUID) - Asset ID\n- `type` (string) - Type of asset. Allowed values: `container_images`\n- `class` (string) - Class of asset (e.g., A, B)\n- `created_at` (timestamp) - Asset creation timestamp (ISO 8601 format)\n- `updated_at` (timestamp) - Asset last update timestamp (ISO 8601 format)\n- `labels` (string array) - Asset labels\n- `tags` (object) - Asset tags. Requires a sub-field (e.g., `tags.env==production`)\n\nContainer image fields (apply when type is `container_images`):\n- `registry` (string) - Container image registry (e.g., docker.io)\n- `repository` (string) - Container image repository path\n- `name` (string) - Container image name\n- `config_digest` (string) - Image config digest\n- `manifest_digest` (string) - Distribution manifest digest\n- `index_digest` (string) - Distribution index digest\n- `image_tag` (string) - Image tag from discovery source\n- `image_labels` (object) - OCI image config labels. Requires a sub-field (e.g., `image_labels.vendor==nginx`)\n\n**Examples:**\n- `q==nginx` - Multi-field substring search for \"nginx\"\n- `q==docker.io;type==container_images` - Search \"docker.io\" substring in container images only\n- `type==container_images` - Exact match on asset type\n- `registry==*docker*` - Registry contains \"docker\" (wildcard)\n- `created_at>2024-01-01` or `created_at=gt=2024-01-01` - Date comparison\n- `class==A;created_at=ge=2024-01-01` - AND combination\n- `labels=in=(production,staging)` - Labels IN list\n- `tags.env==production` - Tag sub-field filter\n- `image_labels.vendor==nginx` - Image label sub-field filter\n- `registry=='docker.io'` - Quoted value (equivalent to `registry==docker.io`)\n- `registry==''` - Assets where registry is empty\n- `registry!=''` - Assets where registry has a value\n",
+      "example": "type==container_images;created_at>2024-01-01",
+      "type": "string"
+    },
+    "AssetBulkPatchRequestBody": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/components/schemas/AssetPatchData"
+          },
+          "maxItems": 100,
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "type": "object"
+    },
+    "FilterValueAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "description": "For object-type filters (e.g., tags), the key name. Only present for object-type filter values.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The filter value. For simple filters, this is the value itself. For object-type filters (e.g., tags), this is the value associated with the key.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GroupFieldAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "asset_types": {
+          "description": "List of asset types this field applies to",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "The field name used for grouping (e.g., \"class\", \"registry\")",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "asset_types"
+      ],
+      "type": "object"
+    },
+    "FilterFieldsResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "description": "List of available filter fields",
+          "items": {
+            "$ref": "#/components/schemas/FilterFieldData"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "Self-referencing link",
+          "properties": {
+            "self": {
+              "description": "Link to the current resource",
+              "format": "uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "self"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "data",
+        "links"
+      ],
+      "type": "object"
+    },
+    "FilterValueData": {
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "$ref": "#/components/schemas/FilterValueAttributes"
+        },
+        "id": {
+          "description": "UUID identifier for the filter value",
+          "format": "uuid",
+          "type": "string"
+        },
+        "type": {
+          "description": "The JSON:API resource type",
+          "enum": [
+            "filter_values"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "id"
+      ],
+      "type": "object"
+    },
+    "AssetPatchAttributes": {
+      "additionalProperties": false,
+      "description": "Attributes that can be updated via PATCH.\nAt least one attribute must be provided.\nLabels and tags support add/remove operations for atomic modifications.\n",
+      "properties": {
+        "class": {
+          "additionalProperties": false,
+          "anyOf": [
+            {
+              "required": [
+                "display_name"
+              ]
+            },
+            {
+              "required": [
+                "rank"
+              ]
+            }
+          ],
+          "description": "Asset classification for input. Either display_name or rank must be provided.",
+          "properties": {
+            "display_name": {
+              "enum": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "type": "string"
+            },
+            "locked": {
+              "type": "boolean"
+            },
+            "rank": {
+              "enum": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        },
+        "labels": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/LabelsUpdate"
+            },
+            {
+              "$ref": "#/components/schemas/LabelsReplace"
+            }
+          ]
+        },
+        "tags": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/TagsUpdate"
+            },
+            {
+              "$ref": "#/components/schemas/TagsReplace"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "GroupValueAttributes": {
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "description": "The grouped value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value"
+      ],
+      "type": "object"
+    },
+    "GroupValueMeta": {
+      "additionalProperties": false,
+      "description": "Computed aggregations across all assets within this group value.\nFields are only present when explicitly requested via the `meta_fields` query parameter.\nIf `meta_fields` is not specified, the meta object is omitted from the response.\n",
+      "properties": {
+        "built_at": {
+          "description": "Aggregated container image build timestamp across all assets in this group.\nThe aggregation function is controlled by the `aggregate[built_at]` parameter (default: last).\nNull if no assets have a built_at value.\n",
+          "format": "date-time",
+          "type": "string"
+        },
+        "count": {
+          "description": "Number of assets with this value.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "created_at": {
+          "description": "Aggregated created_at timestamp across assets in this group.\nThe aggregation function is controlled by the `aggregate[created_at]` parameter (default: last).\nNull if no assets have a created_at value.\n",
+          "format": "date-time",
+          "type": "string"
+        },
+        "issues": {
+          "$ref": "#/components/schemas/GroupValueIssuesAggregation"
+        },
+        "labels": {
+          "description": "Unique labels across all assets in this group.\nLimited to the first 1000 unique labels (alphabetically sorted).\nEmpty array if no assets have labels.\n",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 1000,
+          "type": "array"
+        },
+        "last_seen_at": {
+          "description": "Aggregated last_seen_at timestamp across all assets in this group.\nThe aggregation function is controlled by the `aggregate[last_seen_at]` parameter (default: last).\nNull if no assets have a last_seen_at value.\n",
+          "format": "date-time",
+          "type": "string"
+        },
+        "risk_score": {
+          "description": "Aggregated risk_score from discovery sources across all assets in this group.\nThe aggregation function is controlled by the `aggregate[risk_score]` parameter (default: last).\nDerived from project-type discovery sources. Null if no assets have\ndiscovery sources with risk scores.\n",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "tags": {
+          "description": "Unique tags across all assets in this group.\nLimited to the first 1000 unique tags (alphabetically sorted).\nEmpty array if no assets have tags.\n",
+          "items": {
+            "properties": {
+              "key": {
+                "description": "The tag key",
+                "type": "string"
+              },
+              "value": {
+                "description": "The tag value",
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "maxItems": 1000,
+          "type": "array"
+        },
+        "updated_at": {
+          "description": "Aggregated updated_at timestamp across all assets in this group.\nThe aggregation function is controlled by the `aggregate[updated_at]` parameter (default: last).\n",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "referenced_common_schemas": []
+}
