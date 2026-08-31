@@ -89,3 +89,8 @@ class SnykGroupAppInstall(Model):
     Timestamp when last updated.
     """
     updated_at = Datetime()
+
+    """
+    Expand related resources in the response.
+    """
+    expand = String(is_searchable=True, is_temporary=True)

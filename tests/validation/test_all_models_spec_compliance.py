@@ -463,3 +463,20 @@ class TestSpecCoverageByTag:
         audit_models = [SnykOrgAuditLog, SnykGroupAuditLog]
         for model in audit_models:
             assert hasattr(model, "destination_name"), f"{model.__name__} missing destination_name"
+
+
+class TestQueryParamCompliance:
+    """Ensure every spec query param has a matching searchable column on the model."""
+
+    def test_no_missing_query_params(self) -> None:
+        """Run the full compliance check and assert zero warnings."""
+        import sys
+
+        sys.path.insert(0, str(Path(__file__).parents[2] / "tools"))
+        from check_spec_compliance import run_compliance_check
+
+        spec_path = Path(__file__).parents[2] / "api_spec" / "v2-rest-api-spec.json"
+        issues = run_compliance_check(str(spec_path), verbose=False)
+        warnings = [i for i in issues if i.severity == "warning"]
+        messages = "\n".join(f"  [{i.model}] {i.message}" for i in warnings)
+        assert not warnings, f"Spec query params missing from models:\n{messages}"

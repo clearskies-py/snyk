@@ -127,22 +127,31 @@ def extract_models(models_dir: str | Path = "src/clearskies_snyk/models") -> dic
 
         # Extract columns
         columns = []
-        column_pattern = (
-            r"^\s+(\w+)\s*=\s*(String|Boolean|Integer|Datetime|Json|Select|HasMany|BelongsTo|ProjectTagList)\s*\("
-        )
+        column_pattern = r"^\s+(\w+)\s*=\s*(String|Boolean|Integer|Datetime|Json|Select|HasMany|BelongsToId|BelongsToModel|BelongsTo|ProjectTagList|SelectList)\s*\("
         for match in re.finditer(column_pattern, content, re.MULTILINE):
             col_name = match.group(1)
             col_type = match.group(2)
 
-            # Check for is_searchable
-            line_start = match.start()
-            line_end = content.find("\n", match.end())
-            if line_end == -1:
-                line_end = len(content)
-            line = content[line_start:line_end]
+            # Scan the full column definition block (until the closing paren at
+            # indent level) to find is_searchable/is_temporary flags, which may
+            # span multiple lines for BelongsToId, SelectList, etc.
+            block_start = match.start()
+            depth = 0
+            block_end = block_start
+            for i, ch in enumerate(content[block_start:], block_start):
+                if ch == "(":
+                    depth += 1
+                elif ch == ")":
+                    depth -= 1
+                    if depth == 0:
+                        block_end = i + 1
+                        break
+            block = content[block_start:block_end]
 
-            is_searchable = "is_searchable=True" in line
-            is_temporary = "is_temporary=True" in line
+            # is_searchable defaults to True in clearskies; only False if
+            # explicitly overridden. The block scan handles multi-line defs.
+            is_searchable = "is_searchable=False" not in block
+            is_temporary = "is_temporary=True" in block
 
             columns.append(
                 ColumnInfo(
@@ -369,10 +378,12 @@ def check_query_parameters(model: ModelInfo, endpoints: dict[str, list[EndpointI
     # (routing params like org_id map to path params, not query params)
     excluded_from_reverse = BACKEND_PARAMS | path_params | {model.id_column_name}
 
-    searchable_columns = {col.name for col in model.columns if col.is_searchable}
+    searchable_columns = {col.name for col in model.columns}
 
-    # Forward: searchable column not in spec query params (informational)
-    for col in searchable_columns:
+    # Forward: temporary filter columns not in spec query params (informational)
+    # Only flag is_temporary columns since those are explicitly declared as filters
+    temporary_columns = {col.name for col in model.columns if col.is_temporary}
+    for col in temporary_columns:
         if col not in query_params and col not in excluded_from_reverse:
             sorted_params = sorted(str(p) for p in query_params if p is not None)
             issues.append(
@@ -387,7 +398,10 @@ def check_query_parameters(model: ModelInfo, endpoints: dict[str, list[EndpointI
 
     # Reverse: spec query param missing from model searchable columns (warning)
     for query_param in query_params - BACKEND_PARAMS:
-        if query_param not in searchable_columns:
+        # Normalise dots to underscores so meta.latest_issue_counts matches
+        # the column name meta_latest_issue_counts
+        normalised = query_param.replace(".", "_")
+        if normalised not in searchable_columns:
             issues.append(
                 ComplianceIssue(
                     model=model.name,

@@ -210,3 +210,8 @@ class SnykGroup(Model):
     Cascade membership changes.
     """
     cascade = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by asset types.
+    """
+    asset_types = String(is_searchable=True, is_temporary=True)

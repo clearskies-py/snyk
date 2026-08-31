@@ -66,6 +66,8 @@ class SnykCollectionRelationshipProject(Model):
             "vuln-groups",
             "clean-groups",
         ],
+        is_searchable=True,
+        is_temporary=True,
     )
 
     """

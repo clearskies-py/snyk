@@ -136,3 +136,8 @@ class SnykCloudEnvironment(Model):
     Filter: Environments created after this timestamp.
     """
     created_after = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by project ID.
+    """
+    project_id = String(is_searchable=True, is_temporary=True)
