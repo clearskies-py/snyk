@@ -4,6 +4,7 @@ from typing import Self
 
 from clearskies import Model
 from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, Json, String
+from clearskies.query import Condition, Query
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_org_reference, snyk_project_reference
@@ -49,6 +50,89 @@ class SnykTarget(Model):
         """Return the slug of the api endpoint for this model."""
         return "orgs/{org_id}/targets"
 
+    def get_final_query(self) -> Query:
+        """Include count=true so meta.count is returned for len() support."""
+        return super().get_final_query().add_where(Condition("count=true"))
+
+    """
+    The unique identifier for the target.
+    """
+    id = String()
+
+    """
+    The ID of the organization this target belongs to.
+    """
+    org_id = BelongsToId(
+        snyk_org_reference.SnykOrgReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent organization this target belongs to.
+
+    BelongsTo relationship to SnykOrg.
+    """
+    org = BelongsToModel("org_id")
+
+    """
+    The display name of the target.
+    """
+    display_name = String()
+
+    """
+    The URL of the target (if applicable).
+    """
+    url = String()
+
+    """
+    Whether the target is private.
+    """
+    is_private = String()
+
+    """
+    The origin of the target (e.g., github, gitlab).
+    """
+    origin = String()
+
+    """
+    Timestamp of when the target was created.
+    """
+    created_at = Datetime()
+
+    """
+    Additional target attributes.
+    """
+    attributes = Json()
+
+    """
+    Related projects for this target.
+
+    HasMany relationship to SnykProject.
+    """
+    projects = HasMany(
+        snyk_project_reference.SnykProjectReference,
+        foreign_column_name="target_id",
+    )
+
+    """
+    Filter targets created at or after this timestamp.
+    """
+    created_gte = Datetime(is_searchable=True, is_temporary=True)
+
+    """
+    Exclude targets with no projects.
+    """
+    exclude_empty = Boolean(is_searchable=True, is_temporary=True)
+
+    """
+    Filter by source types.
+    """
+    source_types = String(is_searchable=True, is_temporary=True)
+
+    """
+    Request total count in the response (sets meta.count).
+    """
+    count = Boolean(is_searchable=True, is_temporary=True)
     """
     The unique identifier for the target.
     """

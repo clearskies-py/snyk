@@ -154,5 +154,76 @@ class TestSnykBackend(unittest.TestCase):
         assert result is None
 
 
+class TestSnykBackendCount(unittest.TestCase):
+    """Tests for SnykBackend.count()."""
+
+    def _make_backend_and_mock_request(self, response_json: dict) -> tuple:
+        backend = SnykBackend()
+        mock_response = MagicMock()
+        mock_response.ok = True
+        mock_response.content = b"x"
+        mock_response.json.return_value = response_json
+        mock_query = MagicMock()
+        mock_query.conditions = []
+        mock_query.pagination = {}
+        mock_query.limit = None
+        mock_query.sorts = []
+        mock_query.joins = []
+        mock_query.group_by = []
+        mock_query.selects = []
+        mock_query.model_class.destination_name.return_value = "orgs/org-123/targets"
+        mock_query.model_class.id_column_name = "id"
+        return backend, mock_response, mock_query
+
+    def test_count_returns_count_query_result(self) -> None:
+        """count() returns a CountQueryResult with the value from meta.count."""
+        from clearskies.query.result import CountQueryResult
+
+        backend, mock_response, mock_query = self._make_backend_and_mock_request({"data": [], "meta": {"count": 7}})
+        with patch.object(backend, "execute_request", return_value=mock_response):
+            result = backend.count(mock_query)
+
+        assert isinstance(result, CountQueryResult)
+        assert result.count == 7
+
+    def test_count_appends_count_true_to_url(self) -> None:
+        """SnykTarget.get_final_query injects a count=true condition."""
+        from clearskies_snyk.models.snyk_target import SnykTarget
+
+        target = SnykTarget()
+        query = target.get_final_query()
+        condition_columns = [c.column_name for c in query.conditions]
+        assert "count" in condition_columns
+
+    def test_count_raises_when_meta_count_absent(self) -> None:
+        """count() raises ValueError when the endpoint doesn't return meta.count."""
+        backend, mock_response, mock_query = self._make_backend_and_mock_request({"data": []})
+        with patch.object(backend, "execute_request", return_value=mock_response):
+            with self.assertRaises(ValueError, msg="meta.count"):
+                backend.count(mock_query)
+
+    def test_can_count_false_on_base_backend(self) -> None:
+        """SnykBackend.can_count is False by default."""
+        assert SnykBackend.can_count is False
+
+    def test_records_populates_total_count_from_meta(self) -> None:
+        """records() sets total_count when meta.count is present in the response."""
+        backend, mock_response, mock_query = self._make_backend_and_mock_request({"data": [], "meta": {"count": 42}})
+        with patch.object(backend, "execute_request", return_value=mock_response):
+            result = backend.records(mock_query)
+
+        assert result.total_count == 42
+        assert result.can_count is True
+
+    def test_records_total_count_none_when_meta_absent(self) -> None:
+        """records() leaves total_count as None when meta.count is absent."""
+        backend, mock_response, mock_query = self._make_backend_and_mock_request({"data": []})
+        with patch.object(backend, "execute_request", return_value=mock_response):
+            result = backend.records(mock_query)
+
+        assert result.total_count is None
+        assert result.can_count is False
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -9,6 +9,7 @@ from clearskies.authentication import Authentication
 from clearskies.decorators import parameters_to_properties
 from clearskies.di import inject
 from clearskies.query import Query
+from clearskies.query.result import CountQueryResult
 from requests import Response
 
 
@@ -160,6 +161,40 @@ class SnykBackend(clearskies.backends.ApiBackend):
         url_parameters["version"] = self.api_version
         return (url_parameters, body_parameters)
 
+    def records(self, query: Query) -> Any:
+        """
+        Fetch records and populate total_count from ``meta.count`` if present.
+
+        Some Snyk endpoints (e.g. ``/orgs/{org_id}/projects``) always include
+        ``meta.count`` in the response.  Others (e.g. ``/orgs/{org_id}/targets``)
+        include it only when ``count=true`` is sent.  Either way, if the field is
+        present we pass it as ``total_count`` to ``RecordsQueryResult`` so that
+        ``len()`` works without a second round-trip.
+        """
+        from clearskies.query.result import RecordsQueryResult
+
+        self.check_query(query)
+        url, method, body, headers = self.build_records_request(query)
+        response = self.execute_request(url, method, json=body, headers=headers)
+        response_data = response.json() if response.content else {}
+        records = self.map_records_response(response_data, query)
+        next_page_data = self.get_next_page_data_from_response(query, response)
+
+        total_count = None
+        if isinstance(response_data, dict):
+            meta = response_data.get("meta", {})
+            if isinstance(meta, dict) and "count" in meta:
+                try:
+                    total_count = int(meta["count"])
+                except (TypeError, ValueError):
+                    pass
+
+        return RecordsQueryResult(
+            records=records,
+            next_page_data=next_page_data or None,
+            total_count=total_count,
+        )
+
     def map_records_response(
         self, response_data: Any, query: Query, query_data: dict[str, Any] | None = None
     ) -> list[dict[str, Any]]:
@@ -253,6 +288,24 @@ class SnykBackend(clearskies.backends.ApiBackend):
                         next_page_data[self.pagination_parameter_name] = starting_after
 
         return next_page_data
+
+    def count(self, query: Query) -> CountQueryResult:
+        """
+        Return the total count of records matching the query.
+
+        Calls ``records()`` which extracts ``meta.count`` from the response body.
+        Raises ``ValueError`` if the endpoint does not return ``meta.count``
+        (most Snyk endpoints don't; override ``build_records_request`` to inject
+        ``count=true`` for endpoints that support it).
+        """
+        result = self.records(query)
+        if result.total_count is None:
+            raise ValueError(
+                f"The Snyk API endpoint did not return a 'meta.count' field. "
+                f"Only endpoints that explicitly support counting (e.g. "
+                f"/orgs/{{org_id}}/targets) can be used with count operations."
+            )
+        return CountQueryResult(count=result.total_count)
 
     def map_update_request(self, id: int | str, data: dict[str, Any], model: clearskies.Model) -> dict[str, Any]:
         """
