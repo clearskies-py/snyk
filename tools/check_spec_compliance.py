@@ -347,21 +347,33 @@ def check_query_parameters(model: ModelInfo, endpoints: dict[str, list[EndpointI
     if not matching:
         return issues
 
+    # Parameters handled by the backend/framework — not model columns
+    BACKEND_PARAMS = {"version", "limit", "starting_after", "ending_before"}
+
     # Get query parameters from GET endpoints
-    query_params = set()
+    query_params: set[str] = set()
+    path_params: set[str] = set()
     for ep in matching:
         if ep.method == "GET":
             for param in ep.parameters:
                 if param.get("in") == "query":
-                    query_params.add(param.get("name"))
+                    name = param.get("name")
+                    if name:
+                        query_params.add(name)
+                elif param.get("in") == "path":
+                    name = param.get("name")
+                    if name:
+                        path_params.add(name)
 
-    # Check searchable columns
+    # Columns that should be excluded from reverse-check
+    # (routing params like org_id map to path params, not query params)
+    excluded_from_reverse = BACKEND_PARAMS | path_params | {model.id_column_name}
+
     searchable_columns = {col.name for col in model.columns if col.is_searchable}
 
-    # Note: This is informational - not all query params need model columns
+    # Forward: searchable column not in spec query params (informational)
     for col in searchable_columns:
-        if col not in query_params:
-            # Convert query_params to list and filter None values
+        if col not in query_params and col not in excluded_from_reverse:
             sorted_params = sorted(str(p) for p in query_params if p is not None)
             issues.append(
                 ComplianceIssue(
@@ -370,6 +382,19 @@ def check_query_parameters(model: ModelInfo, endpoints: dict[str, list[EndpointI
                     category="query_param",
                     message=f"Searchable column '{col}' not in spec query params",
                     details=f"Available query params: {', '.join(sorted_params[:10])}...",
+                )
+            )
+
+    # Reverse: spec query param missing from model searchable columns (warning)
+    for query_param in query_params - BACKEND_PARAMS:
+        if query_param not in searchable_columns:
+            issues.append(
+                ComplianceIssue(
+                    model=model.name,
+                    severity="warning",
+                    category="missing_query_param",
+                    message=f"Spec query param '{query_param}' has no searchable column on model",
+                    details="Add a column with is_searchable=True (and is_temporary=True if not stored)",
                 )
             )
 
