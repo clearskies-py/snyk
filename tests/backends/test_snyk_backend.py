@@ -202,9 +202,9 @@ class TestSnykBackendCount(unittest.TestCase):
             with self.assertRaises(ValueError, msg="meta.count"):
                 backend.count(mock_query)
 
-    def test_can_count_false_on_base_backend(self) -> None:
-        """SnykBackend.can_count is False by default."""
-        assert SnykBackend.can_count is False
+    def test_can_count_true_on_base_backend(self) -> None:
+        """SnykBackend.can_count is True — count() is attempted and raises ValueError if meta.count absent."""
+        assert SnykBackend.can_count is True
 
     def test_records_populates_total_count_from_meta(self) -> None:
         """records() sets total_count when meta.count is present in the response."""
@@ -223,6 +223,52 @@ class TestSnykBackendCount(unittest.TestCase):
 
         assert result.total_count is None
         assert result.can_count is False
+
+
+class TestSnykBackendBooleanParams(unittest.TestCase):
+    """Boolean query params must be serialised as true/false, not 1/0."""
+
+    def test_boolean_condition_serialised_as_true_false(self) -> None:
+        """conditions_to_request_parameters converts 1/0 to true/false for Boolean columns."""
+        from clearskies.columns import Boolean
+        from clearskies.query import Condition, Query
+
+        backend = SnykBackend()
+
+        mock_model = MagicMock()
+        mock_model.id_column_name = "id"
+        mock_model.destination_name.return_value = "orgs/org-123/targets"
+        bool_col = MagicMock(spec=Boolean)
+        bool_col.__class__ = Boolean
+        mock_model.get_columns.return_value = {"exclude_empty": bool_col}
+
+        mock_query = MagicMock(spec=Query)
+        mock_query.model_class = mock_model
+        mock_query.conditions = [Condition("exclude_empty=1")]
+
+        _, url_params, _ = backend.conditions_to_request_parameters(mock_query, [])
+        assert url_params.get("exclude_empty") == "true"
+
+    def test_boolean_false_serialised_as_false(self) -> None:
+        """Boolean value 0 is serialised as 'false'."""
+        from clearskies.columns import Boolean
+        from clearskies.query import Condition, Query
+
+        backend = SnykBackend()
+
+        mock_model = MagicMock()
+        mock_model.id_column_name = "id"
+        mock_model.destination_name.return_value = "orgs/org-123/targets"
+        bool_col = MagicMock(spec=Boolean)
+        bool_col.__class__ = Boolean
+        mock_model.get_columns.return_value = {"exclude_empty": bool_col}
+
+        mock_query = MagicMock(spec=Query)
+        mock_query.model_class = mock_model
+        mock_query.conditions = [Condition("exclude_empty=0")]
+
+        _, url_params, _ = backend.conditions_to_request_parameters(mock_query, [])
+        assert url_params.get("exclude_empty") == "false"
 
 
 if __name__ == "__main__":

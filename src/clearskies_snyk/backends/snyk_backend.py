@@ -124,7 +124,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
     )
     resource_type = configs.String(default="")
 
-    can_count = False
+    can_count = True
 
     @parameters_to_properties
     def __init__(
@@ -255,6 +255,26 @@ class SnykBackend(clearskies.backends.ApiBackend):
             "organization": "org",
         }
         return relationship_map.get(rel_name, rel_name)
+
+    def conditions_to_request_parameters(
+        self, query: Any, used_routing_parameters: list[str]
+    ) -> tuple[str, dict[str, Any], dict[str, Any]]:
+        """Serialise boolean URL params as true/false instead of 1/0.
+
+        The Snyk REST API rejects boolean query params that are not the strings
+        ``"true"`` or ``"false"``.
+        """
+        route_id, url_parameters, body_parameters = super().conditions_to_request_parameters(
+            query, used_routing_parameters
+        )
+        boolean_columns = {
+            name for name, col in query.model_class.get_columns().items() if col.__class__.__name__ == "Boolean"
+        }
+        for key in list(url_parameters.keys()):
+            col_name = key.replace("-", "_")
+            if col_name in boolean_columns:
+                url_parameters[key] = "true" if url_parameters[key] in (1, "1", True) else "false"
+        return route_id, url_parameters, body_parameters
 
     def get_next_page_data_from_response(
         self,
