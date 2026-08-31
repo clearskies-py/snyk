@@ -5,12 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.15] - 2026-08-31
+
+### Added
+- Add reverse check for spec query params missing from models
+- Add count support via meta.count in API responses
+
+### Fixed
+- Resolve missing spec query param columns and harden compliance tool
+
 ## [2.0.14] - 2026-08-27
 
 ### Added
 - Add missing fields and search parameters to all 65 Snyk models for v2 REST API spec compliance
 
 ### Changed
+- Bump version to v2.0.14 by @github-actions[bot]
 - Update spec files with latest version
 
 ## [2.0.13] - 2026-07-01
@@ -134,6 +144,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## New Contributors
 * @github-actions[bot] made their first contribution
 * @ made their first contribution
+[2.0.15]: https://github.com/clearskies-py/snyk/compare/v2.0.14..v2.0.15
 [2.0.14]: https://github.com/clearskies-py/snyk/compare/v2.0.13..v2.0.14
 [2.0.13]: https://github.com/clearskies-py/snyk/compare/v2.0.12..v2.0.13
 [2.0.12]: https://github.com/clearskies-py/snyk/compare/v2.0.11..v2.0.12
