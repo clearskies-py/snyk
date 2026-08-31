@@ -51,8 +51,17 @@ class SnykTarget(Model):
         return "orgs/{org_id}/targets"
 
     def get_final_query(self) -> Query:
-        """Include count=true so meta.count is returned for len() support."""
-        return super().get_final_query().add_where(Condition("count=true"))
+        """Include count=true for list queries so meta.count is returned for len() support.
+
+        Single-record lookups (find by id) don't include count=true since the
+        Snyk API rejects it on those endpoints.
+        """
+        query = super().get_final_query()
+        # Only add count=true for list queries, not single-record lookups
+        is_single_record = any(c.column_name == self.id_column_name for c in query.conditions)
+        if not is_single_record:
+            query = query.add_where(Condition("count=true"))
+        return query
 
     """
     The unique identifier for the target.
