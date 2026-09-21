@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, Select, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_org_reference
 
 
 class SnykSlackChannel(Model):
@@ -41,7 +42,18 @@ class SnykSlackChannel(Model):
 
     # Columns based on SlackChannel schema
     id = String()  # URI format, e.g., "slack://channel?team=T123456&id=C123456"
-    org_id = String(is_searchable=True)
+    org_id = BelongsToId(
+        snyk_org_reference.SnykOrgReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent organization this Slack channel belongs to.
+
+    BelongsTo relationship to SnykOrg.
+    """
+    org = BelongsToModel("org_id")
+
     tenant_id = String(is_searchable=True)
     channel_type = String()  # Mapped from 'type', e.g., "slack_channel"
 

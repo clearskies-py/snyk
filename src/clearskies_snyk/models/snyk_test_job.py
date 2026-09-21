@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Datetime, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Json, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_org_reference
 
 
 class SnykTestJob(Model):
@@ -41,7 +42,18 @@ class SnykTestJob(Model):
 
     # Columns based on JobData schema
     id = String()  # Job ID (UUID)
-    org_id = String(is_searchable=True)
+    org_id = BelongsToId(
+        snyk_org_reference.SnykOrgReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent organization this test job belongs to.
+
+    BelongsTo relationship to SnykOrg.
+    """
+    org = BelongsToModel("org_id")
+
     job_id = String(is_searchable=True)  # Alias for id in path
     job_type = String()  # Mapped from 'type', e.g., "test_jobs"
 

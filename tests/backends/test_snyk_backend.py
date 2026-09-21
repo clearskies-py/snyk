@@ -38,6 +38,7 @@ class TestSnykBackend(unittest.TestCase):
         """Test mapping of list response data."""
         backend = SnykBackend()
         mock_query = MagicMock()
+        mock_query.model_class.get_columns.return_value = {"id": MagicMock()}
 
         response_data = {
             "data": [
@@ -60,7 +61,8 @@ class TestSnykBackend(unittest.TestCase):
             ],
         }
 
-        result = backend.map_records_response(response_data, mock_query)
+        with patch.object(backend, "get_response_adapter", return_value=None):
+            result = backend.map_records_response(response_data, mock_query)
 
         assert len(result) == 2
         assert result[0]["id"] == "org-123"
@@ -73,6 +75,7 @@ class TestSnykBackend(unittest.TestCase):
         """Test mapping of response data with relationships."""
         backend = SnykBackend()
         mock_query = MagicMock()
+        mock_query.model_class.get_columns.return_value = {"id": MagicMock()}
 
         response_data = {
             "data": [
@@ -94,7 +97,8 @@ class TestSnykBackend(unittest.TestCase):
             ],
         }
 
-        result = backend.map_records_response(response_data, mock_query)
+        with patch.object(backend, "get_response_adapter", return_value=None):
+            result = backend.map_records_response(response_data, mock_query)
 
         assert len(result) == 1
         assert result[0]["id"] == "project-123"
@@ -173,6 +177,9 @@ class TestSnykBackendCount(unittest.TestCase):
         mock_query.selects = []
         mock_query.model_class.destination_name.return_value = "orgs/org-123/targets"
         mock_query.model_class.id_column_name = "id"
+        # clearskies 2.1.11: map_records_response calls get_columns() for strict-mode
+        # column matching; provide a minimal dict so the probe succeeds.
+        mock_query.model_class.get_columns.return_value = {"id": MagicMock()}
         return backend, mock_response, mock_query
 
     def test_count_returns_count_query_result(self) -> None:
@@ -180,7 +187,13 @@ class TestSnykBackendCount(unittest.TestCase):
         from clearskies.query.result import CountQueryResult
 
         backend, mock_response, mock_query = self._make_backend_and_mock_request({"data": [], "meta": {"count": 7}})
-        with patch.object(backend, "execute_request", return_value=mock_response):
+        with (
+            patch.object(backend, "execute_request", return_value=mock_response),
+            patch.object(
+                backend, "build_records_request", return_value=("https://api.snyk.io/rest/orgs", "GET", {}, {})
+            ),
+            patch.object(backend, "get_response_adapter", return_value=None),
+        ):
             result = backend.count(mock_query)
 
         assert isinstance(result, CountQueryResult)
@@ -209,7 +222,13 @@ class TestSnykBackendCount(unittest.TestCase):
     def test_records_populates_total_count_from_meta(self) -> None:
         """records() sets total_count when meta.count is present in the response."""
         backend, mock_response, mock_query = self._make_backend_and_mock_request({"data": [], "meta": {"count": 42}})
-        with patch.object(backend, "execute_request", return_value=mock_response):
+        with (
+            patch.object(backend, "execute_request", return_value=mock_response),
+            patch.object(
+                backend, "build_records_request", return_value=("https://api.snyk.io/rest/orgs", "GET", {}, {})
+            ),
+            patch.object(backend, "get_response_adapter", return_value=None),
+        ):
             result = backend.records(mock_query)
 
         assert result.total_count == 42
@@ -218,7 +237,13 @@ class TestSnykBackendCount(unittest.TestCase):
     def test_records_total_count_none_when_meta_absent(self) -> None:
         """records() leaves total_count as None when meta.count is absent."""
         backend, mock_response, mock_query = self._make_backend_and_mock_request({"data": []})
-        with patch.object(backend, "execute_request", return_value=mock_response):
+        with (
+            patch.object(backend, "execute_request", return_value=mock_response),
+            patch.object(
+                backend, "build_records_request", return_value=("https://api.snyk.io/rest/orgs", "GET", {}, {})
+            ),
+            patch.object(backend, "get_response_adapter", return_value=None),
+        ):
             result = backend.records(mock_query)
 
         assert result.total_count is None

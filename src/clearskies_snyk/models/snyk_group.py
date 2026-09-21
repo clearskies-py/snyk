@@ -7,13 +7,23 @@ from clearskies.columns import Boolean, Datetime, HasMany, HasOne, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import (
+    snyk_group_app_install_reference,
+    snyk_group_audit_log_reference,
+    snyk_group_export_reference,
     snyk_group_issue_reference,
+    snyk_group_member_reference,
     snyk_group_membership_reference,
+    snyk_group_org_membership_reference,
+    snyk_group_policy_reference,
     snyk_group_role_v1_reference,
     snyk_group_service_account_reference,
+    snyk_group_settings_iac_reference,
     snyk_group_settings_reference,
+    snyk_group_sso_connection_reference,
     snyk_group_tag_reference,
+    snyk_group_user_reference,
     snyk_org_reference,
+    snyk_pull_request_template_reference,
 )
 
 
@@ -138,6 +148,106 @@ class SnykGroup(Model):
     """
     roles = HasMany(
         snyk_group_role_v1_reference.SnykGroupRoleV1Reference,
+        foreign_column_name="group_id",
+    )
+
+    """
+    App installs for this group.
+
+    HasMany relationship to SnykGroupAppInstall.
+    """
+    app_installs = HasMany(
+        snyk_group_app_install_reference.SnykGroupAppInstallReference,
+        foreign_column_name="group_id",
+    )
+
+    """
+    Audit logs for this group.
+
+    HasMany relationship to SnykGroupAuditLog.
+    """
+    audit_logs = HasMany(
+        snyk_group_audit_log_reference.SnykGroupAuditLogReference,
+        foreign_column_name="group_id",
+    )
+
+    """
+    Export jobs for this group.
+
+    HasMany relationship to SnykGroupExport.
+    """
+    exports = HasMany(
+        snyk_group_export_reference.SnykGroupExportReference,
+        foreign_column_name="group_id",
+    )
+
+    """
+    Members of this group.
+
+    HasMany relationship to SnykGroupMember.
+    """
+    members = HasMany(
+        snyk_group_member_reference.SnykGroupMemberReference,
+        foreign_column_name="group_id",
+    )
+
+    """
+    Organization memberships in this group.
+
+    HasMany relationship to SnykGroupOrgMembership.
+    """
+    org_memberships = HasMany(
+        snyk_group_org_membership_reference.SnykGroupOrgMembershipReference,
+        foreign_column_name="group_id",
+    )
+
+    """
+    Policies for this group.
+
+    HasMany relationship to SnykGroupPolicy.
+    """
+    policies = HasMany(
+        snyk_group_policy_reference.SnykGroupPolicyReference,
+        foreign_column_name="group_id",
+    )
+
+    """
+    SSO connections for this group.
+
+    HasMany relationship to SnykGroupSsoConnection.
+    """
+    sso_connections = HasMany(
+        snyk_group_sso_connection_reference.SnykGroupSsoConnectionReference,
+        foreign_column_name="group_id",
+    )
+
+    """
+    Users in this group.
+
+    HasMany relationship to SnykGroupUser.
+    """
+    users = HasMany(
+        snyk_group_user_reference.SnykGroupUserReference,
+        foreign_column_name="group_id",
+    )
+
+    """
+    IaC settings for this group.
+
+    HasOne relationship to SnykGroupSettingsIac.
+    """
+    settings_iac = HasOne(
+        snyk_group_settings_iac_reference.SnykGroupSettingsIacReference,
+        foreign_column_name="group_id",
+    )
+
+    """
+    Pull request template for this group.
+
+    HasOne relationship to SnykPullRequestTemplate.
+    """
+    pull_request_template = HasOne(
+        snyk_pull_request_template_reference.SnykPullRequestTemplateReference,
         foreign_column_name="group_id",
     )
 

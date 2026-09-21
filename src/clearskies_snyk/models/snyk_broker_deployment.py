@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Datetime, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Json, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_tenant_reference
 
 
 class SnykBrokerDeployment(Model):
@@ -48,7 +49,17 @@ class SnykBrokerDeployment(Model):
     """
     The ID of the tenant this deployment belongs to.
     """
-    tenant_id = String(is_searchable=True)
+    tenant_id = BelongsToId(
+        snyk_tenant_reference.SnykTenantReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent tenant this deployment belongs to.
+
+    BelongsTo relationship to SnykTenant.
+    """
+    tenant = BelongsToModel("tenant_id")
 
     """
     The install ID associated with this deployment.

@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Datetime, String
+from clearskies.columns import BelongsToId, BelongsToModel, Datetime, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_group_reference
 
 
 class SnykGroupAppInstall(Model):
@@ -48,7 +49,17 @@ class SnykGroupAppInstall(Model):
     """
     The ID of the group this install belongs to.
     """
-    group_id = String(is_searchable=True)
+    group_id = BelongsToId(
+        snyk_group_reference.SnykGroupReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent group this install belongs to.
+
+    BelongsTo relationship to SnykGroup.
+    """
+    group = BelongsToModel("group_id")
 
     """
     The ID of the app that was installed.

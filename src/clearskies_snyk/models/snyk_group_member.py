@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Boolean, Datetime, Email, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Email, Json, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_group_reference
 
 
 class SnykGroupMember(Model):
@@ -44,7 +45,17 @@ class SnykGroupMember(Model):
     """
     The ID of the group this member belongs to.
     """
-    group_id = String(is_searchable=True)
+    group_id = BelongsToId(
+        snyk_group_reference.SnykGroupReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent group this member belongs to.
+
+    BelongsTo relationship to SnykGroup.
+    """
+    group = BelongsToModel("group_id")
 
     """
     The ID of the organization this member belongs to.

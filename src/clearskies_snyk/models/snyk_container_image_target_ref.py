@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import String
+from clearskies.columns import BelongsToId, BelongsToModel, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_org_reference
 
 
 class SnykContainerImageTargetRef(Model):
@@ -49,7 +50,17 @@ class SnykContainerImageTargetRef(Model):
     """
     The ID of the organization.
     """
-    org_id = String(is_searchable=True)
+    org_id = BelongsToId(
+        snyk_org_reference.SnykOrgReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent organization this target ref belongs to.
+
+    BelongsTo relationship to SnykOrg.
+    """
+    org = BelongsToModel("org_id")
 
     """
     The ID of the target.

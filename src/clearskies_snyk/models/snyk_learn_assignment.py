@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Boolean, Datetime, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_org_reference
 
 
 class SnykLearnAssignment(Model):
@@ -51,7 +52,17 @@ class SnykLearnAssignment(Model):
     """
     The ID of the organization.
     """
-    org_id = String(is_searchable=True)
+    org_id = BelongsToId(
+        snyk_org_reference.SnykOrgReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent organization this assignment belongs to.
+
+    BelongsTo relationship to SnykOrg.
+    """
+    org = BelongsToModel("org_id")
 
     """
     The type of resource (lesson_assignment).

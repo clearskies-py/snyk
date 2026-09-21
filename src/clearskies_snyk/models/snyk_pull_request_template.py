@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import String
+from clearskies.columns import BelongsToId, BelongsToModel, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_group_reference
 
 
 class SnykPullRequestTemplate(Model):
@@ -53,7 +54,17 @@ class SnykPullRequestTemplate(Model):
     """
     The ID of the group this template belongs to.
     """
-    group_id = String(is_searchable=True)
+    group_id = BelongsToId(
+        snyk_group_reference.SnykGroupReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent group this template belongs to.
+
+    BelongsTo relationship to SnykGroup.
+    """
+    group = BelongsToModel("group_id")
 
     """
     The type of resource (pull_request_template).

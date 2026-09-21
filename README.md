@@ -36,6 +36,7 @@ export SNYK_AUTH_SECRET_PATH=/path/to/secret
 import clearskies
 from clearskies_snyk.models import SnykOrg, SnykProject, SnykGroup
 
+
 def my_handler(snyk_org: SnykOrg, snyk_project: SnykProject, snyk_group: SnykGroup):
     """Example handler using dependency injection."""
     # List all organizations
@@ -58,6 +59,7 @@ def my_handler(snyk_org: SnykOrg, snyk_project: SnykProject, snyk_group: SnykGro
 import clearskies
 from clearskies_snyk.models import SnykOrgIssue, SnykGroupIssue
 
+
 def my_handler(snyk_org_issue: SnykOrgIssue, snyk_group_issue: SnykGroupIssue):
     """Example handler using dependency injection."""
     # Get issues for an organization
@@ -78,6 +80,7 @@ Some endpoints are only available through the legacy v1 API:
 ```python
 import clearskies
 from clearskies_snyk.models.v1 import SnykIntegration, SnykWebhook, SnykLicense
+
 
 def my_handler(snyk_integration: SnykIntegration, snyk_webhook: SnykWebhook):
     """Example handler using dependency injection."""

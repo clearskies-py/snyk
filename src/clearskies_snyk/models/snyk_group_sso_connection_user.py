@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Boolean, Datetime, Json, Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_group_reference
 
 
 class SnykGroupSsoConnectionUser(Model):
@@ -52,7 +53,17 @@ class SnykGroupSsoConnectionUser(Model):
     """
     The ID of the group this user belongs to.
     """
-    group_id = String(is_searchable=True)
+    group_id = BelongsToId(
+        snyk_group_reference.SnykGroupReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent group this SSO user belongs to.
+
+    BelongsTo relationship to SnykGroup.
+    """
+    group = BelongsToModel("group_id")
 
     """
     The ID of the SSO connection this user is associated with.

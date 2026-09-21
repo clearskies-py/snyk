@@ -7,9 +7,10 @@ equivalent endpoint for project ignores.
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Json, String
 
 from clearskies_snyk.backends import SnykV1Backend
+from clearskies_snyk.models.references import snyk_org_reference, snyk_project_reference
 
 
 class SnykProjectIgnore(Model):
@@ -49,7 +50,17 @@ class SnykProjectIgnore(Model):
     """
     The ID of the organization.
     """
-    org_id = String(is_searchable=True)
+    org_id = BelongsToId(
+        snyk_org_reference.SnykOrgReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent organization this ignore belongs to.
+
+    BelongsTo relationship to SnykOrg.
+    """
+    org = BelongsToModel("org_id")
 
     """
     The ID of the group.
@@ -59,7 +70,17 @@ class SnykProjectIgnore(Model):
     """
     The ID of the project.
     """
-    project_id = String(is_searchable=True)
+    project_id = BelongsToId(
+        snyk_project_reference.SnykProjectReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent project this ignore belongs to.
+
+    BelongsTo relationship to SnykProject.
+    """
+    project = BelongsToModel("project_id")
 
     """
     The path that is ignored.

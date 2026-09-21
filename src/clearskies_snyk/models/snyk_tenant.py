@@ -6,7 +6,11 @@ from clearskies import Model
 from clearskies.columns import Boolean, Datetime, HasMany, Select, String
 
 from clearskies_snyk.backends import SnykBackend
-from clearskies_snyk.models.references import snyk_tenant_membership_reference, snyk_tenant_role_reference
+from clearskies_snyk.models.references import (
+    snyk_broker_deployment_reference,
+    snyk_tenant_membership_reference,
+    snyk_tenant_role_reference,
+)
 
 
 class SnykTenant(Model):
@@ -94,6 +98,16 @@ class SnykTenant(Model):
     """
     roles = HasMany(
         snyk_tenant_role_reference.SnykTenantRoleReference,
+        foreign_column_name="tenant_id",
+    )
+
+    """
+    Broker deployments for this tenant.
+
+    HasMany relationship to SnykBrokerDeployment.
+    """
+    broker_deployments = HasMany(
+        snyk_broker_deployment_reference.SnykBrokerDeploymentReference,
         foreign_column_name="tenant_id",
     )
 

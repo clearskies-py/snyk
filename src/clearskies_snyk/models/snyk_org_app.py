@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Boolean, Datetime, Json, Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_org_reference
 
 
 class SnykOrgApp(Model):
@@ -47,7 +48,17 @@ class SnykOrgApp(Model):
     """
     The ID of the organization this app belongs to.
     """
-    org_id = String(is_searchable=True)
+    org_id = BelongsToId(
+        snyk_org_reference.SnykOrgReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent organization this app belongs to.
+
+    BelongsTo relationship to SnykOrg.
+    """
+    org = BelongsToModel("org_id")
 
     """
     The name of the app.

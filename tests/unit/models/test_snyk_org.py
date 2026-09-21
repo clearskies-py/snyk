@@ -10,7 +10,7 @@ This module demonstrates the test patterns for Snyk models, including:
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -63,14 +63,29 @@ class TestSnykOrgResponseMapping:
     """Tests for mapping API responses to model data."""
 
     @pytest.fixture
-    def backend(self) -> SnykBackend:
-        """Create a SnykBackend instance for testing."""
-        return SnykBackend()
+    def backend(self):
+        """Create a SnykBackend instance for testing.
+
+        Patches get_response_adapter to return None so that tests constructing
+        SnykBackend() directly (without DI) are not broken by the clearskies
+        2.1.11 addition of a DI-dependent adapter lookup inside
+        map_records_response.
+        """
+        b = SnykBackend()
+        with patch.object(b, "get_response_adapter", return_value=None):
+            yield b
 
     @pytest.fixture
     def mock_query(self) -> MagicMock:
-        """Create a mock query object."""
-        return MagicMock()
+        """Create a mock query object.
+
+        Sets get_columns to return a minimal dict so that the clearskies
+        2.1.11 strict-mode column probe inside map_records_response can
+        find at least one matching key and does not raise NotModelData.
+        """
+        mock = MagicMock()
+        mock.model_class.get_columns.return_value = {"id": MagicMock()}
+        return mock
 
     def test_map_single_org_response(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test mapping a single organization response."""
@@ -181,14 +196,26 @@ class TestSnykOrgEdgeCases:
     """Tests for edge cases and error handling."""
 
     @pytest.fixture
-    def backend(self) -> SnykBackend:
-        """Create a SnykBackend instance for testing."""
-        return SnykBackend()
+    def backend(self):
+        """Create a SnykBackend instance for testing.
+
+        Patches get_response_adapter to return None — see TestSnykOrgResponseMapping
+        for the full explanation.
+        """
+        b = SnykBackend()
+        with patch.object(b, "get_response_adapter", return_value=None):
+            yield b
 
     @pytest.fixture
     def mock_query(self) -> MagicMock:
-        """Create a mock query object."""
-        return MagicMock()
+        """Create a mock query object.
+
+        Sets get_columns to return a minimal dict — see TestSnykOrgResponseMapping
+        for the full explanation.
+        """
+        mock = MagicMock()
+        mock.model_class.get_columns.return_value = {"id": MagicMock()}
+        return mock
 
     def test_map_response_with_relationships(self, backend: SnykBackend, mock_query: MagicMock) -> None:
         """Test mapping a response that includes relationships."""
@@ -212,15 +239,16 @@ class TestSnykOrgEdgeCases:
         assert result[0].get("group_id") == "group-456"
 
     def test_map_response_with_null_data(self, backend: SnykBackend, mock_query: MagicMock) -> None:
-        """Test mapping a response with null data field."""
+        """Test mapping a response with null data field.
+
+        When data=None the backend falls through to the parent which recurses
+        into the jsonapi metadata dict and returns a list (clearskies 2.1.11+).
+        This is acceptable — the model layer handles unexpected data shapes.
+        """
         response = {"data": None, "jsonapi": {"version": "1.0"}}
 
-        # The backend passes through to parent which wraps in list
-        # This test documents the current behavior
         result = backend.map_records_response(response, mock_query)
 
-        # Current implementation wraps the response in a list
-        # This is acceptable behavior - the model layer handles None
         assert isinstance(result, list)
 
     def test_map_response_with_extra_fields(self, backend: SnykBackend, mock_query: MagicMock) -> None:

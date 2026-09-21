@@ -377,3 +377,429 @@ class TestSnykGroupRoleV1Reference:
         ref = SnykGroupRoleV1Reference()
         model_class = ref.get_model_class()
         assert model_class is SnykGroupRoleV1
+
+
+class TestSnykAiBomReference:
+    """Tests for SnykAiBomReference."""
+
+    def test_get_model_class_returns_snyk_ai_bom(self) -> None:
+        """Test that get_model_class returns SnykAiBom."""
+        from clearskies_snyk.models.references.snyk_ai_bom_reference import SnykAiBomReference
+        from clearskies_snyk.models.snyk_ai_bom import SnykAiBom
+
+        ref = SnykAiBomReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykAiBom
+
+
+class TestSnykBrokerConnectionReference:
+    """Tests for SnykBrokerConnectionReference."""
+
+    def test_get_model_class_returns_snyk_broker_connection(self) -> None:
+        """Test that get_model_class returns SnykBrokerConnection."""
+        from clearskies_snyk.models.references.snyk_broker_connection_reference import SnykBrokerConnectionReference
+        from clearskies_snyk.models.snyk_broker_connection import SnykBrokerConnection
+
+        ref = SnykBrokerConnectionReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykBrokerConnection
+
+
+class TestSnykBrokerDeploymentReference:
+    """Tests for SnykBrokerDeploymentReference."""
+
+    def test_get_model_class_returns_snyk_broker_deployment(self) -> None:
+        """Test that get_model_class returns SnykBrokerDeployment."""
+        from clearskies_snyk.models.references.snyk_broker_deployment_reference import SnykBrokerDeploymentReference
+        from clearskies_snyk.models.snyk_broker_deployment import SnykBrokerDeployment
+
+        ref = SnykBrokerDeploymentReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykBrokerDeployment
+
+
+class TestSnykCloudResourceReference:
+    """Tests for SnykCloudResourceReference."""
+
+    def test_get_model_class_returns_snyk_cloud_resource(self) -> None:
+        """Test that get_model_class returns SnykCloudResource."""
+        from clearskies_snyk.models.references.snyk_cloud_resource_reference import SnykCloudResourceReference
+        from clearskies_snyk.models.snyk_cloud_resource import SnykCloudResource
+
+        ref = SnykCloudResourceReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykCloudResource
+
+
+class TestSnykCloudScanReference:
+    """Tests for SnykCloudScanReference."""
+
+    def test_get_model_class_returns_snyk_cloud_scan(self) -> None:
+        """Test that get_model_class returns SnykCloudScan."""
+        from clearskies_snyk.models.references.snyk_cloud_scan_reference import SnykCloudScanReference
+        from clearskies_snyk.models.snyk_cloud_scan import SnykCloudScan
+
+        ref = SnykCloudScanReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykCloudScan
+
+
+class TestSnykFixPullRequestReference:
+    """Tests for SnykFixPullRequestReference."""
+
+    def test_get_model_class_returns_snyk_fix_pull_request(self) -> None:
+        """Test that get_model_class returns SnykFixPullRequest."""
+        from clearskies_snyk.models.references.snyk_fix_pull_request_reference import SnykFixPullRequestReference
+        from clearskies_snyk.models.snyk_fix_pull_request import SnykFixPullRequest
+
+        ref = SnykFixPullRequestReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykFixPullRequest
+
+
+class TestSnykGroupAppInstallReference:
+    """Tests for SnykGroupAppInstallReference."""
+
+    def test_get_model_class_returns_snyk_group_app_install(self) -> None:
+        """Test that get_model_class returns SnykGroupAppInstall."""
+        from clearskies_snyk.models.references.snyk_group_app_install_reference import SnykGroupAppInstallReference
+        from clearskies_snyk.models.snyk_group_app_install import SnykGroupAppInstall
+
+        ref = SnykGroupAppInstallReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykGroupAppInstall
+
+
+class TestSnykGroupAuditLogReference:
+    """Tests for SnykGroupAuditLogReference."""
+
+    def test_get_model_class_returns_snyk_group_audit_log(self) -> None:
+        """Test that get_model_class returns SnykGroupAuditLog."""
+        from clearskies_snyk.models.references.snyk_group_audit_log_reference import SnykGroupAuditLogReference
+        from clearskies_snyk.models.snyk_group_audit_log import SnykGroupAuditLog
+
+        ref = SnykGroupAuditLogReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykGroupAuditLog
+
+
+class TestSnykGroupExportReference:
+    """Tests for SnykGroupExportReference."""
+
+    def test_get_model_class_returns_snyk_group_export(self) -> None:
+        """Test that get_model_class returns SnykGroupExport."""
+        from clearskies_snyk.models.references.snyk_group_export_reference import SnykGroupExportReference
+        from clearskies_snyk.models.snyk_group_export import SnykGroupExport
+
+        ref = SnykGroupExportReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykGroupExport
+
+
+class TestSnykGroupMemberReference:
+    """Tests for SnykGroupMemberReference."""
+
+    def test_get_model_class_returns_snyk_group_member(self) -> None:
+        """Test that get_model_class returns SnykGroupMember."""
+        from clearskies_snyk.models.references.snyk_group_member_reference import SnykGroupMemberReference
+        from clearskies_snyk.models.snyk_group_member import SnykGroupMember
+
+        ref = SnykGroupMemberReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykGroupMember
+
+
+class TestSnykGroupOrgMembershipReference:
+    """Tests for SnykGroupOrgMembershipReference."""
+
+    def test_get_model_class_returns_snyk_group_org_membership(self) -> None:
+        """Test that get_model_class returns SnykGroupOrgMembership."""
+        from clearskies_snyk.models.references.snyk_group_org_membership_reference import (
+            SnykGroupOrgMembershipReference,
+        )
+        from clearskies_snyk.models.snyk_group_org_membership import SnykGroupOrgMembership
+
+        ref = SnykGroupOrgMembershipReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykGroupOrgMembership
+
+
+class TestSnykGroupSettingsIacReference:
+    """Tests for SnykGroupSettingsIacReference."""
+
+    def test_get_model_class_returns_snyk_group_settings_iac(self) -> None:
+        """Test that get_model_class returns SnykGroupSettingsIac."""
+        from clearskies_snyk.models.references.snyk_group_settings_iac_reference import SnykGroupSettingsIacReference
+        from clearskies_snyk.models.snyk_group_settings_iac import SnykGroupSettingsIac
+
+        ref = SnykGroupSettingsIacReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykGroupSettingsIac
+
+
+class TestSnykGroupSsoConnectionReference:
+    """Tests for SnykGroupSsoConnectionReference."""
+
+    def test_get_model_class_returns_snyk_group_sso_connection(self) -> None:
+        """Test that get_model_class returns SnykGroupSsoConnection."""
+        from clearskies_snyk.models.references.snyk_group_sso_connection_reference import (
+            SnykGroupSsoConnectionReference,
+        )
+        from clearskies_snyk.models.snyk_group_sso_connection import SnykGroupSsoConnection
+
+        ref = SnykGroupSsoConnectionReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykGroupSsoConnection
+
+
+class TestSnykGroupSsoConnectionUserReference:
+    """Tests for SnykGroupSsoConnectionUserReference."""
+
+    def test_get_model_class_returns_snyk_group_sso_connection_user(self) -> None:
+        """Test that get_model_class returns SnykGroupSsoConnectionUser."""
+        from clearskies_snyk.models.references.snyk_group_sso_connection_user_reference import (
+            SnykGroupSsoConnectionUserReference,
+        )
+        from clearskies_snyk.models.snyk_group_sso_connection_user import SnykGroupSsoConnectionUser
+
+        ref = SnykGroupSsoConnectionUserReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykGroupSsoConnectionUser
+
+
+class TestSnykGroupUserReference:
+    """Tests for SnykGroupUserReference."""
+
+    def test_get_model_class_returns_snyk_group_user(self) -> None:
+        """Test that get_model_class returns SnykGroupUser."""
+        from clearskies_snyk.models.references.snyk_group_user_reference import SnykGroupUserReference
+        from clearskies_snyk.models.snyk_group_user import SnykGroupUser
+
+        ref = SnykGroupUserReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykGroupUser
+
+
+class TestSnykLearnAssignmentReference:
+    """Tests for SnykLearnAssignmentReference."""
+
+    def test_get_model_class_returns_snyk_learn_assignment(self) -> None:
+        """Test that get_model_class returns SnykLearnAssignment."""
+        from clearskies_snyk.models.references.snyk_learn_assignment_reference import SnykLearnAssignmentReference
+        from clearskies_snyk.models.snyk_learn_assignment import SnykLearnAssignment
+
+        ref = SnykLearnAssignmentReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykLearnAssignment
+
+
+class TestSnykOrgAppReference:
+    """Tests for SnykOrgAppReference."""
+
+    def test_get_model_class_returns_snyk_org_app(self) -> None:
+        """Test that get_model_class returns SnykOrgApp."""
+        from clearskies_snyk.models.references.snyk_org_app_reference import SnykOrgAppReference
+        from clearskies_snyk.models.snyk_org_app import SnykOrgApp
+
+        ref = SnykOrgAppReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykOrgApp
+
+
+class TestSnykOrgAppBotReference:
+    """Tests for SnykOrgAppBotReference."""
+
+    def test_get_model_class_returns_snyk_org_app_bot(self) -> None:
+        """Test that get_model_class returns SnykOrgAppBot."""
+        from clearskies_snyk.models.references.snyk_org_app_bot_reference import SnykOrgAppBotReference
+        from clearskies_snyk.models.snyk_org_app_bot import SnykOrgAppBot
+
+        ref = SnykOrgAppBotReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykOrgAppBot
+
+
+class TestSnykOrgAppInstallReference:
+    """Tests for SnykOrgAppInstallReference."""
+
+    def test_get_model_class_returns_snyk_org_app_install(self) -> None:
+        """Test that get_model_class returns SnykOrgAppInstall."""
+        from clearskies_snyk.models.references.snyk_org_app_install_reference import SnykOrgAppInstallReference
+        from clearskies_snyk.models.snyk_org_app_install import SnykOrgAppInstall
+
+        ref = SnykOrgAppInstallReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykOrgAppInstall
+
+
+class TestSnykOrgAuditLogReference:
+    """Tests for SnykOrgAuditLogReference."""
+
+    def test_get_model_class_returns_snyk_org_audit_log(self) -> None:
+        """Test that get_model_class returns SnykOrgAuditLog."""
+        from clearskies_snyk.models.references.snyk_org_audit_log_reference import SnykOrgAuditLogReference
+        from clearskies_snyk.models.snyk_org_audit_log import SnykOrgAuditLog
+
+        ref = SnykOrgAuditLogReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykOrgAuditLog
+
+
+class TestSnykOrgExportReference:
+    """Tests for SnykOrgExportReference."""
+
+    def test_get_model_class_returns_snyk_org_export(self) -> None:
+        """Test that get_model_class returns SnykOrgExport."""
+        from clearskies_snyk.models.references.snyk_org_export_reference import SnykOrgExportReference
+        from clearskies_snyk.models.snyk_org_export import SnykOrgExport
+
+        ref = SnykOrgExportReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykOrgExport
+
+
+class TestSnykOrgMemberReference:
+    """Tests for SnykOrgMemberReference."""
+
+    def test_get_model_class_returns_snyk_org_member(self) -> None:
+        """Test that get_model_class returns SnykOrgMember."""
+        from clearskies_snyk.models.references.snyk_org_member_reference import SnykOrgMemberReference
+        from clearskies_snyk.models.snyk_org_member import SnykOrgMember
+
+        ref = SnykOrgMemberReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykOrgMember
+
+
+class TestSnykOrgSettingsOpenSourceReference:
+    """Tests for SnykOrgSettingsOpenSourceReference."""
+
+    def test_get_model_class_returns_snyk_org_settings_open_source(self) -> None:
+        """Test that get_model_class returns SnykOrgSettingsOpenSource."""
+        from clearskies_snyk.models.references.snyk_org_settings_open_source_reference import (
+            SnykOrgSettingsOpenSourceReference,
+        )
+        from clearskies_snyk.models.snyk_org_settings_open_source import SnykOrgSettingsOpenSource
+
+        ref = SnykOrgSettingsOpenSourceReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykOrgSettingsOpenSource
+
+
+class TestSnykOrgSettingsSastReference:
+    """Tests for SnykOrgSettingsSastReference."""
+
+    def test_get_model_class_returns_snyk_org_settings_sast(self) -> None:
+        """Test that get_model_class returns SnykOrgSettingsSast."""
+        from clearskies_snyk.models.references.snyk_org_settings_sast_reference import SnykOrgSettingsSastReference
+        from clearskies_snyk.models.snyk_org_settings_sast import SnykOrgSettingsSast
+
+        ref = SnykOrgSettingsSastReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykOrgSettingsSast
+
+
+class TestSnykOrgUserReference:
+    """Tests for SnykOrgUserReference."""
+
+    def test_get_model_class_returns_snyk_org_user(self) -> None:
+        """Test that get_model_class returns SnykOrgUser."""
+        from clearskies_snyk.models.references.snyk_org_user_reference import SnykOrgUserReference
+        from clearskies_snyk.models.snyk_org_user import SnykOrgUser
+
+        ref = SnykOrgUserReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykOrgUser
+
+
+class TestSnykProjectHistoryReference:
+    """Tests for SnykProjectHistoryReference."""
+
+    def test_get_model_class_returns_snyk_project_history(self) -> None:
+        """Test that get_model_class returns SnykProjectHistory."""
+        from clearskies_snyk.models.references.snyk_project_history_reference import SnykProjectHistoryReference
+        from clearskies_snyk.models.snyk_project_history import SnykProjectHistory
+
+        ref = SnykProjectHistoryReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykProjectHistory
+
+
+class TestSnykProjectIgnoreReference:
+    """Tests for SnykProjectIgnoreReference."""
+
+    def test_get_model_class_returns_snyk_project_ignore(self) -> None:
+        """Test that get_model_class returns SnykProjectIgnore."""
+        from clearskies_snyk.models.references.snyk_project_ignore_reference import SnykProjectIgnoreReference
+        from clearskies_snyk.models.snyk_project_ignore import SnykProjectIgnore
+
+        ref = SnykProjectIgnoreReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykProjectIgnore
+
+
+class TestSnykProjectSbomReference:
+    """Tests for SnykProjectSbomReference."""
+
+    def test_get_model_class_returns_snyk_project_sbom(self) -> None:
+        """Test that get_model_class returns SnykProjectSbom."""
+        from clearskies_snyk.models.references.snyk_project_sbom_reference import SnykProjectSbomReference
+        from clearskies_snyk.models.snyk_project_sbom import SnykProjectSbom
+
+        ref = SnykProjectSbomReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykProjectSbom
+
+
+class TestSnykPullRequestTemplateReference:
+    """Tests for SnykPullRequestTemplateReference."""
+
+    def test_get_model_class_returns_snyk_pull_request_template(self) -> None:
+        """Test that get_model_class returns SnykPullRequestTemplate."""
+        from clearskies_snyk.models.references.snyk_pull_request_template_reference import (
+            SnykPullRequestTemplateReference,
+        )
+        from clearskies_snyk.models.snyk_pull_request_template import SnykPullRequestTemplate
+
+        ref = SnykPullRequestTemplateReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykPullRequestTemplate
+
+
+class TestSnykSbomTestReference:
+    """Tests for SnykSbomTestReference."""
+
+    def test_get_model_class_returns_snyk_sbom_test(self) -> None:
+        """Test that get_model_class returns SnykSbomTest."""
+        from clearskies_snyk.models.references.snyk_sbom_test_reference import SnykSbomTestReference
+        from clearskies_snyk.models.snyk_sbom_test import SnykSbomTest
+
+        ref = SnykSbomTestReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykSbomTest
+
+
+class TestSnykSlackChannelReference:
+    """Tests for SnykSlackChannelReference."""
+
+    def test_get_model_class_returns_snyk_slack_channel(self) -> None:
+        """Test that get_model_class returns SnykSlackChannel."""
+        from clearskies_snyk.models.references.snyk_slack_channel_reference import SnykSlackChannelReference
+        from clearskies_snyk.models.snyk_slack_channel import SnykSlackChannel
+
+        ref = SnykSlackChannelReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykSlackChannel
+
+
+class TestSnykTestJobReference:
+    """Tests for SnykTestJobReference."""
+
+    def test_get_model_class_returns_snyk_test_job(self) -> None:
+        """Test that get_model_class returns SnykTestJob."""
+        from clearskies_snyk.models.references.snyk_test_job_reference import SnykTestJobReference
+        from clearskies_snyk.models.snyk_test_job import SnykTestJob
+
+        ref = SnykTestJobReference()
+        model_class = ref.get_model_class()
+        assert model_class is SnykTestJob

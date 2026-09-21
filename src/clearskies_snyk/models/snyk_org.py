@@ -7,19 +7,37 @@ from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, H
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import (
+    snyk_broker_connection_reference,
+    snyk_cloud_environment_reference,
+    snyk_cloud_resource_reference,
+    snyk_cloud_scan_reference,
     snyk_collection_reference,
     snyk_container_image_reference,
     snyk_dependency_reference,
     snyk_entitlement_reference,
     snyk_group_reference,
     snyk_integration_reference,
+    snyk_learn_assignment_reference,
     snyk_license_reference,
+    snyk_org_app_bot_reference,
+    snyk_org_app_install_reference,
+    snyk_org_app_reference,
+    snyk_org_audit_log_reference,
+    snyk_org_export_reference,
+    snyk_org_invite_reference,
     snyk_org_issue_reference,
+    snyk_org_member_reference,
     snyk_org_membership_reference,
+    snyk_org_policy_reference,
     snyk_org_service_account_reference,
     snyk_org_settings_iac_reference,
+    snyk_org_settings_open_source_reference,
+    snyk_org_settings_sast_reference,
+    snyk_org_user_reference,
     snyk_project_reference,
+    snyk_sbom_test_reference,
     snyk_target_reference,
+    snyk_test_job_reference,
     snyk_webhook_reference,
 )
 
@@ -228,6 +246,176 @@ class SnykOrg(Model):
     """
     integrations = HasMany(
         snyk_integration_reference.SnykIntegrationReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Apps registered in this organization.
+
+    HasMany relationship to SnykOrgApp.
+    """
+    apps = HasMany(
+        snyk_org_app_reference.SnykOrgAppReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    App bots in this organization.
+
+    HasMany relationship to SnykOrgAppBot.
+    """
+    app_bots = HasMany(
+        snyk_org_app_bot_reference.SnykOrgAppBotReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    App installs in this organization.
+
+    HasMany relationship to SnykOrgAppInstall.
+    """
+    app_installs = HasMany(
+        snyk_org_app_install_reference.SnykOrgAppInstallReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Audit logs for this organization.
+
+    HasMany relationship to SnykOrgAuditLog.
+    """
+    audit_logs = HasMany(
+        snyk_org_audit_log_reference.SnykOrgAuditLogReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Export jobs for this organization.
+
+    HasMany relationship to SnykOrgExport.
+    """
+    exports = HasMany(
+        snyk_org_export_reference.SnykOrgExportReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Members of this organization.
+
+    HasMany relationship to SnykOrgMember.
+    """
+    members = HasMany(
+        snyk_org_member_reference.SnykOrgMemberReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Policies for this organization.
+
+    HasMany relationship to SnykOrgPolicy.
+    """
+    policies = HasMany(
+        snyk_org_policy_reference.SnykOrgPolicyReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Users in this organization.
+
+    HasMany relationship to SnykOrgUser.
+    """
+    users = HasMany(
+        snyk_org_user_reference.SnykOrgUserReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Cloud environments for this organization.
+
+    HasMany relationship to SnykCloudEnvironment.
+    """
+    cloud_environments = HasMany(
+        snyk_cloud_environment_reference.SnykCloudEnvironmentReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Cloud resources for this organization.
+
+    HasMany relationship to SnykCloudResource.
+    """
+    cloud_resources = HasMany(
+        snyk_cloud_resource_reference.SnykCloudResourceReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Cloud scans for this organization.
+
+    HasMany relationship to SnykCloudScan.
+    """
+    cloud_scans = HasMany(
+        snyk_cloud_scan_reference.SnykCloudScanReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Open source settings for this organization.
+
+    HasOne relationship to SnykOrgSettingsOpenSource.
+    """
+    settings_open_source = HasOne(
+        snyk_org_settings_open_source_reference.SnykOrgSettingsOpenSourceReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    SAST settings for this organization.
+
+    HasOne relationship to SnykOrgSettingsSast.
+    """
+    settings_sast = HasOne(
+        snyk_org_settings_sast_reference.SnykOrgSettingsSastReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Test jobs for this organization.
+
+    HasMany relationship to SnykTestJob.
+    """
+    test_jobs = HasMany(
+        snyk_test_job_reference.SnykTestJobReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    SBOM tests for this organization.
+
+    HasMany relationship to SnykSbomTest.
+    """
+    sbom_tests = HasMany(
+        snyk_sbom_test_reference.SnykSbomTestReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Learn assignments for this organization.
+
+    HasMany relationship to SnykLearnAssignment.
+    """
+    learn_assignments = HasMany(
+        snyk_learn_assignment_reference.SnykLearnAssignmentReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Broker connections for this organization.
+
+    HasMany relationship to SnykBrokerConnection.
+    """
+    broker_connections = HasMany(
+        snyk_broker_connection_reference.SnykBrokerConnectionReference,
         foreign_column_name="org_id",
     )
 

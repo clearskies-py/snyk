@@ -3,11 +3,18 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, HasOne, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.columns import ProjectTagList, SelectList
-from clearskies_snyk.models.references import snyk_org_reference, snyk_target_reference
+from clearskies_snyk.models.references import (
+    snyk_fix_pull_request_reference,
+    snyk_org_reference,
+    snyk_project_history_reference,
+    snyk_project_ignore_reference,
+    snyk_project_sbom_reference,
+    snyk_target_reference,
+)
 
 
 class SnykProject(Model):
@@ -224,6 +231,46 @@ class SnykProject(Model):
     BelongsTo relationship to SnykTarget.
     """
     target = BelongsToModel("target_id")
+
+    """
+    Fix pull requests for this project.
+
+    HasMany relationship to SnykFixPullRequest.
+    """
+    fix_pull_requests = HasMany(
+        snyk_fix_pull_request_reference.SnykFixPullRequestReference,
+        foreign_column_name="project_id",
+    )
+
+    """
+    History snapshots for this project.
+
+    HasMany relationship to SnykProjectHistory.
+    """
+    history = HasMany(
+        snyk_project_history_reference.SnykProjectHistoryReference,
+        foreign_column_name="project_id",
+    )
+
+    """
+    Ignored issues in this project.
+
+    HasMany relationship to SnykProjectIgnore.
+    """
+    ignores = HasMany(
+        snyk_project_ignore_reference.SnykProjectIgnoreReference,
+        foreign_column_name="project_id",
+    )
+
+    """
+    SBOM export for this project.
+
+    HasOne relationship to SnykProjectSbom.
+    """
+    sbom = HasOne(
+        snyk_project_sbom_reference.SnykProjectSbomReference,
+        foreign_column_name="project_id",
+    )
 
     """
     Filter projects monitored via CLI before this date.

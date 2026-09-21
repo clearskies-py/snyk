@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Boolean, Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Select, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_org_reference
 
 
 class SnykSlackProjectNotificationSettings(Model):
@@ -42,7 +43,18 @@ class SnykSlackProjectNotificationSettings(Model):
 
     # Columns based on ProjectSettingsData schema
     id = String()
-    org_id = String(is_searchable=True)
+    org_id = BelongsToId(
+        snyk_org_reference.SnykOrgReference,
+        is_searchable=True,
+    )
+
+    """
+    The parent organization these settings belong to.
+
+    BelongsTo relationship to SnykOrg.
+    """
+    org = BelongsToModel("org_id")
+
     bot_id = String(is_searchable=True)
     project_id = String(is_searchable=True)
     settings_type = String()  # Mapped from 'type', e.g., "slack"
