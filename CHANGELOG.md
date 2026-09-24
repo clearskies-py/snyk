@@ -5,7 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-09-24
+
+### Added
+- Add missing relationships for nested Snyk endpoints
+- Add BelongsTo/HasMany relationships across all models
+
+### Changed
+- Fill JSON:API relationship data into models like the v1 module
+- Update to latest version 0.0.51
+- Use adapter style for the backends
+
+### Fixed
+- Fill email, name and username on SnykGroupMember and SnykOrgMember
+- Stop v1 pagination on an empty page
+
+### Removed
+- Remove unusable SnykProject.fix_pull_requests relationship
+- Remove mypy dev dependency
+
 ## [2.0.17] - 2026-08-31
+
+### Changed
+- Bump version to v2.0.17 by @github-actions[bot]
 
 ### Fixed
 - Only add count=true for list queries on SnykTarget
@@ -160,6 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## New Contributors
 * @github-actions[bot] made their first contribution
 * @ made their first contribution
+[2.1.0]: https://github.com/clearskies-py/snyk/compare/v2.0.17..v2.1.0
 [2.0.17]: https://github.com/clearskies-py/snyk/compare/v2.0.16..v2.0.17
 [2.0.16]: https://github.com/clearskies-py/snyk/compare/v2.0.15..v2.0.16
 [2.0.15]: https://github.com/clearskies-py/snyk/compare/v2.0.14..v2.0.15
