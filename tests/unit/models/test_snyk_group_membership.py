@@ -9,9 +9,7 @@ This module tests the SnykGroupMembership model including:
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, PropertyMock, patch
-
-import pytest
+from unittest.mock import MagicMock
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models import SnykGroupMembership

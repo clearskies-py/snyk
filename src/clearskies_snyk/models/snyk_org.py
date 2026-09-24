@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, HasOne, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, HasOne, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import (
@@ -24,7 +24,6 @@ from clearskies_snyk.models.references import (
     snyk_org_app_reference,
     snyk_org_audit_log_reference,
     snyk_org_export_reference,
-    snyk_org_invite_reference,
     snyk_org_issue_reference,
     snyk_org_member_reference,
     snyk_org_membership_reference,

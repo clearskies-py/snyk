@@ -7,8 +7,6 @@ of model classes to avoid circular imports.
 
 from __future__ import annotations
 
-import pytest
-
 
 class TestSnykGroupReference:
     """Tests for SnykGroupReference."""

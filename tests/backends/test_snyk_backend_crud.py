@@ -285,7 +285,6 @@ class TestReadOperations:
 
             try:
                 # Create a query object
-                from clearskies import Model
 
                 query = model.where("id=test")
                 backend.records(query)

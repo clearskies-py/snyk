@@ -11,12 +11,11 @@ and lifecycle were defined as Select (string) columns instead of SelectList (arr
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 from typing import Any
 
 import pytest
-from clearskies.columns import Boolean, Datetime, Integer, Json, Select, String
+from clearskies.columns import Boolean, Datetime, Select, String
 
 from clearskies_snyk.columns import ProjectTagList, SelectList
 from clearskies_snyk.models import SnykProject

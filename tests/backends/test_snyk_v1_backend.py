@@ -1,10 +1,6 @@
 """Tests for SnykV1Backend."""
 
-import json
-from unittest.mock import MagicMock, patch
-
 import clearskies
-import pytest
 
 from clearskies_snyk.backends import SnykV1Backend
 

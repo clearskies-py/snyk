@@ -12,82 +12,34 @@ and will catch similar issues in ANY model.
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 from typing import Any
 
 import pytest
-from clearskies.columns import Boolean, Datetime, Float, Integer, Json, Select, String
 
-from clearskies_snyk.columns import ProjectTagList, SelectList
+from clearskies_snyk.columns import SelectList
 
 # Import all models
 from clearskies_snyk.models import (
-    SnykAccessRequest,
-    SnykAiBom,
     SnykBrokerConnection,
-    SnykBrokerConnectionIntegration,
     SnykBrokerDeployment,
     SnykCloudEnvironment,
     SnykCloudResource,
     SnykCloudScan,
     SnykCollection,
-    SnykCollectionRelationshipProject,
     SnykContainerImage,
-    SnykContainerImageTargetRef,
     SnykCustomBaseImage,
-    SnykFixPullRequest,
     SnykGroup,
-    SnykGroupAppInstall,
-    SnykGroupAuditLog,
-    SnykGroupExport,
     SnykGroupIssue,
-    SnykGroupMember,
-    SnykGroupMembership,
-    SnykGroupOrgMembership,
     SnykGroupPolicy,
     SnykGroupServiceAccount,
-    SnykGroupSettingsIac,
-    SnykGroupSsoConnection,
-    SnykGroupSsoConnectionUser,
-    SnykGroupUser,
-    SnykLearnAssignment,
-    SnykLearnCatalog,
     SnykOrg,
-    SnykOrgApp,
-    SnykOrgAppBot,
-    SnykOrgAppInstall,
-    SnykOrgAuditLog,
-    SnykOrgExport,
-    SnykOrgInvite,
     SnykOrgIssue,
-    SnykOrgMember,
-    SnykOrgMembership,
     SnykOrgPolicy,
-    SnykOrgPolicyEvent,
     SnykOrgServiceAccount,
-    SnykOrgSettingsIac,
-    SnykOrgSettingsOpenSource,
-    SnykOrgSettingsSast,
-    SnykOrgUser,
-    SnykPackage,
     SnykProject,
-    SnykProjectHistory,
-    SnykProjectIgnore,
-    SnykProjectSbom,
-    SnykPullRequestTemplate,
-    SnykSbomTest,
-    SnykSelf,
-    SnykSelfApp,
-    SnykSelfAppSession,
-    SnykSlackChannel,
-    SnykSlackDefaultNotificationSettings,
-    SnykSlackProjectNotificationSettings,
     SnykTarget,
     SnykTenant,
-    SnykTenantMembership,
-    SnykTenantRole,
-    SnykTestJob,
 )
 
 

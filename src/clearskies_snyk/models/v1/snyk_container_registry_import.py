@@ -3,13 +3,6 @@
 This model is used to create import jobs for various container registry platforms.
 """
 
-from typing import Self
-
-from clearskies import Model
-from clearskies.columns import Json, String
-
-from clearskies_snyk.backends import SnykV1ImportBackend
-
 from .snyk_target_import import SnykTargetImport
 
 

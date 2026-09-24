@@ -10,18 +10,15 @@ This module demonstrates the test patterns for Snyk models, including:
 
 from __future__ import annotations
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models import SnykOrg
 from tests.fixtures import (
-    ERROR_401,
-    ERROR_404,
     OrgResponseFactory,
     make_jsonapi_response,
-    make_pagination_links,
     make_resource,
 )
 

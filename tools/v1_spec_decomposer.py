@@ -34,7 +34,7 @@ COMMON_SCHEMA_NAMES = {
 class DateTimeEncoder(json.JSONEncoder):
     """Custom JSON encoder that handles datetime objects."""
 
-    def default(self, obj: Any) -> Any:
+    def default(self, obj: Any) -> Any:  # ty: ignore[invalid-method-override]
         if isinstance(obj, (datetime, date)):
             return obj.isoformat()
         return super().default(obj)

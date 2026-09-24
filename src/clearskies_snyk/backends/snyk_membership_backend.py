@@ -68,7 +68,7 @@ class SnykMembershipBackend(SnykBackend):
     - **Query**: List and filter memberships (handled by parent [`SnykBackend`](snyk_backend.py))
     """
 
-    def map_create_request(self, data: dict[str, Any], model: "clearskies.Model") -> dict[str, Any]:  # type: ignore
+    def map_create_request(self, data: dict[str, Any], model: "clearskies.Model") -> dict[str, Any]:
         """
         Map create data to JSON:API format with relationships for memberships.
 
@@ -120,7 +120,7 @@ class SnykMembershipBackend(SnykBackend):
 
         return {"data": {"type": membership_type, "relationships": relationships}}
 
-    def map_update_request(self, id: int | str, data: dict[str, Any], model: "clearskies.Model") -> dict[str, Any]:  # type: ignore
+    def map_update_request(self, id: int | str, data: dict[str, Any], model: "clearskies.Model") -> dict[str, Any]:
         """
         Map update data to JSON:API format with relationships for memberships.
 

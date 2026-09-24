@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock
 
-import pytest
-
 from clearskies_snyk.backends.adapters import (
     SnykCursorPaginationAdapter,
     SnykV1PaginationAdapter,

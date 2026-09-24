@@ -3,7 +3,7 @@
 from typing import Any
 
 import clearskies
-from clearskies import configs, di
+from clearskies import configs
 from clearskies.authentication import Authentication
 from clearskies.backends.adapters import (
     BodyCountAdapter,

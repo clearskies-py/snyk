@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import pytest
-
 from clearskies_snyk.backends.adapters import SnykJsonApiResponseAdapter
 
 

@@ -6,7 +6,6 @@ import API returns a 201 status with an empty body and the job ID in the Locatio
 
 from typing import Any
 
-import requests
 from clearskies import Model
 from clearskies.query.result.record_query_result import RecordQueryResult
 
