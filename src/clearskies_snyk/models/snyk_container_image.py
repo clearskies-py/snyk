@@ -3,10 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Json, Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, HasMany, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
-from clearskies_snyk.models.references import snyk_org_reference
+from clearskies_snyk.models.references import snyk_container_image_target_ref_reference, snyk_org_reference
 
 
 class SnykContainerImage(Model):
@@ -89,6 +89,18 @@ class SnykContainerImage(Model):
     BelongsTo relationship to SnykOrg.
     """
     org = BelongsToModel("org_id")
+
+    """
+    Image target references for this container image.
+
+    HasMany relationship to SnykContainerImageTargetRef.
+    """
+    target_refs = HasMany(
+        snyk_container_image_target_ref_reference.SnykContainerImageTargetRefReference,
+        foreign_column_name="id",
+        where=lambda model, parent: model.where(f"org_id={parent.org_id}"),
+        is_writeable=False,
+    )
 
     """
     The image ID.

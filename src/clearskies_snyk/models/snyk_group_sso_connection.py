@@ -3,10 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, String
 
 from clearskies_snyk.backends import SnykBackend
-from clearskies_snyk.models.references import snyk_group_reference
+from clearskies_snyk.models.references import snyk_group_reference, snyk_group_sso_connection_user_reference
 
 
 class SnykGroupSsoConnection(Model):
@@ -65,6 +65,18 @@ class SnykGroupSsoConnection(Model):
     BelongsTo relationship to SnykGroup.
     """
     group = BelongsToModel("group_id")
+
+    """
+    Users provisioned through this SSO connection.
+
+    HasMany relationship to SnykGroupSsoConnectionUser.
+    """
+    users = HasMany(
+        snyk_group_sso_connection_user_reference.SnykGroupSsoConnectionUserReference,
+        foreign_column_name="sso_id",
+        where=lambda model, parent: model.where(f"group_id={parent.group_id}"),
+        is_writeable=False,
+    )
 
     """
     The type of resource (sso_connection).

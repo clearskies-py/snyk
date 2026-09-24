@@ -121,6 +121,7 @@ class SnykTarget(Model):
     projects = HasMany(
         snyk_project_reference.SnykProjectReference,
         foreign_column_name="target_id",
+        where=lambda model, parent: model.where(f"org_id={parent.org_id}"),
     )
 
     """

@@ -7,6 +7,7 @@ from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, H
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import (
+    snyk_ai_bom_reference,
     snyk_broker_connection_reference,
     snyk_cloud_environment_reference,
     snyk_cloud_resource_reference,
@@ -24,6 +25,7 @@ from clearskies_snyk.models.references import (
     snyk_org_app_reference,
     snyk_org_audit_log_reference,
     snyk_org_export_reference,
+    snyk_org_invite_reference,
     snyk_org_issue_reference,
     snyk_org_member_reference,
     snyk_org_membership_reference,
@@ -415,6 +417,26 @@ class SnykOrg(Model):
     """
     broker_connections = HasMany(
         snyk_broker_connection_reference.SnykBrokerConnectionReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    Pending invites for this organization.
+
+    HasMany relationship to SnykOrgInvite.
+    """
+    invites = HasMany(
+        snyk_org_invite_reference.SnykOrgInviteReference,
+        foreign_column_name="org_id",
+    )
+
+    """
+    AI bill of materials for this organization.
+
+    HasMany relationship to SnykAiBom.
+    """
+    ai_boms = HasMany(
+        snyk_ai_bom_reference.SnykAiBomReference,
         foreign_column_name="org_id",
     )
 

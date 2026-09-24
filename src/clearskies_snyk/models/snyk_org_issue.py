@@ -40,13 +40,15 @@ class SnykOrgIssue(Model):
 
     id_column_name: str = "id"
 
-    # Issues API uses scan_item.id and scan_item.type as query parameters
+    # Issues API filters on `scan_item.id` / `scan_item.type`, which aren't valid column names.
     # Map 'type' to 'issue_type' to avoid shadowing Python's builtin type
     backend = SnykBackend(
         api_to_model_map={
+            "type": "issue_type",
+        },
+        url_parameter_map={
             "scan_item_id": "scan_item.id",
             "scan_item_type": "scan_item.type",
-            "type": "issue_type",
         },
         can_create=False,
         can_update=False,
@@ -206,7 +208,7 @@ class SnykOrgIssue(Model):
     """
     The ID of the scan item.
     """
-    scan_item_id = String()
+    scan_item_id = String(is_searchable=True)
 
     """
     The type of scan item.
@@ -216,6 +218,7 @@ class SnykOrgIssue(Model):
             "project",
             "environment",
         ],
+        is_searchable=True,
     )
 
     """

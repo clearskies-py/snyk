@@ -3,10 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, Json, String
 
 from clearskies_snyk.backends import SnykMembershipBackend
-from clearskies_snyk.models.references import snyk_group_reference
+from clearskies_snyk.models.references import snyk_group_org_membership_reference, snyk_group_reference
 
 
 class SnykGroupMembership(Model):
@@ -101,6 +101,28 @@ class SnykGroupMembership(Model):
     The ID of the group role.
     """
     group_role_id = String()
+
+    """
+    Org memberships of this user within the group.
+
+    HasMany relationship to SnykGroupOrgMembership, looked up by `group_id` + `user_id`
+    (the membership id itself is not used by that endpoint).
+
+    ```python
+    for membership in group.memberships.paginate_all():
+        if membership.orgs.first():
+            continue  # user already belongs to an org in this group
+    ```
+    """
+    orgs = HasMany(
+        snyk_group_org_membership_reference.SnykGroupOrgMembershipReference,
+        foreign_column_name="user_id",
+        # as_query() drops the default `user_id=<membership id>` condition added by HasMany
+        where=lambda model, parent: (
+            model.as_query().where(f"group_id={parent.group_id}").where(f"user_id={parent.user_id}")
+        ),
+        is_writeable=False,
+    )
 
     """
     Whether to include group membership count in response.

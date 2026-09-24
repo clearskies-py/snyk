@@ -3,10 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, Json, Select, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
-from clearskies_snyk.models.references import snyk_org_reference
+from clearskies_snyk.models.references import snyk_org_policy_event_reference, snyk_org_reference
 
 
 class SnykOrgPolicy(Model):
@@ -62,6 +62,18 @@ class SnykOrgPolicy(Model):
     BelongsTo relationship to SnykOrg.
     """
     org = BelongsToModel("org_id")
+
+    """
+    Events for this policy.
+
+    HasMany relationship to SnykOrgPolicyEvent.
+    """
+    events = HasMany(
+        snyk_org_policy_event_reference.SnykOrgPolicyEventReference,
+        foreign_column_name="policy_id",
+        where=lambda model, parent: model.where(f"org_id={parent.org_id}"),
+        is_writeable=False,
+    )
 
     """
     The name of the policy.

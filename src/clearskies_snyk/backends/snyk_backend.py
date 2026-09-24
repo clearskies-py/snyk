@@ -135,6 +135,12 @@ class SnykBackend(clearskies.backends.ApiBackend):
     )
     resource_type = configs.String(default="")
 
+    """
+    Map model column names to URL query parameter names, for filters whose API name
+    isn't a valid Python identifier (e.g. ``{"scan_item_id": "scan_item.id"}``).
+    """
+    url_parameter_map = configs.StringDict(default={})
+
     can_count = True
 
     @parameters_to_properties
@@ -159,6 +165,7 @@ class SnykBackend(clearskies.backends.ApiBackend):
         delete_headers: dict[str, str] | None = None,
         records_headers: dict[str, str] | None = None,
         resource_type: str = "",
+        url_parameter_map: dict[str, str] | None = None,
         response_adapter: ResponseAdapter | None = None,
         pagination_adapter: PaginationAdapter | None = None,
         count_adapter: CountAdapter | None = None,
@@ -229,6 +236,9 @@ class SnykBackend(clearskies.backends.ApiBackend):
             col_name = key.replace("-", "_")
             if col_name in boolean_columns:
                 url_parameters[key] = "true" if url_parameters[key] in (1, "1", True) else "false"
+        for col_name, api_name in self.url_parameter_map.items():
+            if col_name in url_parameters:
+                url_parameters[api_name] = url_parameters.pop(col_name)
         return route_id, url_parameters, body_parameters
 
     def map_update_request(self, id: int | str, data: dict[str, Any], model: clearskies.Model) -> dict[str, Any]:

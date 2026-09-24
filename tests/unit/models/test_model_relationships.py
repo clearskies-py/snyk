@@ -182,6 +182,15 @@ def test_belongs_to_relationship_exists(model_path: str, fk_column: str, model_c
         ("snyk_project", "SnykProject", "history", "HasMany"),
         ("snyk_project", "SnykProject", "ignores", "HasMany"),
         ("snyk_project", "SnykProject", "sbom", "HasOne"),
+        ("snyk_project", "SnykProject", "issues", "HasMany"),
+        # Nested-resource HasMany
+        ("snyk_group_membership", "SnykGroupMembership", "orgs", "HasMany"),
+        ("snyk_container_image", "SnykContainerImage", "target_refs", "HasMany"),
+        ("snyk_group_sso_connection", "SnykGroupSsoConnection", "users", "HasMany"),
+        ("snyk_org_policy", "SnykOrgPolicy", "events", "HasMany"),
+        ("snyk_self_app", "SnykSelfApp", "sessions", "HasMany"),
+        ("snyk_org", "SnykOrg", "invites", "HasMany"),
+        ("snyk_org", "SnykOrg", "ai_boms", "HasMany"),
         # SnykTarget existing HasMany (regression guard)
         ("snyk_target", "SnykTarget", "projects", "HasMany"),
         # SnykTenant new HasMany

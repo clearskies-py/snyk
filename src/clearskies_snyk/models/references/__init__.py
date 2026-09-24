@@ -26,6 +26,9 @@ from clearskies_snyk.models.references.snyk_collection_reference import (
 from clearskies_snyk.models.references.snyk_container_image_reference import (
     SnykContainerImageReference,
 )
+from clearskies_snyk.models.references.snyk_container_image_target_ref_reference import (
+    SnykContainerImageTargetRefReference,
+)
 from clearskies_snyk.models.references.snyk_dependency_reference import (
     SnykDependencyReference,
 )
@@ -118,6 +121,9 @@ from clearskies_snyk.models.references.snyk_org_member_reference import (
 from clearskies_snyk.models.references.snyk_org_membership_reference import (
     SnykOrgMembershipReference,
 )
+from clearskies_snyk.models.references.snyk_org_policy_event_reference import (
+    SnykOrgPolicyEventReference,
+)
 from clearskies_snyk.models.references.snyk_org_policy_reference import (
     SnykOrgPolicyReference,
 )
@@ -155,6 +161,9 @@ from clearskies_snyk.models.references.snyk_pull_request_template_reference impo
 from clearskies_snyk.models.references.snyk_sbom_test_reference import (
     SnykSbomTestReference,
 )
+from clearskies_snyk.models.references.snyk_self_app_session_reference import (
+    SnykSelfAppSessionReference,
+)
 from clearskies_snyk.models.references.snyk_slack_channel_reference import (
     SnykSlackChannelReference,
 )
@@ -182,6 +191,7 @@ __all__ = [
     "SnykCloudScanReference",
     "SnykCollectionReference",
     "SnykContainerImageReference",
+    "SnykContainerImageTargetRefReference",
     "SnykDependencyReference",
     "SnykEntitlementReference",
     "SnykFixPullRequestReference",
@@ -214,6 +224,7 @@ __all__ = [
     "SnykOrgIssueReference",
     "SnykOrgMemberReference",
     "SnykOrgMembershipReference",
+    "SnykOrgPolicyEventReference",
     "SnykOrgPolicyReference",
     "SnykOrgReference",
     "SnykOrgServiceAccountReference",
@@ -227,6 +238,7 @@ __all__ = [
     "SnykProjectSbomReference",
     "SnykPullRequestTemplateReference",
     "SnykSbomTestReference",
+    "SnykSelfAppSessionReference",
     "SnykSlackChannelReference",
     "SnykTargetReference",
     "SnykTenantMembershipReference",

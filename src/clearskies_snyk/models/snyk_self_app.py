@@ -3,9 +3,10 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import Boolean, Datetime, Json, Select, String
+from clearskies.columns import Boolean, Datetime, HasMany, Json, Select, String
 
 from clearskies_snyk.backends import SnykBackend
+from clearskies_snyk.models.references import snyk_self_app_session_reference
 
 
 class SnykSelfApp(Model):
@@ -118,6 +119,17 @@ class SnykSelfApp(Model):
     Public ID of the owning organization.
     """
     org_public_id = String()
+
+    """
+    Sessions for this app.
+
+    HasMany relationship to SnykSelfAppSession.
+    """
+    sessions = HasMany(
+        snyk_self_app_session_reference.SnykSelfAppSessionReference,
+        foreign_column_name="app_id",
+        is_writeable=False,
+    )
 
     """
     Expand related resources.

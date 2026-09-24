@@ -194,7 +194,9 @@ class SnykGroup(Model):
     """
     Organization memberships in this group.
 
-    HasMany relationship to SnykGroupOrgMembership.
+    HasMany relationship to SnykGroupOrgMembership.  The API requires a `user_id` filter, so
+    always narrow it: `group.org_memberships.where(f"user_id={user_id}")`, or use
+    `SnykGroupMembership.orgs`.
     """
     org_memberships = HasMany(
         snyk_group_org_membership_reference.SnykGroupOrgMembershipReference,

@@ -9,6 +9,7 @@ from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.columns import ProjectTagList, SelectList
 from clearskies_snyk.models.references import (
     snyk_fix_pull_request_reference,
+    snyk_org_issue_reference,
     snyk_org_reference,
     snyk_project_history_reference,
     snyk_project_ignore_reference,
@@ -240,6 +241,7 @@ class SnykProject(Model):
     fix_pull_requests = HasMany(
         snyk_fix_pull_request_reference.SnykFixPullRequestReference,
         foreign_column_name="project_id",
+        where=lambda model, parent: model.where(f"org_id={parent.org_id}"),
     )
 
     """
@@ -250,6 +252,7 @@ class SnykProject(Model):
     history = HasMany(
         snyk_project_history_reference.SnykProjectHistoryReference,
         foreign_column_name="project_id",
+        where=lambda model, parent: model.where(f"org_id={parent.org_id}"),
     )
 
     """
@@ -260,6 +263,7 @@ class SnykProject(Model):
     ignores = HasMany(
         snyk_project_ignore_reference.SnykProjectIgnoreReference,
         foreign_column_name="project_id",
+        where=lambda model, parent: model.where(f"org_id={parent.org_id}"),
     )
 
     """
@@ -270,6 +274,19 @@ class SnykProject(Model):
     sbom = HasOne(
         snyk_project_sbom_reference.SnykProjectSbomReference,
         foreign_column_name="project_id",
+        where=lambda model, parent: model.where(f"org_id={parent.org_id}"),
+    )
+
+    """
+    Issues found in this project.
+
+    HasMany relationship to SnykOrgIssue (filtered on `scan_item.id` + `scan_item.type=project`).
+    """
+    issues = HasMany(
+        snyk_org_issue_reference.SnykOrgIssueReference,
+        foreign_column_name="scan_item_id",
+        where=[lambda model, parent: model.where(f"org_id={parent.org_id}"), "scan_item_type=project"],
+        is_writeable=False,
     )
 
     """

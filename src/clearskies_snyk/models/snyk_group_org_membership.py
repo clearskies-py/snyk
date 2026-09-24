@@ -28,7 +28,7 @@ class SnykGroupOrgMembership(Model):
     ```
     """
 
-    id_column_name: str = "user_id"
+    id_column_name: str = "id"
 
     backend = SnykBackend(can_create=False, can_update=False, can_delete=False)
 
@@ -38,7 +38,12 @@ class SnykGroupOrgMembership(Model):
         return "groups/{group_id}/org_memberships"
 
     """
-    The ID of the user.
+    The unique identifier for the org membership.
+    """
+    id = String()
+
+    """
+    The ID of the user (required query parameter when listing).
     """
     user_id = String(is_searchable=True)
 
