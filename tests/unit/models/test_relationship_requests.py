@@ -11,7 +11,9 @@ from clearskies.di import Di
 from clearskies_snyk.models import (
     SnykContainerImage,
     SnykGroup,
+    SnykGroupMember,
     SnykGroupSsoConnection,
+    SnykOrgMember,
     SnykOrgPolicy,
     SnykProject,
     SnykTarget,
@@ -198,3 +200,26 @@ def test_group_membership_type_id_is_filled_from_relationship_type() -> None:
 
     assert membership.group_role_id == "r-1"
     assert membership.role == {"id": "r-1", "type": "group_role", "name": "member"}
+
+
+@pytest.mark.parametrize(
+    "model_class,parent_data,role_column,role_name",
+    [
+        (SnykGroupMember, {"group_id": "g-1"}, "group_role", "member"),
+        (SnykOrgMember, {"org_id": "o-1"}, "role", "member"),
+    ],
+)
+def test_member_user_fields_are_filled_from_relationships(
+    model_class: type, parent_data: dict[str, Any], role_column: str, role_name: str
+) -> None:
+    requests = FakeRequests({"/memberships": GROUP_MEMBERSHIPS})
+    query = build_di(requests).build(model_class, cache=False)
+    for column, value in parent_data.items():
+        query = query.where(f"{column}={value}")
+
+    member = query.first()
+
+    assert member.email == "a@example.com"
+    assert member.name == "A"
+    assert member.username == "a"
+    assert getattr(member, role_column) == role_name

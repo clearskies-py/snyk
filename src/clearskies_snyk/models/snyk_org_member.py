@@ -30,7 +30,16 @@ class SnykOrgMember(Model):
 
     id_column_name: str = "id"
 
-    backend = SnykBackend(resource_type="member")
+    # The memberships endpoint returns the user and role details inside relationships.*.data.attributes.
+    backend = SnykBackend(
+        resource_type="member",
+        api_to_model_map={
+            "relationships.user.data.attributes.email": "email",
+            "relationships.user.data.attributes.name": "name",
+            "relationships.user.data.attributes.username": "username",
+            "relationships.role.data.attributes.name": "role",
+        },
+    )
 
     @classmethod
     def destination_name(cls: type[Self]) -> str:
