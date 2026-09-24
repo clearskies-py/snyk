@@ -145,6 +145,21 @@ class TestSnykV1PaginationAdapter:
         """Dict without a list value (single record) returns None."""
         assert extract_v1_records({"single_item": {"id": "1"}}) is None
 
+    def test_empty_page_without_limit_stops_pagination(self):
+        """An empty page ends pagination even when no limit is set."""
+        response = self._mock_response({"snapshots": []})
+        assert self.adapter.extract_next_page_data(response, self._make_query()) == {}
+
+    def test_unrecognised_body_without_limit_stops_pagination(self):
+        """A body without a record list (e.g. a single record) never requests another page."""
+        response = self._mock_response({"id": "1", "name": "single"})
+        assert self.adapter.extract_next_page_data(response, self._make_query()) == {}
+
+    def test_non_empty_page_without_limit_requests_next_page(self):
+        """Without a limit the page size is unknown, so a non-empty page moves to the next page."""
+        response = self._mock_response({"snapshots": [{"id": "1"}]})
+        assert self.adapter.extract_next_page_data(response, self._make_query()) == {"page": 2}
+
 
 class TestSnykVersionUrlAdapter:
     """Unit tests for SnykVersionUrlAdapter."""

@@ -64,7 +64,7 @@ class SnykV1PaginationAdapter(ParameterPaginationAdapter):
         response: RequestsResponse,
         query: Query,
     ) -> dict[str, Any]:
-        """Increment the page number unless the response returned fewer records than the limit."""
+        """Increment the page number unless the response had no records or fewer than the limit."""
         if not response.content:
             return {}
         try:
@@ -72,10 +72,12 @@ class SnykV1PaginationAdapter(ParameterPaginationAdapter):
         except Exception:
             return {}
 
-        if query.limit:
-            records = extract_v1_records(body) or []
-            if len(records) < int(query.limit):
-                return {}
+        records = extract_v1_records(body)
+        if not records:
+            # No list (single record / unknown shape) or an empty page: nothing more to fetch.
+            return {}
+        if query.limit and len(records) < int(query.limit):
+            return {}
 
         current = query.pagination.get(self.pagination_parameter_name, self.start_value)
         try:
