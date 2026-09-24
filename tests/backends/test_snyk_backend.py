@@ -34,80 +34,45 @@ class TestSnykBackend(unittest.TestCase):
         backend = SnykBackend()
         assert backend.headers["Accept"] == "application/vnd.api+json"
 
-    def test_map_records_response_list(self) -> None:
-        """Test mapping of list response data."""
+    def test_response_adapter_is_snyk_json_api(self) -> None:
+        """Backend defaults to SnykJsonApiResponseAdapter."""
+        from clearskies_snyk.backends.adapters import SnykJsonApiResponseAdapter
+
         backend = SnykBackend()
-        mock_query = MagicMock()
-        mock_query.model_class.get_columns.return_value = {"id": MagicMock()}
+        assert isinstance(backend.response_adapter, SnykJsonApiResponseAdapter)
 
-        response_data = {
-            "data": [
-                {
-                    "id": "org-123",
-                    "type": "org",
-                    "attributes": {
-                        "name": "Test Org",
-                        "slug": "test-org",
-                    },
-                },
-                {
-                    "id": "org-456",
-                    "type": "org",
-                    "attributes": {
-                        "name": "Another Org",
-                        "slug": "another-org",
-                    },
-                },
-            ],
-        }
+    def test_pagination_adapter_is_snyk_cursor(self) -> None:
+        """Backend defaults to SnykCursorPaginationAdapter."""
+        from clearskies_snyk.backends.adapters import SnykCursorPaginationAdapter
 
-        with patch.object(backend, "get_response_adapter", return_value=None):
-            result = backend.map_records_response(response_data, mock_query)
-
-        assert len(result) == 2
-        assert result[0]["id"] == "org-123"
-        assert result[0]["name"] == "Test Org"
-        assert result[0]["slug"] == "test-org"
-        assert result[1]["id"] == "org-456"
-        assert result[1]["name"] == "Another Org"
-
-    def test_map_records_response_with_relationships(self) -> None:
-        """Test mapping of response data with relationships."""
         backend = SnykBackend()
-        mock_query = MagicMock()
-        mock_query.model_class.get_columns.return_value = {"id": MagicMock()}
+        assert isinstance(backend.pagination_adapter, SnykCursorPaginationAdapter)
 
-        response_data = {
-            "data": [
-                {
-                    "id": "project-123",
-                    "type": "project",
-                    "attributes": {
-                        "name": "Test Project",
-                    },
-                    "relationships": {
-                        "organization": {
-                            "data": {
-                                "id": "org-456",
-                                "type": "org",
-                            }
-                        }
-                    },
-                },
-            ],
-        }
+    def test_url_adapter_is_snyk_version(self) -> None:
+        """Backend defaults to SnykVersionUrlAdapter."""
+        from clearskies_snyk.backends.adapters import SnykVersionUrlAdapter
 
-        with patch.object(backend, "get_response_adapter", return_value=None):
-            result = backend.map_records_response(response_data, mock_query)
+        backend = SnykBackend()
+        assert isinstance(backend.url_adapter, SnykVersionUrlAdapter)
 
-        assert len(result) == 1
-        assert result[0]["id"] == "project-123"
-        assert result[0]["name"] == "Test Project"
-        # organization is mapped to org_id
-        assert result[0]["org_id"] == "org-456"
+    def test_url_adapter_carries_api_version(self) -> None:
+        """SnykVersionUrlAdapter is initialised with the backend's api_version."""
+        from clearskies_snyk.backends.adapters import SnykVersionUrlAdapter
+
+        backend = SnykBackend(api_version="2025-01-01")
+        assert isinstance(backend.url_adapter, SnykVersionUrlAdapter)
+        assert backend.url_adapter.api_version == "2025-01-01"
+
+    def test_count_adapter_is_body_count(self) -> None:
+        """Backend defaults to BodyCountAdapter targeting meta.count."""
+        from clearskies.backends.adapters import BodyCountAdapter
+
+        backend = SnykBackend()
+        assert isinstance(backend.count_adapter, BodyCountAdapter)
+        assert backend.count_adapter.count_path == "meta.count"
 
     def test_get_next_page_data_from_response(self) -> None:
-        """Test extraction of pagination data from response."""
+        """Pagination is delegated to SnykCursorPaginationAdapter."""
         backend = SnykBackend()
         mock_query = MagicMock()
         mock_response = MagicMock()
@@ -115,11 +80,10 @@ class TestSnykBackend(unittest.TestCase):
         mock_response.json.return_value = {"links": {"next": "/rest/orgs?starting_after=abc123&version=2024-10-15"}}
 
         result = backend.get_next_page_data_from_response(mock_query, mock_response)
-
         assert result["starting_after"] == "abc123"
 
     def test_get_next_page_data_no_next_page(self) -> None:
-        """Test extraction of pagination data when there's no next page."""
+        """Empty links.next returns no pagination data."""
         backend = SnykBackend()
         mock_query = MagicMock()
         mock_response = MagicMock()
@@ -127,7 +91,6 @@ class TestSnykBackend(unittest.TestCase):
         mock_response.json.return_value = {"links": {}}
 
         result = backend.get_next_page_data_from_response(mock_query, mock_response)
-
         assert "starting_after" not in result
 
     def test_pagination_to_request_parameters_adds_version(self) -> None:
@@ -142,20 +105,6 @@ class TestSnykBackend(unittest.TestCase):
 
         assert "version" in url_params
         assert url_params["version"] == "2026-03-25"
-
-    def test_flatten_json_api_record_with_non_dict(self) -> None:
-        """Test _flatten_json_api_record returns non-dict values unchanged."""
-        backend = SnykBackend()
-
-        # When record is not a dict, it should be returned as-is
-        result = backend._flatten_json_api_record("not a dict")
-        assert result == "not a dict"
-
-        result = backend._flatten_json_api_record(123)
-        assert result == 123
-
-        result = backend._flatten_json_api_record(None)
-        assert result is None
 
 
 class TestSnykBackendCount(unittest.TestCase):
@@ -177,8 +126,8 @@ class TestSnykBackendCount(unittest.TestCase):
         mock_query.selects = []
         mock_query.model_class.destination_name.return_value = "orgs/org-123/targets"
         mock_query.model_class.id_column_name = "id"
-        # clearskies 2.1.11: map_records_response calls get_columns() for strict-mode
-        # column matching; provide a minimal dict so the probe succeeds.
+        # map_records_response calls get_columns() for strict-mode column matching;
+        # provide a minimal dict so the probe succeeds.
         mock_query.model_class.get_columns.return_value = {"id": MagicMock()}
         return backend, mock_response, mock_query
 
@@ -192,7 +141,6 @@ class TestSnykBackendCount(unittest.TestCase):
             patch.object(
                 backend, "build_records_request", return_value=("https://api.snyk.io/rest/orgs", "GET", {}, {})
             ),
-            patch.object(backend, "get_response_adapter", return_value=None),
         ):
             result = backend.count(mock_query)
 
@@ -227,7 +175,6 @@ class TestSnykBackendCount(unittest.TestCase):
             patch.object(
                 backend, "build_records_request", return_value=("https://api.snyk.io/rest/orgs", "GET", {}, {})
             ),
-            patch.object(backend, "get_response_adapter", return_value=None),
         ):
             result = backend.records(mock_query)
 
@@ -242,7 +189,6 @@ class TestSnykBackendCount(unittest.TestCase):
             patch.object(
                 backend, "build_records_request", return_value=("https://api.snyk.io/rest/orgs", "GET", {}, {})
             ),
-            patch.object(backend, "get_response_adapter", return_value=None),
         ):
             result = backend.records(mock_query)
 

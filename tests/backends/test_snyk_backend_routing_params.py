@@ -8,13 +8,13 @@ persist on model instances, allowing subsequent delete operations to work correc
 
 def test_flatten_json_api_record_with_relationships():
     """
-    Test that _flatten_json_api_record correctly extracts relationship IDs.
+    Test that SnykJsonApiResponseAdapter correctly extracts relationship IDs.
 
     This is part of the mechanism that should preserve org_id from relationships.
     """
-    from clearskies_snyk.backends import SnykBackend
+    from clearskies_snyk.backends.adapters import SnykJsonApiResponseAdapter
 
-    backend = SnykBackend()
+    adapter = SnykJsonApiResponseAdapter()
 
     # JSON:API record with relationships
     record = {
@@ -27,12 +27,11 @@ def test_flatten_json_api_record_with_relationships():
         "relationships": {"organization": {"data": {"id": "org-456", "type": "org"}}},
     }
 
-    flattened = backend._flatten_json_api_record(record)
+    flattened = adapter._normalize_record(record)
 
     # Verify flattening worked
     assert flattened["id"] == "target-123"
     assert flattened["display_name"] == "my-repo"
-
     assert flattened["origin"] == "github"
 
     # Verify relationship ID was extracted and mapped

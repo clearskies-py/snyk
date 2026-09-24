@@ -64,23 +64,15 @@ class TestSnykOrgResponseMapping:
 
     @pytest.fixture
     def backend(self):
-        """Create a SnykBackend instance for testing.
-
-        Patches get_response_adapter to return None so that tests constructing
-        SnykBackend() directly (without DI) are not broken by the clearskies
-        2.1.11 addition of a DI-dependent adapter lookup inside
-        map_records_response.
-        """
-        b = SnykBackend()
-        with patch.object(b, "get_response_adapter", return_value=None):
-            yield b
+        """Create a SnykBackend instance for testing."""
+        return SnykBackend()
 
     @pytest.fixture
     def mock_query(self) -> MagicMock:
         """Create a mock query object.
 
         Sets get_columns to return a minimal dict so that the clearskies
-        2.1.11 strict-mode column probe inside map_records_response can
+        strict-mode column probe inside map_records_response can
         find at least one matching key and does not raise NotModelData.
         """
         mock = MagicMock()
@@ -197,14 +189,8 @@ class TestSnykOrgEdgeCases:
 
     @pytest.fixture
     def backend(self):
-        """Create a SnykBackend instance for testing.
-
-        Patches get_response_adapter to return None — see TestSnykOrgResponseMapping
-        for the full explanation.
-        """
-        b = SnykBackend()
-        with patch.object(b, "get_response_adapter", return_value=None):
-            yield b
+        """Create a SnykBackend instance for testing."""
+        return SnykBackend()
 
     @pytest.fixture
     def mock_query(self) -> MagicMock:

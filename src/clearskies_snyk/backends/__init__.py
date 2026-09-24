@@ -1,3 +1,4 @@
+import clearskies_snyk.backends.adapters as adapters
 from clearskies_snyk.backends.snyk_backend import SnykBackend
 from clearskies_snyk.backends.snyk_membership_backend import SnykMembershipBackend
 from clearskies_snyk.backends.snyk_v1_backend import SnykV1Backend
@@ -8,4 +9,5 @@ __all__ = [
     "SnykMembershipBackend",
     "SnykV1Backend",
     "SnykV1ImportBackend",
+    "adapters",
 ]

@@ -3,12 +3,14 @@
 from typing import Any
 
 import clearskies
-import requests
 from clearskies import configs
 from clearskies.authentication import Authentication
+from clearskies.backends.adapters import PaginationAdapter
 from clearskies.decorators import parameters_to_properties
 from clearskies.di import inject
 from clearskies.query import Query
+
+from clearskies_snyk.backends.adapters import SnykV1PaginationAdapter, extract_v1_records
 
 
 class SnykV1Backend(clearskies.backends.ApiBackend):
@@ -68,11 +70,13 @@ class SnykV1Backend(clearskies.backends.ApiBackend):
     - Direct list `[...]` for some endpoints
     - Single object `{...}` for single record endpoints
 
-    This backend automatically handles these variations.
+    This backend automatically handles these variations via ``map_records_response``.
 
     ## Pagination
 
-    The Snyk v1 API uses offset-based pagination with `page` and `perPage` parameters.
+    The Snyk v1 API uses offset-based pagination with `page` and `perPage` parameters,
+    handled automatically by
+    :class:`~clearskies_snyk.backends.adapters.SnykV1PaginationAdapter`.
     """
 
     base_url = configs.String(default="https://api.snyk.io/v1/")
@@ -105,7 +109,13 @@ class SnykV1Backend(clearskies.backends.ApiBackend):
         can_update: bool | None = True,
         can_delete: bool | None = True,
         can_query: bool | None = True,
+        pagination_adapter: PaginationAdapter | None = None,
     ):
+        # Wire v1 page-based pagination adapter as default when not overridden by caller.
+        if pagination_adapter is None:
+            self.pagination_adapter = SnykV1PaginationAdapter(
+                pagination_parameter_name=pagination_parameter_name,
+            )
         self.finalize_and_validate_configuration()
 
     def map_records_response(
@@ -116,77 +126,14 @@ class SnykV1Backend(clearskies.backends.ApiBackend):
 
         The Snyk v1 API returns responses in various formats:
 
-        - `{"orgs": [...]}` for organization lists
-        - `{"projects": [...]}` for project lists
-        - `{"snapshots": [...]}` for project history
-        - Direct list `[...]` for some endpoints
-        - Single object `{...}` for single record endpoints
+        - ``{"orgs": [...]}`` for organization lists
+        - ``{"projects": [...]}`` for project lists
+        - ``{"snapshots": [...]}`` for project history
+        - Direct list ``[...]`` for some endpoints
+        - Single object ``{...}`` for single record endpoints
 
-        This method extracts the records from these various formats and passes them
-        to the parent class for casing conversion and mapping.
+        Known wrapper keys are unwrapped before delegating to the parent.
+        Single-record dicts fall through to the parent's column-aware detection.
         """
-        if isinstance(response_data, dict):
-            # Check for known wrapper keys
-            for wrapper_key in ["orgs", "projects", "snapshots", "members", "integrations", "results"]:
-                if wrapper_key in response_data and isinstance(response_data[wrapper_key], list):
-                    return super().map_records_response(response_data[wrapper_key], query, query_data)
-
-            # Check if the first key contains a list (generic wrapper detection)
-            if len(response_data) == 1:
-                first_key = next(iter(response_data))
-                if isinstance(response_data[first_key], list):
-                    return super().map_records_response(response_data[first_key], query, query_data)
-
-            # Single record response - let parent handle it
-            # Parent will check if it looks like a record based on columns
-
-        return super().map_records_response(response_data, query, query_data)
-
-    def get_next_page_data_from_response(
-        self,
-        query: Query,
-        response: "requests.Response",  # type: ignore
-    ) -> dict[str, Any]:
-        """
-        Extract pagination data from the Snyk v1 API response.
-
-        The Snyk v1 API uses offset-based pagination. This method checks if there are
-        more records available based on the response size and returns the next page number.
-        """
-        next_page_data: dict[str, Any] = {}
-
-        response_data = response.json() if response.content else {}
-
-        # Get current page from query or default to 1
-        current_page = 1
-        if query.pagination.get(self.pagination_parameter_name):
-            current_page = int(query.pagination.get(self.pagination_parameter_name))
-
-        # Get the limit (perPage) from query or default
-        limit = query.limit or 100
-
-        # Extract records to check count
-        records = self._extract_records_from_response(response_data)
-
-        # If we got a full page, there might be more
-        if len(records) >= limit:
-            next_page_data[self.pagination_parameter_name] = current_page + 1
-
-        return next_page_data
-
-    def _extract_records_from_response(self, response_data: Any) -> list[Any]:
-        """Extract the list of records from the response for pagination checking."""
-        if isinstance(response_data, list):
-            return response_data
-
-        if isinstance(response_data, dict):
-            for wrapper_key in ["orgs", "projects", "snapshots", "members", "integrations", "results"]:
-                if wrapper_key in response_data and isinstance(response_data[wrapper_key], list):
-                    return response_data[wrapper_key]
-
-            if len(response_data) == 1:
-                first_key = next(iter(response_data))
-                if isinstance(response_data[first_key], list):
-                    return response_data[first_key]
-
-        return []
+        records = extract_v1_records(response_data)
+        return super().map_records_response(response_data if records is None else records, query, query_data)
