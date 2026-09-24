@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, HasOne, String
+from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, HasMany, HasOne, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import (
@@ -444,6 +444,11 @@ class SnykOrg(Model):
     Whether access requests are enabled for the org.
     """
     access_requests_enabled = Boolean()
+
+    """
+    The requesting user's role in this org, from the relationship (id, name).
+    """
+    member_role = Json()
 
     """
     Timestamp when the org was created.

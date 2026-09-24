@@ -114,6 +114,11 @@ class SnykTarget(Model):
     attributes = Json()
 
     """
+    Integration information from the relationship (id, integration_type).
+    """
+    integration = Json()
+
+    """
     Related projects for this target.
 
     HasMany relationship to SnykProject.

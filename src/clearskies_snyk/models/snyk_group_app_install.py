@@ -3,7 +3,7 @@
 from typing import Self
 
 from clearskies import Model
-from clearskies.columns import BelongsToId, BelongsToModel, Datetime, String
+from clearskies.columns import BelongsToId, BelongsToModel, Datetime, Json, String
 
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.models.references import snyk_group_reference
@@ -65,6 +65,11 @@ class SnykGroupAppInstall(Model):
     The ID of the app that was installed.
     """
     app_id = String()
+
+    """
+    App information from the relationship (id, client_id, context, name, scopes).
+    """
+    app = Json()
 
     """
     The client ID of the installed app.

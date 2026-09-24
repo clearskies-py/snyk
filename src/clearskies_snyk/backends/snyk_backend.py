@@ -12,6 +12,8 @@ from clearskies.backends.adapters import (
     ResponseAdapter,
     UrlAdapter,
 )
+from clearskies.column import Column
+from clearskies.columns import Json
 from clearskies.decorators import parameters_to_properties
 from clearskies.di import inject
 from clearskies.query import Query
@@ -186,6 +188,38 @@ class SnykBackend(clearskies.backends.ApiBackend):
                 base_url=self.base_url,
                 api_version=self.api_version,
             )
+
+    def map_to_model(
+        self,
+        response_data: dict[str, Any],
+        columns: dict[str, Column],
+        query_data: dict[str, Any] = {},
+        strict: bool = False,
+    ) -> dict[str, Any]:
+        """
+        Map a response record to model data, including data from JSON:API relationships.
+
+        The response adapter collects each relationship as ``{"id", "type", **attributes}``
+        (e.g. ``user = {"id": ..., "email": ..., "name": ...}`` on memberships).  It is merged under
+        the relationship name when the model has no column of that name, or a ``Json`` column.
+        It is skipped when an attribute already provides the value, or when the name belongs to a
+        non-Json column: for a ``BelongsToModel`` a dict would be taken as a pre-loaded (and here
+        partial) parent record.  The complete data remains available under ``relationships``.
+        """
+        relationship_data = None
+        if SnykJsonApiResponseAdapter.RELATIONSHIP_DATA_KEY in response_data:
+            response_data = dict(response_data)
+            relationship_data = response_data.pop(SnykJsonApiResponseAdapter.RELATIONSHIP_DATA_KEY)
+
+        mapped = super().map_to_model(response_data, columns, query_data, strict=strict)
+
+        if isinstance(relationship_data, dict):
+            for name, data in relationship_data.items():
+                column = columns.get(name)
+                if name in mapped or (column is not None and not isinstance(column, Json)):
+                    continue
+                mapped[name] = data
+        return mapped
 
     def count(self, query: Query) -> "clearskies.query.result.CountQueryResult":
         """

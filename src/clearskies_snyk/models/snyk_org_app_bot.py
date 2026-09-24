@@ -67,6 +67,11 @@ class SnykOrgAppBot(Model):
     app_id = String()
 
     """
+    App information from the relationship (id, client_id, context, name, scopes).
+    """
+    app = Json()
+
+    """
     The name of the app bot.
     """
     name = String()

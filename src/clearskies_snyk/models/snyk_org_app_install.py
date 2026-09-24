@@ -67,6 +67,11 @@ class SnykOrgAppInstall(Model):
     app_id = String()
 
     """
+    App information from the relationship (id, client_id, context, name, scopes).
+    """
+    app = Json()
+
+    """
     The client ID of the installed app.
     """
     client_id = String()

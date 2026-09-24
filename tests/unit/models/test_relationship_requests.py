@@ -111,10 +111,15 @@ def test_group_membership_orgs_uses_user_id_filter() -> None:
     assert len(memberships) == 1
     membership = memberships[0]
     assert membership.user_id == "u-1"
+    assert membership.email == "a@example.com"
+    assert membership.name == "A"
+    assert membership.username == "a"
 
     org_membership = membership.orgs.first()
     assert org_membership.id == "om-1"
     assert org_membership.org_id == "o-1"
+    assert org_membership.org["name"] == "Org1"
+    assert org_membership.role["name"] == "collaborator"
 
     assert requests.urls[-1].startswith("https://api.snyk.io/rest/groups/g-1/org_memberships?user_id=u-1&")
 
@@ -156,3 +161,40 @@ def test_nested_relationship_builds_full_url(
 
     assert requests.urls, "no request was made"
     assert f"https://api.snyk.io/{expected_path}" in requests.urls[0]
+
+
+PROJECTS_WITH_TARGET = {
+    "data": [
+        {
+            "id": "p-1",
+            "type": "project",
+            "attributes": {"name": "repo"},
+            "relationships": {
+                "organization": {"data": {"id": "o-1", "type": "org"}},
+                "target": {"data": {"id": "t-1", "type": "target", "attributes": {"display_name": "repo", "url": "u"}}},
+            },
+        }
+    ],
+    "links": {},
+}
+
+
+def test_relationship_data_is_not_used_as_partial_belongs_to_parent() -> None:
+    """A relationship named like a BelongsToModel column must not become a pre-loaded parent."""
+    requests = FakeRequests({"/projects": PROJECTS_WITH_TARGET})
+    project = build_di(requests).build(SnykProject, cache=False).where("org_id=o-1").first()
+
+    raw = project.get_raw_data()
+    assert project.target_id == "t-1"
+    assert "target" not in raw
+    assert raw["relationships"]["target"]["data"]["attributes"]["display_name"] == "repo"
+
+
+def test_group_membership_type_id_is_filled_from_relationship_type() -> None:
+    requests = FakeRequests({"/memberships": GROUP_MEMBERSHIPS})
+    group = build_di(requests).build(SnykGroup, cache=False).model({"id": "g-1"})
+
+    membership = group.memberships.first()
+
+    assert membership.group_role_id == "r-1"
+    assert membership.role == {"id": "r-1", "type": "group_role", "name": "member"}

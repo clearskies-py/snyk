@@ -88,6 +88,16 @@ class SnykGroupMember(Model):
     orgs = Json()
 
     """
+    User information from the membership relationship (id, email, name, username, login_method).
+    """
+    user = Json()
+
+    """
+    Role information from the membership relationship (id, name).
+    """
+    role = Json()
+
+    """
     URL-friendly slug.
     """
     slug = String()

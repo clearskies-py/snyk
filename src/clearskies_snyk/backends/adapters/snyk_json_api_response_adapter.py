@@ -46,6 +46,14 @@ class SnykJsonApiResponseAdapter(JsonApiResponseAdapter):
         "organization": "org",
     }
 
+    """
+    Key under which each relationship's data block is handed to ``SnykBackend.map_to_model``.
+
+    The adapter can't see the model columns, so it doesn't decide where this data ends up;
+    the backend merges it into the record only where that is safe (see ``SnykBackend.map_to_model``).
+    """
+    RELATIONSHIP_DATA_KEY = "_relationship_data"
+
     def extract_records(self, response_data: Any) -> list[dict[str, Any]] | None:
         """
         Return a flattened list of records from a JSON:API ``data`` envelope.
@@ -72,19 +80,39 @@ class SnykJsonApiResponseAdapter(JsonApiResponseAdapter):
         return None
 
     def _normalize_record(self, data_block: dict[str, Any]) -> dict[str, Any]:
-        """Flatten JSON:API resource object and extract relationship IDs."""
+        """
+        Flatten JSON:API resource object and extract relationship data.
+
+        For every to-one relationship this sets ``{name}_id`` and ``{type}_id`` (without overwriting
+        attributes), and collects ``{"id", "type", **attributes}`` per relationship under
+        ``RELATIONSHIP_DATA_KEY``.  The raw ``relationships`` block is kept as well.
+        """
         normalized = super()._normalize_record(data_block)
 
         relationships = data_block.get("relationships", {})
         if not isinstance(relationships, dict):
             return normalized
 
+        relationship_data: dict[str, dict[str, Any]] = {}
         for rel_name, rel_data in relationships.items():
             if not isinstance(rel_data, dict):
                 continue
             rel_inner = rel_data.get("data", {})
-            if isinstance(rel_inner, dict) and "id" in rel_inner:
-                mapped = self._RELATIONSHIP_NAME_MAP.get(rel_name, rel_name)
-                normalized[f"{mapped}_id"] = rel_inner["id"]
+            if not (isinstance(rel_inner, dict) and "id" in rel_inner):
+                continue
+            mapped = self._RELATIONSHIP_NAME_MAP.get(str(rel_name), str(rel_name))
+            normalized[f"{mapped}_id"] = rel_inner["id"]
+            rel_type = rel_inner.get("type")
+            if isinstance(rel_type, str) and rel_type:
+                normalized.setdefault(f"{rel_type}_id", rel_inner["id"])
+            attributes = rel_inner.get("attributes")
+            relationship_data[mapped] = {
+                "id": rel_inner["id"],
+                "type": rel_type,
+                **(attributes if isinstance(attributes, dict) else {}),
+            }
 
+        normalized.setdefault("relationships", relationships)
+        if relationship_data:
+            normalized[self.RELATIONSHIP_DATA_KEY] = relationship_data
         return normalized

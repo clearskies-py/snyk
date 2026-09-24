@@ -83,6 +83,11 @@ class SnykOrgMember(Model):
     orgs = Json()
 
     """
+    User information from the membership relationship (id, email, name, username, login_method).
+    """
+    user = Json()
+
+    """
     Whether access requests are enabled.
     """
     access_requests_enabled = Boolean()
