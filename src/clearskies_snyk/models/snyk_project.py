@@ -8,7 +8,6 @@ from clearskies.columns import BelongsToId, BelongsToModel, Boolean, Datetime, H
 from clearskies_snyk.backends import SnykBackend
 from clearskies_snyk.columns import ProjectTagList, SelectList
 from clearskies_snyk.models.references import (
-    snyk_fix_pull_request_reference,
     snyk_org_issue_reference,
     snyk_org_reference,
     snyk_project_history_reference,
@@ -46,6 +45,9 @@ class SnykProject(Model):
         # Access parent target
         print(f"Target: {project.target.display_name}")
     ```
+
+    Fix pull requests have no list endpoint (POST only), so there is no relationship for them;
+    create one with `SnykFixPullRequest.create({"org_id": ..., "project_id": ..., "issue_ids": [...]})`.
     """
 
     id_column_name: str = "id"
@@ -232,17 +234,6 @@ class SnykProject(Model):
     BelongsTo relationship to SnykTarget.
     """
     target = BelongsToModel("target_id")
-
-    """
-    Fix pull requests for this project.
-
-    HasMany relationship to SnykFixPullRequest.
-    """
-    fix_pull_requests = HasMany(
-        snyk_fix_pull_request_reference.SnykFixPullRequestReference,
-        foreign_column_name="project_id",
-        where=lambda model, parent: model.where(f"org_id={parent.org_id}"),
-    )
 
     """
     History snapshots for this project.

@@ -178,7 +178,6 @@ def test_belongs_to_relationship_exists(model_path: str, fk_column: str, model_c
         ("snyk_group", "SnykGroup", "service_accounts", "HasMany"),
         ("snyk_group", "SnykGroup", "issues", "HasMany"),
         # SnykProject new HasMany/HasOne
-        ("snyk_project", "SnykProject", "fix_pull_requests", "HasMany"),
         ("snyk_project", "SnykProject", "history", "HasMany"),
         ("snyk_project", "SnykProject", "ignores", "HasMany"),
         ("snyk_project", "SnykProject", "sbom", "HasOne"),
